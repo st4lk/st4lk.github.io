@@ -10,7 +10,7 @@ make bash
 ### Inside docker
 
 ```bash
-cd /srv/jekyll/mysite
+cd /srv/jekyll/docs
 
 # bundle add webrick
 
