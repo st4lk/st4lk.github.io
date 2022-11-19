@@ -1,13 +1,23 @@
+Developer Articles
+==================
+
+https://st4lk.github.io/
+
+
 Commands
 --------
 
 ```bash
 make build
 
+# do everything manually
 make bash
+
+# serve
+SCRIPT=serve.sh make run-script
 ```
 
-### Inside docker
+### Inside docker (optional)
 
 ```bash
 cd /srv/jekyll/docs
