@@ -41,7 +41,24 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">Oct 8, 2012</span>
+    <ul class="post-list"><li><span class="post-meta">Nov 18, 2012</span>
+        <h3>
+          <a class="post-link" href="/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html">
+            Отладка django проекта с помощью встроенного python отладчика pdb
+          </a>
+        </h3><p>Я использую <a href="http://www.sublimetext.com/">sublime-text</a> в качестве редактора python кода. В нем нет встроенного отладчика, поэтому для отладки django проектов я в основном делал так:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">var_name</span>
+</code></pre></div></div>
+
+<p>и в консоле локального сервера смотрел вывод команды. Я использую этот метод и сейчас, но иногда хочется пройтись по коду по шагам, посмотреть все переменные.</p>
+
+<p>Это можно сделать с помощью встроенного python отладчика pdb:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pdb</span><span class="p">;</span> <span class="n">pdb</span><span class="p">.</span><span class="n">set_trace</span><span class="p">()</span>
+</code></pre></div></div>
+
+</li><li><span class="post-meta">Oct 8, 2012</span>
         <h3>
           <a class="post-link" href="/free/openshift/python/2012/10/08/cloud-service-openshift.html">
             Облачный сервис Openshift

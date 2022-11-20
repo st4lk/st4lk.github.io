@@ -1,4 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-20T19:36:30+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Облачный сервис Openshift</title><link href="https://st4lk.github.io/free/openshift/python/2012/10/08/cloud-service-openshift.html" rel="alternate" type="text/html" title="Облачный сервис Openshift" /><published>2012-10-08T18:19:43+00:00</published><updated>2012-10-08T18:19:43+00:00</updated><id>https://st4lk.github.io/free/openshift/python/2012/10/08/cloud-service-openshift</id><content type="html" xml:base="https://st4lk.github.io/free/openshift/python/2012/10/08/cloud-service-openshift.html">&lt;p&gt;&lt;a href=&quot;/free/openshift/python/2012/10/08/cloud-service-openshift.html&quot;&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/openshift-icon.png&quot; alt=&quot;Облачный сервис Openshift&quot; title=&quot;Облачный сервис Openshift&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-20T19:56:26+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Отладка django проекта с помощью встроенного python отладчика pdb</title><link href="https://st4lk.github.io/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html" rel="alternate" type="text/html" title="Отладка django проекта с помощью встроенного python отладчика pdb" /><published>2012-11-18T18:19:43+00:00</published><updated>2012-11-18T18:19:43+00:00</updated><id>https://st4lk.github.io/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb</id><content type="html" xml:base="https://st4lk.github.io/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html">&lt;p&gt;Я использую &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;sublime-text&lt;/a&gt; в качестве редактора python кода. В нем нет встроенного отладчика, поэтому для отладки django проектов я в основном делал так:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;и в консоле локального сервера смотрел вывод команды. Я использую этот метод и сейчас, но иногда хочется пройтись по коду по шагам, посмотреть все переменные.&lt;/p&gt;
+
+&lt;p&gt;Это можно сделать с помощью встроенного python отладчика pdb:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Т.е. мы вставляем эту строку в то место в коде, где мы хотим остановиться. Это брейкпоинт. Теперь обновим страницу проекта в браузере. Когда код проекта дойдет до этой строки, браузер замрет, а в консоле локального сервера появиться:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Мы попали в отладчик и теперь можем вводить &lt;a href=&quot;http://docs.python.org/2/library/pdb.html#debugger-commands&quot;&gt;комманды&lt;/a&gt;, например такие:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;l - посмотреть, где мы находимся&lt;/li&gt;
+  &lt;li&gt;n - (step next) сделать шаг вперед, не входя внутрь функции&lt;/li&gt;
+  &lt;li&gt;s - (step in) сделать шаг внутрь, т.е. если стоим на вызове функции, войдем внутрь&lt;/li&gt;
+  &lt;li&gt;r - (step out) продолжить выполнение до конца текущего блока. Например, мы стоим внутри цикла, вводим r и попадаем на первую после цикла строку.&lt;/li&gt;
+  &lt;li&gt;c - продолжить выполнение до следующего брейкпоинта, т.е. до &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pdb.set_trace()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;p - выполнить питон код, или просто показать переменную: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;p var_name&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;пример&quot;&gt;Пример&lt;/h2&gt;
+
+&lt;p&gt;Допустим у нас есть такой view:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg&quot; alt=&quot;view&quot; title=&quot;view&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Вставим &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import pdb; pdb.set_trace()&lt;/code&gt; в нужное место и запустим локальный сервер, если не запущен:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg&quot; alt=&quot;view_pdb&quot; title=&quot;view_pdb&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;В браузере обратимся к странице, которая вызывает этот view. Страница замерла:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg&quot; alt=&quot;browser_hang&quot; title=&quot;browser_hang&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;В консоле видим (Pdb):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg&quot; alt=&quot;pdb_console&quot; title=&quot;pdb_console&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Посмотрим, где мы, командой &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;l&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg&quot; alt=&quot;pdb_l&quot; title=&quot;pdb_l&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Сделаем два шага веред командой &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;n&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg&quot; alt=&quot;pdb_nn&quot; title=&quot;pdb_nn&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Посмотрим значение переменных &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about&lt;/code&gt; и &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about.content&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg&quot; alt=&quot;pdb_p&quot; title=&quot;pdb_p&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Продолжим выполнение командой &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;c&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg&quot; alt=&quot;pdb_c&quot; title=&quot;pdb_c&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Страница отобразилась в браузере:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg&quot; alt=&quot;browser_done&quot; title=&quot;browser_done&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="python" /><category term="sublime" /><summary type="html">Я использую sublime-text в качестве редактора python кода. В нем нет встроенного отладчика, поэтому для отладки django проектов я в основном делал так: print var_name и в консоле локального сервера смотрел вывод команды. Я использую этот метод и сейчас, но иногда хочется пройтись по коду по шагам, посмотреть все переменные. Это можно сделать с помощью встроенного python отладчика pdb: import pdb; pdb.set_trace()</summary></entry><entry><title type="html">Облачный сервис Openshift</title><link href="https://st4lk.github.io/free/openshift/python/2012/10/08/cloud-service-openshift.html" rel="alternate" type="text/html" title="Облачный сервис Openshift" /><published>2012-10-08T18:19:43+00:00</published><updated>2012-10-08T18:19:43+00:00</updated><id>https://st4lk.github.io/free/openshift/python/2012/10/08/cloud-service-openshift</id><content type="html" xml:base="https://st4lk.github.io/free/openshift/python/2012/10/08/cloud-service-openshift.html">&lt;p&gt;&lt;a href=&quot;/free/openshift/python/2012/10/08/cloud-service-openshift.html&quot;&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/openshift-icon.png&quot; alt=&quot;Облачный сервис Openshift&quot; title=&quot;Облачный сервис Openshift&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Я знаю немного хостингов с бесплатным тарифом и с поддержкой python. Это &lt;a href=&quot;https://appengine.google.com/&quot;&gt;Google App Engine&lt;/a&gt; и &lt;a href=&quot;https://www.alwaysdata.com/&quot;&gt;Alwaysdata&lt;/a&gt;. И вот недавно узнал про замечательный проект &lt;a href=&quot;https://openshift.redhat.com/&quot;&gt;Openshift&lt;/a&gt; от RedHat, на котором и работает этот блог. Для начала небольшой обзор упомянутых хостингов.&lt;/p&gt;
 

@@ -41,7 +41,24 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">Oct 8, 2012</span>
+    <ul class="post-list"><li><span class="post-meta">Nov 18, 2012</span>
+        <h3>
+          <a class="post-link" href="/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html">
+            Debug django project with embedded python debugger pdb
+          </a>
+        </h3><p>I use <a href="http://www.sublimetext.com/">sublime-text</a> as code editor. It doesn’t have a debugger, so to debug django projects i often used</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">var_name</span>
+</code></pre></div></div>
+
+<p>and look for output in local development server console. I use this approach today also, but sometimes it is great to run code step by step to see variables at each step.</p>
+
+<p>It can be done with embedded python debugger pdb:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pdb</span><span class="p">;</span> <span class="n">pdb</span><span class="p">.</span><span class="n">set_trace</span><span class="p">()</span>
+</code></pre></div></div>
+
+</li><li><span class="post-meta">Oct 8, 2012</span>
         <h3>
           <a class="post-link" href="/en/free/openshift/python/2012/10/08/cloud-service-openshift.html">
             Cloud service Openshift

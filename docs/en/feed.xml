@@ -1,4 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T19:36:31+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Cloud service Openshift</title><link href="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html" rel="alternate" type="text/html" title="Cloud service Openshift" /><published>2012-10-08T18:19:43+00:00</published><updated>2012-10-08T18:19:43+00:00</updated><id>https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift</id><content type="html" xml:base="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html">&lt;p&gt;&lt;a href=&quot;/en/free/openshift/python/2012/10/08/cloud-service-openshift.html&quot;&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/openshift-icon.png&quot; alt=&quot;Cloud service Openshift&quot; title=&quot;Cloud service Openshift&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T19:56:28+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Debug django project with embedded python debugger pdb</title><link href="https://st4lk.github.io/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html" rel="alternate" type="text/html" title="Debug django project with embedded python debugger pdb" /><published>2012-11-18T18:19:43+00:00</published><updated>2012-11-18T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb</id><content type="html" xml:base="https://st4lk.github.io/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html">&lt;p&gt;I use &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;sublime-text&lt;/a&gt; as code editor. It doesn’t have a debugger, so to debug django projects i often used&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var_name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;and look for output in local development server console. I use this approach today also, but sometimes it is great to run code step by step to see variables at each step.&lt;/p&gt;
+
+&lt;p&gt;It can be done with embedded python debugger pdb:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;I.e. we put this line in needed place of code, where we want so stop. It is a breakpoint. Now refresh project page in browser. When project code will reach this line, browser will hang and in console we’ll see:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We now inside debugger and can input &lt;a href=&quot;http://docs.python.org/2/library/pdb.html#debugger-commands&quot;&gt;commands&lt;/a&gt;, for example these:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;l - (list), look the source code&lt;/li&gt;
+  &lt;li&gt;n - (step next) step to next line without entering inside function&lt;/li&gt;
+  &lt;li&gt;s - (step in) step inside to next line, i.e. if we are standing at function call, we’ll go inside this function&lt;/li&gt;
+  &lt;li&gt;r - (step out) step to first line after current block of code. For example, if current line is inside cycle and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;r&lt;/code&gt; is pressed, next line will be first line after this cycle.&lt;/li&gt;
+  &lt;li&gt;c - (continue) continue until next breakpoint, i.e. until &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pdb.set_trace()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;p - (print) execude python code or just show variable: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;p var_name&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
+
+&lt;p&gt;Suppose we have such a view:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg&quot; alt=&quot;view&quot; title=&quot;view&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Insert &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import pdb; pdb.set_trace()&lt;/code&gt; in needed place and run dev server, if it not already started:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg&quot; alt=&quot;view_pdb&quot; title=&quot;view_pdb&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In browser access the page, that calls this view. The page will hang:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg&quot; alt=&quot;browser_hang&quot; title=&quot;browser_hang&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In console we see (Pdb):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg&quot; alt=&quot;pdb_console&quot; title=&quot;pdb_console&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Lets look, where we now by command &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;l&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg&quot; alt=&quot;pdb_l&quot; title=&quot;pdb_l&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Make two next steps with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;n&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg&quot; alt=&quot;pdb_nn&quot; title=&quot;pdb_nn&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Look value of variables &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about.content&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg&quot; alt=&quot;pdb_p&quot; title=&quot;pdb_p&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Continue with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;c&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg&quot; alt=&quot;pdb_c&quot; title=&quot;pdb_c&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Page is shown in browser:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg&quot; alt=&quot;browser_done&quot; title=&quot;browser_done&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="python" /><category term="sublime" /><summary type="html">I use sublime-text as code editor. It doesn’t have a debugger, so to debug django projects i often used print var_name and look for output in local development server console. I use this approach today also, but sometimes it is great to run code step by step to see variables at each step. It can be done with embedded python debugger pdb: import pdb; pdb.set_trace()</summary></entry><entry><title type="html">Cloud service Openshift</title><link href="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html" rel="alternate" type="text/html" title="Cloud service Openshift" /><published>2012-10-08T18:19:43+00:00</published><updated>2012-10-08T18:19:43+00:00</updated><id>https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift</id><content type="html" xml:base="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html">&lt;p&gt;&lt;a href=&quot;/en/free/openshift/python/2012/10/08/cloud-service-openshift.html&quot;&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/openshift-icon.png&quot; alt=&quot;Cloud service Openshift&quot; title=&quot;Cloud service Openshift&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I know a few hosting providers with free account and python availability. It is &lt;a href=&quot;https://appengine.google.com/&quot;&gt;Google App Engine&lt;/a&gt; and &lt;a href=&quot;https://www.alwaysdata.com/&quot;&gt;Alwaysdata&lt;/a&gt;. But recently i found great project &lt;a href=&quot;https://openshift.redhat.com/&quot;&gt;Openshift&lt;/a&gt; from RedHat and this blog site is working on it. Let me describe mentioned hostings first.&lt;/p&gt;
 
