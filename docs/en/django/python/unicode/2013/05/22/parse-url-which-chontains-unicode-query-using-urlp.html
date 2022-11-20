@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Parse url which contains unicode query, using urlparse.parse_qs | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Parse url which contains unicode query, using urlparse.parse_qs" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Task: get dictionary of URL GET query. For example, we have following url: http://example.com/?key=value&amp;a=b it is needed to get a dict: {&#39;key&#39;: [&#39;value&#39;], &#39;a&#39;: [&#39;b&#39;]} Values are lists, because one key may have several values: In: http://example.com/?key=value&amp;a=b&amp;a=c Out: {&#39;key&#39;: [&#39;value&#39;], &#39;a&#39;: [&#39;b&#39;, &#39;c&#39;]}" />
+<meta property="og:description" content="Task: get dictionary of URL GET query. For example, we have following url: http://example.com/?key=value&amp;a=b it is needed to get a dict: {&#39;key&#39;: [&#39;value&#39;], &#39;a&#39;: [&#39;b&#39;]} Values are lists, because one key may have several values: In: http://example.com/?key=value&amp;a=b&amp;a=c Out: {&#39;key&#39;: [&#39;value&#39;], &#39;a&#39;: [&#39;b&#39;, &#39;c&#39;]}" />
+<link rel="canonical" href="https://st4lk.github.io/en/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html" />
+<meta property="og:url" content="https://st4lk.github.io/en/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-05-22T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Parse url which contains unicode query, using urlparse.parse_qs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2013-05-22T18:19:43+00:00","datePublished":"2013-05-22T18:19:43+00:00","description":"Task: get dictionary of URL GET query. For example, we have following url: http://example.com/?key=value&amp;a=b it is needed to get a dict: {&#39;key&#39;: [&#39;value&#39;], &#39;a&#39;: [&#39;b&#39;]} Values are lists, because one key may have several values: In: http://example.com/?key=value&amp;a=b&amp;a=c Out: {&#39;key&#39;: [&#39;value&#39;], &#39;a&#39;: [&#39;b&#39;, &#39;c&#39;]}","headline":"Parse url which contains unicode query, using urlparse.parse_qs","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html"},"url":"https://st4lk.github.io/en/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/en/assets/main.css">
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/en/">Developer Articles</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/en/about/">About</a><a class="page-link" style="margin-right: 0px" href="/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html" ><img src="/en/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Parse url which contains unicode query, using urlparse.parse_qs</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2013-05-22T18:19:43+00:00" itemprop="datePublished">May 22, 2013
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Task: get dictionary of URL GET query. For example, we have following url:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://example.com/?key=value&amp;a=b
+</code></pre></div></div>
+
+<p>it is needed to get a dict:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'value'</span><span class="p">],</span> <span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p>Values are lists, because one key may have several values:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">In</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="err">?</span><span class="n">key</span><span class="o">=</span><span class="n">value</span><span class="o">&amp;</span><span class="n">a</span><span class="o">=</span><span class="n">b</span><span class="o">&amp;</span><span class="n">a</span><span class="o">=</span><span class="n">c</span>
+<span class="n">Out</span><span class="p">:</span> <span class="p">{</span><span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'value'</span><span class="p">],</span> <span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<!--more-->
+
+<p>In python there is a function urlparse.parse_qs for that purpose:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">urlparse</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="s">"key=value&amp;a=b"</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">urlparse</span><span class="p">.</span><span class="n">parse_qs</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="p">{</span><span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">],</span> <span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'value'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p>So, on input <code class="language-plaintext highlighter-rouge">parse_qs</code> receives query, without “http://exapmle.com/?”. To get only query we can use <code class="language-plaintext highlighter-rouge">urlparse.urlparse</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">urlparse</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"http://example.com/?key=value&amp;a=b"</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">).</span><span class="n">query</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">query</span>
+<span class="s">'key=value&amp;a=b'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">.</span><span class="n">parse_qs</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">params</span>
+<span class="p">{</span><span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">],</span> <span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'value'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p>Lets restore original url, using urllib.urlencode:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">urllib</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">urllib</span><span class="p">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">doseq</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="s">'a=b&amp;key=value'</span>
+</code></pre></div></div>
+
+<p>The order of parameters doesn’t matter, so it’s ok.</p>
+
+<h4 id="url-with-unicode-parameter">URL with unicode parameter</h4>
+
+<p>According to <a href="http://tools.ietf.org/html/rfc3986">RFC3986</a>, URL can contain only limited set of characters consisting of digits, letters, and a few graphic symbols from <a href="http://sliderule.mraiow.com/w/images/7/73/ASCII.pdf">US-ASCII</a> set. And some of characters are reserved <code class="language-plaintext highlighter-rouge">(":", "/", "?", "#", "[", "]", "@", "!", "$", "&amp;", "'", "(", ")", "*", "+", ",", ";", "=")</code>. If it is needed to send nonprintable or reserved characters in URL (for example as query param value), they must be <a href="http://tools.ietf.org/html/rfc3986#section-2.1">Percent-Encoded</a>: %HH, where HH is hexadecimal digits.</p>
+
+<p>Suppose we need to send u”значение”. In python string <code class="language-plaintext highlighter-rouge">u"значение"</code> contains unicode code points and we need to get bytes, to be able to percent-encode them. So first lets encode the unicode string using, for example, utf8 encoding:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">value</span> <span class="o">=</span> <span class="sa">u</span><span class="s">'значение'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">value_utf8</span> <span class="o">=</span> <span class="n">value</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf8'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">value_utf8</span>
+<span class="s">'</span><span class="se">\xd0\xb7\xd0\xbd\xd0\xb0\xd1\x87\xd0\xb5\xd0\xbd\xd0\xb8\xd0\xb5</span><span class="s">'</span>
+</code></pre></div></div>
+
+<p>Now encode those bytes, using Percent-Encoding (%HH) to be able to include in url:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">value_url</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">quote</span><span class="p">(</span><span class="n">value_utf8</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">value_url</span>
+<span class="s">'%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5'</span>
+</code></pre></div></div>
+
+<p>Full URL:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"http://example.com/?key=%s&amp;a=b"</span> <span class="o">%</span> <span class="n">value_url</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span>
+<span class="s">'http://example.com/?key=%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5&amp;a=b'</span>
+</code></pre></div></div>
+
+<p>Again, lets get the query dict:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">).</span><span class="n">query</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">query</span>
+<span class="s">'key=%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5&amp;a=b'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">.</span><span class="n">parse_qs</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">params</span>
+<span class="p">{</span><span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">],</span> <span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'</span><span class="se">\xd0\xb7\xd0\xbd\xd0\xb0\xd1\x87\xd0\xb5\xd0\xbd\xd0\xb8\xd0\xb5</span><span class="s">'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p>As we can see, parse_qs decoded value from Percent-Encoding and returned bytes. Now we can get unicode, as we remember, that encoding was utf8:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">params</span><span class="p">[</span><span class="s">'key'</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf8'</span><span class="p">)</span>
+<span class="sa">u</span><span class="s">'</span><span class="se">\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435</span><span class="s">'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">params</span><span class="p">[</span><span class="s">'key'</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf8'</span><span class="p">)</span>
+<span class="n">значение</span>
+</code></pre></div></div>
+
+<p>Ok. Restore original query from the dict:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">urllib</span><span class="p">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">doseq</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="s">'a=b&amp;key=%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5'</span>
+</code></pre></div></div>
+
+<p>We’ve got same parameters as it was in original url.</p>
+
+<p><strong>Same steps with URL, that was returned from django’s <code class="language-plaintext highlighter-rouge">request.get_full_path()</code></strong>.
+For some reason, request.get_full_path() returns not the <code class="language-plaintext highlighter-rouge">str</code> string, but <code class="language-plaintext highlighter-rouge">unicode</code> (tried on django 1.4, 1.5):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">request</span><span class="p">.</span><span class="n">get_full_path</span><span class="p">()</span>
+<span class="sa">u</span><span class="s">'/?key=%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5&amp;a=b'</span>
+</code></pre></div></div>
+
+<p>Repeat same steps with this URL:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_full_path</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">).</span><span class="n">query</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">query</span>
+<span class="sa">u</span><span class="s">'key=%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5&amp;a=b'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">.</span><span class="n">parse_qs</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">params</span>
+<span class="p">{</span><span class="sa">u</span><span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="sa">u</span><span class="s">'b'</span><span class="p">],</span> <span class="sa">u</span><span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="sa">u</span><span class="s">'</span><span class="se">\xd0\xb7\xd0\xbd\xd0\xb0\xd1\x87\xd0\xb5\xd0\xbd\xd0\xb8\xd0\xb5</span><span class="s">'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p>Interesting, that value for u’key’ is unicode string, that contains bytes! Of course, decoding of that string will fail:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">params</span><span class="p">[</span><span class="s">'key'</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf8'</span><span class="p">)</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s">"&lt;stdin&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+  <span class="n">File</span> <span class="s">"C:\Python27\lib\encodings\utf_8.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">16</span><span class="p">,</span> <span class="ow">in</span> <span class="n">decode</span>
+    <span class="k">return</span> <span class="n">codecs</span><span class="p">.</span><span class="n">utf_8_decode</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="nb">UnicodeEncodeError</span><span class="p">:</span> <span class="s">'ascii'</span> <span class="n">codec</span> <span class="n">can</span><span class="s">'t encode characters in position 0-15: ordinal not in range(128)
+</span></code></pre></div></div>
+
+<p>Same error using urlencode:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">urllib</span><span class="p">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">doseq</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s">"&lt;stdin&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+  <span class="n">File</span> <span class="s">"C:\Python27\lib\urllib.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1337</span><span class="p">,</span> <span class="ow">in</span> <span class="n">urlencode</span>
+    <span class="n">l</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="s">'='</span> <span class="o">+</span> <span class="n">quote_plus</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">elt</span><span class="p">)))</span>
+<span class="nb">UnicodeEncodeError</span><span class="p">:</span> <span class="s">'ascii'</span> <span class="n">codec</span> <span class="n">can</span><span class="s">'t encode characters in position 0-15: ordinal not in range(128)
+</span></code></pre></div></div>
+
+<p>For me there are two surprises:</p>
+<ul>
+  <li>django returned url as unicode (what for? why not just str as url can contain only ascii characters)</li>
+  <li>parse_qs returned unicode string, that contains bytes.</li>
+</ul>
+
+<p>Solution is simple, just always give <code class="language-plaintext highlighter-rouge">str</code> to parse_qs:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_full_path</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'ascii'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span>
+<span class="s">'/?key=%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5&amp;a=b'</span>
+</code></pre></div></div>
+
+<p>Or, which is the same:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_full_path</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">url</span>
+<span class="s">'/?key=%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5&amp;a=b'</span>
+</code></pre></div></div>
+
+<p>Links:</p>
+
+<ul>
+  <li>Question about this problem on <a href="http://stackoverflow.com/questions/16614695/python-urlparse-parse-qs-unicode-url">stackoverflow</a></li>
+  <li>Great presentation about python strings and encoding: <a href="http://nedbatchelder.com/text/unipain.html">http://nedbatchelder.com/text/unipain.html</a></li>
+</ul>
+
+  </div><a class="u-url" href="/en/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/en/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/en/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

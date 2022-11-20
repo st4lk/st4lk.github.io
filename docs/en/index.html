@@ -43,7 +43,28 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">Apr 12, 2013</span>
+    <ul class="post-list"><li><span class="post-meta">May 22, 2013</span>
+        <h3>
+          <a class="post-link" href="/en/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html">
+            Parse url which contains unicode query, using urlparse.parse_qs
+          </a>
+        </h3><p>Task: get dictionary of URL GET query. For example, we have following url:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://example.com/?key=value&amp;a=b
+</code></pre></div></div>
+
+<p>it is needed to get a dict:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'value'</span><span class="p">],</span> <span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p>Values are lists, because one key may have several values:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">In</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="err">?</span><span class="n">key</span><span class="o">=</span><span class="n">value</span><span class="o">&amp;</span><span class="n">a</span><span class="o">=</span><span class="n">b</span><span class="o">&amp;</span><span class="n">a</span><span class="o">=</span><span class="n">c</span>
+<span class="n">Out</span><span class="p">:</span> <span class="p">{</span><span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'value'</span><span class="p">],</span> <span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">]}</span>
+</code></pre></div></div>
+
+</li><li><span class="post-meta">Apr 12, 2013</span>
         <h3>
           <a class="post-link" href="/en/django/database/sql/2013/04/12/django-admin-site-optimisation.html">
             Django admin site optimisation
