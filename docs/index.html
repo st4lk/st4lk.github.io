@@ -43,7 +43,20 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">May 22, 2013</span>
+    <ul class="post-list"><li><span class="post-meta">Jun 20, 2013</span>
+        <h3>
+          <a class="post-link" href="/python/unicode/2013/06/20/unicode-string-formatting.html">
+            Форматирование unicode строк
+          </a>
+        </h3><p>Вы знали, что если одно из значений строкового выражения с оператором <code class="language-plaintext highlighter-rouge">%</code> - unicode, то вся результирующая строка будет тоже unicode?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="s">"Hello, %s"</span> <span class="o">%</span> <span class="sa">u</span><span class="s">"Alex"</span>
+<span class="sa">u</span><span class="s">'Hello, Alex'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s">"Hello, %s"</span> <span class="o">%</span> <span class="sa">u</span><span class="s">"Алексей"</span>
+<span class="sa">u</span><span class="s">'Hello, </span><span class="se">\u0410\u043b\u0435\u043a\u0441\u0435\u0439</span><span class="s">'</span>
+</code></pre></div></div>
+
+</li><li><span class="post-meta">May 22, 2013</span>
         <h3>
           <a class="post-link" href="/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html">
             Парсинг url&#39;а, содержащего unicode параметры, используя urlparse.parse_qs
