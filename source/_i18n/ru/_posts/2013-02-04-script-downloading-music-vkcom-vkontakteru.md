@@ -7,6 +7,8 @@ redirect_from:
   - /2013/script-downloading-music-vkcom-vkontakteru/
 ---
 
+<div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/4708673" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
+
 [![Скрипт для скачивания музыки вконтакте](/assets/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg "Скрипт для скачивания музыки вконтакте")]({{ site.baseurl }}{{ page.url }})
 
 Беглый поиск соответствующего скрипта на python'е не дал результов. В [статье](http://habrahabr.ru/post/143860/) на хабре ссылка не работает. Решил написать свой велосипед, он доступен [здесь](https://gist.github.com/4708673).
