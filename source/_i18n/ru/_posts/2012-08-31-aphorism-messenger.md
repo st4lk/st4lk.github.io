@@ -19,7 +19,7 @@ redirect_from:
 
 Получилось так ([скачать можно здесь](https://sourceforge.net/projects/bwtclient/)):
 
-![Пример афоризма](/assets/posts/2012-08-31-aphorism-messenger/just-aphorism.png, "Пример афоризма")
+![Пример афоризма](/assets/posts/2012-08-31-aphorism-messenger/just-aphorism.png "Пример афоризма")
 
 Весь проект (и клиент и сервер) написан на Java. Сервер расположен на **google app engine**, ресурсы предоставляет в формате xml. Он представляет из себя REST веб-сервис, так что его можно использовать и отдельно (например на веб-сайте). Спецификация есть [здесь](https://bestwisethoughts.appspot.com/).
 

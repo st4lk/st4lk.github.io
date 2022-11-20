@@ -18,7 +18,7 @@ Desktop program (client), that lives in a tray and periodically shows aphorisms.
 
 The result ([download, only in russian](https://sourceforge.net/projects/bwtclient/)):
 
-![Aphorism example](/assets/posts/2012-08-31-aphorism-messenger/just-aphorism.png, "Aphorism example")
+![Aphorism example](/assets/posts/2012-08-31-aphorism-messenger/just-aphorism.png "Aphorism example")
 
 Full project (client and server) is written in Java. Server hosts at **google app engine**, provides resources in xml format. It is a REST web service, so it can be used in many ways, for example for web site. Specification is avaliable [here](https://bestwisethoughts.appspot.com/).
 
