@@ -1,1 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io//" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-20T18:08:11+00:00</updated><id>https://st4lk.github.io//feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Пост на русском</title><link href="https://st4lk.github.io//jekyll/update/2022/11/19/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Пост на русском" /><published>2022-11-19T18:19:43+00:00</published><updated>2022-11-19T18:19:43+00:00</updated><id>https://st4lk.github.io//jekyll/update/2022/11/19/welcome-to-jekyll</id><content type="html" xml:base="https://st4lk.github.io//jekyll/update/2022/11/19/welcome-to-jekyll.html">&lt;p&gt;Контент&lt;/p&gt;</content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html">Контент</summary></entry></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io//" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-20T18:49:13+00:00</updated><id>https://st4lk.github.io//feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Мессенджер афоризмов</title><link href="https://st4lk.github.io//api/java/2012/08/31/aphorism-messenger.html" rel="alternate" type="text/html" title="Мессенджер афоризмов" /><published>2012-08-31T18:19:43+00:00</published><updated>2012-08-31T18:19:43+00:00</updated><id>https://st4lk.github.io//api/java/2012/08/31/aphorism-messenger</id><content type="html" xml:base="https://st4lk.github.io//api/java/2012/08/31/aphorism-messenger.html">&lt;p&gt;&lt;a href=&quot;/api/java/2012/08/31/aphorism-messenger.html&quot;&gt;&lt;img src=&quot;/assets/posts/aphorism-messenger/owl_48x48.png&quot; alt=&quot;Мессенджер афоризмов&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;У меня есть интересный проект, которым хотел бы поделиться. Идея создать его возникла во время изучения Java. Прочел я несколько книжек, сделал маленькие программки-задания и захотелось сделать нечто большее.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;суть-проекта&quot;&gt;Суть проекта&lt;/h3&gt;
+
+&lt;p&gt;Есть desktop-программа (клиент), которая сидит в трее, и периодически показывает афоризмы. Афоризмы она берет с web-сервиса (сервер), таким образом база цитат находится в одном месте. Т.е. база не привязана к клиенту, я могу обновить ее на сервере и все клиенты это заметят. У афоризмов есть рейтинг - количество лайков. При появлении высказывания пользователь видит рейтинг и может добавить/убрать лайк. Вместе с афоризмом отображается его автор, если нажать по автору появляется его краткая биография. Можно просматривать афоризмы, помеченные как любимые. Также можно смотреть список самых популярных афоризмов.&lt;/p&gt;
+
+&lt;p&gt;Получилось так (&lt;a href=&quot;https://sourceforge.net/projects/bwtclient/&quot;&gt;скачать можно здесь&lt;/a&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/aphorism-messenger/just-aphorism.png&quot; alt=&quot;Пример афоризма&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Весь проект (и клиент и сервер) написан на Java. Сервер расположен на &lt;strong&gt;google app engine&lt;/strong&gt;, ресурсы предоставляет в формате xml. Он представляет из себя REST веб-сервис, так что его можно использовать и отдельно (например на веб-сайте). Спецификация есть &lt;a href=&quot;https://bestwisethoughts.appspot.com/&quot;&gt;здесь&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Вот пример ресурса: &lt;a href=&quot;https://bestwisethoughts.appspot.com/1.0/thought/get/random&quot;&gt;показать случайный афоризм&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Ссылки:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://freehabr.ru/blog/gotome/2104.html&quot;&gt;подробное описание проекта&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://sourceforge.net/projects/bwtclient/&quot;&gt;программа-клиент&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://bestwisethoughts.appspot.com/&quot;&gt;сервер&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://sourceforge.net/p/bwtclient/code/&quot;&gt;код клиента&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://sourceforge.net/p/bwtserver/code/&quot;&gt;код сервера&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.youtube.com/watch?v=AIJywgQKatY&quot;&gt;видео обзор&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="api" /><category term="java" /><summary type="html">У меня есть интересный проект, которым хотел бы поделиться. Идея создать его возникла во время изучения Java. Прочел я несколько книжек, сделал маленькие программки-задания и захотелось сделать нечто большее.</summary></entry></feed>
