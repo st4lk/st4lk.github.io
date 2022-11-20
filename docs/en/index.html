@@ -43,7 +43,18 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">Mar 5, 2013</span>
+    <ul class="post-list"><li><span class="post-meta">Apr 12, 2013</span>
+        <h3>
+          <a class="post-link" href="/en/django/database/sql/2013/04/12/django-admin-site-optimisation.html">
+            Django admin site optimisation
+          </a>
+        </h3><p><a href="/en/django/database/sql/2013/04/12/django-admin-site-optimisation.html"><img src="/assets/images/posts/2013-04-12-django-admin-site-optimisation/django-admin-performance.png" alt="Django admin site optimisation" title="Django admin site optimisation" /></a></p>
+
+<p>It is known, that less amount of database attempts leads to better performance. Usually admin page - part of site with low traffic, but anyway it is good, if no additional database calls happen there. It is more pleasant to use it, because page renders faster and also frees server resources.</p>
+
+<p>In this post i’ll try to reduce some database attempts in admin page, when model method <code class="language-plaintext highlighter-rouge">__unicode__</code> contains related object field. I suppose, that examples describe the situation more clear.</p>
+
+</li><li><span class="post-meta">Mar 5, 2013</span>
         <h3>
           <a class="post-link" href="/en/python/2013/03/05/python-mutable-default-arguments.html">
             Python function with mutable default arguments

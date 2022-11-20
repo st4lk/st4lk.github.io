@@ -43,7 +43,18 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">Mar 5, 2013</span>
+    <ul class="post-list"><li><span class="post-meta">Apr 12, 2013</span>
+        <h3>
+          <a class="post-link" href="/django/database/sql/2013/04/12/django-admin-site-optimisation.html">
+            Оптимизация админки django
+          </a>
+        </h3><p><a href="/django/database/sql/2013/04/12/django-admin-site-optimisation.html"><img src="/assets/images/posts/2013-04-12-django-admin-site-optimisation/django-admin-performance.png" alt="Django admin site optimisation" title="Django admin site optimisation" /></a></p>
+
+<p>Как известно, чем меньше запросов к базе данных делает сайт, тем лучше производительность. Обычно админка - часть сайта с меньшим трафиком, но все же хорошо, если от туда не идут лишние запросы. Это и приятней в пользовании, т.к. страница отдается быстрее, и все-таки разгружает сервер.</p>
+
+<p>В этом посте я рассмотрю некоторые способы уменьшения количества запросов из админки к БД при использовании <code class="language-plaintext highlighter-rouge">__unicode__</code>, содержащего поля связанного объекта (ForeignKey). Думаю, глядя на примеры станет понятнее.</p>
+
+</li><li><span class="post-meta">Mar 5, 2013</span>
         <h3>
           <a class="post-link" href="/python/2013/03/05/python-mutable-default-arguments.html">
             Функции с изменяемыми значениями по умолчанию в python&#39;e
