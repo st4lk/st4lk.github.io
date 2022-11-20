@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Кеширование queryset.count в django | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Кеширование queryset.count в django" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Как-то обнаружил, что у меня идут несколько одинаковых запросов вида SELECT COUNT(*) .... Оказалось (да, для меня это было новостью :) ), что метод queryset.count() в джанго кешируется по особому. Но лучше начать рассказ издалека." />
+<meta property="og:description" content="Как-то обнаружил, что у меня идут несколько одинаковых запросов вида SELECT COUNT(*) .... Оказалось (да, для меня это было новостью :) ), что метод queryset.count() в джанго кешируется по особому. Но лучше начать рассказ издалека." />
+<link rel="canonical" href="https://st4lk.github.io/database/django/sql/2013/07/11/django-querysetcount-cache.html" />
+<meta property="og:url" content="https://st4lk.github.io/database/django/sql/2013/07/11/django-querysetcount-cache.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-07-11T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Кеширование queryset.count в django" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2013-07-11T18:19:43+00:00","datePublished":"2013-07-11T18:19:43+00:00","description":"Как-то обнаружил, что у меня идут несколько одинаковых запросов вида SELECT COUNT(*) .... Оказалось (да, для меня это было новостью :) ), что метод queryset.count() в джанго кешируется по особому. Но лучше начать рассказ издалека.","headline":"Кеширование queryset.count в django","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/database/django/sql/2013/07/11/django-querysetcount-cache.html"},"url":"https://st4lk.github.io/database/django/sql/2013/07/11/django-querysetcount-cache.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Записи разработчика</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/database/django/sql/2013/07/11/django-querysetcount-cache.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/database/django/sql/2013/07/11/django-querysetcount-cache.html" ><img src="/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Кеширование queryset.count в django</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2013-07-11T18:19:43+00:00" itemprop="datePublished">Jul 11, 2013
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/database/django/sql/2013/07/11/django-querysetcount-cache.html"><img src="/assets/images/posts/2013-07-11-django-querysetcount-cache/to-count-22117_small.jpeg" alt="Кеширование queryset.count в django" title="Кеширование queryset.count в django" /></a></p>
+
+<p>Как-то обнаружил, что у меня идут несколько одинаковых запросов вида <code class="language-plaintext highlighter-rouge">SELECT COUNT(*) ...</code>. Оказалось (да, для меня это было новостью :) ), что метод <code class="language-plaintext highlighter-rouge">queryset.count()</code> в джанго кешируется по особому. Но лучше начать рассказ издалека.</p>
+
+<!--more-->
+
+<p>Как известно, объекты <code class="language-plaintext highlighter-rouge">queryset</code> у ORM django являются “ленивыми”, а так же кешируются.</p>
+
+<p>Т.е., преподолжим у нас такая модель:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Item</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Тогда при создании запроса фактически обращения к БД не происходит (отсюда название lazy - “ленивый”):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="n">Item</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Оно происходит, когда мы непосредственно обращаемся к объектам из запроса, например в цикле:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+     <span class="k">print</span> <span class="n">item</span><span class="p">.</span><span class="n">name</span>
+</code></pre></div></div>
+
+<p>При исполнении инструкции <code class="language-plaintext highlighter-rouge">for item in items:</code> был такой запрос к БД:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SELECT</span> <span class="s">"main_item"</span><span class="p">.</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"main_item"</span><span class="p">.</span><span class="s">"name"</span> <span class="n">FROM</span> <span class="s">"main_item"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>При следующем обращении к объектам уже запроса к БД не будет, т.к. все объекты уже были “потроганы” и они попали в кэш. Т.е. этот код сделает только одно обращение к БД:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span> <span class="c1"># hit the database
+</span>     <span class="k">print</span> <span class="n">item</span><span class="p">.</span><span class="n">name</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span> <span class="c1"># cache
+</span>     <span class="k">print</span> <span class="n">item</span><span class="p">.</span><span class="n">name</span>
+</code></pre></div></div>
+
+<p>Тем не менее, есть некоторые нюансы, когда может произойти второй запрос к БД. Не буду дублировать документацию, чтобы не загромождать статью. Можно почитать здесь: <a href="https://docs.djangoproject.com/en/dev/topics/db/queries/#caching-and-querysets">https://docs.djangoproject.com/en/dev/topics/db/queries/#caching-and-querysets</a>.</p>
+
+<h3 id="теперь-непосредственно-про-count">Теперь непосредственно про count</h3>
+
+<p>Зная, что queryset кешируется, мне казалось, что и .count() тоже кешируется. Но нет (точнее не всегда). Если вызываем метод count() до того, как исходный queryset попал в кеш, будет обращение к БД при каждом вызове count (данное обращение не ленивое, ведь count() возвращает число, а не другой queryset, как это делают all, filter, exclude):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="n">Item</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span> <span class="c1"># not hit DB
+</span><span class="n">items</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># hit DB
+</span><span class="n">items</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># hit DB
+</span><span class="n">items</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># hit DB
+</span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span> <span class="c1"># hit DB and put into cache
+</span>     <span class="k">print</span> <span class="n">item</span><span class="p">.</span><span class="n">name</span>
+</code></pre></div></div>
+
+<p>Однако, если исходный queryset попал в кеш, то count уже не будет трогать БД:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">items</span> <span class="o">=</span> <span class="n">Item</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span> <span class="c1"># no DB hit
+</span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span> <span class="c1"># hit DB and put to cache
+</span>     <span class="k">print</span> <span class="n">item</span><span class="p">.</span><span class="n">name</span>
+<span class="n">items</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># cache
+</span><span class="n">items</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># cache
+</span><span class="n">items</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="c1"># cache
+</span></code></pre></div></div>
+
+<p>Соответственно все это относится и к шаблонам django. В коде, который делал несколько одинаковых запросов <code class="language-plaintext highlighter-rouge">SELECT COUNT(*) ...</code>, как раз были проверки вида:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">items</span><span class="p">.</span><span class="n">count</span> <span class="o">%</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>и просто вывод количества:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{{</span> <span class="n">items</span><span class="p">.</span><span class="n">count</span> <span class="p">}}</span>
+</code></pre></div></div>
+
+<p>При этом до этих строк не было обращения к самим объектам items. В итоге на каждой из этих строк шел запрос к БД.</p>
+
+<p>Опять же, если до этого где-то был цикл, например такой:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span> <span class="o">%</span><span class="p">}</span>
+    <span class="p">{{</span><span class="n">item</span><span class="p">.</span><span class="n">name</span><span class="p">}}</span>
+<span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>то <code class="language-plaintext highlighter-rouge">{{ items.count }}</code> уже не обращался к БД.</p>
+
+<p><strong>Итак, варианты для избежания лишних запросов.</strong></p>
+
+<ol>
+  <li>
+    <p>Если мы знаем, что где-то дальше будет перебор всех элементов из queryset, то вполне уместно использовать <code class="language-plaintext highlighter-rouge">len</code>.</p>
+
+    <p>Python код:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="c1"># DB
+</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="c1"># cache
+</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span> <span class="c1"># cache
+</span>     <span class="c1"># ...
+</span></code></pre></div>    </div>
+
+    <p>или наоборот, что тоже верно:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span> <span class="c1"># DB
+</span>     <span class="c1"># ...
+</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="c1"># cache
+</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="c1"># cache
+</span></code></pre></div>    </div>
+
+    <p>Шаблон django:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="p">{{</span> <span class="n">items</span><span class="o">|</span><span class="n">length</span> <span class="p">}}</span> <span class="c1"># DB
+</span> <span class="p">{{</span> <span class="n">items</span><span class="o">|</span><span class="n">length</span> <span class="p">}}</span> <span class="c1"># cache
+</span> <span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">items</span><span class="o">|</span><span class="n">length</span> <span class="o">%</span><span class="p">}</span> <span class="c1"># cache
+</span> <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span> <span class="o">%</span><span class="p">}</span> <span class="c1"># cache
+</span></code></pre></div>    </div>
+
+    <p>или наоборот:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span> <span class="o">%</span><span class="p">}</span> <span class="c1"># DB
+</span> <span class="p">{{</span> <span class="n">items</span><span class="o">|</span><span class="n">length</span> <span class="p">}}</span> <span class="c1"># cache
+</span> <span class="p">{{</span> <span class="n">items</span><span class="o">|</span><span class="n">length</span> <span class="p">}}</span> <span class="c1"># cache
+</span> <span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">items</span><span class="o">|</span><span class="n">length</span> <span class="o">%</span><span class="p">}</span> <span class="c1"># cache
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Если нужно только подсчитать количество, либо queryset, для которого нужно количество не совпадает с тем, который будет использоваться для доступа к элементам, то надо использовать count(). Но вызывать его лучше только единожды</p>
+
+    <p>Если в шаблоне нужно обратиться к count более одного раза, то вместо этого:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="p">{{</span> <span class="n">items</span><span class="p">.</span><span class="n">count</span> <span class="p">}}</span>
+ <span class="p">{{</span> <span class="n">items</span><span class="p">.</span><span class="n">count</span> <span class="p">}}</span>
+</code></pre></div>    </div>
+
+    <p>надо либо во view, который генерит этот шаблон, добавить переменную items_count в контекст и в шаблоне использовать ее:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># views.py
+</span> <span class="n">context</span><span class="p">[</span><span class="s">'items_count'</span><span class="p">]</span> <span class="o">=</span> <span class="n">items</span><span class="p">.</span><span class="n">count</span><span class="p">()</span>
+
+ <span class="c1"># template
+</span> <span class="p">{{</span> <span class="n">items_count</span> <span class="p">}}</span>
+ <span class="p">{{</span> <span class="n">items_count</span> <span class="p">}}</span>
+</code></pre></div>    </div>
+
+    <p>либо можно использовать <code class="language-plaintext highlighter-rouge">{% with items.count as items_count %}</code> (не добавляя в контекст новых переменных из views.py):</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1"># template
+</span> <span class="p">{</span><span class="o">%</span> <span class="k">with</span> <span class="n">items</span><span class="p">.</span><span class="n">count</span> <span class="k">as</span> <span class="n">items_count</span> <span class="o">%</span><span class="p">}</span>
+      <span class="p">{{</span> <span class="n">items_count</span> <span class="p">}}</span>
+      <span class="p">{{</span> <span class="n">items_count</span> <span class="p">}}</span>
+ <span class="p">{</span><span class="o">%</span> <span class="n">endwith</span> <span class="o">%</span><span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Конечно, в этой статье под словом “кеш” имеется в виду внутренний кеш queryset. Он никак не связан с <a href="https://docs.djangoproject.com/en/dev/topics/cache/">кешированием</a>.</p>
+
+  </div><a class="u-url" href="/database/django/sql/2013/07/11/django-querysetcount-cache.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -43,7 +43,16 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">Jun 20, 2013</span>
+    <ul class="post-list"><li><span class="post-meta">Jul 11, 2013</span>
+        <h3>
+          <a class="post-link" href="/database/django/sql/2013/07/11/django-querysetcount-cache.html">
+            Кеширование queryset.count в django
+          </a>
+        </h3><p><a href="/database/django/sql/2013/07/11/django-querysetcount-cache.html"><img src="/assets/images/posts/2013-07-11-django-querysetcount-cache/to-count-22117_small.jpeg" alt="Кеширование queryset.count в django" title="Кеширование queryset.count в django" /></a></p>
+
+<p>Как-то обнаружил, что у меня идут несколько одинаковых запросов вида <code class="language-plaintext highlighter-rouge">SELECT COUNT(*) ...</code>. Оказалось (да, для меня это было новостью :) ), что метод <code class="language-plaintext highlighter-rouge">queryset.count()</code> в джанго кешируется по особому. Но лучше начать рассказ издалека.</p>
+
+</li><li><span class="post-meta">Jun 20, 2013</span>
         <h3>
           <a class="post-link" href="/python/unicode/2013/06/20/unicode-string-formatting.html">
             Форматирование unicode строк
