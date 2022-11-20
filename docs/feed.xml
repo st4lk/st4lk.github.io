@@ -1,4 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-20T20:06:40+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">MobileESP: Скрипт определения мобильного устройства посетителя</title><link href="https://st4lk.github.io/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html" rel="alternate" type="text/html" title="MobileESP: Скрипт определения мобильного устройства посетителя" /><published>2012-11-29T18:19:43+00:00</published><updated>2012-11-29T18:19:43+00:00</updated><id>https://st4lk.github.io/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors</id><content type="html" xml:base="https://st4lk.github.io/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html">&lt;p&gt;Скрипт полезен, если вы хотите показывать разные версии сайта для обычных компьютеров и мобильных устройств. Большое количество методов для определения вида девайса. Доступен на разных языках программирования, включая python. Собственно порт на python был написан мной по просьбе freelance заказчика.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-20T20:25:47+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Sublime text и github gists</title><link href="https://st4lk.github.io/django/python/2013/01/03/sublime-text-and-github-gists.html" rel="alternate" type="text/html" title="Sublime text и github gists" /><published>2013-01-03T18:19:43+00:00</published><updated>2013-01-03T18:19:43+00:00</updated><id>https://st4lk.github.io/django/python/2013/01/03/sublime-text-and-github-gists</id><content type="html" xml:base="https://st4lk.github.io/django/python/2013/01/03/sublime-text-and-github-gists.html">&lt;p&gt;&lt;a href=&quot;/django/python/2013/01/03/sublime-text-and-github-gists.html&quot;&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg&quot; alt=&quot;Sublime text и github gists&quot; title=&quot;Sublime text и github gists&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;В &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;Sublime text&lt;/a&gt; есть огромное количество полезных инструментов, помогающих быстро писать код. Пока я изучил лишь небольшую их часть, в том числе пытаюсь привыкнуть к Vintage mode (управление курсором в стиле vim). Но сейчас хочу рассказать о другом - об интеграции &lt;a href=&quot;https://gist.github.com/&quot;&gt;github gists&lt;/a&gt; с sublime text. Если вы не знаете, github gists позволяет сохранять скрипты, снипеты в виде отдельного файла, чтобы не создавать для этого целый репозиторий. При этом поддерживаются многие функции репозитория - версии, возможность форка.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;что-мы-получим-в-итоге&quot;&gt;Что мы получим в итоге&lt;/h3&gt;
+
+&lt;p&gt;Сохраняем снипет прямо из sublime, даем ему описание в виде ключевых слов, затем опять-таки из sublime ищем наш снипет по ключевым словам и видим его в редакторе. Все снипеты сохраняются на github, т.е. они доступны и с другого компьютера.&lt;/p&gt;
+
+&lt;p&gt;Не стоит забывать, что в самом sublime есть свой настраиваемый функционал снипетов. Однако он больше подходит для маленьких авто-заполнений, например при наборе def для питон кода вставлять шаблон для написания функции:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Снипеты в github gist подходят для чего-то большего - какая-либо готовая функция, которая делает конкретную задачу.&lt;/p&gt;
+
+&lt;h3 id=&quot;настроим-этот-функционал-в-нашем-редакторе&quot;&gt;Настроим этот функционал в нашем редакторе&lt;/h3&gt;
+
+&lt;h4 id=&quot;установим-плагин-для-работы-с-github-gist&quot;&gt;Установим плагин для работы с github gist&lt;/h4&gt;
+
+&lt;p&gt;Проще всего это сделать с помощью пакетного менеджера sublime. &lt;a href=&quot;http://wbond.net/sublime_packages/package_control/installation&quot;&gt;Здесь&lt;/a&gt; есть инструкция для его установки. В sublime нажимаем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt;, вводим &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;install&lt;/code&gt;, и далее &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/1_package_control_install.jpeg&quot; alt=&quot;Sublime install package&quot; title=&quot;Sublime install package&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/2_package_control_gist.jpeg&quot; alt=&quot;Sublime install gist package&quot; title=&quot;Sublime install gist package&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;теперь-дадим-плагину-доступ-к-нашему-github-аккаунту&quot;&gt;Теперь дадим плагину доступ к нашему github аккаунту&lt;/h4&gt;
+
+&lt;p&gt;Нажимаем Preferences-&amp;gt;Package settigns-&amp;gt;Gist-&amp;gt;Settings User.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/3_gist_settings_menu.jpeg&quot; alt=&quot;Gist sublime Preferences&quot; title=&quot;Gist sublime Preferences&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Можно либо указать логин+пароль, либо токен. Если нужных настроек в Settings User нет, то их можно скопировать из Settings Default. Только default settings лучше не менять. Чтобы получить токен, нужно в командной строке выполнить такую команду (должен быть установлен &lt;a href=&quot;http://curl.haxx.se/&quot;&gt;curl&lt;/a&gt;):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; USERNAME &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt; POST https://api.github.com/authorizations &lt;span class=&quot;nt&quot;&gt;--data&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;{&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scopes&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;gist&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;]}&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Где USERNAME - ваш логин на github&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/4_gist_auth.jpeg&quot; alt=&quot;Gist sublime settings&quot; title=&quot;Gist sublime settings&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;создадим-gist&quot;&gt;Создадим gist&lt;/h4&gt;
+
+&lt;p&gt;Пишем код нашего снипета в новой вкладке sublime. Я написал код для получения содержимого csv файла в виде списка списков. Нажимаем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt;, вводим &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist create public&lt;/code&gt; и enter. Здесь работает fuzzy поиск, так что я набираю просто &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;public&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/5_gist_create_public.jpeg&quot; alt=&quot;Gist sublime create&quot; title=&quot;Gist sublime create&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Даем нашему снипету описание. Важно включить значащие слова, т.к. по ним потом будет идти поиск. Я напишу так “Python: Get csv lines”.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/6_gist_set_description.jpeg&quot; alt=&quot;Gist sublime description&quot; title=&quot;Gist sublime description&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Будет еще запрос на название файла, можно просто нажать enter.&lt;/p&gt;
+
+&lt;h4 id=&quot;найдем-только-что-созданный-снипет&quot;&gt;Найдем только что созданный снипет&lt;/h4&gt;
+
+&lt;p&gt;Вызываем строку ввода команд &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt; и пишем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist open&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/7_gist_open.jpeg&quot; alt=&quot;Gist sublime open&quot; title=&quot;Gist sublime open&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Далее пишем ключевые слова “python csv”&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/8_gist_find_by_descr.jpeg&quot; alt=&quot;Gist sublime find&quot; title=&quot;Gist sublime find&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;И видим код снипета&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/9_gist_opened.jpeg&quot; alt=&quot;Gist sublime opened&quot; title=&quot;Gist sublime opened&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Этот снипет так же создался на github: &lt;a href=&quot;https://gist.github.com/3931305&quot;&gt;https://gist.github.com/3931305&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;ссылки&quot;&gt;Ссылки&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Редактор кода &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;sublime text&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/condemil/Gist&quot;&gt;Репозиторий&lt;/a&gt; плагина Gist&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://tutsplus.com/lesson/sexy-code-snippet-management-with-gists/&quot;&gt;Видео&lt;/a&gt; про sublime и github gist на &lt;a href=&quot;http://tutsplus.com/&quot;&gt;tutsplus.com&lt;/a&gt; (на английском)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://tutsplus.com/course/improve-workflow-in-sublime-text-2/&quot;&gt;Видео курс&lt;/a&gt; по sublime text на &lt;a href=&quot;http://tutsplus.com/&quot;&gt;tutsplus.com&lt;/a&gt; (на английском)&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="django" /><category term="python" /><summary type="html">В Sublime text есть огромное количество полезных инструментов, помогающих быстро писать код. Пока я изучил лишь небольшую их часть, в том числе пытаюсь привыкнуть к Vintage mode (управление курсором в стиле vim). Но сейчас хочу рассказать о другом - об интеграции github gists с sublime text. Если вы не знаете, github gists позволяет сохранять скрипты, снипеты в виде отдельного файла, чтобы не создавать для этого целый репозиторий. При этом поддерживаются многие функции репозитория - версии, возможность форка.</summary></entry><entry><title type="html">MobileESP: Скрипт определения мобильного устройства посетителя</title><link href="https://st4lk.github.io/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html" rel="alternate" type="text/html" title="MobileESP: Скрипт определения мобильного устройства посетителя" /><published>2012-11-29T18:19:43+00:00</published><updated>2012-11-29T18:19:43+00:00</updated><id>https://st4lk.github.io/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors</id><content type="html" xml:base="https://st4lk.github.io/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html">&lt;p&gt;Скрипт полезен, если вы хотите показывать разные версии сайта для обычных компьютеров и мобильных устройств. Большое количество методов для определения вида девайса. Доступен на разных языках программирования, включая python. Собственно порт на python был написан мной по просьбе freelance заказчика.&lt;/p&gt;
 
 &lt;!--more--&gt;
 

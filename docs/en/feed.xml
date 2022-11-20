@@ -1,4 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T20:06:42+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">MobileESP: Easily detect mobile web site visitors</title><link href="https://st4lk.github.io/en/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html" rel="alternate" type="text/html" title="MobileESP: Easily detect mobile web site visitors" /><published>2012-11-29T18:19:43+00:00</published><updated>2012-11-29T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors</id><content type="html" xml:base="https://st4lk.github.io/en/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html">&lt;p&gt;Script will be useful, if you want to show different version of site for desktop computers and mobile devices. Big variety of methods to detect mobile type. Avaliable in different languages, including python. The port to python was made by me with help from my freelance customer.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T20:25:50+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Sublime text and github gists</title><link href="https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists.html" rel="alternate" type="text/html" title="Sublime text and github gists" /><published>2013-01-03T18:19:43+00:00</published><updated>2013-01-03T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists</id><content type="html" xml:base="https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists.html">&lt;p&gt;&lt;a href=&quot;/en/django/python/2013/01/03/sublime-text-and-github-gists.html&quot;&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg&quot; alt=&quot;Sublime and github gist&quot; title=&quot;Sublime and github gist&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;Sublime text&lt;/a&gt; there are big variety of useful tools, that help to write code. I’ve learned only a small part of them, currently i’m trying to write in Vintage mode (vim style cursor management). But now i want to tell about integration &lt;a href=&quot;https://gist.github.com/&quot;&gt;github gists&lt;/a&gt; with sublime text. If you don’t now, github gists let you save snippets as a separate file without creation full repository. But it have many repository features - versions, possibility to fork.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;what-well-have-at-the-end&quot;&gt;What we’ll have at the end&lt;/h3&gt;
+
+&lt;p&gt;Save snippet from sublime, give to it description with key words. Then again from sublime we can find snippet by key words and see it in editor. All snippets are saved in github, so they are avaliable from other computers.&lt;/p&gt;
+
+&lt;p&gt;Remember, that sublime text has its own snippet functionality. But it is more preferable for small auto insertion. For example, when you write &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;def&lt;/code&gt; in python, insert function template:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Github gist are more suitable for something bigger - some function for exact purpose.&lt;/p&gt;
+
+&lt;h3 id=&quot;lets-setup-this-functionality&quot;&gt;Lets setup this functionality&lt;/h3&gt;
+
+&lt;h4 id=&quot;gist-plugin-setup&quot;&gt;Gist plugin setup&lt;/h4&gt;
+
+&lt;p&gt;The easiest way to do it is with sublime package manager. &lt;a href=&quot;http://wbond.net/sublime_packages/package_control/installation&quot;&gt;Here&lt;/a&gt; is instruction for setup. In sublime press &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt;, enter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;install&lt;/code&gt; and then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/1_package_control_install.jpeg&quot; alt=&quot;Sublime install package&quot; title=&quot;Sublime install package&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/2_package_control_gist.jpeg&quot; alt=&quot;Sublime install gist package&quot; title=&quot;Sublime install gist package&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;give-access-to-your-github-account&quot;&gt;Give access to your github account&lt;/h4&gt;
+
+&lt;p&gt;Press Preferences-&amp;gt;Package settigns-&amp;gt;Gist-&amp;gt;Settings User.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/3_gist_settings_menu.jpeg&quot; alt=&quot;Gist sublime Preferences&quot; title=&quot;Gist sublime Preferences&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can either set login + password, either token. If needed settings are not in Settings User, then they can be copied from Settings Default. But don’t change default settings. To receive token, run in system command line (&lt;a href=&quot;http://curl.haxx.se/&quot;&gt;curl&lt;/a&gt; must be installed):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; USERNAME &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt; POST https://api.github.com/authorizations &lt;span class=&quot;nt&quot;&gt;--data&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;{&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scopes&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;gist&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;]}&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;where USERNAME - your github login&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/4_gist_auth.jpeg&quot; alt=&quot;Gist sublime settings&quot; title=&quot;Gist sublime settings&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;gist-creation&quot;&gt;Gist creation&lt;/h4&gt;
+
+&lt;p&gt;Write code of your snippet in new sublime tab. I wrote code for taking content of csv file as list of lists. Press &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt;, then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist create public&lt;/code&gt; and enter. Here is avaliable fuzzy searching, so i just enter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;public&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/5_gist_create_public.jpeg&quot; alt=&quot;Gist sublime create&quot; title=&quot;Gist sublime create&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Give description to our snippet. It is important to include meaningful words, because search will use them. I write “Python: Get csv lines”.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/6_gist_set_description.jpeg&quot; alt=&quot;Gist sublime description&quot; title=&quot;Gist sublime description&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There will be also request for file name, it can be skipped by pressing enter.&lt;/p&gt;
+
+&lt;h4 id=&quot;search-for-a-gist&quot;&gt;Search for a gist&lt;/h4&gt;
+
+&lt;p&gt;Open sublime command line by pressing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt; and enter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist open&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/7_gist_open.jpeg&quot; alt=&quot;Gist sublime open&quot; title=&quot;Gist sublime open&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then enter key words “python csv”&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/8_gist_find_by_descr.jpeg&quot; alt=&quot;Gist sublime find&quot; title=&quot;Gist sublime find&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And see our snippet.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/9_gist_opened.jpeg&quot; alt=&quot;Gist sublime opened&quot; title=&quot;Gist sublime opened&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This snippet is also created at github: &lt;a href=&quot;https://gist.github.com/3931305&quot;&gt;https://gist.github.com/3931305&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;links&quot;&gt;Links&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Code editor &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;sublime text&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/condemil/Gist&quot;&gt;Repo&lt;/a&gt; of Gist plugin&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://tutsplus.com/lesson/sexy-code-snippet-management-with-gists/&quot;&gt;Video lesson&lt;/a&gt; about sublime and gist at &lt;a href=&quot;http://tutsplus.com/&quot;&gt;tutsplus.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://tutsplus.com/course/improve-workflow-in-sublime-text-2/&quot;&gt;Video course&lt;/a&gt; about sublime at &lt;a href=&quot;http://tutsplus.com/&quot;&gt;tutsplus.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="django" /><category term="python" /><summary type="html">In Sublime text there are big variety of useful tools, that help to write code. I’ve learned only a small part of them, currently i’m trying to write in Vintage mode (vim style cursor management). But now i want to tell about integration github gists with sublime text. If you don’t now, github gists let you save snippets as a separate file without creation full repository. But it have many repository features - versions, possibility to fork.</summary></entry><entry><title type="html">MobileESP: Easily detect mobile web site visitors</title><link href="https://st4lk.github.io/en/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html" rel="alternate" type="text/html" title="MobileESP: Easily detect mobile web site visitors" /><published>2012-11-29T18:19:43+00:00</published><updated>2012-11-29T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors</id><content type="html" xml:base="https://st4lk.github.io/en/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html">&lt;p&gt;Script will be useful, if you want to show different version of site for desktop computers and mobile devices. Big variety of methods to detect mobile type. Avaliable in different languages, including python. The port to python was made by me with help from my freelance customer.&lt;/p&gt;
 
 &lt;!--more--&gt;
 
