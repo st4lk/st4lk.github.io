@@ -7,7 +7,7 @@ redirect_from:
   - /2012/aphorism-messager/
 ---
 
-[![Мессенджер афоризмов](/assets/posts/aphorism-messenger/owl_48x48.png)]({{ site.baseurl }}{{ page.url }})
+[![Мессенджер афоризмов](/assets/posts/2012-08-31-aphorism-messenger/owl_48x48.png "Мессенджер афоризмов")]({{ site.baseurl }}{{ page.url }})
 
 У меня есть интересный проект, которым хотел бы поделиться. Идея создать его возникла во время изучения Java. Прочел я несколько книжек, сделал маленькие программки-задания и захотелось сделать нечто большее.
 
@@ -19,7 +19,7 @@ redirect_from:
 
 Получилось так ([скачать можно здесь](https://sourceforge.net/projects/bwtclient/)):
 
-![Пример афоризма](/assets/posts/aphorism-messenger/just-aphorism.png)
+![Пример афоризма](/assets/posts/2012-08-31-aphorism-messenger/just-aphorism.png, "Пример афоризма")
 
 Весь проект (и клиент и сервер) написан на Java. Сервер расположен на **google app engine**, ресурсы предоставляет в формате xml. Он представляет из себя REST веб-сервис, так что его можно использовать и отдельно (например на веб-сайте). Спецификация есть [здесь](https://bestwisethoughts.appspot.com/).
 

@@ -1,4 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T18:59:10+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Aphorism messenger</title><link href="https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger.html" rel="alternate" type="text/html" title="Aphorism messenger" /><published>2012-08-31T18:19:43+00:00</published><updated>2012-08-31T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger</id><content type="html" xml:base="https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger.html">&lt;p&gt;&lt;a href=&quot;/en/api/java/2012/08/31/aphorism-messenger.html&quot;&gt;&lt;img src=&quot;/assets/posts/aphorism-messenger/owl_48x48.png&quot; alt=&quot;Aphorism messenger&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T19:31:23+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Cloud service Openshift</title><link href="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html" rel="alternate" type="text/html" title="Cloud service Openshift" /><published>2012-10-08T18:19:43+00:00</published><updated>2012-10-08T18:19:43+00:00</updated><id>https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift</id><content type="html" xml:base="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html">&lt;p&gt;&lt;a href=&quot;/en/free/openshift/python/2012/10/08/cloud-service-openshift.html&quot;&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/openshift-icon.png&quot; alt=&quot;Cloud service Openshift&quot; title=&quot;Cloud service Openshift&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I know a few hosting providers with free account and python availability. It is &lt;a href=&quot;https://appengine.google.com/&quot;&gt;Google App Engine&lt;/a&gt; and &lt;a href=&quot;https://www.alwaysdata.com/&quot;&gt;Alwaysdata&lt;/a&gt;. But recently i found great project &lt;a href=&quot;https://openshift.redhat.com/&quot;&gt;Openshift&lt;/a&gt; from RedHat and this blog site is working on it. Let me describe mentioned hostings first.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;google-app-engine&quot;&gt;Google app engine&lt;/h3&gt;
+
+&lt;p&gt;The main trouble of google app engine - limited amount of python libraries. Of course, you can use pure python libs, but you can’t setup libs that requires C compilation. For example, pycurl library can’t be used. Also GAE uses special data bases, so libs to work with them are also special. Therefore starting of django application is not trivial, because django works with SQL databases. In additional, django can be used only with version 1.2, 1.3 (while 1.4 currently avaliable). Anyway, here some useful links: &lt;a href=&quot;https://developers.google.com/appengine/docs/python/tools/libraries27&quot;&gt;list of avaliable libraries&lt;/a&gt;, &lt;a href=&quot;http://django-rocket-engine.readthedocs.org/&quot;&gt;django-rocket-engine project&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;alwaysdata&quot;&gt;Alwaysdata&lt;/h3&gt;
+
+&lt;p&gt;With free account you can’t setup libraries, that requires C compilation. But here we have familiar data bases - mysql, postgres, mongodb. So usual django application can be started easily. I often use this hosting to demonstrate simple projects.&lt;/p&gt;
+
+&lt;h2 id=&quot;openshift&quot;&gt;Openshift&lt;/h2&gt;
+
+&lt;p&gt;Openshift - it is PaaS, i.e. platform as a service. We don’t have root access to operating system. The system is provided to us by service in a working state, and we can make only limited amount of actions on it. It is similiar to google app engine, but here we have much more freedom.&lt;/p&gt;
+
+&lt;p&gt;First of all it is great, that many things can be installed manually. Any version of python, django. If you want SQL/Postgres/mongodb as data base - you are welcome. You can setup libraries and compile them. There are additional cool things: cron, statistics, phpmyadmin and etc. I’ve mentioned django, but it is possible to use any framework, it just what i’ve tried.&lt;/p&gt;
+
+&lt;p&gt;Handy style of deploying appliction on server. Just type git push special_application_url from you git-repository and thats it! Files automaticly refreshes on server and server restarts. Process of restarting can be managed by special scripts. For example, you can tell the script to setup necessary libraries from requirements.txt, compile static files (manage.py collectstatic) and so on. This script will be runned at every server restart.&lt;/p&gt;
+
+&lt;p&gt;For free account it is available 1 Gb of disc space and 3 small ‘gears’. As I understand, gear - it is some isolated environment with its RAM. For a small gear size of RAM is equal to 512. If power of one gear is not enough, then second is started, then third and so on. To keep it simple, here is example of load, that simple DLE site can process (from &lt;a href=&quot;https://openshift.redhat.com/community/developers/pricing&quot;&gt;openshift&lt;/a&gt; description):&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;15 pages/second, Hundreds of articles, 50k visitors per month&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;For a simple site it is quite enough. For one account you can create 3 applications (at least for free). Of course, there is possibility, that this freebie will end at some time. But existing code you can always run at other hosting - it doesn’t have special featers as GAE does. Finally you can buy payment account at openshift.&lt;/p&gt;
+
+&lt;p&gt;On openshift site it is described in detail, how to start application. I will describe my experience.&lt;/p&gt;
+
+&lt;h4 id=&quot;steps-to-start-python-273--django-application&quot;&gt;Steps to start python 2.7.3 + django application&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;register&lt;/li&gt;
+  &lt;li&gt;setup git (if not already)&lt;/li&gt;
+  &lt;li&gt;setup special program “rhc” (it can be skipped, but this program helps a lot), manul: &lt;a href=&quot;https://openshift.redhat.com/community/get-started&quot;&gt;get-started&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;follow instructions &lt;a href=&quot;https://github.com/ehazlett/openshift-diy-py27-django&quot;&gt;https://github.com/ehazlett/openshift-diy-py27-django&lt;/a&gt; (simple application without data base)&lt;/li&gt;
+  &lt;li&gt;or follow instructions &lt;a href=&quot;https://github.com/st4lk/lexev&quot;&gt;https://github.com/st4lk/lexev&lt;/a&gt; (application with mysql, the code of this blog)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That it! Application is available at &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://&amp;lt;app_name&amp;gt;-&amp;lt;namespace&amp;gt;.rhcloud.com/&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;link-to-domain&quot;&gt;Link to domain&lt;/h3&gt;
+
+&lt;p&gt;Well, not quite yet. It will be nice to have normal address… Suppose we have domain (for example lexev.org). Lets link our application to that domain.&lt;/p&gt;
+
+&lt;p&gt;Openshift doesn’t have DNS servers, that can be set for domain. Instead of it Openshift sujest to use &lt;a href=&quot;http://en.wikipedia.org/wiki/CNAME_record&quot;&gt;CNAME&lt;/a&gt;. It can be done in domain management page.&lt;/p&gt;
+
+&lt;p&gt;That all nice, but i’ve bought my domain at nic.ru. To create CNAME record there i must buy additional access… But, as it turned out, there is way out! Let’s use free service &lt;a href=&quot;http://freedns.afraid.org/&quot;&gt;http://freedns.afraid.org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So,&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;register at freedns.afraid.org&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;set DNS servers for domain:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  ns1.afraid.org
+  ns2.afraid.org
+  ns3.afraid.org
+  ns4.afraid.org
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;add domain at afraid.org: &lt;a href=&quot;http://freedns.afraid.org/domain/add.php&quot;&gt;http://freedns.afraid.org/domain/add.php&lt;/a&gt;, in my case it is lexev.org. Don’t forget to select Shared State: Private, or you domain will be avaliable to all users at afraid.org&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;for newly created domain add subdomen with type CNAME, as on picture (replace lexev.org to needed domain and set correct url of application at destination field):&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-1.png&quot; alt=&quot;afraid.org CNAME&quot; title=&quot;afraid.org CNAME&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;at subdomens page we see two records: one with CNAME and one without (it is on top probably)&lt;/li&gt;
+  &lt;li&gt;press record without CNAME&lt;/li&gt;
+  &lt;li&gt;change nothing, but click “Forward to a URL”&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;type as on picture (again replace lexev.org to needed domain):&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-2.png&quot; alt=&quot;afraid.org Forward to a URL&quot; title=&quot;afraid.org Forward to a URL&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;finally the subdomens must be:&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-3.png&quot; alt=&quot;afraid.org subdomain&quot; title=&quot;afraid.org subdomain&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For now looks that all done. Some time will be needed for new DNS servers to start work with newly domain.&lt;/p&gt;
+
+&lt;p&gt;Request to lexev.org will be redirected to &lt;a href=&quot;http://www.lexev.org/&quot;&gt;www.lexev.org&lt;/a&gt;. And &lt;a href=&quot;http://www.lexev.org/&quot;&gt;www.lexev.org&lt;/a&gt; points to application at openshift.&lt;/p&gt;
+
+&lt;p&gt;It should be noted, that openshift also supports PHP, Ruby, Java, Node.js, Perl !&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading and sorry for my english! :)&lt;/p&gt;</content><author><name></name></author><category term="free" /><category term="openshift" /><category term="python" /><summary type="html">I know a few hosting providers with free account and python availability. It is Google App Engine and Alwaysdata. But recently i found great project Openshift from RedHat and this blog site is working on it. Let me describe mentioned hostings first.</summary></entry><entry><title type="html">Aphorism messenger</title><link href="https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger.html" rel="alternate" type="text/html" title="Aphorism messenger" /><published>2012-08-31T18:19:43+00:00</published><updated>2012-08-31T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger</id><content type="html" xml:base="https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger.html">&lt;p&gt;&lt;a href=&quot;/en/api/java/2012/08/31/aphorism-messenger.html&quot;&gt;&lt;img src=&quot;/assets/posts/2012-08-31-aphorism-messenger/owl_48x48.png&quot; alt=&quot;Aphorism messenger&quot; title=&quot;Aphorism messenger&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I have an interesting project I want to tell you about. The idea to create it was born when I was learning Java. I have read couple of books, made some small task programs but I would like to create something bigger.
 &lt;!--more--&gt;&lt;/p&gt;
@@ -9,7 +101,7 @@
 
 &lt;p&gt;The result (&lt;a href=&quot;https://sourceforge.net/projects/bwtclient/&quot;&gt;download, only in russian&lt;/a&gt;):&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/aphorism-messenger/just-aphorism.png&quot; alt=&quot;Aphorism example&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-08-31-aphorism-messenger/just-aphorism.png,&quot; alt=&quot;Aphorism example&quot; title=&quot;Aphorism example&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Full project (client and server) is written in Java. Server hosts at &lt;strong&gt;google app engine&lt;/strong&gt;, provides resources in xml format. It is a REST web service, so it can be used in many ways, for example for web site. Specification is avaliable &lt;a href=&quot;https://bestwisethoughts.appspot.com/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 

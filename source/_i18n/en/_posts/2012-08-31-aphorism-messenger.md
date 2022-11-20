@@ -7,7 +7,7 @@ redirect_from:
   - /2012/aphorism-messager/
 ---
 
-[![Aphorism messenger](/assets/posts/aphorism-messenger/owl_48x48.png)]({{ site.baseurl }}{{ page.url }})
+[![Aphorism messenger](/assets/posts/2012-08-31-aphorism-messenger/owl_48x48.png "Aphorism messenger")]({{ site.baseurl }}{{ page.url }})
 
 I have an interesting project I want to tell you about. The idea to create it was born when I was learning Java. I have read couple of books, made some small task programs but I would like to create something bigger.
 <!--more-->
@@ -18,7 +18,7 @@ Desktop program (client), that lives in a tray and periodically shows aphorisms.
 
 The result ([download, only in russian](https://sourceforge.net/projects/bwtclient/)):
 
-![Aphorism example](/assets/posts/aphorism-messenger/just-aphorism.png)
+![Aphorism example](/assets/posts/2012-08-31-aphorism-messenger/just-aphorism.png, "Aphorism example")
 
 Full project (client and server) is written in Java. Server hosts at **google app engine**, provides resources in xml format. It is a REST web service, so it can be used in many ways, for example for web site. Specification is avaliable [here](https://bestwisethoughts.appspot.com/).
 
