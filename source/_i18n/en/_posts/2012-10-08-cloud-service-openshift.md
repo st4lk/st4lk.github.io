@@ -7,7 +7,7 @@ redirect_from:
   - /2012/cloud-service-openshift/
 ---
 
-[![Cloud service Openshift](/assets/posts/2012-10-08-cloud-service-openshift/openshift-icon.png "Cloud service Openshift")]({{ site.baseurl }}{{ page.url }})
+[![Cloud service Openshift](/assets/images/posts/2012-10-08-cloud-service-openshift/openshift-icon.png "Cloud service Openshift")]({{ site.baseurl }}{{ page.url }})
 
 I know a few hosting providers with free account and python availability. It is [Google App Engine](https://appengine.google.com/) and [Alwaysdata](https://www.alwaysdata.com/). But recently i found great project [Openshift](https://openshift.redhat.com/) from RedHat and this blog site is working on it. Let me describe mentioned hostings first.
 
@@ -73,18 +73,18 @@ So,
 
 - for newly created domain add subdomen with type CNAME, as on picture (replace lexev.org to needed domain and set correct url of application at destination field):
 
-	![afraid.org CNAME](/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-1.png "afraid.org CNAME")
+	![afraid.org CNAME](/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-1.png "afraid.org CNAME")
 
 - at subdomens page we see two records: one with CNAME and one without (it is on top probably)
 - press record without CNAME
 - change nothing, but click "Forward to a URL"
 - type as on picture (again replace lexev.org to needed domain):
 
-	![afraid.org Forward to a URL](/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-2.png "afraid.org Forward to a URL")
+	![afraid.org Forward to a URL](/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-2.png "afraid.org Forward to a URL")
 
 - finally the subdomens must be:
 
-	![afraid.org subdomain](/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-3.png "afraid.org subdomain")
+	![afraid.org subdomain](/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-3.png "afraid.org subdomain")
 
 For now looks that all done. Some time will be needed for new DNS servers to start work with newly domain.
 

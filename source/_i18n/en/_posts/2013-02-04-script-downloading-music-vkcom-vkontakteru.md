@@ -9,7 +9,7 @@ redirect_from:
 
 <div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/4708673" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
 
-[![Script for downloading music from vkontakte](/assets/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg "Script for downloading music from vkontakte")]({{ site.baseurl }}{{ page.url }})
+[![Script for downloading music from vkontakte](/assets/images/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg "Script for downloading music from vkontakte")]({{ site.baseurl }}{{ page.url }})
 
 A quick search of corresponding python script doesn't give results. In [post](http://habrahabr.ru/post/143860/) on habra link is broken. So i decided to write my own bicycle, it is avaliable [here](https://gist.github.com/4708673).
 

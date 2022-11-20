@@ -35,8 +35,8 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html" ><img src="/assets/ru.png" /></a>
-          <a class="page-link" href="/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html" ><img src="/assets/en.png" /></a>
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html" ><img src="/assets/images/en.png" /></a>
         </div>
       </nav></div>
 </header>
@@ -86,39 +86,39 @@
 
 <p>Допустим у нас есть такой view:</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg" alt="view" title="view" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg" alt="view" title="view" /></p>
 
 <p>Вставим <code class="language-plaintext highlighter-rouge">import pdb; pdb.set_trace()</code> в нужное место и запустим локальный сервер, если не запущен:</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg" alt="view_pdb" title="view_pdb" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg" alt="view_pdb" title="view_pdb" /></p>
 
 <p>В браузере обратимся к странице, которая вызывает этот view. Страница замерла:</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg" alt="browser_hang" title="browser_hang" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg" alt="browser_hang" title="browser_hang" /></p>
 
 <p>В консоле видим (Pdb):</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg" alt="pdb_console" title="pdb_console" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg" alt="pdb_console" title="pdb_console" /></p>
 
 <p>Посмотрим, где мы, командой <code class="language-plaintext highlighter-rouge">l</code>:</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg" alt="pdb_l" title="pdb_l" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg" alt="pdb_l" title="pdb_l" /></p>
 
 <p>Сделаем два шага веред командой <code class="language-plaintext highlighter-rouge">n</code>:</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg" alt="pdb_nn" title="pdb_nn" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg" alt="pdb_nn" title="pdb_nn" /></p>
 
 <p>Посмотрим значение переменных <code class="language-plaintext highlighter-rouge">about</code> и <code class="language-plaintext highlighter-rouge">about.content</code>:</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg" alt="pdb_p" title="pdb_p" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg" alt="pdb_p" title="pdb_p" /></p>
 
 <p>Продолжим выполнение командой <code class="language-plaintext highlighter-rouge">c</code>:</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg" alt="pdb_c" title="pdb_c" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg" alt="pdb_c" title="pdb_c" /></p>
 
 <p>Страница отобразилась в браузере:</p>
 
-<p><img src="/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg" alt="browser_done" title="browser_done" /></p>
+<p><img src="/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg" alt="browser_done" title="browser_done" /></p>
 
   </div><a class="u-url" href="/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html" hidden></a>
 </article>

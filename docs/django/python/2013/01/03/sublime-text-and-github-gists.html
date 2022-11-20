@@ -35,8 +35,8 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/django/python/2013/01/03/sublime-text-and-github-gists.html" ><img src="/assets/ru.png" /></a>
-          <a class="page-link" href="/en/django/python/2013/01/03/sublime-text-and-github-gists.html" ><img src="/assets/en.png" /></a>
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/django/python/2013/01/03/sublime-text-and-github-gists.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/django/python/2013/01/03/sublime-text-and-github-gists.html" ><img src="/assets/images/en.png" /></a>
         </div>
       </nav></div>
 </header>
@@ -52,7 +52,7 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p><a href="/django/python/2013/01/03/sublime-text-and-github-gists.html"><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg" alt="Sublime text и github gists" title="Sublime text и github gists" /></a></p>
+    <p><a href="/django/python/2013/01/03/sublime-text-and-github-gists.html"><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg" alt="Sublime text и github gists" title="Sublime text и github gists" /></a></p>
 
 <p>В <a href="http://www.sublimetext.com/">Sublime text</a> есть огромное количество полезных инструментов, помогающих быстро писать код. Пока я изучил лишь небольшую их часть, в том числе пытаюсь привыкнуть к Vintage mode (управление курсором в стиле vim). Но сейчас хочу рассказать о другом - об интеграции <a href="https://gist.github.com/">github gists</a> с sublime text. Если вы не знаете, github gists позволяет сохранять скрипты, снипеты в виде отдельного файла, чтобы не создавать для этого целый репозиторий. При этом поддерживаются многие функции репозитория - версии, возможность форка.</p>
 
@@ -76,15 +76,15 @@
 
 <p>Проще всего это сделать с помощью пакетного менеджера sublime. <a href="http://wbond.net/sublime_packages/package_control/installation">Здесь</a> есть инструкция для его установки. В sublime нажимаем <code class="language-plaintext highlighter-rouge">ctrl + shift + p</code>, вводим <code class="language-plaintext highlighter-rouge">install</code>, и далее <code class="language-plaintext highlighter-rouge">gist</code>:</p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/1_package_control_install.jpeg" alt="Sublime install package" title="Sublime install package" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/1_package_control_install.jpeg" alt="Sublime install package" title="Sublime install package" /></p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/2_package_control_gist.jpeg" alt="Sublime install gist package" title="Sublime install gist package" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/2_package_control_gist.jpeg" alt="Sublime install gist package" title="Sublime install gist package" /></p>
 
 <h4 id="теперь-дадим-плагину-доступ-к-нашему-github-аккаунту">Теперь дадим плагину доступ к нашему github аккаунту</h4>
 
 <p>Нажимаем Preferences-&gt;Package settigns-&gt;Gist-&gt;Settings User.</p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/3_gist_settings_menu.jpeg" alt="Gist sublime Preferences" title="Gist sublime Preferences" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/3_gist_settings_menu.jpeg" alt="Gist sublime Preferences" title="Gist sublime Preferences" /></p>
 
 <p>Можно либо указать логин+пароль, либо токен. Если нужных настроек в Settings User нет, то их можно скопировать из Settings Default. Только default settings лучше не менять. Чтобы получить токен, нужно в командной строке выполнить такую команду (должен быть установлен <a href="http://curl.haxx.se/">curl</a>):</p>
 
@@ -93,17 +93,17 @@
 
 <p>Где USERNAME - ваш логин на github</p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/4_gist_auth.jpeg" alt="Gist sublime settings" title="Gist sublime settings" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/4_gist_auth.jpeg" alt="Gist sublime settings" title="Gist sublime settings" /></p>
 
 <h4 id="создадим-gist">Создадим gist</h4>
 
 <p>Пишем код нашего снипета в новой вкладке sublime. Я написал код для получения содержимого csv файла в виде списка списков. Нажимаем <code class="language-plaintext highlighter-rouge">ctrl + shift + p</code>, вводим <code class="language-plaintext highlighter-rouge">gist create public</code> и enter. Здесь работает fuzzy поиск, так что я набираю просто <code class="language-plaintext highlighter-rouge">public</code>.</p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/5_gist_create_public.jpeg" alt="Gist sublime create" title="Gist sublime create" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/5_gist_create_public.jpeg" alt="Gist sublime create" title="Gist sublime create" /></p>
 
 <p>Даем нашему снипету описание. Важно включить значащие слова, т.к. по ним потом будет идти поиск. Я напишу так “Python: Get csv lines”.</p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/6_gist_set_description.jpeg" alt="Gist sublime description" title="Gist sublime description" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/6_gist_set_description.jpeg" alt="Gist sublime description" title="Gist sublime description" /></p>
 
 <p>Будет еще запрос на название файла, можно просто нажать enter.</p>
 
@@ -111,15 +111,15 @@
 
 <p>Вызываем строку ввода команд <code class="language-plaintext highlighter-rouge">ctrl + shift + p</code> и пишем <code class="language-plaintext highlighter-rouge">gist open</code>.</p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/7_gist_open.jpeg" alt="Gist sublime open" title="Gist sublime open" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/7_gist_open.jpeg" alt="Gist sublime open" title="Gist sublime open" /></p>
 
 <p>Далее пишем ключевые слова “python csv”</p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/8_gist_find_by_descr.jpeg" alt="Gist sublime find" title="Gist sublime find" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/8_gist_find_by_descr.jpeg" alt="Gist sublime find" title="Gist sublime find" /></p>
 
 <p>И видим код снипета</p>
 
-<p><img src="/assets/posts/2013-01-03-sublime-text-and-github-gists/9_gist_opened.jpeg" alt="Gist sublime opened" title="Gist sublime opened" /></p>
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/9_gist_opened.jpeg" alt="Gist sublime opened" title="Gist sublime opened" /></p>
 
 <p>Этот снипет так же создался на github: <a href="https://gist.github.com/3931305">https://gist.github.com/3931305</a>.</p>
 

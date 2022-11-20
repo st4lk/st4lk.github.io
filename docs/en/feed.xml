@@ -1,4 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T22:00:05+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Multilanguage site on django without redirects</title><link href="https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" rel="alternate" type="text/html" title="Multilanguage site on django without redirects" /><published>2013-02-26T18:19:43+00:00</published><updated>2013-02-26T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects</id><content type="html" xml:base="https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/django-solid-i18n-urls&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/django-solid-i18n-urls on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T22:09:55+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Python function with mutable default arguments</title><link href="https://st4lk.github.io/en/python/2013/03/05/python-mutable-default-arguments.html" rel="alternate" type="text/html" title="Python function with mutable default arguments" /><published>2013-03-05T18:19:43+00:00</published><updated>2013-03-05T18:19:43+00:00</updated><id>https://st4lk.github.io/en/python/2013/03/05/python-mutable-default-arguments</id><content type="html" xml:base="https://st4lk.github.io/en/python/2013/03/05/python-mutable-default-arguments.html">&lt;p&gt;&lt;a href=&quot;/en/python/2013/03/05/python-mutable-default-arguments.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-03-05-python-mutable-default-arguments/jellyfish-1.jpeg&quot; alt=&quot;Python mutable default arguments&quot; title=&quot;Python mutable default arguments&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In python default function arguments are created during executing instruction def and not at each function call. If argument value is immutable object (for example string, integer, tuple) it is ok, but if value is mutable, then there can be a trap:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;x&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It seems, that every call to foo() will return list [‘x’]. But:
+&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;x&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;x&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;x&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;x&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;x&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;x&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So, if it is needed to create empty list at every call, you should do:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;x&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;However, sometimes this behaviour can be usefull. Here is a way to know function call count:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;itertools&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;call_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;call_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="python" /><summary type="html">In python default function arguments are created during executing instruction def and not at each function call. If argument value is immutable object (for example string, integer, tuple) it is ok, but if value is mutable, then there can be a trap: def foo(l=[]): l.append(&apos;x&apos;) return l It seems, that every call to foo() will return list [‘x’]. But:</summary></entry><entry><title type="html">Multilanguage site on django without redirects</title><link href="https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" rel="alternate" type="text/html" title="Multilanguage site on django without redirects" /><published>2013-02-26T18:19:43+00:00</published><updated>2013-02-26T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects</id><content type="html" xml:base="https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/django-solid-i18n-urls&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/django-solid-i18n-urls on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Starting from django 1.4, it is possible to set &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#language-prefix-in-url-patterns&quot;&gt;url prefix&lt;/a&gt; for each activated language. For example, we want site, that will have russian and english version.&lt;/p&gt;
 
@@ -118,7 +162,7 @@
 &lt;h4 id=&quot;note&quot;&gt;Note&lt;/h4&gt;
 &lt;p&gt;In such approach there is some nasty case. Imagine, that preferred browser language - english. But user wants to see russian version, that is rendered at url without prefix. If for switching language simple links are used like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;{{ specific language url}}&quot;&amp;gt;&lt;/code&gt;, then user will be always redirected to english version (from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/en/&apos;&lt;/code&gt;). To avoid this, it is needed to write information about choosen language to user cookies. It can be done using builtin django &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#the-set-language-redirect-view&quot;&gt;set_language&lt;/a&gt; view.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="i18n" /><summary type="html">Star Starting from django 1.4, it is possible to set url prefix for each activated language. For example, we want site, that will have russian and english version. To do it, add following to settings.py:</summary></entry><entry><title type="html">Script for downloading music from vkontakte</title><link href="https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html" rel="alternate" type="text/html" title="Script for downloading music from vkontakte" /><published>2013-02-04T18:19:43+00:00</published><updated>2013-02-04T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru</id><content type="html" xml:base="https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/4708673&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;a href=&quot;/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html&quot;&gt;&lt;img src=&quot;/assets/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg&quot; alt=&quot;Script for downloading music from vkontakte&quot; title=&quot;Script for downloading music from vkontakte&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg&quot; alt=&quot;Script for downloading music from vkontakte&quot; title=&quot;Script for downloading music from vkontakte&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;A quick search of corresponding python script doesn’t give results. In &lt;a href=&quot;http://habrahabr.ru/post/143860/&quot;&gt;post&lt;/a&gt; on habra link is broken. So i decided to write my own bicycle, it is avaliable &lt;a href=&quot;https://gist.github.com/4708673&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
@@ -141,7 +185,7 @@
 
 &lt;p&gt;Script code:&lt;/p&gt;
 
-&lt;script src=&quot;https://gist.github.com/st4lk/4708673.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="free" /><category term="python" /><summary type="html">Gist A quick search of corresponding python script doesn’t give results. In post on habra link is broken. So i decided to write my own bicycle, it is avaliable here. Launch (needs installed python interpreter): python vkcom_audio_download.py Tested on python 2.6 and 2.7. No external libraries required.</summary></entry><entry><title type="html">Sublime text and github gists</title><link href="https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists.html" rel="alternate" type="text/html" title="Sublime text and github gists" /><published>2013-01-03T18:19:43+00:00</published><updated>2013-01-03T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists</id><content type="html" xml:base="https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists.html">&lt;p&gt;&lt;a href=&quot;/en/django/python/2013/01/03/sublime-text-and-github-gists.html&quot;&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg&quot; alt=&quot;Sublime and github gist&quot; title=&quot;Sublime and github gist&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/st4lk/4708673.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="free" /><category term="python" /><summary type="html">Gist A quick search of corresponding python script doesn’t give results. In post on habra link is broken. So i decided to write my own bicycle, it is avaliable here. Launch (needs installed python interpreter): python vkcom_audio_download.py Tested on python 2.6 and 2.7. No external libraries required.</summary></entry><entry><title type="html">Sublime text and github gists</title><link href="https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists.html" rel="alternate" type="text/html" title="Sublime text and github gists" /><published>2013-01-03T18:19:43+00:00</published><updated>2013-01-03T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists</id><content type="html" xml:base="https://st4lk.github.io/en/django/python/2013/01/03/sublime-text-and-github-gists.html">&lt;p&gt;&lt;a href=&quot;/en/django/python/2013/01/03/sublime-text-and-github-gists.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg&quot; alt=&quot;Sublime and github gist&quot; title=&quot;Sublime and github gist&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;In &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;Sublime text&lt;/a&gt; there are big variety of useful tools, that help to write code. I’ve learned only a small part of them, currently i’m trying to write in Vintage mode (vim style cursor management). But now i want to tell about integration &lt;a href=&quot;https://gist.github.com/&quot;&gt;github gists&lt;/a&gt; with sublime text. If you don’t now, github gists let you save snippets as a separate file without creation full repository. But it have many repository features - versions, possibility to fork.&lt;/p&gt;
 
@@ -165,15 +209,15 @@
 
 &lt;p&gt;The easiest way to do it is with sublime package manager. &lt;a href=&quot;http://wbond.net/sublime_packages/package_control/installation&quot;&gt;Here&lt;/a&gt; is instruction for setup. In sublime press &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt;, enter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;install&lt;/code&gt; and then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/1_package_control_install.jpeg&quot; alt=&quot;Sublime install package&quot; title=&quot;Sublime install package&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/1_package_control_install.jpeg&quot; alt=&quot;Sublime install package&quot; title=&quot;Sublime install package&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/2_package_control_gist.jpeg&quot; alt=&quot;Sublime install gist package&quot; title=&quot;Sublime install gist package&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/2_package_control_gist.jpeg&quot; alt=&quot;Sublime install gist package&quot; title=&quot;Sublime install gist package&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;give-access-to-your-github-account&quot;&gt;Give access to your github account&lt;/h4&gt;
 
 &lt;p&gt;Press Preferences-&amp;gt;Package settigns-&amp;gt;Gist-&amp;gt;Settings User.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/3_gist_settings_menu.jpeg&quot; alt=&quot;Gist sublime Preferences&quot; title=&quot;Gist sublime Preferences&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/3_gist_settings_menu.jpeg&quot; alt=&quot;Gist sublime Preferences&quot; title=&quot;Gist sublime Preferences&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You can either set login + password, either token. If needed settings are not in Settings User, then they can be copied from Settings Default. But don’t change default settings. To receive token, run in system command line (&lt;a href=&quot;http://curl.haxx.se/&quot;&gt;curl&lt;/a&gt; must be installed):&lt;/p&gt;
 
@@ -182,17 +226,17 @@
 
 &lt;p&gt;where USERNAME - your github login&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/4_gist_auth.jpeg&quot; alt=&quot;Gist sublime settings&quot; title=&quot;Gist sublime settings&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/4_gist_auth.jpeg&quot; alt=&quot;Gist sublime settings&quot; title=&quot;Gist sublime settings&quot; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;gist-creation&quot;&gt;Gist creation&lt;/h4&gt;
 
 &lt;p&gt;Write code of your snippet in new sublime tab. I wrote code for taking content of csv file as list of lists. Press &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt;, then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist create public&lt;/code&gt; and enter. Here is avaliable fuzzy searching, so i just enter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;public&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/5_gist_create_public.jpeg&quot; alt=&quot;Gist sublime create&quot; title=&quot;Gist sublime create&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/5_gist_create_public.jpeg&quot; alt=&quot;Gist sublime create&quot; title=&quot;Gist sublime create&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Give description to our snippet. It is important to include meaningful words, because search will use them. I write “Python: Get csv lines”.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/6_gist_set_description.jpeg&quot; alt=&quot;Gist sublime description&quot; title=&quot;Gist sublime description&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/6_gist_set_description.jpeg&quot; alt=&quot;Gist sublime description&quot; title=&quot;Gist sublime description&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;There will be also request for file name, it can be skipped by pressing enter.&lt;/p&gt;
 
@@ -200,15 +244,15 @@
 
 &lt;p&gt;Open sublime command line by pressing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt; and enter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist open&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/7_gist_open.jpeg&quot; alt=&quot;Gist sublime open&quot; title=&quot;Gist sublime open&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/7_gist_open.jpeg&quot; alt=&quot;Gist sublime open&quot; title=&quot;Gist sublime open&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Then enter key words “python csv”&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/8_gist_find_by_descr.jpeg&quot; alt=&quot;Gist sublime find&quot; title=&quot;Gist sublime find&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/8_gist_find_by_descr.jpeg&quot; alt=&quot;Gist sublime find&quot; title=&quot;Gist sublime find&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;And see our snippet.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2013-01-03-sublime-text-and-github-gists/9_gist_opened.jpeg&quot; alt=&quot;Gist sublime opened&quot; title=&quot;Gist sublime opened&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/9_gist_opened.jpeg&quot; alt=&quot;Gist sublime opened&quot; title=&quot;Gist sublime opened&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This snippet is also created at github: &lt;a href=&quot;https://gist.github.com/3931305&quot;&gt;https://gist.github.com/3931305&lt;/a&gt;.&lt;/p&gt;
 
@@ -277,39 +321,39 @@
 
 &lt;p&gt;Suppose we have such a view:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg&quot; alt=&quot;view&quot; title=&quot;view&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg&quot; alt=&quot;view&quot; title=&quot;view&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Insert &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import pdb; pdb.set_trace()&lt;/code&gt; in needed place and run dev server, if it not already started:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg&quot; alt=&quot;view_pdb&quot; title=&quot;view_pdb&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg&quot; alt=&quot;view_pdb&quot; title=&quot;view_pdb&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In browser access the page, that calls this view. The page will hang:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg&quot; alt=&quot;browser_hang&quot; title=&quot;browser_hang&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg&quot; alt=&quot;browser_hang&quot; title=&quot;browser_hang&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In console we see (Pdb):&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg&quot; alt=&quot;pdb_console&quot; title=&quot;pdb_console&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg&quot; alt=&quot;pdb_console&quot; title=&quot;pdb_console&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Lets look, where we now by command &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;l&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg&quot; alt=&quot;pdb_l&quot; title=&quot;pdb_l&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg&quot; alt=&quot;pdb_l&quot; title=&quot;pdb_l&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Make two next steps with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;n&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg&quot; alt=&quot;pdb_nn&quot; title=&quot;pdb_nn&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg&quot; alt=&quot;pdb_nn&quot; title=&quot;pdb_nn&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Look value of variables &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about.content&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg&quot; alt=&quot;pdb_p&quot; title=&quot;pdb_p&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg&quot; alt=&quot;pdb_p&quot; title=&quot;pdb_p&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Continue with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;c&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg&quot; alt=&quot;pdb_c&quot; title=&quot;pdb_c&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg&quot; alt=&quot;pdb_c&quot; title=&quot;pdb_c&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Page is shown in browser:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg&quot; alt=&quot;browser_done&quot; title=&quot;browser_done&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="python" /><category term="sublime" /><summary type="html">I use sublime-text as code editor. It doesn’t have a debugger, so to debug django projects i often used print var_name and look for output in local development server console. I use this approach today also, but sometimes it is great to run code step by step to see variables at each step. It can be done with embedded python debugger pdb: import pdb; pdb.set_trace()</summary></entry><entry><title type="html">Cloud service Openshift</title><link href="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html" rel="alternate" type="text/html" title="Cloud service Openshift" /><published>2012-10-08T18:19:43+00:00</published><updated>2012-10-08T18:19:43+00:00</updated><id>https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift</id><content type="html" xml:base="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html">&lt;p&gt;&lt;a href=&quot;/en/free/openshift/python/2012/10/08/cloud-service-openshift.html&quot;&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/openshift-icon.png&quot; alt=&quot;Cloud service Openshift&quot; title=&quot;Cloud service Openshift&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg&quot; alt=&quot;browser_done&quot; title=&quot;browser_done&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="python" /><category term="sublime" /><summary type="html">I use sublime-text as code editor. It doesn’t have a debugger, so to debug django projects i often used print var_name and look for output in local development server console. I use this approach today also, but sometimes it is great to run code step by step to see variables at each step. It can be done with embedded python debugger pdb: import pdb; pdb.set_trace()</summary></entry><entry><title type="html">Cloud service Openshift</title><link href="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html" rel="alternate" type="text/html" title="Cloud service Openshift" /><published>2012-10-08T18:19:43+00:00</published><updated>2012-10-08T18:19:43+00:00</updated><id>https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift</id><content type="html" xml:base="https://st4lk.github.io/en/free/openshift/python/2012/10/08/cloud-service-openshift.html">&lt;p&gt;&lt;a href=&quot;/en/free/openshift/python/2012/10/08/cloud-service-openshift.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2012-10-08-cloud-service-openshift/openshift-icon.png&quot; alt=&quot;Cloud service Openshift&quot; title=&quot;Cloud service Openshift&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I know a few hosting providers with free account and python availability. It is &lt;a href=&quot;https://appengine.google.com/&quot;&gt;Google App Engine&lt;/a&gt; and &lt;a href=&quot;https://www.alwaysdata.com/&quot;&gt;Alwaysdata&lt;/a&gt;. But recently i found great project &lt;a href=&quot;https://openshift.redhat.com/&quot;&gt;Openshift&lt;/a&gt; from RedHat and this blog site is working on it. Let me describe mentioned hostings first.&lt;/p&gt;
 
@@ -378,7 +422,7 @@
   &lt;li&gt;
     &lt;p&gt;for newly created domain add subdomen with type CNAME, as on picture (replace lexev.org to needed domain and set correct url of application at destination field):&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-1.png&quot; alt=&quot;afraid.org CNAME&quot; title=&quot;afraid.org CNAME&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-1.png&quot; alt=&quot;afraid.org CNAME&quot; title=&quot;afraid.org CNAME&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;at subdomens page we see two records: one with CNAME and one without (it is on top probably)&lt;/li&gt;
   &lt;li&gt;press record without CNAME&lt;/li&gt;
@@ -386,12 +430,12 @@
   &lt;li&gt;
     &lt;p&gt;type as on picture (again replace lexev.org to needed domain):&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-2.png&quot; alt=&quot;afraid.org Forward to a URL&quot; title=&quot;afraid.org Forward to a URL&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-2.png&quot; alt=&quot;afraid.org Forward to a URL&quot; title=&quot;afraid.org Forward to a URL&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;finally the subdomens must be:&lt;/p&gt;
 
-    &lt;p&gt;&lt;img src=&quot;/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-3.png&quot; alt=&quot;afraid.org subdomain&quot; title=&quot;afraid.org subdomain&quot; /&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-3.png&quot; alt=&quot;afraid.org subdomain&quot; title=&quot;afraid.org subdomain&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -401,7 +445,7 @@
 
 &lt;p&gt;It should be noted, that openshift also supports PHP, Ruby, Java, Node.js, Perl !&lt;/p&gt;
 
-&lt;p&gt;Thanks for reading and sorry for my english! :)&lt;/p&gt;</content><author><name></name></author><category term="free" /><category term="openshift" /><category term="python" /><summary type="html">I know a few hosting providers with free account and python availability. It is Google App Engine and Alwaysdata. But recently i found great project Openshift from RedHat and this blog site is working on it. Let me describe mentioned hostings first.</summary></entry><entry><title type="html">Aphorism messenger</title><link href="https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger.html" rel="alternate" type="text/html" title="Aphorism messenger" /><published>2012-08-31T18:19:43+00:00</published><updated>2012-08-31T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger</id><content type="html" xml:base="https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger.html">&lt;p&gt;&lt;a href=&quot;/en/api/java/2012/08/31/aphorism-messenger.html&quot;&gt;&lt;img src=&quot;/assets/posts/2012-08-31-aphorism-messenger/owl_48x48.png&quot; alt=&quot;Aphorism messenger&quot; title=&quot;Aphorism messenger&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Thanks for reading and sorry for my english! :)&lt;/p&gt;</content><author><name></name></author><category term="free" /><category term="openshift" /><category term="python" /><summary type="html">I know a few hosting providers with free account and python availability. It is Google App Engine and Alwaysdata. But recently i found great project Openshift from RedHat and this blog site is working on it. Let me describe mentioned hostings first.</summary></entry><entry><title type="html">Aphorism messenger</title><link href="https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger.html" rel="alternate" type="text/html" title="Aphorism messenger" /><published>2012-08-31T18:19:43+00:00</published><updated>2012-08-31T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger</id><content type="html" xml:base="https://st4lk.github.io/en/api/java/2012/08/31/aphorism-messenger.html">&lt;p&gt;&lt;a href=&quot;/en/api/java/2012/08/31/aphorism-messenger.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2012-08-31-aphorism-messenger/owl_48x48.png&quot; alt=&quot;Aphorism messenger&quot; title=&quot;Aphorism messenger&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I have an interesting project I want to tell you about. The idea to create it was born when I was learning Java. I have read couple of books, made some small task programs but I would like to create something bigger.
 &lt;!--more--&gt;&lt;/p&gt;
@@ -412,7 +456,7 @@
 
 &lt;p&gt;The result (&lt;a href=&quot;https://sourceforge.net/projects/bwtclient/&quot;&gt;download, only in russian&lt;/a&gt;):&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/posts/2012-08-31-aphorism-messenger/just-aphorism.png&quot; alt=&quot;Aphorism example&quot; title=&quot;Aphorism example&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-08-31-aphorism-messenger/just-aphorism.png&quot; alt=&quot;Aphorism example&quot; title=&quot;Aphorism example&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Full project (client and server) is written in Java. Server hosts at &lt;strong&gt;google app engine&lt;/strong&gt;, provides resources in xml format. It is a REST web service, so it can be used in many ways, for example for web site. Specification is avaliable &lt;a href=&quot;https://bestwisethoughts.appspot.com/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 

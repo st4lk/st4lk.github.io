@@ -7,7 +7,7 @@ redirect_from:
   - /2012/cloud-service-openshift/
 ---
 
-[![Облачный сервис Openshift](/assets/posts/2012-10-08-cloud-service-openshift/openshift-icon.png "Облачный сервис Openshift")]({{ site.baseurl }}{{ page.url }})
+[![Облачный сервис Openshift](/assets/images/posts/2012-10-08-cloud-service-openshift/openshift-icon.png "Облачный сервис Openshift")]({{ site.baseurl }}{{ page.url }})
 
 Я знаю немного хостингов с бесплатным тарифом и с поддержкой python. Это [Google App Engine](https://appengine.google.com/) и [Alwaysdata](https://www.alwaysdata.com/). И вот недавно узнал про замечательный проект [Openshift](https://openshift.redhat.com/) от RedHat, на котором и работает этот блог. Для начала небольшой обзор упомянутых хостингов.
 
@@ -74,18 +74,18 @@ _15 страниц в секунду, сотни страниц на сайте,
 
 - для нашего вновь добавленного домена добавляем subdomen с типом CNAME, как на картинке (конечно заменяя lexev.org на нужный домен и указывая верный url приложения в поле destination):
 
-	![afraid.org CNAME](/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-1.png "afraid.org CNAME")
+	![afraid.org CNAME](/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-1.png "afraid.org CNAME")
 
 - на странице subdomen'ов видим две записи: одну с CNAME и одну без (она скорее всего сверху)
 - нажимаем на ту, которая без CNAME
 - ничего не меняя, нажимаем на "Forward to a URL"
 - вводим как на картинке (опять-таки заменяя lexev.org на нужный домен):
 
-	![afraid.org Forward to a URL](/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-2.png "afraid.org Forward to a URL")
+	![afraid.org Forward to a URL](/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-2.png "afraid.org Forward to a URL")
 
 - в итоге мы должны получить такие subdomen'ы:
 
-	![afraid.org subdomain](/assets/posts/2012-10-08-cloud-service-openshift/afraid.com-3.png "afraid.org subdomain")
+	![afraid.org subdomain](/assets/images/posts/2012-10-08-cloud-service-openshift/afraid.com-3.png "afraid.org subdomain")
 
 Вот теперь кажется все. Какое-то время понадобиться, чтобы новые dns серверы заработали для домена. По обращению lexev.org будет идти редирект на [www.lexev.org](http://www.lexev.org). Ну а [www.lexev.org](http://www.lexev.org) указывает на приложение openshift.
 

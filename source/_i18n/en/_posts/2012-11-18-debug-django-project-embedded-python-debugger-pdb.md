@@ -42,36 +42,36 @@ We now inside debugger and can input [commands](http://docs.python.org/2/library
 
 Suppose we have such a view:
 
-![view](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg "view")
+![view](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg "view")
 
 Insert `import pdb; pdb.set_trace()` in needed place and run dev server, if it not already started:
 
-![view_pdb](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg "view_pdb")
+![view_pdb](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg "view_pdb")
 
 In browser access the page, that calls this view. The page will hang:
 
-![browser_hang](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg "browser_hang")
+![browser_hang](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg "browser_hang")
 
 In console we see (Pdb):
 
-![pdb_console](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg "pdb_console")
+![pdb_console](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg "pdb_console")
 
 Lets look, where we now by command `l`:
 
-![pdb_l](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg "pdb_l")
+![pdb_l](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg "pdb_l")
 
 Make two next steps with `n`:
 
-![pdb_nn](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg "pdb_nn")
+![pdb_nn](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg "pdb_nn")
 
 Look value of variables `about` and `about.content`:
 
-![pdb_p](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg "pdb_p")
+![pdb_p](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg "pdb_p")
 
 Continue with `c`:
 
-![pdb_c](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg "pdb_c")
+![pdb_c](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg "pdb_c")
 
 Page is shown in browser:
 
-![browser_done](/assets/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg "browser_done")
+![browser_done](/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg "browser_done")
