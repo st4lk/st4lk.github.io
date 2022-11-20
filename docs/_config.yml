@@ -33,6 +33,11 @@ github_username:  st4lk
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-multiple-languages-plugin
+
+# jekyll-multiple-languages-plugin settings:
+languages: ["ru", "en"]
+exclude_from_localizations: ["javascript", "images", "css", "scripts", "favicon.ico"]
 
 # Exclude from processing.
 # The following items will not be processed, by default.

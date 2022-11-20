@@ -1,0 +1,12 @@
+global:
+  tagline: English
+  github: GitHub
+  english: English
+  russian: Russian
+langs:
+  ru: Russian
+  en: English
+titles:
+  pagination: Pagination
+  about: About
+  site: Developer Articles

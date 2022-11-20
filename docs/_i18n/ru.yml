@@ -1,0 +1,12 @@
+global:
+  tagline: Русский
+  github: GitHub
+  english: Английский
+  russian: Русский
+langs:
+  ru: Русский
+  en: Английский
+titles:
+  pagination: Pagination
+  about: Контакты
+  site: Записи разработчика
