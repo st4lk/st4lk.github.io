@@ -3,6 +3,8 @@ layout: post
 title:  "Мессенджер афоризмов"
 date:   2012-08-31 18:19:43 +0000
 categories: api java
+redirect_from:
+  - /2012/aphorism-messager/
 ---
 
 [![Мессенджер афоризмов](/assets/posts/aphorism-messenger/owl_48x48.png)]({{ site.baseurl }}{{ page.url }})

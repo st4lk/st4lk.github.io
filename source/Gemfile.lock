@@ -263,6 +263,7 @@ DEPENDENCIES
   jekyll (= 3.9.2)
   jekyll-feed (~> 0.12)
   jekyll-multiple-languages-plugin
+  jekyll-redirect-from
   minima (~> 2.5)
   tzinfo (>= 1, < 3)
   tzinfo-data
