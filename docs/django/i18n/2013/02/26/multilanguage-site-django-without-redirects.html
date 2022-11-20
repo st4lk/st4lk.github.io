@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Многоязычный сайт на django без редиректов | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Многоязычный сайт на django без редиректов" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Star Начиная с django 1.4, можно задать префикс для url для каждого включенного языка. К примеру, мы хотим сайт, который будет иметь русскую и английскую версию. Для этого добавляем в settings.py:" />
+<meta property="og:description" content="Star Начиная с django 1.4, можно задать префикс для url для каждого включенного языка. К примеру, мы хотим сайт, который будет иметь русскую и английскую версию. Для этого добавляем в settings.py:" />
+<link rel="canonical" href="https://st4lk.github.io/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" />
+<meta property="og:url" content="https://st4lk.github.io/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-02-26T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Многоязычный сайт на django без редиректов" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2013-02-26T18:19:43+00:00","datePublished":"2013-02-26T18:19:43+00:00","description":"Star Начиная с django 1.4, можно задать префикс для url для каждого включенного языка. К примеру, мы хотим сайт, который будет иметь русскую и английскую версию. Для этого добавляем в settings.py:","headline":"Многоязычный сайт на django без редиректов","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html"},"url":"https://st4lk.github.io/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Записи разработчика</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" ><img src="/assets/ru.png" /></a>
+          <a class="page-link" href="/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" ><img src="/assets/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Многоязычный сайт на django без редиректов</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2013-02-26T18:19:43+00:00" itemprop="datePublished">Feb 26, 2013
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a class="github-button" href="https://github.com/st4lk/django-solid-i18n-urls" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/django-solid-i18n-urls on GitHub">Star</a></p>
+
+<p>Начиная с django 1.4, можно задать <a href="https://docs.djangoproject.com/en/dev/topics/i18n/translation/#language-prefix-in-url-patterns">префикс для url</a> для каждого включенного языка. К примеру, мы хотим сайт, который будет иметь русскую и английскую версию.</p>
+
+<p>Для этого добавляем в <code class="language-plaintext highlighter-rouge">settings.py</code>:</p>
+
+<!--more-->
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># default language, it will be used, if django can't recognize user's language
+</span><span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s">'ru'</span>
+
+<span class="c1"># list of activated languages
+</span><span class="n">LANGUAGES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s">'ru'</span><span class="p">,</span> <span class="s">'Russian'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">'en'</span><span class="p">,</span> <span class="s">'English'</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># enable django’s translation system
+</span><span class="n">USE_I18N</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c1"># specify path for translation files
+</span><span class="n">LOCALE_PATHS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_DIR</span><span class="p">,</span> <span class="s">'locale'</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># add LocaleMiddleware
+</span><span class="n">MIDDLEWARE_CLASSES</span> <span class="o">=</span> <span class="p">(</span>
+   <span class="c1"># ...
+</span>   <span class="s">'django.middleware.locale.LocaleMiddleware'</span><span class="p">,</span>
+   <span class="c1"># ...
+</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>И в <code class="language-plaintext highlighter-rouge">urls.py</code> используем i18n_patterns вместо patterns:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.conf.urls.i18n</span> <span class="kn">import</span> <span class="n">i18n_patterns</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">i18n_patterns</span><span class="p">(</span><span class="s">''</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s">'^about/$'</span><span class="p">,</span> <span class="s">'about.view'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'about'</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>В этом случае, когда мы обратимся по адресу /about/, django <a href="https://docs.djangoproject.com/en/dev/topics/i18n/translation/#how-django-discovers-language-preference">попытается определить</a> предпочитаемый нами язык и сделает редирект на страницу с префиксом языка. Допустим django определил, что наш язык - русский, тогда произойдет редирект на /ru/about/. При этом, если мы сами пройдем по адресу /en/about/, то уже никаких редиректов не будет, а отобразится английская версия сайта, т.к. в url уже присутствует префикс /en/.</p>
+
+<p>При такой схеме могут возникнуть проблемы с индексированием сайта некоторыми поисковыми системами. Например <a href="http://yandex.ru/">yandex.ru</a> очень долго отказывался индексировать сайт, т.к. не получал http кода 200 с корневого url. C Google’ом таких проблем не было, но все же и он не рекомендует использовать редиректы. Из <a href="http://support.google.com/webmasters/bin/answer.py?hl=ru&amp;answer=182192">http://support.google.com/webmasters/bin/answer.py?hl=ru&amp;answer=182192</a>:</p>
+
+<blockquote>
+  <p>Избегайте автоматического перенаправления по языку пользователя. Это может привести к тому, что пользователи и поисковые системы не смогут просмотреть все версии вашего сайта.</p>
+</blockquote>
+
+<p><strong>Поэтому я решил создать пакет, который позволял бы работать без редиректов</strong>.</p>
+
+<p>Схема работы будет такая:</p>
+
+<ol>
+  <li>Если в url нет языкового префикса, то используется язык по умолчанию (<code class="language-plaintext highlighter-rouge">settings.LANGUAGE_CODE</code>)</li>
+  <li>Если префикс есть, то используется язык, соответствующий префиксу (/en/ = англ), но при этом префикса для языка по умолчанию нет.</li>
+</ol>
+
+<p>Благо для этого нужно совсем немного кода, нужно лишь изменить LocaleMiddleware и i18n_patterns, что я и сделал в репозитории <a href="https://github.com/st4lk/django-solid-i18n-urls">https://github.com/st4lk/django-solid-i18n-urls</a>.</p>
+
+<p>Установка:</p>
+
+<ol>
+  <li>
+    <p>Устанавливаем django-solid-i18n-urls, например с помощью pip:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pip <span class="nb">install </span>solid_i18n
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Изменяем LocaleMiddleware на SolidLocaleMiddleware:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">MIDDLEWARE_CLASSES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># ...
+</span>    <span class="c1"># remove 'django.middleware.locale.LocaleMiddleware',
+</span>    <span class="s">'solid_i18n.middleware.SolidLocaleMiddleware'</span><span class="p">,</span> 
+    <span class="c1"># ...
+</span> <span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Вместо i18n_patterns используем solid_i18n_patterns:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+ <span class="kn">from</span> <span class="nn">solid_i18n.urls</span> <span class="kn">import</span> <span class="n">solid_i18n_patterns</span>
+  
+ <span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">solid_i18n_patterns</span><span class="p">(</span><span class="s">''</span><span class="p">,</span>
+     <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s">'^about/$'</span><span class="p">,</span> <span class="s">'about.view'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'about'</span><span class="p">),</span>
+ <span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Репозиторий на github: <a href="https://github.com/st4lk/django-solid-i18n-urls">https://github.com/st4lk/django-solid-i18n-urls</a>.</p>
+
+<h3 id="updated">UPDATED</h3>
+
+<p>Добавлена опция <code class="language-plaintext highlighter-rouge">settings.SOLID_I18N_USE_REDIRECTS</code> (по умолчанию False). Если она равна True, то будут использованы редиректы по следующим правилам:</p>
+
+<ol>
+  <li>При обращении по url без языкового префикса, например <code class="language-plaintext highlighter-rouge">'/'</code>, язык будет определен из <a href="https://docs.djangoproject.com/en/dev/topics/i18n/translation/#how-django-discovers-language-preference">предпочтений</a> пользователя. Если этот язык не равен языку по умолчанию (<code class="language-plaintext highlighter-rouge">settings.LANGUAGE_CODE</code>), то будет перенаправление на url с соответствующем префиксом. Если равен, то отображается url без префикса (который и был запрошен).</li>
+  <li>При обращении по url с языковым префиксом поведение не меняется, т.е. всегда используется язык из префикса.</li>
+</ol>
+
+<p>Привет:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py: 
+</span><span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s">'ru'</span>
+<span class="n">SOLID_I18N_USE_REDIRECTS</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+<p>Допустим предпочитаемый язык пользователя - английский.</p>
+
+<p>Тогда при обращении к <code class="language-plaintext highlighter-rouge">'/'</code> будет редирект на <code class="language-plaintext highlighter-rouge">'/en/'</code>.</p>
+
+<p>А если предпочитаемый язык - русский, то редиректа не будет, т.е. при обращении к <code class="language-plaintext highlighter-rouge">'/'</code> оторбразиться <code class="language-plaintext highlighter-rouge">'/'</code>.</p>
+
+<h4 id="замечание">Замечание</h4>
+<p>При таком подходе возможна следующая ситуация. Предпочитаемый язык браузера - английский. Но пользователь хочет увидеть русскую версию, которая отображается без префикса. Если для переключения языков использовать простые ссылки, т.е. <code class="language-plaintext highlighter-rouge">&lt;a href="{{ specific language url}}"&gt;</code>, то пользователь будет постоянно перенаправляться на английскую версию. Поэтому при переключении языков надо записывать в cookie пользователя выбранный им язык. Это можно делать с помощью специального встроенного в django <a href="https://docs.djangoproject.com/en/dev/topics/i18n/translation/#the-set-language-redirect-view">set_language</a> view.</p>
+
+  </div><a class="u-url" href="/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

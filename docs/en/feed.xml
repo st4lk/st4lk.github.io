@@ -1,4 +1,122 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T21:17:53+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Script for downloading music from vkontakte</title><link href="https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html" rel="alternate" type="text/html" title="Script for downloading music from vkontakte" /><published>2013-02-04T18:19:43+00:00</published><updated>2013-02-04T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru</id><content type="html" xml:base="https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html">&lt;p&gt;&lt;a href=&quot;/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html&quot;&gt;&lt;img src=&quot;/assets/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg&quot; alt=&quot;Script for downloading music from vkontakte&quot; title=&quot;Script for downloading music from vkontakte&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T21:44:51+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Multilanguage site on django without redirects</title><link href="https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" rel="alternate" type="text/html" title="Multilanguage site on django without redirects" /><published>2013-02-26T18:19:43+00:00</published><updated>2013-02-26T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects</id><content type="html" xml:base="https://st4lk.github.io/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/django-solid-i18n-urls&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/django-solid-i18n-urls on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Starting from django 1.4, it is possible to set &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#language-prefix-in-url-patterns&quot;&gt;url prefix&lt;/a&gt; for each activated language. For example, we want site, that will have russian and english version.&lt;/p&gt;
+
+&lt;p&gt;To do it, add following to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.py&lt;/code&gt;:&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# default language, it will be used, if django can&apos;t recognize user&apos;s language
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LANGUAGE_CODE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;ru&apos;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# list of activated languages
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LANGUAGES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;ru&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Russian&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;en&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;English&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# enable django’s translation system
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;USE_I18N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# specify path for translation files
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LOCALE_PATHS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PROJECT_DIR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;locale&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# add LocaleMiddleware
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MIDDLEWARE_CLASSES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;# ...
+&lt;/span&gt;   &lt;span class=&quot;s&quot;&gt;&apos;django.middleware.locale.LocaleMiddleware&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;# ...
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;urls.py&lt;/code&gt; use i18n_patterns instead of patterns:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.conf.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.conf.urls.i18n&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i18n_patterns&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i18n_patterns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;^about/$&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;about.view&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;about&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this case on access to /about/, django will &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#how-django-discovers-language-preference&quot;&gt;try to discover&lt;/a&gt; language preference and make redirect to url with corresponding language prefix. Let’s say, that django has discovered russian language, then browser will be redirected to /ru/about/. But, if we’ll type url /en/about/, no redirects will occur and english version will be shown, because url already has prefix /en/.&lt;/p&gt;
+
+&lt;p&gt;But with such pattern can be problems with site indexing by some search engines. For example yandex.ru refused to index my site for a long time, because it doesn’t fetched http code 200 from site root. With google there were no such problems, but anyway, in help page it is not recommended to use redirects. From &lt;a href=&quot;http://support.google.com/webmasters/bin/answer.py?hl=en&amp;amp;answer=182192&quot;&gt;http://support.google.com/webmasters/bin/answer.py?hl=en&amp;amp;answer=182192&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Avoid automatic redirection based on the user’s perceived language. These redirections could prevent users (and search engines) from viewing all the versions of your site.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;So i decided to make tool, that will work without redirects&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;The algorithm is following:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;If url doesn’t have language prefix, then default language will be used (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.LANGUAGE_CODE&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;If url has prefix, then language will be determined from this prefix (/en/ = english), but for default language there is no prefix.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Luckily, it is needed a little peace of code for this, we need just to change LocaleMiddleware and i18n_patterns. I’ve made it in repo &lt;a href=&quot;https://github.com/st4lk/django-solid-i18n-urls&quot;&gt;https://github.com/st4lk/django-solid-i18n-urls&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Installation:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Setup django-solid-i18n-urls, for example using pip:&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;solid_i18n
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Change LocaleMiddleware to SolidLocaleMiddleware:&lt;/p&gt;
+
+    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;n&quot;&gt;MIDDLEWARE_CLASSES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# ...
+&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# remove &apos;django.middleware.locale.LocaleMiddleware&apos;,
+&lt;/span&gt;    &lt;span class=&quot;s&quot;&gt;&apos;solid_i18n.middleware.SolidLocaleMiddleware&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;c1&quot;&gt;# ...
+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use solid_i18n_patterns instead of i18n_patterns:&lt;/p&gt;
+
+    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.conf.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+ &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;solid_i18n.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solid_i18n_patterns&lt;/span&gt;
+  
+ &lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solid_i18n_patterns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;^about/$&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;about.view&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;about&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Repo on github: &lt;a href=&quot;https://github.com/st4lk/django-solid-i18n-urls&quot;&gt;https://github.com/st4lk/django-solid-i18n-urls&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;updated&quot;&gt;UPDATED&lt;/h3&gt;
+
+&lt;p&gt;Option &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.SOLID_I18N_USE_REDIRECTS&lt;/code&gt; is added (False by default). If it is True, then redirects will be used with following rules:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;On request to url without language prefix, for example &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt;, language will be determied from &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#how-django-discovers-language-preference&quot;&gt;user preferences&lt;/a&gt;. If that language is not equal to default (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.LANGUAGE_CODE&lt;/code&gt;), then he will be redirected to corresponding url with prefix. But if it is equal, then url without prefix will be shown.&lt;/li&gt;
+  &lt;li&gt;On request to url with language prefix behaviour remains the same, i.e. language from prefix is used.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# settings.py: 
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LANGUAGE_CODE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;ru&apos;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;SOLID_I18N_USE_REDIRECTS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Suppose preferred user language is english.&lt;/p&gt;
+
+&lt;p&gt;Then at request to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt; will be redirect to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/en/&apos;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;And if preferred language is russian, then no redirect will occur, i.e. on request to ‘/’ exactly that url will be rendered.&lt;/p&gt;
+
+&lt;h4 id=&quot;note&quot;&gt;Note&lt;/h4&gt;
+&lt;p&gt;In such approach there is some nasty case. Imagine, that preferred browser language - english. But user wants to see russian version, that is rendered at url without prefix. If for switching language simple links are used like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;{{ specific language url}}&quot;&amp;gt;&lt;/code&gt;, then user will be always redirected to english version (from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/en/&apos;&lt;/code&gt;). To avoid this, it is needed to write information about choosen language to user cookies. It can be done using builtin django &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#the-set-language-redirect-view&quot;&gt;set_language&lt;/a&gt; view.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="i18n" /><summary type="html">Star Starting from django 1.4, it is possible to set url prefix for each activated language. For example, we want site, that will have russian and english version. To do it, add following to settings.py:</summary></entry><entry><title type="html">Script for downloading music from vkontakte</title><link href="https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html" rel="alternate" type="text/html" title="Script for downloading music from vkontakte" /><published>2013-02-04T18:19:43+00:00</published><updated>2013-02-04T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru</id><content type="html" xml:base="https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html">&lt;p&gt;&lt;a href=&quot;/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html&quot;&gt;&lt;img src=&quot;/assets/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg&quot; alt=&quot;Script for downloading music from vkontakte&quot; title=&quot;Script for downloading music from vkontakte&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;A quick search of corresponding python script doesn’t give results. In &lt;a href=&quot;http://habrahabr.ru/post/143860/&quot;&gt;post&lt;/a&gt; on habra link is broken. So i decided to write my own bicycle, it is avaliable &lt;a href=&quot;https://gist.github.com/4708673&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
