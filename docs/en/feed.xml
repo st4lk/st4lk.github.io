@@ -1,4 +1,381 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T21:00:46+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Nested SQL queries in Django</title><link href="https://st4lk.github.io/en/database/django/sql/2014/09/09/nested-sql-queries-django.html" rel="alternate" type="text/html" title="Nested SQL queries in Django" /><published>2014-09-09T18:19:43+00:00</published><updated>2014-09-09T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/django/sql/2014/09/09/nested-sql-queries-django</id><content type="html" xml:base="https://st4lk.github.io/en/database/django/sql/2014/09/09/nested-sql-queries-django.html">&lt;p&gt;&lt;a href=&quot;/en/database/django/sql/2014/09/09/nested-sql-queries-django.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-09-09-nested-sql-queries-django/Kenguru-origami-za-shemoj-Stephen-Weiss.jpeg&quot; alt=&quot;Nested SQL queries in Django&quot; title=&quot;Nested SQL queries in Django&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T21:20:53+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Django celery setup</title><link href="https://st4lk.github.io/en/django/celery/2014/11/02/django-celery-setup.html" rel="alternate" type="text/html" title="Django celery setup" /><published>2014-11-02T18:19:43+00:00</published><updated>2014-11-02T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/celery/2014/11/02/django-celery-setup</id><content type="html" xml:base="https://st4lk.github.io/en/django/celery/2014/11/02/django-celery-setup.html">&lt;p&gt;&lt;a href=&quot;/en/django/celery/2014/11/02/django-celery-setup.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-11-02-django-celery-setup/2and5_celery_420.jpeg&quot; alt=&quot;Django celery setup&quot; title=&quot;Django celery setup&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;To enable &lt;a href=&quot;http://www.celeryproject.org/&quot;&gt;celery&lt;/a&gt; in new django project i often look in previous ones to refresh in my memory some steps: what settings should be specified, how to launch, how to stop and so on.&lt;/p&gt;
+
+&lt;p&gt;Here i want to combine all together in one place.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;what-we-must-get-as-a-result&quot;&gt;What we must get as a result&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Add delayed task executing in django project, controlled by celery, to not load current django process. Examples of such tasks: email sending, working with third party api, heavy processing and etc.&lt;/li&gt;
+  &lt;li&gt;Use &lt;a href=&quot;http://redis.io/&quot;&gt;redis&lt;/a&gt; as a broker.&lt;/li&gt;
+  &lt;li&gt;In admin we can see launched and finished tasks.&lt;/li&gt;
+  &lt;li&gt;In admin we can see status of all workers (online/offline).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;celery-setup&quot;&gt;Celery setup&lt;/h3&gt;
+
+&lt;h4 id=&quot;install-redis&quot;&gt;Install redis&lt;/h4&gt;
+
+&lt;p&gt;To be able to exchange messages between processes we need a broker, that will hold those messages. I choose redis, as it is common solution, it fast, easy to install, low memory usage, reliable. List of all possible brokers can be found &lt;a href=&quot;http://celery.readthedocs.org/en/latest/getting-started/brokers/#broker-overview&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Just in case let’s check our server (all examples for ubuntu):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;build-essential
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;tcl8.5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Download &lt;a href=&quot;http://redis.io/download/&quot;&gt;last version&lt;/a&gt;. When i wrote this post, it was 2.8.17.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget http://download.redis.io/releases/redis-2.8.17.tar.gz
+&lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;xzf redis-2.8.17.tar.gz
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;redis-2.8.17
+make
+make &lt;span class=&quot;nb&quot;&gt;test
+sudo &lt;/span&gt;make &lt;span class=&quot;nb&quot;&gt;install
+cd &lt;/span&gt;utils
+&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; ./install_server.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Start redis server&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service redis_6379 start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can stop it by command&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service redis_6379 stop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Start redis at system boot up&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;update-rc.d redis_6379 defaults
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Also we’ll need a redis driver for python, install it&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;install-django-celery&quot;&gt;Install django-celery&lt;/h4&gt;
+
+&lt;p&gt;In fact, it is not necessary to install some special django app to add celery functionality, as it written in &lt;a href=&quot;http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html&quot;&gt;docs&lt;/a&gt;. But for usefull integration with django admin it is easier to install &lt;a href=&quot;https://pypi.python.org/pypi/django-celery&quot;&gt;django-celery&lt;/a&gt; (look &lt;a href=&quot;http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html#using-the-django-orm-cache-as-a-result-backend&quot;&gt;why&lt;/a&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;django-celery
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Add following configuration to settings.py:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;djcelery&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# redis server address
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BROKER_URL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;redis://localhost:6379/0&apos;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# store task results in redis
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERY_RESULT_BACKEND&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;redis://localhost:6379/0&apos;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# task result life time until they will be deleted
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERY_TASK_RESULT_EXPIRES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;86400&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 7 days
+# needed for worker monitoring
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERY_SEND_EVENTS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# where to store periodic tasks (needed for scheduler)
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERYBEAT_SCHEDULER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;djcelery.schedulers.DatabaseScheduler&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# add following lines to the end of settings.py
+&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;djcelery&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;djcelery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setup_loader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Task are defined in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tasks.py&lt;/code&gt;file, that is placed in app folder:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- proj/
+  - proj/__init__.py
+  - proj/settings.py
+  - proj/urls.py
+- &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/  &lt;span class=&quot;c&quot;&gt;# some app&lt;/span&gt;
+  - &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/__init__.py
+  - &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/models.py
+  - &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/views.py
+  - &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/tasks.py  &lt;span class=&quot;c&quot;&gt;# users tasks lives here&lt;/span&gt;
+- products/
+  - products/__init__.py
+  - products/models.py
+  - products/views.py
+  - products/tasks.py  &lt;span class=&quot;c&quot;&gt;# products tasks lives here&lt;/span&gt;
+- manage.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create simplest task.&lt;/p&gt;
+
+&lt;p&gt;users/tasks.py:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# -*- coding: utf-8 -*-
+&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.task&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ignore_result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max_retries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default_retry_delay&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;just_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Print from celery task&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;launch-task&quot;&gt;Launch task&lt;/h4&gt;
+
+&lt;h5 id=&quot;debugging&quot;&gt;Debugging&lt;/h5&gt;
+
+&lt;p&gt;To check, that tasks are working, start&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py runserver&lt;/code&gt;  # django project&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py celery worker --concurrency=1&lt;/code&gt;  # celery worker: process, that will do the tasks&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py celery beat&lt;/code&gt;  # celery beat: process, that will execute periodic tasks&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Last two commands can be combined into one (key &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-B&lt;/code&gt;):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  python manage.py celery worker &lt;span class=&quot;nt&quot;&gt;-B&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--concurrency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s try to launch our task &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;just_print&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are two ways to start a task:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;By scheduler, that will call the task every time period (10 seconds for example) or every particular time (like crontab do).&lt;/li&gt;
+  &lt;li&gt;From code, in needed place and under needed conditions.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;launch-task-by-scheduler&quot;&gt;Launch task by scheduler&lt;/h5&gt;
+
+&lt;p&gt;Go to admin page at address &lt;a href=&quot;http://127.0.0.1:8000/admin/djcelery/periodictask/&quot;&gt;http://{host}/admin/djcelery/periodictask/&lt;/a&gt; and press “Add periodic task”.&lt;/p&gt;
+
+&lt;p&gt;Fill fields as it is shown in screenshot below and press save.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/2714/85893628.c66/0_15fe67_b0ad7288_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/2714/85893628.c66/0_15fe67_b0ad7288_XL.png&quot; alt=&quot;Launch periodic task every 10 seconds&quot; title=&quot;Launch periodic task every 10 seconds&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;To indicate launch time instead of period, do the same, as in previous case, but fill Crontab (Interval must be blanked):&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/6700/85893628.c66/0_15fe66_8c4b6564_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6700/85893628.c66/0_15fe66_8c4b6564_XL.png&quot; alt=&quot;Launch periodic task at every new minute&quot; title=&quot;Launch periodic task at every new minute&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;note&quot;&gt;Note&lt;/h5&gt;
+
+&lt;p&gt;Periodic task can be created automatically at project start (when celery process is started), to not create them manually in admin (but they still will be shown in admin). To achieve it, we can define them in settings.py.&lt;/p&gt;
+
+&lt;p&gt;Every 10 seconds:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;CELERYBEAT_SCHEDULE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;example-task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;apps.users.tasks.just_print&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;schedule&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# in seconds, or timedelta(seconds=10)
+&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Every new minute (will start at 0 second of every minute):&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.schedules&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;CELERYBEAT_SCHEDULE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;example-task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;apps.users.tasks.just_print&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;schedule&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Or for example every 7-th minute of every hour:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.schedules&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;CELERYBEAT_SCHEDULE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;example-task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;apps.users.tasks.just_print&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;schedule&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For details about periodic task creation in settings.py look &lt;a href=&quot;http://celery.readthedocs.org/en/latest/userguide/periodic-tasks.html&quot;&gt;celery documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Also, task can be decorated with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@periodic_task&lt;/code&gt; instead of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@task&lt;/code&gt;. And this task will be periodic. Period is defined by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;run_every&lt;/code&gt; argument. Value is the same, as in ‘schedule’ key in CELERYBEAT_SCHEDULE:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.task&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;periodic_task&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;periodic_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ignore_result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;run_every&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 10 seconds, or timedelta(seconds=10)
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;just_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Print from celery task&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;or crontab&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.task&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;periodic_task&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.schedules&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;periodic_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ignore_result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;run_every&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# every minute
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;just_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Print from celery task&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;start-task-from-code&quot;&gt;Start task from code&lt;/h5&gt;
+
+&lt;p&gt;To start task from code call method &lt;a href=&quot;http://celery.readthedocs.org/en/latest/userguide/calling.html#basics&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.delay()&lt;/code&gt;&lt;/a&gt;. For example, from view:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.tasks&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;just_print&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UserListView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ListView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;User&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_context_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;just_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UserListView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_context_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;monitoring&quot;&gt;Monitoring&lt;/h4&gt;
+
+&lt;p&gt;In admin section Djcelery we can see rows &lt;a href=&quot;http://127.0.0.1:8000/admin/djcelery/taskstate/&quot;&gt;Tasks&lt;/a&gt; and &lt;a href=&quot;http://127.0.0.1:8000/admin/djcelery/workerstate/&quot;&gt;Workers&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/6819/85893628.c66/0_15fe68_a4352d4f_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6819/85893628.c66/0_15fe68_a4352d4f_XL.png&quot; alt=&quot;Djcelery in admin&quot; title=&quot;Djcelery in admin&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;But currently they are blanked inside. To see information there about workers status and tasks history we need to start celerycam:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python manage.py celerycam &lt;span class=&quot;nt&quot;&gt;--frequency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can see, that 1 worker is online:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/3301/85893628.c66/0_15fe6b_a74622e4_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/3301/85893628.c66/0_15fe6b_a74622e4_XL.png&quot; alt=&quot;Worker status in admin&quot; title=&quot;Worker status in admin&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;And tasks status:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/2914/85893628.c66/0_15fe6a_49533167_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/2914/85893628.c66/0_15fe6a_49533167_XL.png&quot; alt=&quot;Tasks status in admin&quot; title=&quot;Tasks status in admin&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;By default, celerycam delete statuses of old tasks by following rules:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;collector is started every hour (look &lt;a href=&quot;https://github.com/celery/celery/blob/3.1/celery/events/snapshot.py#L40&quot;&gt;clerey 3.1 code&lt;/a&gt;, can’t find how to change it from settings.py)&lt;/li&gt;
+  &lt;li&gt;collector delete all task, that are exceed allowed life time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Life time of task status can be defined in settings.py (default values are shown):&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;datetime&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;CELERYCAM_EXPIRE_SUCCESS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;days&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;CELERYCAM_EXPIRE_ERROR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;days&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;CELERYCAM_EXPIRE_PENDING&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;days&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;launch-in-production&quot;&gt;Launch in production&lt;/h4&gt;
+
+&lt;p&gt;In production all celery processes must be started as daemons.&lt;/p&gt;
+
+&lt;p&gt;We can run a bash script to start/stop them or define a config for supervisor.&lt;/p&gt;
+
+&lt;h5 id=&quot;bash-scripts&quot;&gt;Bash scripts&lt;/h5&gt;
+
+&lt;p&gt;celery_start.sh:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;PYTHON&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python
+&lt;span class=&quot;nv&quot;&gt;PROJECT_FOLDER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/project_dir/project/
+&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/pid/
+&lt;span class=&quot;nv&quot;&gt;LOGS_FOLDER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/logs/
+&lt;span class=&quot;nv&quot;&gt;BEAT_SHEDULE_FILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/shedule/celerybeat-schedule  &lt;span class=&quot;c&quot;&gt;# celery beat need to store the last run times of the tasks in a local database file&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PROJECT_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;manage.py celery worker &lt;span class=&quot;nt&quot;&gt;--concurrency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1 &lt;span class=&quot;nt&quot;&gt;--detach&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_worker.pid &lt;span class=&quot;nt&quot;&gt;--logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LOGS_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_worker.log
+&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PROJECT_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;manage.py celery beat &lt;span class=&quot;nt&quot;&gt;--detach&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_beat.pid &lt;span class=&quot;nt&quot;&gt;--logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LOGS_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_beat.log &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BEAT_SHEDULE_FILE&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PROJECT_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;manage.py celerycam &lt;span class=&quot;nt&quot;&gt;--frequency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.0 &lt;span class=&quot;nt&quot;&gt;--detach&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celerycam.pid &lt;span class=&quot;nt&quot;&gt;--logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LOGS_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celerycam.log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;celery_stop.sh:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;PYTHON&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python
+&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/pid/
+
+&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; celery multi stopwait worker1 &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celerycam.pid
+&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; celery multi stopwait worker1 &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_beat.pid
+&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; celery multi stopwait worker1 &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_worker.pid
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;supervisord&quot;&gt;supervisord&lt;/h4&gt;
+
+&lt;p&gt;Best practice is to launch celery processes under the control of &lt;a href=&quot;http://supervisord.org/&quot;&gt;supervisord&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Create configuration for every celery process in django project, for example, in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deploy&lt;/code&gt; folder:&lt;/p&gt;
+
+&lt;p&gt;supervisor.celeryd.conf&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;program:djangoproject.celeryd]
+&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python /path/to/django_project/manage.py celeryd &lt;span class=&quot;nt&quot;&gt;--concurrency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;www-data
+&lt;span class=&quot;nv&quot;&gt;numprocs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+&lt;span class=&quot;nv&quot;&gt;directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/django_project
+&lt;span class=&quot;nv&quot;&gt;stdout_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celery_worker.log
+&lt;span class=&quot;nv&quot;&gt;stderr_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celery_worker.log
+&lt;span class=&quot;nv&quot;&gt;autostart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;autorestart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;startsecs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
+stopwaitsecs &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 120
+&lt;span class=&quot;nv&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;998
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;supervisor.celerybeat.conf&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;program:djangoproject.celerybeat]
+&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python /path/to/django_project/manage.py celery beat &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /path/to/celerybeat-schedule
+&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;www-data
+&lt;span class=&quot;nv&quot;&gt;numprocs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+&lt;span class=&quot;nv&quot;&gt;directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/django_project
+&lt;span class=&quot;nv&quot;&gt;stdout_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celery_beat.log
+&lt;span class=&quot;nv&quot;&gt;stderr_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celery_beat.log
+&lt;span class=&quot;nv&quot;&gt;autostart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;autorestart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;startsecs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
+stopwaitsecs &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 120
+&lt;span class=&quot;nv&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;998
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;supervisor.celerycam.conf&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;program:djangoproject.celerycam]
+&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python /path/to/django_project/manage.py celerycam &lt;span class=&quot;nt&quot;&gt;--frequency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.0
+&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;www-data
+&lt;span class=&quot;nv&quot;&gt;numprocs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+&lt;span class=&quot;nv&quot;&gt;directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/django_project
+&lt;span class=&quot;nv&quot;&gt;stdout_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celerycam.log
+&lt;span class=&quot;nv&quot;&gt;stderr_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celerycam.log
+&lt;span class=&quot;nv&quot;&gt;autostart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;autorestart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;startsecs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
+stopwaitsecs &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 120
+&lt;span class=&quot;nv&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;998
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Change all &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/path/to/&lt;/code&gt; to correct paths and also define needed user.&lt;/p&gt;
+
+&lt;p&gt;Now create symlink to your celery configs in /etc/supervisor/conf.d/ folder, to let supervisor know about them:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /etc/supervisor/conf.d
+&lt;span class=&quot;nb&quot;&gt;sudo ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /path/to/django_project/deploy/supervisor.celeryd.conf
+&lt;span class=&quot;nb&quot;&gt;sudo ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /path/to/django_project/deploy/supervisor.celerybeat.conf
+&lt;span class=&quot;nb&quot;&gt;sudo ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /path/to/django_project/deploy/supervisor.celerycam.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Restart supervisor:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;supervisorctl reload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Check, that all needed processes are started:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ps aux | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;python
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;other&quot;&gt;Other&lt;/h4&gt;
+
+&lt;p&gt;In periodic tasks section of admin (&lt;a href=&quot;http://127.0.0.1:8000/admin/djcelery/periodictask/&quot;&gt;http://{host}/admin/djcelery/periodictask/&lt;/a&gt;) we can see a celery.backend_cleanup task:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/10/85893628.c66/0_15fe69_fe0539e0_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/10/85893628.c66/0_15fe69_fe0539e0_XL.png&quot; alt=&quot;celery.backend_cleanup&quot; title=&quot;celery.backend_cleanup&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This task is cleaning all old task results (not statuses), that are stored in database. Old means that they were created more time ago, than defined in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.CELERY_TASK_RESULT_EXPIRES&lt;/code&gt;. But, as we are storing task results in redis, we don’t need this cleanup task. So, we can just delete it from admin page. Redis will drop all old entries by itself.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="celery" /><summary type="html">To enable celery in new django project i often look in previous ones to refresh in my memory some steps: what settings should be specified, how to launch, how to stop and so on. Here i want to combine all together in one place.</summary></entry><entry><title type="html">Nested SQL queries in Django</title><link href="https://st4lk.github.io/en/database/django/sql/2014/09/09/nested-sql-queries-django.html" rel="alternate" type="text/html" title="Nested SQL queries in Django" /><published>2014-09-09T18:19:43+00:00</published><updated>2014-09-09T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/django/sql/2014/09/09/nested-sql-queries-django</id><content type="html" xml:base="https://st4lk.github.io/en/database/django/sql/2014/09/09/nested-sql-queries-django.html">&lt;p&gt;&lt;a href=&quot;/en/database/django/sql/2014/09/09/nested-sql-queries-django.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-09-09-nested-sql-queries-django/Kenguru-origami-za-shemoj-Stephen-Weiss.jpeg&quot; alt=&quot;Nested SQL queries in Django&quot; title=&quot;Nested SQL queries in Django&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Did you know, that Django ORM can do &lt;a href=&quot;https://docs.djangoproject.com/en/dev/ref/models/querysets/#in&quot;&gt;nested SQL queries&lt;/a&gt;? Shame on me, but i’ve found it not so long ago.&lt;/p&gt;
 
@@ -969,104 +1346,4 @@ python manage.py collectstatic &lt;span class=&quot;nt&quot;&gt;--noinput&lt;/sp
     &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exception&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I know it could happen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;and all your logs will be processed, depending on DEBUG.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="logging" /><summary type="html">Gist Let’s look at default django logging settings and try to make them more useful. Here what we have in settings.py after command django-admin.py startproject project_name (django 1.5):</summary></entry><entry><title type="html">Python logging for every day</title><link href="https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day.html" rel="alternate" type="text/html" title="Python logging for every day" /><published>2013-08-20T18:19:43+00:00</published><updated>2013-08-20T18:19:43+00:00</updated><id>https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day</id><content type="html" xml:base="https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/6287746&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has &lt;a href=&quot;http://docs.python.org/library/logging.html&quot;&gt;logging&lt;/a&gt; module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;print&lt;/code&gt; instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;logging-requirements-will-be-the-following&quot;&gt;Logging requirements will be the following:&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;All logs must be written to file and in console (duplicated)&lt;/li&gt;
-  &lt;li&gt;Log file is rotated (not exceed specified size)&lt;/li&gt;
-  &lt;li&gt;All third party libraries logs are also handled&lt;/li&gt;
-  &lt;li&gt;Works on python 2.5+ 3.0+&lt;/li&gt;
-  &lt;li&gt;Log message contains: message, logger name, source file name, source file line, timestamp, message level (DEBUG/INFO/WARNING etc)&lt;/li&gt;
-  &lt;li&gt;It is possible to log unicode strings.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;how-to-use-these-settings&quot;&gt;How to use these settings&lt;/h3&gt;
-
-&lt;p&gt;In &lt;a href=&quot;https://gist.github.com/st4lk/6287746&quot;&gt;snippet&lt;/a&gt; there are three types of settings: using logging classes, with &lt;a href=&quot;http://docs.python.org/2/library/logging.config.html#logging.config.fileConfig&quot;&gt;fileConfig&lt;/a&gt; and with &lt;a href=&quot;http://docs.python.org/2/library/logging.config.html#logging.config.dictConfig&quot;&gt;dictConfig&lt;/a&gt;. Choose whatever you like. The most simple is the first, it works on most python versions: 2.5+, 3.0+. Insert those settings in your script - and you logging is set up. Now all log messages are stored to file and are printed to console.&lt;/p&gt;
-
-&lt;h3 id=&quot;in-code-logging-options-are-set-for-root-logger&quot;&gt;In code logging options are set for root logger&lt;/h3&gt;
-
-&lt;p&gt;It stands at the top of loggers hierarchy and consequently it handles all messages from every logger (for better understanding of logging module you can search posts in internet. For example, there is good tutorial in python documentation: &lt;a href=&quot;http://docs.python.org/2/howto/logging.html#logging-basic-tutorial&quot;&gt;http://docs.python.org/2/howto/logging.html#logging-basic-tutorial&lt;/a&gt;).&lt;/p&gt;
-
-&lt;h4 id=&quot;example&quot;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;Lets write simple script:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;logging&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;started&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;finished&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;If run it as is, messages will not be printed anywhere.&lt;/p&gt;
-
-&lt;p&gt;Now add settigns from my snippet (using classes):&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;###############################################
-#### LOGGING CLASS SETTINGS (py25+, py30+) ####
-###############################################
-#### also will work with py23, py24 without &apos;encoding&apos; arg
-&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;logging&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;logging.handlers&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Formatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;%(levelname)s:%(name)s: %(message)s &apos;&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&apos;(%(asctime)s; %(filename)s:%(lineno)d)&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;datefmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%Y-%m-%d %H:%M:%S&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;handlers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RotatingFileHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;rotated.log&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;utf8&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;maxBytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;backupCount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StreamHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;root_logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;root_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setLevel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;handlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setFormatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setLevel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;root_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;##############################
-#### END LOGGING SETTINGS ####
-##############################
-&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;started&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;finished&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Run the script. In console (and in file rotated.log) we can see messages:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;INFO:root: started &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:52:31&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; test.py:21&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-INFO:root: finished &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:52:31&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; test.py:22&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Check, that logs from used libs are also handled. I create dummy lib &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;thirdpartylib&lt;/code&gt; with code:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;logging&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;do_something&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;something is done in thirdpartylib&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Now call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;do_something&lt;/code&gt; from your script:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;thirdpartylib&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;started&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;thirdpartylib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;do_something&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;finished&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Output will be the following:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;INFO:root: started &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:57:27&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; test.py:135&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-DEBUG:thirdpartylib: something is &lt;span class=&quot;k&quot;&gt;done in &lt;/span&gt;thirdpartylib &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:57:27&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; __init__.py:5&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-INFO:root: finished &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:57:27&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; test.py:137&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Snippet:&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/st4lk/6287746.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="python" /><category term="logging" /><summary type="html">Gist When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has logging module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes print instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.</summary></entry></feed>
+&lt;p&gt;and all your logs will be processed, depending on DEBUG.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="logging" /><summary type="html">Gist Let’s look at default django logging settings and try to make them more useful. Here what we have in settings.py after command django-admin.py startproject project_name (django 1.5):</summary></entry></feed>
