@@ -1,4 +1,270 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T22:45:31+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Tornado i18n и l10n</title><link href="https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html" rel="alternate" type="text/html" title="Tornado i18n и l10n" /><published>2015-01-31T18:19:43+00:00</published><updated>2015-01-31T18:19:43+00:00</updated><id>https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization</id><content type="html" xml:base="https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/tornado_i18n_example&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-icon=&quot;octicon-star&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/tornado_i18n_example on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T23:09:33+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Отладка SQL в django тестах</title><link href="https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html" rel="alternate" type="text/html" title="Отладка SQL в django тестах" /><published>2015-03-04T18:19:43+00:00</published><updated>2015-03-04T18:19:43+00:00</updated><id>https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test</id><content type="html" xml:base="https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html">&lt;p&gt;&lt;a href=&quot;/database/django/logging/sql/2015/03/04/debug-sql-django-test.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/4517/85893628.c67/0_1795f5_a958c090_orig.png&quot; alt=&quot;Отладка SQL в django тестах&quot; title=&quot;Отладка SQL в django тестах&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;В django тестах можно замерять количество сделанных SQL запросов:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_home&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assertNumQueries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;/&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assertEqual&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Если код в контексте &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;assertNumQueries&lt;/code&gt; сделает иное количество обращений к БД, чем ожидается (здесь 1), то тест выдает ошибку. Но когда такой тест не проходит, бывает трудно определить лишний отправленный запрос. Для отладки такого случая удобно вывести в консоль отправленные SQL запросы. Далее опишу, как этого добиться.&lt;/p&gt;
+
+&lt;p&gt;Кстати, если вы используете Django 1.7+, то вместе с ошибкой будут показаны все SQL выражения, т.е. если этого достаточно - то делать вообще ничего не надо. Ура! Если же вы используете более старые версии, то данная статья будет полезна.&lt;/p&gt;
+
+&lt;h3 id=&quot;настройка-логов-для-вывода-sql-запросов-в-консоль&quot;&gt;Настройка логов для вывода SQL запросов в консоль&lt;/h3&gt;
+
+&lt;p&gt;Django будет логировать SQL запрос, если соблюдается одного из следующих условий:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;settings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;или&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;use_debug_cursor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;По умолчанию в тестах всегда &lt;em&gt;DEBUG = False&lt;/em&gt; вне зависимости от того, что стоит в вашем &lt;em&gt;settings.DEBUG&lt;/em&gt;. Это правильно, тестировать лучше с боевыми настройками.&lt;/p&gt;
+
+&lt;p&gt;Т.о. остается &lt;em&gt;connection.use_debug_cursor&lt;/em&gt;, которое по умолчанию всегда &lt;em&gt;None&lt;/em&gt; или &lt;em&gt;False&lt;/em&gt; (в разных версиях по разному). Но контекстный менеджер &lt;em&gt;assertNumQueries&lt;/em&gt; сам выставляет это значение в &lt;em&gt;True&lt;/em&gt; на время работы соответствующего блока! Нам остается лишь правильно задать настройки логов.&lt;/p&gt;
+
+&lt;p&gt;Создадим отдельный файл настроек для тестов и назовем его settings_test.py. Тесты гонять будем с ним. Рекомендую всегда делать так - это удобно. Структура проекта примерно такая:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;project
+├── project
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── settings_test.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── spam  &lt;span class=&quot;c&quot;&gt;# some app&lt;/span&gt;
+│   ├── __init__.py
+│   ├── views.py
+│   ├── tests.py
+│   └── models.py
+│
+└── manage.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Файл tests.py содержит тесты приложения spam. Так организовывать тесты не самый хороший выбор, лучше выделить отдельную папку и держать все тесты там. Но для простоты нашего примера годится.&lt;/p&gt;
+
+&lt;p&gt;Содержимое settings_test.py:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;settings&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;settings&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LOGGING&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;except&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ImportError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;LOGGING&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;disable_existing_loggers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;handlers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{},&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loggers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{})&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# use database in memory to not lose your data!
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DATABASES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;default&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;ENGINE&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;django.db.backends.sqlite3&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;NAME&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;:memory:&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;USER&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;PASSWORD&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;TEST_CHARSET&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;utf8&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;LOGGING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;handlers&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;console&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;level&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;DEBUG&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;class&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;logging.StreamHandler&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;LOGGING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;loggers&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;django.db.backends&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;handlers&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;console&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;level&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;DEBUG&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;propagate&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;LOGGING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;loggers&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;django.db.backends.schema&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;propagate&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# don&apos;t log schema queries, django &amp;gt;= 1.7
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Тест (tests.py) выглядит так:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.test&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestCase&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;spam.models&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Foo&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SpamTestCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TestCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setUp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_home&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assertNumQueries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;/&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assertEqual&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Давайте посмотрим, что будет при прогоне теста используя разные runner’ы.&lt;/p&gt;
+
+&lt;h4 id=&quot;django-14&quot;&gt;Django 1.4+&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ python manage.py test&lt;/code&gt; (нет SQL):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Creating &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;database &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;alias&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;default&apos;&lt;/span&gt;...
+&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;----------------------------------------------------------------------&lt;/span&gt;
+Ran 1 &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;0.009s
+
+OK
+Destroying &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;database &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;alias&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;default&apos;&lt;/span&gt;...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ python manage.py test  --settings=project.settings_test&lt;/code&gt; (SQL в консоле)&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Creating &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;database &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;alias&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;default&apos;&lt;/span&gt;...
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0.000&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; SELECT &lt;span class=&quot;s2&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt;.&lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt;.&lt;span class=&quot;s2&quot;&gt;&quot;title&quot;&lt;/span&gt; FROM &lt;span class=&quot;s2&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt; LIMIT 21&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=()&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;----------------------------------------------------------------------&lt;/span&gt;
+Ran 1 &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;0.009s
+
+OK
+Destroying &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;database &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;alias&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;default&apos;&lt;/span&gt;...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;django-14-и-django-nose&quot;&gt;Django 1.4+ и django-nose&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;pip install django-nose&lt;/li&gt;
+  &lt;li&gt;в settings.py выставляем &lt;em&gt;TEST_RUNNER = ‘django_nose.NoseTestSuiteRunner’&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ python manage.py test&lt;/code&gt; (нет SQL):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ python manage.py test  --settings=project.settings_test&lt;/code&gt; (SQL в консоле)&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0.000&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; SELECT &lt;span class=&quot;s2&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt;.&lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt;.&lt;span class=&quot;s2&quot;&gt;&quot;title&quot;&lt;/span&gt; FROM &lt;span class=&quot;s2&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt; LIMIT 21&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=()&lt;/span&gt;
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;django-14-и-pytest-django&quot;&gt;Django 1.4+ и pytest-django&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;pip install pytest-django&lt;/li&gt;
+  &lt;li&gt;создаем файл pytest.ini рядом с manage.py и задаем файл настроек:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;pytest]
+    DJANGO_SETTINGS_MODULE &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; project.settings
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;переименуем tests.py в test_spam.py (стандартные имена для py.test)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ py.test&lt;/code&gt; (нет SQL):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ py.test  --ds=project.settings_test&lt;/code&gt; (нет SQL, py.test перехватывает весь вывод)&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ py.test  --ds=project.settings_test -s&lt;/code&gt; (SQL в консоле)&lt;/p&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;title&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;spam_foo&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;LIMIT&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;итого&quot;&gt;Итого&lt;/h4&gt;
+
+&lt;p&gt;Как видно из предыдущих примеров, при использовании нашего settings_test в консоль выводятся все запросы к БД, сделанные в блоке контекстного менеджера &lt;em&gt;assertNumQueries&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Если мы хотим гонять тесты всегда с этими настройками, а не только когда хотим что-то отладить, то очень скоро устанем от обилия SQL. Можно сделать так: закомментировать строчку &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;handlers&apos;: [&apos;console&apos;],&lt;/code&gt;, т.о. ничего выводится не будет. А когда нужно их посмотреть - просто убираем комментарий.&lt;/p&gt;
+
+&lt;h3 id=&quot;вывод-ошибки-assertnumqueries-и-django-17&quot;&gt;Вывод ошибки assertNumQueries и Django 1.7+&lt;/h3&gt;
+
+&lt;p&gt;Если &lt;em&gt;assertNumQueries&lt;/em&gt; регистрирует отличное от ожидаемого количество обращений к БД, то выводится traceback и ошибка:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Traceback&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;most&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;recent&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;last&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;AssertionError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queries&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expected&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Но в django 1.7+ так же выводятся и сделанные запросы:&lt;/p&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Captured&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;queries&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;were&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;QUERY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PARAMS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Как вы понимаете, настройки логов на это не влияют, очень удобно!&lt;/p&gt;
+
+&lt;h3 id=&quot;вывод-всех-sql-запросов-в-консоль-не-используя-assertnumqueries&quot;&gt;Вывод всех SQL запросов в консоль не используя assertNumQueries&lt;/h3&gt;
+
+&lt;p&gt;До сих пор речь шла об использовании &lt;em&gt;assertNumQueries&lt;/em&gt;. Но что если нужно посмотреть запросы вне этого менеджера?&lt;/p&gt;
+
+&lt;p&gt;Для этого нужно самому выставить &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;connection.use_debug_cursor = True&lt;/code&gt; перед прогоном тестов. Это можно сделать в test runner’е или используя специальный hook в py.test.&lt;/p&gt;
+
+&lt;h4 id=&quot;sql-во-всех-тестах-django-14&quot;&gt;SQL во всех тестах: Django 1.4+&lt;/h4&gt;
+
+&lt;p&gt;Создаем файл test_runner.py, кладем его рядом с settings.py и вставляем такой код:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.test.runner&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DiscoverRunner&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DjangoTestSuiteRunner&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;except&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ImportError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# django &amp;lt; 1.6
+&lt;/span&gt;    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.test.simple&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DjangoTestSuiteRunner&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.db&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DEFAULT_DB_ALIAS&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SqlDebugTestSuiteRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DjangoTestSuiteRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setup_test_environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SqlDebugTestSuiteRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setup_test_environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;connections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEFAULT_DB_ALIAS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;use_debug_cursor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Теперь либо в settings (или settings_test, если используем его для тестов) указываем наш runner:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;TEST_RUNNER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;project.test_runner.SqlDebugTestSuiteRunner&apos;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Запускаем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py test --settings=project.settings_test&lt;/code&gt; и видим все запросы, созданные за время тестов.&lt;/p&gt;
+
+&lt;p&gt;Либо можно не задавать &lt;em&gt;TEST_RUNNER&lt;/em&gt;, а использовать аргумент &lt;em&gt;–testrunner&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py test --settings=project.settings_test --testrunner=project.test_runner.SqlDebugTestSuiteRunner&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Результат будет тем же.&lt;/p&gt;
+
+&lt;h4 id=&quot;sql-во-всех-тестах-django-14-и-django-nose&quot;&gt;SQL во всех тестах: Django 1.4+ и django-nose&lt;/h4&gt;
+
+&lt;p&gt;Для nose почти все так же, только runner нужно унаследовать от NoseTestSuiteRunner.&lt;/p&gt;
+
+&lt;p&gt;test_runner.py:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django_nose&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NoseTestSuiteRunner&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.db&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DEFAULT_DB_ALIAS&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SqlDebugTestSuiteRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NoseTestSuiteRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setup_test_environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SqlDebugTestSuiteRunner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setup_test_environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;connections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEFAULT_DB_ALIAS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;use_debug_cursor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Да, на момент написания статьи версия django-nose==1.3. В этой версии не поддерживается аргумент &lt;em&gt;–testrunner&lt;/em&gt;. Но я отправил &lt;a href=&quot;https://github.com/django-nose/django-nose/pull/187&quot;&gt;пул реквест&lt;/a&gt;, возможно, он уже попал в релиз.&lt;/p&gt;
+
+&lt;h4 id=&quot;sql-во-всех-тестах-django-14-и-pytest-django&quot;&gt;SQL во всех тестах: Django 1.4+ и pytest-django&lt;/h4&gt;
+
+&lt;p&gt;В py.test все немного по другому, ведь там не используется стандартный runner из django. Вместо этого для установления тестового окружения можно использовать py.test хуки.&lt;/p&gt;
+
+&lt;p&gt;Создаем файл plugin_debug_sql.py, кладем рядом с settings.py, вставляем код:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pytest_runtest_setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.db&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DEFAULT_DB_ALIAS&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;connections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEFAULT_DB_ALIAS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;use_debug_cursor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Запускать так:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PYTHONPATH=`pwd`:$PYTHONPATH py.test -s --ds=sql.settings_test -p project.plugin_debug_sql&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Тут я явно добавляю текущую папку в PYTHONPATH, потому что иначе py.test не сможет найти наш плагин.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="django" /><category term="logging" /><category term="sql" /><summary type="html">В django тестах можно замерять количество сделанных SQL запросов: def test_home(self): with self.assertNumQueries(1): response = self.client.get(&apos;/&apos;) self.assertEqual(response.status_code, 200) Если код в контексте assertNumQueries сделает иное количество обращений к БД, чем ожидается (здесь 1), то тест выдает ошибку. Но когда такой тест не проходит, бывает трудно определить лишний отправленный запрос. Для отладки такого случая удобно вывести в консоль отправленные SQL запросы. Далее опишу, как этого добиться. Кстати, если вы используете Django 1.7+, то вместе с ошибкой будут показаны все SQL выражения, т.е. если этого достаточно - то делать вообще ничего не надо. Ура! Если же вы используете более старые версии, то данная статья будет полезна. Настройка логов для вывода SQL запросов в консоль Django будет логировать SQL запрос, если соблюдается одного из следующих условий: settings.DEBUG = True или connection.use_debug_cursor = True По умолчанию в тестах всегда DEBUG = False вне зависимости от того, что стоит в вашем settings.DEBUG. Это правильно, тестировать лучше с боевыми настройками. Т.о. остается connection.use_debug_cursor, которое по умолчанию всегда None или False (в разных версиях по разному). Но контекстный менеджер assertNumQueries сам выставляет это значение в True на время работы соответствующего блока! Нам остается лишь правильно задать настройки логов. Создадим отдельный файл настроек для тестов и назовем его settings_test.py. Тесты гонять будем с ним. Рекомендую всегда делать так - это удобно. Структура проекта примерно такая: project ├── project │ ├── __init__.py │ ├── settings.py │ ├── settings_test.py │ ├── urls.py │ └── wsgi.py │ ├── spam # some app │ ├── __init__.py │ ├── views.py │ ├── tests.py │ └── models.py │ └── manage.py Файл tests.py содержит тесты приложения spam. Так организовывать тесты не самый хороший выбор, лучше выделить отдельную папку и держать все тесты там. Но для простоты нашего примера годится. Содержимое settings_test.py: from settings import * try: from settings import LOGGING except ImportError: LOGGING = dict(version=1, disable_existing_loggers=False, handlers={}, loggers={}) # use database in memory to not lose your data! DATABASES = { &apos;default&apos;: { &apos;ENGINE&apos;: &apos;django.db.backends.sqlite3&apos;, &apos;NAME&apos;: &apos;:memory:&apos;, &apos;USER&apos;: &apos;&apos;, &apos;PASSWORD&apos;: &apos;&apos;, &apos;TEST_CHARSET&apos;: &apos;utf8&apos;, }} LOGGING[&apos;handlers&apos;][&apos;console&apos;] = { &apos;level&apos;: &apos;DEBUG&apos;, &apos;class&apos;: &apos;logging.StreamHandler&apos;, } LOGGING[&apos;loggers&apos;][&apos;django.db.backends&apos;] = { &apos;handlers&apos;: [&apos;console&apos;], &apos;level&apos;: &apos;DEBUG&apos;, &apos;propagate&apos;: False, } LOGGING[&apos;loggers&apos;][&apos;django.db.backends.schema&apos;] = { &apos;propagate&apos;: False, # don&apos;t log schema queries, django &amp;gt;= 1.7 } Тест (tests.py) выглядит так: from django.test import TestCase from spam.models import Foo class SpamTestCase(TestCase): def setUp(self): Foo.objects.create(title=&quot;Foo&quot;) def test_home(self): with self.assertNumQueries(1): response = self.client.get(&apos;/&apos;) self.assertEqual(response.status_code, 200) Давайте посмотрим, что будет при прогоне теста используя разные runner’ы. Django 1.4+ $ python manage.py test (нет SQL): Creating test database for alias &apos;default&apos;... . ---------------------------------------------------------------------- Ran 1 test in 0.009s OK Destroying test database for alias &apos;default&apos;... $ python manage.py test --settings=project.settings_test (SQL в консоле) Creating test database for alias &apos;default&apos;... (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() . ---------------------------------------------------------------------- Ran 1 test in 0.009s OK Destroying test database for alias &apos;default&apos;... Django 1.4+ и django-nose pip install django-nose в settings.py выставляем TEST_RUNNER = ‘django_nose.NoseTestSuiteRunner’ $ python manage.py test (нет SQL): ... $ python manage.py test --settings=project.settings_test (SQL в консоле) (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() ... Django 1.4+ и pytest-django pip install pytest-django создаем файл pytest.ini рядом с manage.py и задаем файл настроек: [pytest] DJANGO_SETTINGS_MODULE = project.settings переименуем tests.py в test_spam.py (стандартные имена для py.test) $ py.test (нет SQL): ... $ py.test --ds=project.settings_test (нет SQL, py.test перехватывает весь вывод) ... $ py.test --ds=project.settings_test -s (SQL в консоле) (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() ... Итого Как видно из предыдущих примеров, при использовании нашего settings_test в консоль выводятся все запросы к БД, сделанные в блоке контекстного менеджера assertNumQueries. Если мы хотим гонять тесты всегда с этими настройками, а не только когда хотим что-то отладить, то очень скоро устанем от обилия SQL. Можно сделать так: закомментировать строчку &apos;handlers&apos;: [&apos;console&apos;],, т.о. ничего выводится не будет. А когда нужно их посмотреть - просто убираем комментарий. Вывод ошибки assertNumQueries и Django 1.7+ Если assertNumQueries регистрирует отличное от ожидаемого количество обращений к БД, то выводится traceback и ошибка: Traceback (most recent call last): ... AssertionError: 1 queries executed, 2 expected Но в django 1.7+ так же выводятся и сделанные запросы: Captured queries were: QUERY = u&apos;SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21&apos; - PARAMS = () Как вы понимаете, настройки логов на это не влияют, очень удобно! Вывод всех SQL запросов в консоль не используя assertNumQueries До сих пор речь шла об использовании assertNumQueries. Но что если нужно посмотреть запросы вне этого менеджера? Для этого нужно самому выставить connection.use_debug_cursor = True перед прогоном тестов. Это можно сделать в test runner’е или используя специальный hook в py.test. SQL во всех тестах: Django 1.4+ Создаем файл test_runner.py, кладем его рядом с settings.py и вставляем такой код: try: from django.test.runner import DiscoverRunner as DjangoTestSuiteRunner except ImportError: # django &amp;lt; 1.6 from django.test.simple import DjangoTestSuiteRunner from django.db import connections, DEFAULT_DB_ALIAS class SqlDebugTestSuiteRunner(DjangoTestSuiteRunner): def setup_test_environment(self, **kwargs): super(SqlDebugTestSuiteRunner, self).setup_test_environment(**kwargs) connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Теперь либо в settings (или settings_test, если используем его для тестов) указываем наш runner: TEST_RUNNER = &apos;project.test_runner.SqlDebugTestSuiteRunner&apos; Запускаем python manage.py test --settings=project.settings_test и видим все запросы, созданные за время тестов. Либо можно не задавать TEST_RUNNER, а использовать аргумент –testrunner: python manage.py test --settings=project.settings_test --testrunner=project.test_runner.SqlDebugTestSuiteRunner Результат будет тем же. SQL во всех тестах: Django 1.4+ и django-nose Для nose почти все так же, только runner нужно унаследовать от NoseTestSuiteRunner. test_runner.py: from django_nose import NoseTestSuiteRunner from django.db import connections, DEFAULT_DB_ALIAS class SqlDebugTestSuiteRunner(NoseTestSuiteRunner): def setup_test_environment(self, **kwargs): super(SqlDebugTestSuiteRunner, self).setup_test_environment(**kwargs) connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Да, на момент написания статьи версия django-nose==1.3. В этой версии не поддерживается аргумент –testrunner. Но я отправил пул реквест, возможно, он уже попал в релиз. SQL во всех тестах: Django 1.4+ и pytest-django В py.test все немного по другому, ведь там не используется стандартный runner из django. Вместо этого для установления тестового окружения можно использовать py.test хуки. Создаем файл plugin_debug_sql.py, кладем рядом с settings.py, вставляем код: def pytest_runtest_setup(item): from django.db import connections, DEFAULT_DB_ALIAS connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Запускать так: PYTHONPATH=`pwd`:$PYTHONPATH py.test -s --ds=sql.settings_test -p project.plugin_debug_sql Тут я явно добавляю текущую папку в PYTHONPATH, потому что иначе py.test не сможет найти наш плагин.</summary></entry><entry><title type="html">Tornado i18n и l10n</title><link href="https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html" rel="alternate" type="text/html" title="Tornado i18n и l10n" /><published>2015-01-31T18:19:43+00:00</published><updated>2015-01-31T18:19:43+00:00</updated><id>https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization</id><content type="html" xml:base="https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/tornado_i18n_example&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-icon=&quot;octicon-star&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/tornado_i18n_example on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/4/85893628.c67/0_1715c7_738478c6_orig.png&quot; alt=&quot;Tornado i18n и l10n&quot; title=&quot;Tornado i18n и l10n&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -959,7 +1225,6 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;https://github.com/st4
 &lt;p&gt;home.html:&lt;/p&gt;
 
 &lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{_(&quot;{count} event is gonna happen&quot;, &quot;{count} events are gonna happen&quot;, count).format(count=count)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Ура, теперь мы работаем с babel точно так же, как и с xgettext!&lt;/p&gt;
@@ -1959,29 +2224,4 @@ Avg Conn Time                 0.00ms
 &lt;p&gt;Вот правда hint к aggregation применить пока нельзя: &lt;a href=&quot;https://jira.mongodb.org/browse/SERVER-7944&quot;&gt;SERVER-7944&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;ps&quot;&gt;P.S.&lt;/h3&gt;
-&lt;p&gt;Кстати, всем завершившим курс “M101P: MongoDB for Developers” выдают вот такой сертификат: &lt;a href=&quot;https://s3.amazonaws.com/edu-cert.10gen.com/downloads/01739dbdba0e46f7964b160203b4f749/Certificate.pdf&quot;&gt;M101P&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="mongodb" /><summary type="html">Недавно закончил курс “M101P: MongoDB for Developers” (он периодически повторяется, например следующий стартует в апреле). В процессе прохождения натолкнулся на некоторые интересные моменты.</summary></entry><entry><title type="html">Асинхронный Bitcoin RPC клиент на python</title><link href="https://st4lk.github.io/async/api/bitcoin/tornado/2014/01/30/async-bitcoin-rpc-client.html" rel="alternate" type="text/html" title="Асинхронный Bitcoin RPC клиент на python" /><published>2014-01-30T18:19:43+00:00</published><updated>2014-01-30T18:19:43+00:00</updated><id>https://st4lk.github.io/async/api/bitcoin/tornado/2014/01/30/async-bitcoin-rpc-client</id><content type="html" xml:base="https://st4lk.github.io/async/api/bitcoin/tornado/2014/01/30/async-bitcoin-rpc-client.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/python-bitcoinrpc-tornado&quot; data-icon=&quot;octicon-star&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/python-bitcoinrpc-tornado on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Для работы с &lt;a href=&quot;https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list&quot;&gt;Bitcoin RPC&lt;/a&gt; на python’е есть библиотека &lt;a href=&quot;https://github.com/jgarzik/python-bitcoinrpc&quot;&gt;Python-BitcoinRPC&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Но недавно мне понадобилось обратиться к API из приложения на tornado. Указанная библиотека работает в синхронном, т.е. блокирующем режиме. Для торнадо было бы намного лучше использовать асинхронную версию. Готовой найти не удалось, поэтому написал свой форк - асинхронный, который использует торнадовский AsyncHTTPClient: &lt;a href=&quot;https://github.com/st4lk/python-bitcoinrpc-tornado&quot;&gt;https://github.com/st4lk/python-bitcoinrpc-tornado&lt;/a&gt;.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;Пример (выводит текущее количество блоков в сети Bitcoin):&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;bitcoinrpc_async.authproxy&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AsyncAuthServiceProxy&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tornado&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;BITCOIN_RPC_URL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;http://user:password@127.0.0.1:8332&quot;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coroutine&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;show_block_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AsyncAuthServiceProxy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BITCOIN_RPC_URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getblockcount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;
-
-
-&lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show_block_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="async" /><category term="api" /><category term="bitcoin" /><category term="tornado" /><summary type="html">Star Для работы с Bitcoin RPC на python’е есть библиотека Python-BitcoinRPC. Но недавно мне понадобилось обратиться к API из приложения на tornado. Указанная библиотека работает в синхронном, т.е. блокирующем режиме. Для торнадо было бы намного лучше использовать асинхронную версию. Готовой найти не удалось, поэтому написал свой форк - асинхронный, который использует торнадовский AsyncHTTPClient: https://github.com/st4lk/python-bitcoinrpc-tornado.</summary></entry></feed>
+&lt;p&gt;Кстати, всем завершившим курс “M101P: MongoDB for Developers” выдают вот такой сертификат: &lt;a href=&quot;https://s3.amazonaws.com/edu-cert.10gen.com/downloads/01739dbdba0e46f7964b160203b4f749/Certificate.pdf&quot;&gt;M101P&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="mongodb" /><summary type="html">Недавно закончил курс “M101P: MongoDB for Developers” (он периодически повторяется, например следующий стартует в апреле). В процессе прохождения натолкнулся на некоторые интересные моменты.</summary></entry></feed>

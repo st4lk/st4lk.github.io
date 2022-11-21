@@ -43,7 +43,24 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">Jan 31, 2015</span>
+    <ul class="post-list"><li><span class="post-meta">Mar 4, 2015</span>
+        <h3>
+          <a class="post-link" href="/en/database/django/logging/sql/2015/03/04/debug-sql-django-test.html">
+            Debug SQL in django test
+          </a>
+        </h3><p><a href="/en/database/django/logging/sql/2015/03/04/debug-sql-django-test.html"><img src="https://img-fotki.yandex.ru/get/4517/85893628.c67/0_1795f5_a958c090_orig.png" alt="Debug SQL in django test" title="Debug SQL in django test" /></a></p>
+
+<p>In django tests we can measure number of sql queries:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="p">.</span><span class="n">assertNumQueries</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If code in context of <code class="language-plaintext highlighter-rouge">assertNumQueries</code> will make other number of DB attempts than expected (here 1), test will throw error. But when test fails it is sometimes hard to understand, what unexpected query was made. To debug such case very useful to log SQL expressions to console. Below is description how to do it.</p>
+
+</li><li><span class="post-meta">Jan 31, 2015</span>
         <h3>
           <a class="post-link" href="/en/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html">
             Tornado i18n and l10n

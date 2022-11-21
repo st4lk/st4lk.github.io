@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Отладка SQL в django тестах | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Отладка SQL в django тестах" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="В django тестах можно замерять количество сделанных SQL запросов: def test_home(self): with self.assertNumQueries(1): response = self.client.get(&#39;/&#39;) self.assertEqual(response.status_code, 200) Если код в контексте assertNumQueries сделает иное количество обращений к БД, чем ожидается (здесь 1), то тест выдает ошибку. Но когда такой тест не проходит, бывает трудно определить лишний отправленный запрос. Для отладки такого случая удобно вывести в консоль отправленные SQL запросы. Далее опишу, как этого добиться. Кстати, если вы используете Django 1.7+, то вместе с ошибкой будут показаны все SQL выражения, т.е. если этого достаточно - то делать вообще ничего не надо. Ура! Если же вы используете более старые версии, то данная статья будет полезна. Настройка логов для вывода SQL запросов в консоль Django будет логировать SQL запрос, если соблюдается одного из следующих условий: settings.DEBUG = True или connection.use_debug_cursor = True По умолчанию в тестах всегда DEBUG = False вне зависимости от того, что стоит в вашем settings.DEBUG. Это правильно, тестировать лучше с боевыми настройками. Т.о. остается connection.use_debug_cursor, которое по умолчанию всегда None или False (в разных версиях по разному). Но контекстный менеджер assertNumQueries сам выставляет это значение в True на время работы соответствующего блока! Нам остается лишь правильно задать настройки логов. Создадим отдельный файл настроек для тестов и назовем его settings_test.py. Тесты гонять будем с ним. Рекомендую всегда делать так - это удобно. Структура проекта примерно такая: project ├── project │ ├── __init__.py │ ├── settings.py │ ├── settings_test.py │ ├── urls.py │ └── wsgi.py │ ├── spam # some app │ ├── __init__.py │ ├── views.py │ ├── tests.py │ └── models.py │ └── manage.py Файл tests.py содержит тесты приложения spam. Так организовывать тесты не самый хороший выбор, лучше выделить отдельную папку и держать все тесты там. Но для простоты нашего примера годится. Содержимое settings_test.py: from settings import * try: from settings import LOGGING except ImportError: LOGGING = dict(version=1, disable_existing_loggers=False, handlers={}, loggers={}) # use database in memory to not lose your data! DATABASES = { &#39;default&#39;: { &#39;ENGINE&#39;: &#39;django.db.backends.sqlite3&#39;, &#39;NAME&#39;: &#39;:memory:&#39;, &#39;USER&#39;: &#39;&#39;, &#39;PASSWORD&#39;: &#39;&#39;, &#39;TEST_CHARSET&#39;: &#39;utf8&#39;, }} LOGGING[&#39;handlers&#39;][&#39;console&#39;] = { &#39;level&#39;: &#39;DEBUG&#39;, &#39;class&#39;: &#39;logging.StreamHandler&#39;, } LOGGING[&#39;loggers&#39;][&#39;django.db.backends&#39;] = { &#39;handlers&#39;: [&#39;console&#39;], &#39;level&#39;: &#39;DEBUG&#39;, &#39;propagate&#39;: False, } LOGGING[&#39;loggers&#39;][&#39;django.db.backends.schema&#39;] = { &#39;propagate&#39;: False, # don&#39;t log schema queries, django &gt;= 1.7 } Тест (tests.py) выглядит так: from django.test import TestCase from spam.models import Foo class SpamTestCase(TestCase): def setUp(self): Foo.objects.create(title=&quot;Foo&quot;) def test_home(self): with self.assertNumQueries(1): response = self.client.get(&#39;/&#39;) self.assertEqual(response.status_code, 200) Давайте посмотрим, что будет при прогоне теста используя разные runner’ы. Django 1.4+ $ python manage.py test (нет SQL): Creating test database for alias &#39;default&#39;... . ---------------------------------------------------------------------- Ran 1 test in 0.009s OK Destroying test database for alias &#39;default&#39;... $ python manage.py test --settings=project.settings_test (SQL в консоле) Creating test database for alias &#39;default&#39;... (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() . ---------------------------------------------------------------------- Ran 1 test in 0.009s OK Destroying test database for alias &#39;default&#39;... Django 1.4+ и django-nose pip install django-nose в settings.py выставляем TEST_RUNNER = ‘django_nose.NoseTestSuiteRunner’ $ python manage.py test (нет SQL): ... $ python manage.py test --settings=project.settings_test (SQL в консоле) (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() ... Django 1.4+ и pytest-django pip install pytest-django создаем файл pytest.ini рядом с manage.py и задаем файл настроек: [pytest] DJANGO_SETTINGS_MODULE = project.settings переименуем tests.py в test_spam.py (стандартные имена для py.test) $ py.test (нет SQL): ... $ py.test --ds=project.settings_test (нет SQL, py.test перехватывает весь вывод) ... $ py.test --ds=project.settings_test -s (SQL в консоле) (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() ... Итого Как видно из предыдущих примеров, при использовании нашего settings_test в консоль выводятся все запросы к БД, сделанные в блоке контекстного менеджера assertNumQueries. Если мы хотим гонять тесты всегда с этими настройками, а не только когда хотим что-то отладить, то очень скоро устанем от обилия SQL. Можно сделать так: закомментировать строчку &#39;handlers&#39;: [&#39;console&#39;],, т.о. ничего выводится не будет. А когда нужно их посмотреть - просто убираем комментарий. Вывод ошибки assertNumQueries и Django 1.7+ Если assertNumQueries регистрирует отличное от ожидаемого количество обращений к БД, то выводится traceback и ошибка: Traceback (most recent call last): ... AssertionError: 1 queries executed, 2 expected Но в django 1.7+ так же выводятся и сделанные запросы: Captured queries were: QUERY = u&#39;SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21&#39; - PARAMS = () Как вы понимаете, настройки логов на это не влияют, очень удобно! Вывод всех SQL запросов в консоль не используя assertNumQueries До сих пор речь шла об использовании assertNumQueries. Но что если нужно посмотреть запросы вне этого менеджера? Для этого нужно самому выставить connection.use_debug_cursor = True перед прогоном тестов. Это можно сделать в test runner’е или используя специальный hook в py.test. SQL во всех тестах: Django 1.4+ Создаем файл test_runner.py, кладем его рядом с settings.py и вставляем такой код: try: from django.test.runner import DiscoverRunner as DjangoTestSuiteRunner except ImportError: # django &lt; 1.6 from django.test.simple import DjangoTestSuiteRunner from django.db import connections, DEFAULT_DB_ALIAS class SqlDebugTestSuiteRunner(DjangoTestSuiteRunner): def setup_test_environment(self, **kwargs): super(SqlDebugTestSuiteRunner, self).setup_test_environment(**kwargs) connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Теперь либо в settings (или settings_test, если используем его для тестов) указываем наш runner: TEST_RUNNER = &#39;project.test_runner.SqlDebugTestSuiteRunner&#39; Запускаем python manage.py test --settings=project.settings_test и видим все запросы, созданные за время тестов. Либо можно не задавать TEST_RUNNER, а использовать аргумент –testrunner: python manage.py test --settings=project.settings_test --testrunner=project.test_runner.SqlDebugTestSuiteRunner Результат будет тем же. SQL во всех тестах: Django 1.4+ и django-nose Для nose почти все так же, только runner нужно унаследовать от NoseTestSuiteRunner. test_runner.py: from django_nose import NoseTestSuiteRunner from django.db import connections, DEFAULT_DB_ALIAS class SqlDebugTestSuiteRunner(NoseTestSuiteRunner): def setup_test_environment(self, **kwargs): super(SqlDebugTestSuiteRunner, self).setup_test_environment(**kwargs) connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Да, на момент написания статьи версия django-nose==1.3. В этой версии не поддерживается аргумент –testrunner. Но я отправил пул реквест, возможно, он уже попал в релиз. SQL во всех тестах: Django 1.4+ и pytest-django В py.test все немного по другому, ведь там не используется стандартный runner из django. Вместо этого для установления тестового окружения можно использовать py.test хуки. Создаем файл plugin_debug_sql.py, кладем рядом с settings.py, вставляем код: def pytest_runtest_setup(item): from django.db import connections, DEFAULT_DB_ALIAS connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Запускать так: PYTHONPATH=`pwd`:$PYTHONPATH py.test -s --ds=sql.settings_test -p project.plugin_debug_sql Тут я явно добавляю текущую папку в PYTHONPATH, потому что иначе py.test не сможет найти наш плагин." />
+<meta property="og:description" content="В django тестах можно замерять количество сделанных SQL запросов: def test_home(self): with self.assertNumQueries(1): response = self.client.get(&#39;/&#39;) self.assertEqual(response.status_code, 200) Если код в контексте assertNumQueries сделает иное количество обращений к БД, чем ожидается (здесь 1), то тест выдает ошибку. Но когда такой тест не проходит, бывает трудно определить лишний отправленный запрос. Для отладки такого случая удобно вывести в консоль отправленные SQL запросы. Далее опишу, как этого добиться. Кстати, если вы используете Django 1.7+, то вместе с ошибкой будут показаны все SQL выражения, т.е. если этого достаточно - то делать вообще ничего не надо. Ура! Если же вы используете более старые версии, то данная статья будет полезна. Настройка логов для вывода SQL запросов в консоль Django будет логировать SQL запрос, если соблюдается одного из следующих условий: settings.DEBUG = True или connection.use_debug_cursor = True По умолчанию в тестах всегда DEBUG = False вне зависимости от того, что стоит в вашем settings.DEBUG. Это правильно, тестировать лучше с боевыми настройками. Т.о. остается connection.use_debug_cursor, которое по умолчанию всегда None или False (в разных версиях по разному). Но контекстный менеджер assertNumQueries сам выставляет это значение в True на время работы соответствующего блока! Нам остается лишь правильно задать настройки логов. Создадим отдельный файл настроек для тестов и назовем его settings_test.py. Тесты гонять будем с ним. Рекомендую всегда делать так - это удобно. Структура проекта примерно такая: project ├── project │ ├── __init__.py │ ├── settings.py │ ├── settings_test.py │ ├── urls.py │ └── wsgi.py │ ├── spam # some app │ ├── __init__.py │ ├── views.py │ ├── tests.py │ └── models.py │ └── manage.py Файл tests.py содержит тесты приложения spam. Так организовывать тесты не самый хороший выбор, лучше выделить отдельную папку и держать все тесты там. Но для простоты нашего примера годится. Содержимое settings_test.py: from settings import * try: from settings import LOGGING except ImportError: LOGGING = dict(version=1, disable_existing_loggers=False, handlers={}, loggers={}) # use database in memory to not lose your data! DATABASES = { &#39;default&#39;: { &#39;ENGINE&#39;: &#39;django.db.backends.sqlite3&#39;, &#39;NAME&#39;: &#39;:memory:&#39;, &#39;USER&#39;: &#39;&#39;, &#39;PASSWORD&#39;: &#39;&#39;, &#39;TEST_CHARSET&#39;: &#39;utf8&#39;, }} LOGGING[&#39;handlers&#39;][&#39;console&#39;] = { &#39;level&#39;: &#39;DEBUG&#39;, &#39;class&#39;: &#39;logging.StreamHandler&#39;, } LOGGING[&#39;loggers&#39;][&#39;django.db.backends&#39;] = { &#39;handlers&#39;: [&#39;console&#39;], &#39;level&#39;: &#39;DEBUG&#39;, &#39;propagate&#39;: False, } LOGGING[&#39;loggers&#39;][&#39;django.db.backends.schema&#39;] = { &#39;propagate&#39;: False, # don&#39;t log schema queries, django &gt;= 1.7 } Тест (tests.py) выглядит так: from django.test import TestCase from spam.models import Foo class SpamTestCase(TestCase): def setUp(self): Foo.objects.create(title=&quot;Foo&quot;) def test_home(self): with self.assertNumQueries(1): response = self.client.get(&#39;/&#39;) self.assertEqual(response.status_code, 200) Давайте посмотрим, что будет при прогоне теста используя разные runner’ы. Django 1.4+ $ python manage.py test (нет SQL): Creating test database for alias &#39;default&#39;... . ---------------------------------------------------------------------- Ran 1 test in 0.009s OK Destroying test database for alias &#39;default&#39;... $ python manage.py test --settings=project.settings_test (SQL в консоле) Creating test database for alias &#39;default&#39;... (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() . ---------------------------------------------------------------------- Ran 1 test in 0.009s OK Destroying test database for alias &#39;default&#39;... Django 1.4+ и django-nose pip install django-nose в settings.py выставляем TEST_RUNNER = ‘django_nose.NoseTestSuiteRunner’ $ python manage.py test (нет SQL): ... $ python manage.py test --settings=project.settings_test (SQL в консоле) (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() ... Django 1.4+ и pytest-django pip install pytest-django создаем файл pytest.ini рядом с manage.py и задаем файл настроек: [pytest] DJANGO_SETTINGS_MODULE = project.settings переименуем tests.py в test_spam.py (стандартные имена для py.test) $ py.test (нет SQL): ... $ py.test --ds=project.settings_test (нет SQL, py.test перехватывает весь вывод) ... $ py.test --ds=project.settings_test -s (SQL в консоле) (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() ... Итого Как видно из предыдущих примеров, при использовании нашего settings_test в консоль выводятся все запросы к БД, сделанные в блоке контекстного менеджера assertNumQueries. Если мы хотим гонять тесты всегда с этими настройками, а не только когда хотим что-то отладить, то очень скоро устанем от обилия SQL. Можно сделать так: закомментировать строчку &#39;handlers&#39;: [&#39;console&#39;],, т.о. ничего выводится не будет. А когда нужно их посмотреть - просто убираем комментарий. Вывод ошибки assertNumQueries и Django 1.7+ Если assertNumQueries регистрирует отличное от ожидаемого количество обращений к БД, то выводится traceback и ошибка: Traceback (most recent call last): ... AssertionError: 1 queries executed, 2 expected Но в django 1.7+ так же выводятся и сделанные запросы: Captured queries were: QUERY = u&#39;SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21&#39; - PARAMS = () Как вы понимаете, настройки логов на это не влияют, очень удобно! Вывод всех SQL запросов в консоль не используя assertNumQueries До сих пор речь шла об использовании assertNumQueries. Но что если нужно посмотреть запросы вне этого менеджера? Для этого нужно самому выставить connection.use_debug_cursor = True перед прогоном тестов. Это можно сделать в test runner’е или используя специальный hook в py.test. SQL во всех тестах: Django 1.4+ Создаем файл test_runner.py, кладем его рядом с settings.py и вставляем такой код: try: from django.test.runner import DiscoverRunner as DjangoTestSuiteRunner except ImportError: # django &lt; 1.6 from django.test.simple import DjangoTestSuiteRunner from django.db import connections, DEFAULT_DB_ALIAS class SqlDebugTestSuiteRunner(DjangoTestSuiteRunner): def setup_test_environment(self, **kwargs): super(SqlDebugTestSuiteRunner, self).setup_test_environment(**kwargs) connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Теперь либо в settings (или settings_test, если используем его для тестов) указываем наш runner: TEST_RUNNER = &#39;project.test_runner.SqlDebugTestSuiteRunner&#39; Запускаем python manage.py test --settings=project.settings_test и видим все запросы, созданные за время тестов. Либо можно не задавать TEST_RUNNER, а использовать аргумент –testrunner: python manage.py test --settings=project.settings_test --testrunner=project.test_runner.SqlDebugTestSuiteRunner Результат будет тем же. SQL во всех тестах: Django 1.4+ и django-nose Для nose почти все так же, только runner нужно унаследовать от NoseTestSuiteRunner. test_runner.py: from django_nose import NoseTestSuiteRunner from django.db import connections, DEFAULT_DB_ALIAS class SqlDebugTestSuiteRunner(NoseTestSuiteRunner): def setup_test_environment(self, **kwargs): super(SqlDebugTestSuiteRunner, self).setup_test_environment(**kwargs) connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Да, на момент написания статьи версия django-nose==1.3. В этой версии не поддерживается аргумент –testrunner. Но я отправил пул реквест, возможно, он уже попал в релиз. SQL во всех тестах: Django 1.4+ и pytest-django В py.test все немного по другому, ведь там не используется стандартный runner из django. Вместо этого для установления тестового окружения можно использовать py.test хуки. Создаем файл plugin_debug_sql.py, кладем рядом с settings.py, вставляем код: def pytest_runtest_setup(item): from django.db import connections, DEFAULT_DB_ALIAS connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Запускать так: PYTHONPATH=`pwd`:$PYTHONPATH py.test -s --ds=sql.settings_test -p project.plugin_debug_sql Тут я явно добавляю текущую папку в PYTHONPATH, потому что иначе py.test не сможет найти наш плагин." />
+<link rel="canonical" href="https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html" />
+<meta property="og:url" content="https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-03-04T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Отладка SQL в django тестах" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-03-04T18:19:43+00:00","datePublished":"2015-03-04T18:19:43+00:00","description":"В django тестах можно замерять количество сделанных SQL запросов: def test_home(self): with self.assertNumQueries(1): response = self.client.get(&#39;/&#39;) self.assertEqual(response.status_code, 200) Если код в контексте assertNumQueries сделает иное количество обращений к БД, чем ожидается (здесь 1), то тест выдает ошибку. Но когда такой тест не проходит, бывает трудно определить лишний отправленный запрос. Для отладки такого случая удобно вывести в консоль отправленные SQL запросы. Далее опишу, как этого добиться. Кстати, если вы используете Django 1.7+, то вместе с ошибкой будут показаны все SQL выражения, т.е. если этого достаточно - то делать вообще ничего не надо. Ура! Если же вы используете более старые версии, то данная статья будет полезна. Настройка логов для вывода SQL запросов в консоль Django будет логировать SQL запрос, если соблюдается одного из следующих условий: settings.DEBUG = True или connection.use_debug_cursor = True По умолчанию в тестах всегда DEBUG = False вне зависимости от того, что стоит в вашем settings.DEBUG. Это правильно, тестировать лучше с боевыми настройками. Т.о. остается connection.use_debug_cursor, которое по умолчанию всегда None или False (в разных версиях по разному). Но контекстный менеджер assertNumQueries сам выставляет это значение в True на время работы соответствующего блока! Нам остается лишь правильно задать настройки логов. Создадим отдельный файл настроек для тестов и назовем его settings_test.py. Тесты гонять будем с ним. Рекомендую всегда делать так - это удобно. Структура проекта примерно такая: project ├── project │ ├── __init__.py │ ├── settings.py │ ├── settings_test.py │ ├── urls.py │ └── wsgi.py │ ├── spam # some app │ ├── __init__.py │ ├── views.py │ ├── tests.py │ └── models.py │ └── manage.py Файл tests.py содержит тесты приложения spam. Так организовывать тесты не самый хороший выбор, лучше выделить отдельную папку и держать все тесты там. Но для простоты нашего примера годится. Содержимое settings_test.py: from settings import * try: from settings import LOGGING except ImportError: LOGGING = dict(version=1, disable_existing_loggers=False, handlers={}, loggers={}) # use database in memory to not lose your data! DATABASES = { &#39;default&#39;: { &#39;ENGINE&#39;: &#39;django.db.backends.sqlite3&#39;, &#39;NAME&#39;: &#39;:memory:&#39;, &#39;USER&#39;: &#39;&#39;, &#39;PASSWORD&#39;: &#39;&#39;, &#39;TEST_CHARSET&#39;: &#39;utf8&#39;, }} LOGGING[&#39;handlers&#39;][&#39;console&#39;] = { &#39;level&#39;: &#39;DEBUG&#39;, &#39;class&#39;: &#39;logging.StreamHandler&#39;, } LOGGING[&#39;loggers&#39;][&#39;django.db.backends&#39;] = { &#39;handlers&#39;: [&#39;console&#39;], &#39;level&#39;: &#39;DEBUG&#39;, &#39;propagate&#39;: False, } LOGGING[&#39;loggers&#39;][&#39;django.db.backends.schema&#39;] = { &#39;propagate&#39;: False, # don&#39;t log schema queries, django &gt;= 1.7 } Тест (tests.py) выглядит так: from django.test import TestCase from spam.models import Foo class SpamTestCase(TestCase): def setUp(self): Foo.objects.create(title=&quot;Foo&quot;) def test_home(self): with self.assertNumQueries(1): response = self.client.get(&#39;/&#39;) self.assertEqual(response.status_code, 200) Давайте посмотрим, что будет при прогоне теста используя разные runner’ы. Django 1.4+ $ python manage.py test (нет SQL): Creating test database for alias &#39;default&#39;... . ---------------------------------------------------------------------- Ran 1 test in 0.009s OK Destroying test database for alias &#39;default&#39;... $ python manage.py test --settings=project.settings_test (SQL в консоле) Creating test database for alias &#39;default&#39;... (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() . ---------------------------------------------------------------------- Ran 1 test in 0.009s OK Destroying test database for alias &#39;default&#39;... Django 1.4+ и django-nose pip install django-nose в settings.py выставляем TEST_RUNNER = ‘django_nose.NoseTestSuiteRunner’ $ python manage.py test (нет SQL): ... $ python manage.py test --settings=project.settings_test (SQL в консоле) (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() ... Django 1.4+ и pytest-django pip install pytest-django создаем файл pytest.ini рядом с manage.py и задаем файл настроек: [pytest] DJANGO_SETTINGS_MODULE = project.settings переименуем tests.py в test_spam.py (стандартные имена для py.test) $ py.test (нет SQL): ... $ py.test --ds=project.settings_test (нет SQL, py.test перехватывает весь вывод) ... $ py.test --ds=project.settings_test -s (SQL в консоле) (0.000) SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21; args=() ... Итого Как видно из предыдущих примеров, при использовании нашего settings_test в консоль выводятся все запросы к БД, сделанные в блоке контекстного менеджера assertNumQueries. Если мы хотим гонять тесты всегда с этими настройками, а не только когда хотим что-то отладить, то очень скоро устанем от обилия SQL. Можно сделать так: закомментировать строчку &#39;handlers&#39;: [&#39;console&#39;],, т.о. ничего выводится не будет. А когда нужно их посмотреть - просто убираем комментарий. Вывод ошибки assertNumQueries и Django 1.7+ Если assertNumQueries регистрирует отличное от ожидаемого количество обращений к БД, то выводится traceback и ошибка: Traceback (most recent call last): ... AssertionError: 1 queries executed, 2 expected Но в django 1.7+ так же выводятся и сделанные запросы: Captured queries were: QUERY = u&#39;SELECT &quot;spam_foo&quot;.&quot;id&quot;, &quot;spam_foo&quot;.&quot;title&quot; FROM &quot;spam_foo&quot; LIMIT 21&#39; - PARAMS = () Как вы понимаете, настройки логов на это не влияют, очень удобно! Вывод всех SQL запросов в консоль не используя assertNumQueries До сих пор речь шла об использовании assertNumQueries. Но что если нужно посмотреть запросы вне этого менеджера? Для этого нужно самому выставить connection.use_debug_cursor = True перед прогоном тестов. Это можно сделать в test runner’е или используя специальный hook в py.test. SQL во всех тестах: Django 1.4+ Создаем файл test_runner.py, кладем его рядом с settings.py и вставляем такой код: try: from django.test.runner import DiscoverRunner as DjangoTestSuiteRunner except ImportError: # django &lt; 1.6 from django.test.simple import DjangoTestSuiteRunner from django.db import connections, DEFAULT_DB_ALIAS class SqlDebugTestSuiteRunner(DjangoTestSuiteRunner): def setup_test_environment(self, **kwargs): super(SqlDebugTestSuiteRunner, self).setup_test_environment(**kwargs) connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Теперь либо в settings (или settings_test, если используем его для тестов) указываем наш runner: TEST_RUNNER = &#39;project.test_runner.SqlDebugTestSuiteRunner&#39; Запускаем python manage.py test --settings=project.settings_test и видим все запросы, созданные за время тестов. Либо можно не задавать TEST_RUNNER, а использовать аргумент –testrunner: python manage.py test --settings=project.settings_test --testrunner=project.test_runner.SqlDebugTestSuiteRunner Результат будет тем же. SQL во всех тестах: Django 1.4+ и django-nose Для nose почти все так же, только runner нужно унаследовать от NoseTestSuiteRunner. test_runner.py: from django_nose import NoseTestSuiteRunner from django.db import connections, DEFAULT_DB_ALIAS class SqlDebugTestSuiteRunner(NoseTestSuiteRunner): def setup_test_environment(self, **kwargs): super(SqlDebugTestSuiteRunner, self).setup_test_environment(**kwargs) connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Да, на момент написания статьи версия django-nose==1.3. В этой версии не поддерживается аргумент –testrunner. Но я отправил пул реквест, возможно, он уже попал в релиз. SQL во всех тестах: Django 1.4+ и pytest-django В py.test все немного по другому, ведь там не используется стандартный runner из django. Вместо этого для установления тестового окружения можно использовать py.test хуки. Создаем файл plugin_debug_sql.py, кладем рядом с settings.py, вставляем код: def pytest_runtest_setup(item): from django.db import connections, DEFAULT_DB_ALIAS connections[DEFAULT_DB_ALIAS].use_debug_cursor = True Запускать так: PYTHONPATH=`pwd`:$PYTHONPATH py.test -s --ds=sql.settings_test -p project.plugin_debug_sql Тут я явно добавляю текущую папку в PYTHONPATH, потому что иначе py.test не сможет найти наш плагин.","headline":"Отладка SQL в django тестах","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html"},"url":"https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Записи разработчика</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/database/django/logging/sql/2015/03/04/debug-sql-django-test.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/database/django/logging/sql/2015/03/04/debug-sql-django-test.html" ><img src="/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Отладка SQL в django тестах</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-03-04T18:19:43+00:00" itemprop="datePublished">Mar 4, 2015
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/database/django/logging/sql/2015/03/04/debug-sql-django-test.html"><img src="https://img-fotki.yandex.ru/get/4517/85893628.c67/0_1795f5_a958c090_orig.png" alt="Отладка SQL в django тестах" title="Отладка SQL в django тестах" /></a></p>
+
+<p>В django тестах можно замерять количество сделанных SQL запросов:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="p">.</span><span class="n">assertNumQueries</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Если код в контексте <code class="language-plaintext highlighter-rouge">assertNumQueries</code> сделает иное количество обращений к БД, чем ожидается (здесь 1), то тест выдает ошибку. Но когда такой тест не проходит, бывает трудно определить лишний отправленный запрос. Для отладки такого случая удобно вывести в консоль отправленные SQL запросы. Далее опишу, как этого добиться.</p>
+
+<p>Кстати, если вы используете Django 1.7+, то вместе с ошибкой будут показаны все SQL выражения, т.е. если этого достаточно - то делать вообще ничего не надо. Ура! Если же вы используете более старые версии, то данная статья будет полезна.</p>
+
+<h3 id="настройка-логов-для-вывода-sql-запросов-в-консоль">Настройка логов для вывода SQL запросов в консоль</h3>
+
+<p>Django будет логировать SQL запрос, если соблюдается одного из следующих условий:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">settings</span><span class="p">.</span><span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+
+<p>или</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">connection</span><span class="p">.</span><span class="n">use_debug_cursor</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+
+<p>По умолчанию в тестах всегда <em>DEBUG = False</em> вне зависимости от того, что стоит в вашем <em>settings.DEBUG</em>. Это правильно, тестировать лучше с боевыми настройками.</p>
+
+<p>Т.о. остается <em>connection.use_debug_cursor</em>, которое по умолчанию всегда <em>None</em> или <em>False</em> (в разных версиях по разному). Но контекстный менеджер <em>assertNumQueries</em> сам выставляет это значение в <em>True</em> на время работы соответствующего блока! Нам остается лишь правильно задать настройки логов.</p>
+
+<p>Создадим отдельный файл настроек для тестов и назовем его settings_test.py. Тесты гонять будем с ним. Рекомендую всегда делать так - это удобно. Структура проекта примерно такая:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>project
+├── project
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── settings_test.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── spam  <span class="c"># some app</span>
+│   ├── __init__.py
+│   ├── views.py
+│   ├── tests.py
+│   └── models.py
+│
+└── manage.py
+</code></pre></div></div>
+
+<p>Файл tests.py содержит тесты приложения spam. Так организовывать тесты не самый хороший выбор, лучше выделить отдельную папку и держать все тесты там. Но для простоты нашего примера годится.</p>
+
+<p>Содержимое settings_test.py:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">settings</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">settings</span> <span class="kn">import</span> <span class="n">LOGGING</span>
+<span class="k">except</span> <span class="nb">ImportError</span><span class="p">:</span>
+    <span class="n">LOGGING</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">disable_existing_loggers</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">handlers</span><span class="o">=</span><span class="p">{},</span> <span class="n">loggers</span><span class="o">=</span><span class="p">{})</span>
+
+<span class="c1"># use database in memory to not lose your data!
+</span><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'default'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'ENGINE'</span><span class="p">:</span> <span class="s">'django.db.backends.sqlite3'</span><span class="p">,</span>
+        <span class="s">'NAME'</span><span class="p">:</span> <span class="s">':memory:'</span><span class="p">,</span>
+        <span class="s">'USER'</span><span class="p">:</span> <span class="s">''</span><span class="p">,</span>
+        <span class="s">'PASSWORD'</span><span class="p">:</span> <span class="s">''</span><span class="p">,</span>
+        <span class="s">'TEST_CHARSET'</span><span class="p">:</span> <span class="s">'utf8'</span><span class="p">,</span>
+    <span class="p">}}</span>
+
+<span class="n">LOGGING</span><span class="p">[</span><span class="s">'handlers'</span><span class="p">][</span><span class="s">'console'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'level'</span><span class="p">:</span> <span class="s">'DEBUG'</span><span class="p">,</span>
+    <span class="s">'class'</span><span class="p">:</span> <span class="s">'logging.StreamHandler'</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">LOGGING</span><span class="p">[</span><span class="s">'loggers'</span><span class="p">][</span><span class="s">'django.db.backends'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'handlers'</span><span class="p">:</span> <span class="p">[</span><span class="s">'console'</span><span class="p">],</span>
+    <span class="s">'level'</span><span class="p">:</span> <span class="s">'DEBUG'</span><span class="p">,</span>
+    <span class="s">'propagate'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">LOGGING</span><span class="p">[</span><span class="s">'loggers'</span><span class="p">][</span><span class="s">'django.db.backends.schema'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'propagate'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>  <span class="c1"># don't log schema queries, django &gt;= 1.7
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>Тест (tests.py) выглядит так:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.test</span> <span class="kn">import</span> <span class="n">TestCase</span>
+<span class="kn">from</span> <span class="nn">spam.models</span> <span class="kn">import</span> <span class="n">Foo</span>
+
+<span class="k">class</span> <span class="nc">SpamTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Foo</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">"Foo"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="p">.</span><span class="n">assertNumQueries</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Давайте посмотрим, что будет при прогоне теста используя разные runner’ы.</p>
+
+<h4 id="django-14">Django 1.4+</h4>
+
+<p><code class="language-plaintext highlighter-rouge">$ python manage.py test</code> (нет SQL):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Creating <span class="nb">test </span>database <span class="k">for </span><span class="nb">alias</span> <span class="s1">'default'</span>...
+<span class="nb">.</span>
+<span class="nt">----------------------------------------------------------------------</span>
+Ran 1 <span class="nb">test </span><span class="k">in </span>0.009s
+
+OK
+Destroying <span class="nb">test </span>database <span class="k">for </span><span class="nb">alias</span> <span class="s1">'default'</span>...
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">$ python manage.py test  --settings=project.settings_test</code> (SQL в консоле)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Creating <span class="nb">test </span>database <span class="k">for </span><span class="nb">alias</span> <span class="s1">'default'</span>...
+<span class="o">(</span>0.000<span class="o">)</span> SELECT <span class="s2">"spam_foo"</span>.<span class="s2">"id"</span>, <span class="s2">"spam_foo"</span>.<span class="s2">"title"</span> FROM <span class="s2">"spam_foo"</span> LIMIT 21<span class="p">;</span> <span class="nv">args</span><span class="o">=()</span>
+<span class="nb">.</span>
+<span class="nt">----------------------------------------------------------------------</span>
+Ran 1 <span class="nb">test </span><span class="k">in </span>0.009s
+
+OK
+Destroying <span class="nb">test </span>database <span class="k">for </span><span class="nb">alias</span> <span class="s1">'default'</span>...
+</code></pre></div></div>
+
+<h4 id="django-14-и-django-nose">Django 1.4+ и django-nose</h4>
+
+<ul>
+  <li>pip install django-nose</li>
+  <li>в settings.py выставляем <em>TEST_RUNNER = ‘django_nose.NoseTestSuiteRunner’</em></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">$ python manage.py test</code> (нет SQL):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">$ python manage.py test  --settings=project.settings_test</code> (SQL в консоле)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>0.000<span class="o">)</span> SELECT <span class="s2">"spam_foo"</span>.<span class="s2">"id"</span>, <span class="s2">"spam_foo"</span>.<span class="s2">"title"</span> FROM <span class="s2">"spam_foo"</span> LIMIT 21<span class="p">;</span> <span class="nv">args</span><span class="o">=()</span>
+...
+</code></pre></div></div>
+
+<h4 id="django-14-и-pytest-django">Django 1.4+ и pytest-django</h4>
+
+<ul>
+  <li>pip install pytest-django</li>
+  <li>создаем файл pytest.ini рядом с manage.py и задаем файл настроек:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">[</span>pytest]
+    DJANGO_SETTINGS_MODULE <span class="o">=</span> project.settings
+</code></pre></div></div>
+
+<ul>
+  <li>переименуем tests.py в test_spam.py (стандартные имена для py.test)</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">$ py.test</code> (нет SQL):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">$ py.test  --ds=project.settings_test</code> (нет SQL, py.test перехватывает весь вывод)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">$ py.test  --ds=project.settings_test -s</code> (SQL в консоле)</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">000</span><span class="p">)</span> <span class="k">SELECT</span> <span class="nv">"spam_foo"</span><span class="p">.</span><span class="nv">"id"</span><span class="p">,</span> <span class="nv">"spam_foo"</span><span class="p">.</span><span class="nv">"title"</span> <span class="k">FROM</span> <span class="nv">"spam_foo"</span> <span class="k">LIMIT</span> <span class="mi">21</span><span class="p">;</span> <span class="n">args</span><span class="o">=</span><span class="p">()</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<h4 id="итого">Итого</h4>
+
+<p>Как видно из предыдущих примеров, при использовании нашего settings_test в консоль выводятся все запросы к БД, сделанные в блоке контекстного менеджера <em>assertNumQueries</em>.</p>
+
+<p>Если мы хотим гонять тесты всегда с этими настройками, а не только когда хотим что-то отладить, то очень скоро устанем от обилия SQL. Можно сделать так: закомментировать строчку <code class="language-plaintext highlighter-rouge">'handlers': ['console'],</code>, т.о. ничего выводится не будет. А когда нужно их посмотреть - просто убираем комментарий.</p>
+
+<h3 id="вывод-ошибки-assertnumqueries-и-django-17">Вывод ошибки assertNumQueries и Django 1.7+</h3>
+
+<p>Если <em>assertNumQueries</em> регистрирует отличное от ожидаемого количество обращений к БД, то выводится traceback и ошибка:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="p">...</span>
+<span class="nb">AssertionError</span><span class="p">:</span> <span class="mi">1</span> <span class="n">queries</span> <span class="n">executed</span><span class="p">,</span> <span class="mi">2</span> <span class="n">expected</span>
+</code></pre></div></div>
+
+<p>Но в django 1.7+ так же выводятся и сделанные запросы:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Captured</span> <span class="n">queries</span> <span class="n">were</span><span class="p">:</span>
+<span class="n">QUERY</span> <span class="o">=</span> <span class="n">u</span><span class="s1">'SELECT "spam_foo"."id", "spam_foo"."title" FROM "spam_foo" LIMIT 21'</span> <span class="o">-</span> <span class="n">PARAMS</span> <span class="o">=</span> <span class="p">()</span>
+</code></pre></div></div>
+
+<p>Как вы понимаете, настройки логов на это не влияют, очень удобно!</p>
+
+<h3 id="вывод-всех-sql-запросов-в-консоль-не-используя-assertnumqueries">Вывод всех SQL запросов в консоль не используя assertNumQueries</h3>
+
+<p>До сих пор речь шла об использовании <em>assertNumQueries</em>. Но что если нужно посмотреть запросы вне этого менеджера?</p>
+
+<p>Для этого нужно самому выставить <code class="language-plaintext highlighter-rouge">connection.use_debug_cursor = True</code> перед прогоном тестов. Это можно сделать в test runner’е или используя специальный hook в py.test.</p>
+
+<h4 id="sql-во-всех-тестах-django-14">SQL во всех тестах: Django 1.4+</h4>
+
+<p>Создаем файл test_runner.py, кладем его рядом с settings.py и вставляем такой код:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">django.test.runner</span> <span class="kn">import</span> <span class="n">DiscoverRunner</span> <span class="k">as</span> <span class="n">DjangoTestSuiteRunner</span>
+<span class="k">except</span> <span class="nb">ImportError</span><span class="p">:</span>
+    <span class="c1"># django &lt; 1.6
+</span>    <span class="kn">from</span> <span class="nn">django.test.simple</span> <span class="kn">import</span> <span class="n">DjangoTestSuiteRunner</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">connections</span><span class="p">,</span> <span class="n">DEFAULT_DB_ALIAS</span>
+
+<span class="k">class</span> <span class="nc">SqlDebugTestSuiteRunner</span><span class="p">(</span><span class="n">DjangoTestSuiteRunner</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setup_test_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SqlDebugTestSuiteRunner</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">setup_test_environment</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">connections</span><span class="p">[</span><span class="n">DEFAULT_DB_ALIAS</span><span class="p">].</span><span class="n">use_debug_cursor</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+
+<p>Теперь либо в settings (или settings_test, если используем его для тестов) указываем наш runner:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TEST_RUNNER</span> <span class="o">=</span> <span class="s">'project.test_runner.SqlDebugTestSuiteRunner'</span>
+</code></pre></div></div>
+
+<p>Запускаем <code class="language-plaintext highlighter-rouge">python manage.py test --settings=project.settings_test</code> и видим все запросы, созданные за время тестов.</p>
+
+<p>Либо можно не задавать <em>TEST_RUNNER</em>, а использовать аргумент <em>–testrunner</em>:</p>
+
+<p><code class="language-plaintext highlighter-rouge">python manage.py test --settings=project.settings_test --testrunner=project.test_runner.SqlDebugTestSuiteRunner</code></p>
+
+<p>Результат будет тем же.</p>
+
+<h4 id="sql-во-всех-тестах-django-14-и-django-nose">SQL во всех тестах: Django 1.4+ и django-nose</h4>
+
+<p>Для nose почти все так же, только runner нужно унаследовать от NoseTestSuiteRunner.</p>
+
+<p>test_runner.py:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django_nose</span> <span class="kn">import</span> <span class="n">NoseTestSuiteRunner</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">connections</span><span class="p">,</span> <span class="n">DEFAULT_DB_ALIAS</span>
+
+<span class="k">class</span> <span class="nc">SqlDebugTestSuiteRunner</span><span class="p">(</span><span class="n">NoseTestSuiteRunner</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setup_test_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SqlDebugTestSuiteRunner</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">setup_test_environment</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">connections</span><span class="p">[</span><span class="n">DEFAULT_DB_ALIAS</span><span class="p">].</span><span class="n">use_debug_cursor</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+
+<p>Да, на момент написания статьи версия django-nose==1.3. В этой версии не поддерживается аргумент <em>–testrunner</em>. Но я отправил <a href="https://github.com/django-nose/django-nose/pull/187">пул реквест</a>, возможно, он уже попал в релиз.</p>
+
+<h4 id="sql-во-всех-тестах-django-14-и-pytest-django">SQL во всех тестах: Django 1.4+ и pytest-django</h4>
+
+<p>В py.test все немного по другому, ведь там не используется стандартный runner из django. Вместо этого для установления тестового окружения можно использовать py.test хуки.</p>
+
+<p>Создаем файл plugin_debug_sql.py, кладем рядом с settings.py, вставляем код:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">pytest_runtest_setup</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">connections</span><span class="p">,</span> <span class="n">DEFAULT_DB_ALIAS</span>
+    <span class="n">connections</span><span class="p">[</span><span class="n">DEFAULT_DB_ALIAS</span><span class="p">].</span><span class="n">use_debug_cursor</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+
+<p>Запускать так:</p>
+
+<p><code class="language-plaintext highlighter-rouge">PYTHONPATH=`pwd`:$PYTHONPATH py.test -s --ds=sql.settings_test -p project.plugin_debug_sql</code></p>
+
+<p>Тут я явно добавляю текущую папку в PYTHONPATH, потому что иначе py.test не сможет найти наш плагин.</p>
+
+  </div><a class="u-url" href="/database/django/logging/sql/2015/03/04/debug-sql-django-test.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
