@@ -1,4 +1,314 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T11:23:24+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Настройки логов для django</title><link href="https://st4lk.github.io/django/logging/2013/09/26/django-logging-settings.html" rel="alternate" type="text/html" title="Настройки логов для django" /><published>2013-09-26T18:19:43+00:00</published><updated>2013-09-26T18:19:43+00:00</updated><id>https://st4lk.github.io/django/logging/2013/09/26/django-logging-settings</id><content type="html" xml:base="https://st4lk.github.io/django/logging/2013/09/26/django-logging-settings.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/6725777&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T19:14:05+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Django проект: с нуля до работающего сервера</title><link href="https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server.html" rel="alternate" type="text/html" title="Django проект: с нуля до работающего сервера" /><published>2013-11-13T18:19:43+00:00</published><updated>2013-11-13T18:19:43+00:00</updated><id>https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server</id><content type="html" xml:base="https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server.html">&lt;p&gt;В этом посте хочу описать свой опыт создания и запуска django проекта на VPS-хостинге.&lt;/p&gt;
+
+&lt;p&gt;Разделим задачу на этапы:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Создание django-проекта&lt;/li&gt;
+  &lt;li&gt;Настройка деплоя&lt;/li&gt;
+  &lt;li&gt;Настройка сервера (установка нужных библиотек)&lt;/li&gt;
+  &lt;li&gt;Деплой проекта&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;создание-django-проекта&quot;&gt;Создание django-проекта&lt;/h3&gt;
+
+&lt;p&gt;Итак. Пусть наш проект называется myproject. Создадим его на локальном компьютере. Будем считать, что python у нас в системе установлен. Для начала нам понадобятся pip и virtualenv (если еще не стоят).&lt;/p&gt;
+
+&lt;p&gt;Создаем виртуальное окружение:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;virtualenv venv-myproject
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Активируем его:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# on *nix system&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source &lt;/span&gt;venv-myproject/bin/activate
+
+REM on windows
+venv&lt;span class=&quot;se&quot;&gt;\S&lt;/span&gt;cripts&lt;span class=&quot;se&quot;&gt;\a&lt;/span&gt;ctivate.bat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Далее нужно создать заготовку (минимально необходимые файлы проекта). Самый простой вариант - установить django и использовать команду django-admin.py startproject. Так создастся совсем базовый набор файлов. Нужно будет еще много вещей доделывать руками, это долго. Лучше иметь свой шаблон, где уже определены все наиболее часто используемые настройки, библиотеки. Для этих целей существуют разные утилиты, мне нравится &lt;a href=&quot;https://github.com/audreyr/cookiecutter&quot;&gt;cookiecutter&lt;/a&gt;. Я взял за основу &lt;a href=&quot;https://github.com/pydanny/cookiecutter-django&quot;&gt;cookiecutter шаблон для django&lt;/a&gt; и создал свой: &lt;a href=&quot;https://github.com/st4lk/cookiecutter-django&quot;&gt;https://github.com/st4lk/cookiecutter-django&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Для начала установим cookiecutter:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;cookiecutter
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Теперь создадим django проект из шаблона:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cookiecutter https://github.com/st4lk/cookiecutter-django.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;После этого в консоле будут заданы вопросы (название проекта, имя и т.д.) и создание заготовки проекта готово.&lt;/p&gt;
+
+&lt;p&gt;Работаем над проектом локально, тестим его.&lt;/p&gt;
+
+&lt;p&gt;И вот пришло время запустить проект на сервере. Но наш сервер пока представляет из себя голую операционную систему, в которую необходимо установить утилиты и библиотеки для работы веб приложения. Я буду описывать сервер с ОС Ubuntu.&lt;/p&gt;
+
+&lt;h3 id=&quot;настройка-деплоя&quot;&gt;Настройка деплоя&lt;/h3&gt;
+
+&lt;p&gt;Решил осветить этот вопрос до настройки сервера, т.к. способ деплоя будет влиять на все дальнейшие действия. Как-то я принимал проект, который использовал утилиту makesite. Она мне понравилась, использую ее и сейчас для некоторых проектов. Будет использоваться связка nginx, uwsgi, supervisor.&lt;/p&gt;
+
+&lt;p&gt;Cсылки:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;проект на github: &lt;a href=&quot;https://github.com/klen/makesite&quot;&gt;https://github.com/klen/makesite&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;описание процесса от создателя утилиты: &lt;a href=&quot;http://klen.github.io/deploy-setup-ru.html&quot;&gt;http://klen.github.io/deploy-setup-ru.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;makesite умеет создавать, обновлять, удалять проект на сервере.&lt;/p&gt;
+
+&lt;p&gt;При создании проекта makesite создает все необходимое окружение автоматически, основываясь на специальных шаблонах. В окружение входит: создание virtualenv, настройка nginx, uwsgi, supervisor, инициализация БД. Т.е. все необходимое, чтобы проект работал. Команда создания проекта:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;makesite &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &amp;lt;project_name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;где &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;project_name&amp;gt;&lt;/code&gt; - название нашего проекта. Позднее мы будем пользоваться этим названием для обновления.&lt;/p&gt;
+
+&lt;p&gt;Процесс обновления (деплоя) выглядит так. Мы разрабатываем проект локально, коммитим. При этом мы имеем внешний репозиторий на каком-либо сервере. Это может быть github, bitbucket или же свой собственный. В какой-то момент мы решаем обновить проект на сервере. Для этого мы push’им проект в наш внешний репозиторий. Далее, заходим по ssh на наш сервер (production сервер, на котором проект работает) и вводим такую команду:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;makesite update &amp;lt;project_name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Все, проект обновился. Makesite обновил код на сервере из репозитория, установил новые зависимости, выполнил миграции для БД, перезапустил Nginx. Все эти действия записаны в bash скриптах makesite’а и при желании их можно изменять, удалять, добавлять.&lt;/p&gt;
+
+&lt;h4 id=&quot;настройка-makesite&quot;&gt;Настройка makesite&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Создаем файл makesite.ini. Назовем его “главный”, чтобы не путаться, т.к. будет еще один. Вот шаблон для него:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; [Main]
+ # режим &apos;продакшн&apos;
+ mode=project
+ # домен нашего сервера, будет использован например для создания файла конфигурации nginx
+ domain=example.com
+ # имя пользователя БД postgres (для создания базы проекта)
+ pguser=postgres
+ # пароль пользователя БД postgres
+ pgpassword=secret_password
+ # имя базы данных проекта
+ dbname=project_name
+ # имя пользователя базы проекта
+ dbuser=project_user
+ # пароль пользователя базы проекта
+ dbpassword=project_user_password
+ # адрес процесса postgres. Скорее всего это менять не надо.
+ pghost=127.0.0.1
+ # адрес нашего внешнего репозитория
+ src=git+git@bitbucket.org:username/example.git
+ # пользователь, от которого makesite будет осуществлять свои действия
+ src_user=root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Создаем в корневой папке нашего проекта еще один файл makesite.ini, назовем его “дополнительный”:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; [Main]
+ template=virtualenv,db-postgres,django,uwsgi
+ django_settings=&amp;lt;project_name.settings&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;где &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;project_name.settings&amp;gt;&lt;/code&gt; заменяем на путь к модулю settings, относительно файла manage.py. Здесь именно python путь, т.е. используем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.&lt;/code&gt;, а не &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Дефолтные настройки для uwsgi, nginx и supervisor: &lt;a href=&quot;https://github.com/klen/makesite/tree/master/makesite/templates/uwsgi/deploy&quot;&gt;https://github.com/klen/makesite/tree/master/makesite/templates/uwsgi/deploy&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Если понадобиться их изменить, мы добавляем такие строки к текущему makesite.ini (дополнительному)&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Templates]
+uwsgi=%(source_dir)s/deploy/makesite_templates/uwsgi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Создаем директорию ‘deploy/makesite_templates’ в нашем проекте, копируем туда папку &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uwsgi&lt;/code&gt; отсюда: &lt;a href=&quot;https://github.com/klen/makesite/tree/master/makesite/templates&quot;&gt;https://github.com/klen/makesite/tree/master/makesite/templates&lt;/a&gt;. Затем ищем и изменяем нужные нам конфигурационные файлы тут: ‘deploy/makesite_templates/uwsgi/deploy/’&lt;/p&gt;
+
+&lt;p&gt;Итого у нас имеется&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;главный makesite.ini (его пока держим в сторонке, его нужно будет положить на сервер)&lt;/li&gt;
+  &lt;li&gt;дополнительный makesite.ini, который лежит в корне проекта&lt;/li&gt;
+  &lt;li&gt;если нужно, то папка deploy/makesite_templates/uwsgi с измененными настройками nginx, uwsgi, supervisor. Эта папка так же лежит в проекте.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Не забываем положить под git все это добро и сделать push на внешний репозиторий.&lt;/p&gt;
+
+&lt;h3 id=&quot;настройка-сервера&quot;&gt;Настройка сервера&lt;/h3&gt;
+
+&lt;p&gt;Все команды проверял для дистрибутива Ubuntu 12.04. В качестве базы данных будет использовать postgresql. Поехали.&lt;/p&gt;
+
+&lt;p&gt;Заходим на сервер под root’ом.&lt;/p&gt;
+
+&lt;p&gt;Проверяем версию python:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;python&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Далее я предполагаю, что python версии 2.7.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Мы зашли под root&apos;ом&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Первым делом обновим систему&lt;/span&gt;
+apt-get update
+apt-get upgrade
+
+&lt;span class=&quot;c&quot;&gt;# Утилиты для сборки&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;build-essential
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libpq-dev
+
+&lt;span class=&quot;c&quot;&gt;# Конфигурирование локалей&lt;/span&gt;
+locale-gen ru_RU.UTF-8
+locale-gen en_US.UTF-8
+dpkg-reconfigure locales
+
+&lt;span class=&quot;c&quot;&gt;# Установка git&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git
+
+&lt;span class=&quot;c&quot;&gt;# Устанавливаем setup-tools&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-setuptools python-pip
+
+&lt;span class=&quot;c&quot;&gt;# Исходники python2.7 для сборки библиотек&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python2.7-dev
+
+&lt;span class=&quot;c&quot;&gt;# На всякий случай&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-dev
+
+&lt;span class=&quot;c&quot;&gt;# Устоновка postgres&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;postgresql
+
+&lt;span class=&quot;c&quot;&gt;# правим файл&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# /etc/postgresql/{postgres_version}/main/pg_hba.conf&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# строку&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# &quot;local   all             postgres                                peer&quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Меняем на&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# &quot;local   all             postgres                                md5&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Настройка postgres&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; postgres psql template1
+&lt;span class=&quot;c&quot;&gt;# Установка пароля для юзера postgres&lt;/span&gt;
+&lt;span class=&quot;se&quot;&gt;\p&lt;/span&gt;assword postgres
+&lt;span class=&quot;c&quot;&gt;# !!! Вводим пароль и запоминаем его&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# нажимаем ctrl+d чтобы выйти&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Полезности для postgres&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;pgagent
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;pgadmin3
+
+&lt;span class=&quot;c&quot;&gt;# Если нужно изменить какие-либо настройки, обновляем конфиг (только если знаем, что делаем):&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# /etc/postgresql/{postgres_version}/main/postgresql.conf&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# где {postgres_version} = версия postgres.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Перезапусаем postgres&lt;/span&gt;
+/etc/init.d/postgresql restart
+
+&lt;span class=&quot;c&quot;&gt;# Установка uwsgi&lt;/span&gt;
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;uwsgi
+
+&lt;span class=&quot;c&quot;&gt;# Установка nginx, virtualenv, supervisor&lt;/span&gt;
+easy_install elementtree
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-virtualenv nginx supervisor
+
+&lt;span class=&quot;c&quot;&gt;# Скорее всего это понадобиться для работы с изображениями&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libjpeg-dev
+pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; Pillow
+
+&lt;span class=&quot;c&quot;&gt;# Создаем отдельный ssh ключ на сервере, который будет использовать makesite&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd
+test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; .ssh &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; .ssh
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.ssh
+ssh-keygen
+&lt;span class=&quot;c&quot;&gt;# На вопрос &quot;Enter file in which to save the key&quot; пишем makesite&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# На остальные просто enter, т.е. как-то так:&lt;/span&gt;
+
+  Generating public/private rsa key pair.
+  Enter file &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;which to save the key &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;/home/ubuntu/.ssh/id_rsa&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: makesite
+  Enter passphrase &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;empty &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;no passphrase&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
+  Enter same passphrase again:
+  Your identification has been saved &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;makesite.
+  Your public key has been saved &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;makesite.pub.
+
+&lt;span class=&quot;c&quot;&gt;# Копируем ключ в id_rsa&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;makesite id_rsa
+&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;makesite.pub id_rsa.pub
+
+&lt;span class=&quot;c&quot;&gt;# ! Важно&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Берем публичный ключ makesite.pub и добавляем его в список доступа нашего репозитория (который на github или bitbucket или на собственном сервере)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Описание с github: https://help.github.com/articles/generating-ssh-keys#step-3-add-your-ssh-key-to-github&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Скорее всего команда &apos;clip&apos; (из github описания) не будет найдена, поэтому просто копируем содержимое файла makesite.pub &quot;ручками&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Создаем директорию для хранения наших будущих сайтов&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; /var/www
+
+&lt;span class=&quot;c&quot;&gt;# Кладем наш &quot;главный&quot; makesite.ini в /var/www&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Устанавливаем makesite&lt;/span&gt;
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;makesite
+
+&lt;span class=&quot;c&quot;&gt;# Выводим и проверяем настройки bash&lt;/span&gt;
+makesite shell &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /var/www
+&lt;span class=&quot;c&quot;&gt;# Записываем их в ваш ~/.bashrc&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; ~/.bashrc
+&lt;span class=&quot;c&quot;&gt;# копируем и вставляем вывод предыдущей команды&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# он примерно такой:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Makesite integration&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ====================&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;MAKESITE_HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/www
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /usr/local/lib/python2.7/dist-packages/makesite/shell.sh
+
+&lt;span class=&quot;c&quot;&gt;# enter&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ctrl+d для выхода&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Загружаем настройки для текущего сеанса&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; ~/.bashrc
+
+&lt;span class=&quot;c&quot;&gt;# Если вдруг у вас есть зависимости в requirements.txt&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# для которых нужно скачать репозиторий с помощью mercurial&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# например что-то такое:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# -e hg+https://bitbucket.org/psam/django-postman/@92ede1fd0c32f4e5acc6c78b25804dc047267d3e#egg=django_postman-dev&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# то нужно установить mercurial&lt;/span&gt;
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mercurial
+
+&lt;span class=&quot;c&quot;&gt;# Устанавливаем проект (занимает время, может минут 5)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# предварительно изменив &amp;lt;project_name&amp;gt; на название нашего проекта&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Это название будем использовать позднее при обновлении проекта&lt;/span&gt;
+makesite &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &amp;lt;project_name&amp;gt;
+
+&lt;span class=&quot;c&quot;&gt;# Если вывелась строчка&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# OPERATION SUCCESSFUL&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# то все ок, если нет - смотрим ошибку&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# На всякий случай проверим, установились ли библиотеки из requirements.txt:&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/www/&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;project_name&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/master
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .virtualenv/bin/activate
+pip freeze
+&lt;span class=&quot;c&quot;&gt;# смотрим, установились ли зависимости из requirements.txt&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Так же можно проверить, создались ли таблицы и применились ли миграции.&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Убедитесь, что STATIC_ROOT и MEDIA_ROOT имеют верные значения&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# соответствующие папки должны быть тут:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# /var/www/{project_name}/master/&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# если каких-то папок не хватает, то можно создать их вручную&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# указав владельца и группу www-data&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# обновим статику (предполагается, что virtualenv активирована):&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/www/&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;project_name&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/master/source 
+python manage.py collectstatic &lt;span class=&quot;nt&quot;&gt;--noinput&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# На всякий случай перезапустим nginx&lt;/span&gt;
+/etc/init.d/nginx restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Все, проект запущен и работает.&lt;/p&gt;
+
+&lt;h3 id=&quot;деплой-проекта&quot;&gt;Деплой проекта&lt;/h3&gt;
+
+&lt;p&gt;Как уже говорилось, для обновления проекта действия такие:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;делаем push в наш репозиторий&lt;/li&gt;
+  &lt;li&gt;заходим на сервер по ssh и вводим &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;makesite update &amp;lt;project_name&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="django" /><category term="deploy" /><summary type="html">В этом посте хочу описать свой опыт создания и запуска django проекта на VPS-хостинге. Разделим задачу на этапы: Создание django-проекта Настройка деплоя Настройка сервера (установка нужных библиотек) Деплой проекта</summary></entry><entry><title type="html">Настройки логов для django</title><link href="https://st4lk.github.io/django/logging/2013/09/26/django-logging-settings.html" rel="alternate" type="text/html" title="Настройки логов для django" /><published>2013-09-26T18:19:43+00:00</published><updated>2013-09-26T18:19:43+00:00</updated><id>https://st4lk.github.io/django/logging/2013/09/26/django-logging-settings</id><content type="html" xml:base="https://st4lk.github.io/django/logging/2013/09/26/django-logging-settings.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/6725777&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Рассмотрим дефолтные настройки логов в django и попробуем их сделать максимально удобными.&lt;/p&gt;
 
@@ -1233,82 +1543,4 @@ request.get_full_path() почему-то возвращает не строку
 
 &lt;p&gt;Код скрипта:&lt;/p&gt;
 
-&lt;script src=&quot;https://gist.github.com/st4lk/4708673.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="free" /><category term="python" /><summary type="html">Gist Беглый поиск соответствующего скрипта на python’е не дал результов. В статье на хабре ссылка не работает. Решил написать свой велосипед, он доступен здесь. Запуск (нужен установленный python интерпретатор): python vkcom_audio_download.py Проверял на python 2.6 и 2.7. Никаких дополнительных библиотек не требуется.</summary></entry><entry><title type="html">Sublime text и github gists</title><link href="https://st4lk.github.io/django/python/2013/01/03/sublime-text-and-github-gists.html" rel="alternate" type="text/html" title="Sublime text и github gists" /><published>2013-01-03T18:19:43+00:00</published><updated>2013-01-03T18:19:43+00:00</updated><id>https://st4lk.github.io/django/python/2013/01/03/sublime-text-and-github-gists</id><content type="html" xml:base="https://st4lk.github.io/django/python/2013/01/03/sublime-text-and-github-gists.html">&lt;p&gt;&lt;a href=&quot;/django/python/2013/01/03/sublime-text-and-github-gists.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg&quot; alt=&quot;Sublime text и github gists&quot; title=&quot;Sublime text и github gists&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;В &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;Sublime text&lt;/a&gt; есть огромное количество полезных инструментов, помогающих быстро писать код. Пока я изучил лишь небольшую их часть, в том числе пытаюсь привыкнуть к Vintage mode (управление курсором в стиле vim). Но сейчас хочу рассказать о другом - об интеграции &lt;a href=&quot;https://gist.github.com/&quot;&gt;github gists&lt;/a&gt; с sublime text. Если вы не знаете, github gists позволяет сохранять скрипты, снипеты в виде отдельного файла, чтобы не создавать для этого целый репозиторий. При этом поддерживаются многие функции репозитория - версии, возможность форка.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;что-мы-получим-в-итоге&quot;&gt;Что мы получим в итоге&lt;/h3&gt;
-
-&lt;p&gt;Сохраняем снипет прямо из sublime, даем ему описание в виде ключевых слов, затем опять-таки из sublime ищем наш снипет по ключевым словам и видим его в редакторе. Все снипеты сохраняются на github, т.е. они доступны и с другого компьютера.&lt;/p&gt;
-
-&lt;p&gt;Не стоит забывать, что в самом sublime есть свой настраиваемый функционал снипетов. Однако он больше подходит для маленьких авто-заполнений, например при наборе def для питон кода вставлять шаблон для написания функции:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Снипеты в github gist подходят для чего-то большего - какая-либо готовая функция, которая делает конкретную задачу.&lt;/p&gt;
-
-&lt;h3 id=&quot;настроим-этот-функционал-в-нашем-редакторе&quot;&gt;Настроим этот функционал в нашем редакторе&lt;/h3&gt;
-
-&lt;h4 id=&quot;установим-плагин-для-работы-с-github-gist&quot;&gt;Установим плагин для работы с github gist&lt;/h4&gt;
-
-&lt;p&gt;Проще всего это сделать с помощью пакетного менеджера sublime. &lt;a href=&quot;http://wbond.net/sublime_packages/package_control/installation&quot;&gt;Здесь&lt;/a&gt; есть инструкция для его установки. В sublime нажимаем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt;, вводим &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;install&lt;/code&gt;, и далее &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/1_package_control_install.jpeg&quot; alt=&quot;Sublime install package&quot; title=&quot;Sublime install package&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/2_package_control_gist.jpeg&quot; alt=&quot;Sublime install gist package&quot; title=&quot;Sublime install gist package&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;теперь-дадим-плагину-доступ-к-нашему-github-аккаунту&quot;&gt;Теперь дадим плагину доступ к нашему github аккаунту&lt;/h4&gt;
-
-&lt;p&gt;Нажимаем Preferences-&amp;gt;Package settigns-&amp;gt;Gist-&amp;gt;Settings User.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/3_gist_settings_menu.jpeg&quot; alt=&quot;Gist sublime Preferences&quot; title=&quot;Gist sublime Preferences&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Можно либо указать логин+пароль, либо токен. Если нужных настроек в Settings User нет, то их можно скопировать из Settings Default. Только default settings лучше не менять. Чтобы получить токен, нужно в командной строке выполнить такую команду (должен быть установлен &lt;a href=&quot;http://curl.haxx.se/&quot;&gt;curl&lt;/a&gt;):&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; USERNAME &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt; POST https://api.github.com/authorizations &lt;span class=&quot;nt&quot;&gt;--data&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;{&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scopes&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;gist&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;]}&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Где USERNAME - ваш логин на github&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/4_gist_auth.jpeg&quot; alt=&quot;Gist sublime settings&quot; title=&quot;Gist sublime settings&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;создадим-gist&quot;&gt;Создадим gist&lt;/h4&gt;
-
-&lt;p&gt;Пишем код нашего снипета в новой вкладке sublime. Я написал код для получения содержимого csv файла в виде списка списков. Нажимаем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt;, вводим &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist create public&lt;/code&gt; и enter. Здесь работает fuzzy поиск, так что я набираю просто &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;public&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/5_gist_create_public.jpeg&quot; alt=&quot;Gist sublime create&quot; title=&quot;Gist sublime create&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Даем нашему снипету описание. Важно включить значащие слова, т.к. по ним потом будет идти поиск. Я напишу так “Python: Get csv lines”.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/6_gist_set_description.jpeg&quot; alt=&quot;Gist sublime description&quot; title=&quot;Gist sublime description&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Будет еще запрос на название файла, можно просто нажать enter.&lt;/p&gt;
-
-&lt;h4 id=&quot;найдем-только-что-созданный-снипет&quot;&gt;Найдем только что созданный снипет&lt;/h4&gt;
-
-&lt;p&gt;Вызываем строку ввода команд &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + shift + p&lt;/code&gt; и пишем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gist open&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/7_gist_open.jpeg&quot; alt=&quot;Gist sublime open&quot; title=&quot;Gist sublime open&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Далее пишем ключевые слова “python csv”&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/8_gist_find_by_descr.jpeg&quot; alt=&quot;Gist sublime find&quot; title=&quot;Gist sublime find&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;И видим код снипета&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2013-01-03-sublime-text-and-github-gists/9_gist_opened.jpeg&quot; alt=&quot;Gist sublime opened&quot; title=&quot;Gist sublime opened&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Этот снипет так же создался на github: &lt;a href=&quot;https://gist.github.com/3931305&quot;&gt;https://gist.github.com/3931305&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;ссылки&quot;&gt;Ссылки&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Редактор кода &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;sublime text&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/condemil/Gist&quot;&gt;Репозиторий&lt;/a&gt; плагина Gist&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://tutsplus.com/lesson/sexy-code-snippet-management-with-gists/&quot;&gt;Видео&lt;/a&gt; про sublime и github gist на &lt;a href=&quot;http://tutsplus.com/&quot;&gt;tutsplus.com&lt;/a&gt; (на английском)&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://tutsplus.com/course/improve-workflow-in-sublime-text-2/&quot;&gt;Видео курс&lt;/a&gt; по sublime text на &lt;a href=&quot;http://tutsplus.com/&quot;&gt;tutsplus.com&lt;/a&gt; (на английском)&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="django" /><category term="python" /><summary type="html">В Sublime text есть огромное количество полезных инструментов, помогающих быстро писать код. Пока я изучил лишь небольшую их часть, в том числе пытаюсь привыкнуть к Vintage mode (управление курсором в стиле vim). Но сейчас хочу рассказать о другом - об интеграции github gists с sublime text. Если вы не знаете, github gists позволяет сохранять скрипты, снипеты в виде отдельного файла, чтобы не создавать для этого целый репозиторий. При этом поддерживаются многие функции репозитория - версии, возможность форка.</summary></entry></feed>
+&lt;script src=&quot;https://gist.github.com/st4lk/4708673.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="free" /><category term="python" /><summary type="html">Gist Беглый поиск соответствующего скрипта на python’е не дал результов. В статье на хабре ссылка не работает. Решил написать свой велосипед, он доступен здесь. Запуск (нужен установленный python интерпретатор): python vkcom_audio_download.py Проверял на python 2.6 и 2.7. Никаких дополнительных библиотек не требуется.</summary></entry></feed>
