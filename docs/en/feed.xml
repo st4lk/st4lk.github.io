@@ -1,4 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T19:14:12+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Django project: from beginning to working server</title><link href="https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server.html" rel="alternate" type="text/html" title="Django project: from beginning to working server" /><published>2013-11-13T18:19:43+00:00</published><updated>2013-11-13T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server</id><content type="html" xml:base="https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server.html">&lt;p&gt;In this post i’ll describe my experience of deploying django project to VPS-hosting.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T19:28:21+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Tornado web application example</title><link href="https://st4lk.github.io/en/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html" rel="alternate" type="text/html" title="Tornado web application example" /><published>2013-12-29T18:19:43+00:00</published><updated>2013-12-29T18:19:43+00:00</updated><id>https://st4lk.github.io/en/async/tornado/mongodb/2013/12/29/tornado-web-application-example</id><content type="html" xml:base="https://st4lk.github.io/en/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/acl_webapp&quot; data-icon=&quot;octicon-star&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/acl_webapp on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/en/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-12-29-tornado-web-application-example/tornado.jpeg&quot; alt=&quot;Tornado web application example&quot; title=&quot;Tornado web application example&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.tornadoweb.org/&quot;&gt;Tornado&lt;/a&gt; - async web framework for python. I’ll cover shortly pros and cons about tornado and introduce typical web project, that is built on top of it.&lt;/p&gt;
+
+&lt;p&gt;By describing pros and cons i mean my own point of view in compare with django.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;tornado-pros&quot;&gt;Tornado pros&lt;/h3&gt;
+
+&lt;h4 id=&quot;1-asynchronous&quot;&gt;1. Asynchronous.&lt;/h4&gt;
+
+&lt;p&gt;In tornado core there is a infinite loop called “ioloop”, that listen for events. All that happens in one single thread. For example, somebody wants to fetch /home/ url. For that event &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HomeHandler&lt;/code&gt; is registered and ioloop will call it. The handler code is executing. What happens with ioloop? It is blocked now, until handler code is finished. If another user will fetch the url, he has to wait until previous request will be processed. What’s the point then? There is a mechanism of callbacks. For long task processing we ask: do that hard operation (db access, or external http fetch) and when you’ll finish, call this callback please to let me know. For know, go ahead. Ioloop continue to process other events. At some time, our long task will be finished and corresponding event will be raised and registered callback will be called. But keep in mind, that functions itself must be async. Operation like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;time.sleep(10)&lt;/code&gt; will block ioloop anyway, even if it is called as async function. So for async operations special functions and libraries are used.&lt;/p&gt;
+
+&lt;p&gt;But anyway, what benefits gives async style with only one started thread? Why it is bad to create new process or thread for each new request?&lt;/p&gt;
+
+&lt;p&gt;Because process and even thread is expensive in terms of computer resources. Imagine that for each request we’ll create new thread. Then, if 1000 users will access simultaneously, then we’ll need to create 1000 threads! I suppose regular server can’t afford it. Of course, we always can limit max number of threads. In this case new user have to wait until some thread will be freed.&lt;/p&gt;
+
+&lt;p&gt;Lets imagine more interesting task - online chat. When somebody writes message, all members must see it. What solutions comes to mind for django? For example, every member will send ajax request every 5 seconds to get new messages. This will eat server resources very quickly in case of big amount of chat members. For each ajax request it is needed to open and close connection, spawn new thread. It cost a lot. Another variant will be keep-alive http requests, when we hold connection without closing. But it is a &lt;a href=&quot;http://en.wikipedia.org/wiki/C10k_problem&quot;&gt;C10K&lt;/a&gt; problem. At some time it will be needed to spawn 10k thread (or even more).&lt;/p&gt;
+
+&lt;p&gt;That’s where async solutions will help. It is possible to use &lt;a href=&quot;http://en.wikipedia.org/wiki/WebSocket&quot;&gt;WebSockets&lt;/a&gt; or http request with keep-alive. In async frameworks such requests will not eat all computer resources.&lt;/p&gt;
+
+&lt;h4 id=&quot;2-websocket&quot;&gt;2. WebSocket&lt;/h4&gt;
+
+&lt;p&gt;In some way it is a result of async. Look &lt;a href=&quot;http://en.wikipedia.org/wiki/WebSocket&quot;&gt;here&lt;/a&gt; for websocket description.&lt;/p&gt;
+
+&lt;h4 id=&quot;3-less-orm-and-html-template-dependency&quot;&gt;3. Less ORM and html-template dependency&lt;/h4&gt;
+
+&lt;p&gt;For example django’s built-in ORM works only with SQL databases. If you want to connect to mongodb, you’ll probably can’t use third party applications, that are linked to django’s ORM. Also some built-in apps, for example admin. You’ll face same situation, if you want to use SQLAlchemy instead of django’s ORM.&lt;/p&gt;
+
+&lt;p&gt;Many apps are using django’s template system. Want to use Jinja2? Well, then adopt all this apps for it!&lt;/p&gt;
+
+&lt;p&gt;Tornado has less problems with that. But at the same time tornado doesn’t have such ready applications as django does. So you’ll have to write some tools manually anyway (admin, hello). Also, not all database drivers has async support. Currently i know async drivers for mongodb, postgresql. Not sure about mysql.&lt;/p&gt;
+
+&lt;h3 id=&quot;tornado-cons&quot;&gt;Tornado cons&lt;/h3&gt;
+
+&lt;h4 id=&quot;1-less-popularity-than-django&quot;&gt;1. Less popularity than django.&lt;/h4&gt;
+
+&lt;p&gt;It means, that you’ll have to write many things by yourself, whereas django has third-party apps. For example, admin.&lt;/p&gt;
+
+&lt;h4 id=&quot;2-code-complexity&quot;&gt;2. Code complexity.&lt;/h4&gt;
+
+&lt;p&gt;Async code is a little bit harder to read and write. So it is harder to start working with tornado, that with django.&lt;/p&gt;
+
+&lt;h3 id=&quot;typical-project-example-for-tornado&quot;&gt;Typical project example for tornado&lt;/h3&gt;
+
+&lt;p&gt;Here &lt;a href=&quot;https://github.com/st4lk/acl_webapp&quot;&gt;https://github.com/st4lk/acl_webapp&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;It is an &lt;a href=&quot;http://en.wikipedia.org/wiki/Access_control_list&quot;&gt;ACL&lt;/a&gt; application, i.e. application with access rights. Rights are based on models: every user have field permissions:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;permissions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;model_name_1&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;read&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,],&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;model_name_2&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;read&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;write&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;model_name_3&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;read&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;write&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;delete&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this case user has rights “read only” for model ‘model_name_1’, “read and write” for ‘model_name_2” and “read, write and delete” for model_name_3.&lt;/p&gt;
+
+&lt;p&gt;Project follows django structure: it has applications, each of them solves some certain task. Here are app examples:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;accounts&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;news&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pages&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;and so on.&lt;/p&gt;
+
+&lt;p&gt;Each application contains models, handlers, forms.&lt;/p&gt;
+
+&lt;p&gt;Base handlers:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ListHandler&lt;/li&gt;
+  &lt;li&gt;DetailHandler&lt;/li&gt;
+  &lt;li&gt;CreateHandler&lt;/li&gt;
+  &lt;li&gt;DeleteHandler&lt;/li&gt;
+  &lt;li&gt;and so on, as in django&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All settings are defined in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;used-technologies&quot;&gt;Used technologies&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.mongodb.org/&quot;&gt;mongodb&lt;/a&gt; (database)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://motor.readthedocs.org/en/stable/&quot;&gt;motor&lt;/a&gt; (async driver for DB)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://schematics.readthedocs.org/en/latest/&quot;&gt;schematics&lt;/a&gt; (abstract models for DB)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://wtforms.readthedocs.org/en/latest/&quot;&gt;WTForms&lt;/a&gt; (forms)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://jinja.pocoo.org/docs/&quot;&gt;Jinja2&lt;/a&gt; (html templates)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;P.S. It is possible, that i’ve made a mistake in tornado describing and understanding. I’ll be glad to read it in comments!&lt;/p&gt;</content><author><name></name></author><category term="async" /><category term="tornado" /><category term="mongodb" /><summary type="html">Star Tornado - async web framework for python. I’ll cover shortly pros and cons about tornado and introduce typical web project, that is built on top of it. By describing pros and cons i mean my own point of view in compare with django.</summary></entry><entry><title type="html">Django project: from beginning to working server</title><link href="https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server.html" rel="alternate" type="text/html" title="Django project: from beginning to working server" /><published>2013-11-13T18:19:43+00:00</published><updated>2013-11-13T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server</id><content type="html" xml:base="https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server.html">&lt;p&gt;In this post i’ll describe my experience of deploying django project to VPS-hosting.&lt;/p&gt;
 
 &lt;p&gt;Steps of deploying and server setup:&lt;/p&gt;
 
@@ -1511,29 +1603,4 @@ For some reason, request.get_full_path() returns not the &lt;code class=&quot;la
 &lt;p&gt;And if preferred language is russian, then no redirect will occur, i.e. on request to ‘/’ exactly that url will be rendered.&lt;/p&gt;
 
 &lt;h4 id=&quot;note&quot;&gt;Note&lt;/h4&gt;
-&lt;p&gt;In such approach there is some nasty case. Imagine, that preferred browser language - english. But user wants to see russian version, that is rendered at url without prefix. If for switching language simple links are used like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;{{ specific language url}}&quot;&amp;gt;&lt;/code&gt;, then user will be always redirected to english version (from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/en/&apos;&lt;/code&gt;). To avoid this, it is needed to write information about choosen language to user cookies. It can be done using builtin django &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#the-set-language-redirect-view&quot;&gt;set_language&lt;/a&gt; view.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="i18n" /><summary type="html">Star Starting from django 1.4, it is possible to set url prefix for each activated language. For example, we want site, that will have russian and english version. To do it, add following to settings.py:</summary></entry><entry><title type="html">Script for downloading music from vkontakte</title><link href="https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html" rel="alternate" type="text/html" title="Script for downloading music from vkontakte" /><published>2013-02-04T18:19:43+00:00</published><updated>2013-02-04T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru</id><content type="html" xml:base="https://st4lk.github.io/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/4708673&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg&quot; alt=&quot;Script for downloading music from vkontakte&quot; title=&quot;Script for downloading music from vkontakte&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;A quick search of corresponding python script doesn’t give results. In &lt;a href=&quot;http://habrahabr.ru/post/143860/&quot;&gt;post&lt;/a&gt; on habra link is broken. So i decided to write my own bicycle, it is avaliable &lt;a href=&quot;https://gist.github.com/4708673&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Launch (needs installed &lt;a href=&quot;http://www.python.org/download/releases/2.7.4/&quot;&gt;python interpreter&lt;/a&gt;):&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python vkcom_audio_download.py
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Tested on python 2.6 and 2.7. No external libraries required.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;algorithm&quot;&gt;Algorithm&lt;/h3&gt;
-
-&lt;p&gt;Script checks saved access_token. If it doesn’t exists or expired, then page with authorisation is opened in browser. After confirmation you will be redirected to &lt;a href=&quot;https://oauth.vk.com/blank.htm#&quot;&gt;https://oauth.vk.com/blank.htm#&lt;/a&gt;… It is needed to copy this url and paste to script console. After that downloading is started. If audio track is present on disk - no downloading happens for it.&lt;/p&gt;
-
-&lt;p&gt;You account info will be requested by application with app_id = 3358129. It is possible to create your own Standalone-application with audio access at &lt;a href=&quot;http://vk.com/editapp?act=create&quot;&gt;http://vk.com/editapp?act=create&lt;/a&gt;. And replace APP_ID with yours.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Script avaliable here&lt;/strong&gt;: &lt;a href=&quot;https://gist.github.com/4708673&quot;&gt;https://gist.github.com/4708673&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Script code:&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/st4lk/4708673.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="free" /><category term="python" /><summary type="html">Gist A quick search of corresponding python script doesn’t give results. In post on habra link is broken. So i decided to write my own bicycle, it is avaliable here. Launch (needs installed python interpreter): python vkcom_audio_download.py Tested on python 2.6 and 2.7. No external libraries required.</summary></entry></feed>
+&lt;p&gt;In such approach there is some nasty case. Imagine, that preferred browser language - english. But user wants to see russian version, that is rendered at url without prefix. If for switching language simple links are used like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;{{ specific language url}}&quot;&amp;gt;&lt;/code&gt;, then user will be always redirected to english version (from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/en/&apos;&lt;/code&gt;). To avoid this, it is needed to write information about choosen language to user cookies. It can be done using builtin django &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#the-set-language-redirect-view&quot;&gt;set_language&lt;/a&gt; view.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="i18n" /><summary type="html">Star Starting from django 1.4, it is possible to set url prefix for each activated language. For example, we want site, that will have russian and english version. To do it, add following to settings.py:</summary></entry></feed>

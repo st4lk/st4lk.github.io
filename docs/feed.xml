@@ -1,4 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T19:14:05+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Django проект: с нуля до работающего сервера</title><link href="https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server.html" rel="alternate" type="text/html" title="Django проект: с нуля до работающего сервера" /><published>2013-11-13T18:19:43+00:00</published><updated>2013-11-13T18:19:43+00:00</updated><id>https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server</id><content type="html" xml:base="https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server.html">&lt;p&gt;В этом посте хочу описать свой опыт создания и запуска django проекта на VPS-хостинге.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T19:28:14+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Tornado: пример веб приложения</title><link href="https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html" rel="alternate" type="text/html" title="Tornado: пример веб приложения" /><published>2013-12-29T18:19:43+00:00</published><updated>2013-12-29T18:19:43+00:00</updated><id>https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example</id><content type="html" xml:base="https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/acl_webapp&quot; data-icon=&quot;octicon-star&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/acl_webapp on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-12-29-tornado-web-application-example/tornado.jpeg&quot; alt=&quot;Tornado: пример веб приложения&quot; title=&quot;Tornado: пример веб приложения&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.tornadoweb.org/&quot;&gt;Tornado&lt;/a&gt; - асинхронный веб фреймворк для python’а. Вначале я приведу краткий перечень плюсов и минусов tornado, а потом расскажу о типовом веб проекте с использованием этого инструмента.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;плюсы-tornado&quot;&gt;Плюсы tornado&lt;/h3&gt;
+
+&lt;p&gt;В плюсах и минусах я буду приводить свое личное ощущение по сравнению с django.&lt;/p&gt;
+
+&lt;h4 id=&quot;1-асинхронность&quot;&gt;1. Асинхронность.&lt;/h4&gt;
+
+&lt;p&gt;Торнадо представляет из себя бесконечный цикл (ioloop), который постоянно проверяет наличие событий. Все это происходит в одном потоке. К примеру кто-то обратился по адресу /home/. Допустим в качестве обработчика этого события зарегистрирован &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HomeHandler&lt;/code&gt; (handler в торнадо примерно тоже самое, что view в django). ioloop вызывает HomeHandler и начинается выполняться его код. Что происходит в это время с ioloop? Он блокируется. Eсли обратиться другой пользователь, он будет ждать, пока обработается предыдущее событие.&lt;/p&gt;
+
+&lt;p&gt;В чем смысл тогда?&lt;/p&gt;
+
+&lt;p&gt;А в том, что есть специальный механизм callback’ов. Для выполнения долгих действий мы “говорим”: выполни эту операцию (например, обращение к БД или внешний http запрос), а когда закончишь, вызови вот эту функцию. И тогда, после регистрации callback’a ioloop продолжает работать, обрабатывая другие события. В какой-то момент наша долгая задача выполниться и вызовет наш зарегистированный callback. Однако, стоит иметь в виду, функция сама по себе должна поддерживать асинхронность, если сказать “выполни &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;time.sleep(10)&lt;/code&gt; и вызови этот callback”, то ioloop все равно будет заблокирована из-за &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;time.sleep&lt;/code&gt;. Поэтому для асинхронных задач используются специальные функции, библиотеки.&lt;/p&gt;
+
+&lt;p&gt;Но все же, какое преимущество дает только один запущенный поток? Чем плохо на каждый запрос создать новый процесс или поток?&lt;/p&gt;
+
+&lt;p&gt;А в том, что создание потока, а тем более процесса - довольно дорогостоящая операция с точки зрения ресурсов компьютера. Представим, что на каждый запрос мы создаем новый поток. Тогда если обратяться одновременно 1000 пользователей, то мы получим 1000 потоков. Серверу придется очень тяжело, скорее всего он не справится. Конечно, мы всегда ограничиваем максимальное количество потоков и процессов, тогда следующий пользователь будет ждать, когда освободиться какой-либо из потоков.&lt;/p&gt;
+
+&lt;p&gt;Представим проблему посложнее - создать онлайн чат. Когда кто-то пишет в чате, все должны об этом узнать. Какие варианты решения будут на django? Например, опрашивать каждым участником по ajax о наличии нового сообщения скажем раз в 5 секунд. Такое решение быстро исчерпает все ресурсы сервера при увеличении количества участников. На каждый ajax запрос нужно создавать новое соединение и новый поток и делать это постоянно, а этого дорого. Есть вариант с keep-alive, когда мы постоянно держим соединение открытым, не обрываем его. Но это прямая дорога к &lt;a href=&quot;http://en.wikipedia.org/wiki/C10k_problem&quot;&gt;C10K&lt;/a&gt; проблеме. Т.е. мы же не сможем держать запущенными 10000 потоков.&lt;/p&gt;
+
+&lt;p&gt;Вот тут на помощь приходят асинхронные решения. С ними можно использовать &lt;a href=&quot;http://en.wikipedia.org/wiki/WebSocket&quot;&gt;WebSocket’ы&lt;/a&gt;, или те же keep-alive http запросы, в асинхронных фреймворках они не съедят все ресурсы.&lt;/p&gt;
+
+&lt;h4 id=&quot;2-работа-с-websocketами&quot;&gt;2. Работа с WebSocket’ами&lt;/h4&gt;
+
+&lt;p&gt;Это отчасти следствие асинхронности, но лучше выделить это отдельным пунктом. Про вебсокеты можно почитать &lt;a href=&quot;http://en.wikipedia.org/wiki/WebSocket&quot;&gt;тут&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;3-менее-слабая-зависимость-от-orm-и-html-шаблонизатора&quot;&gt;3. Менее слабая зависимость от ORM и html-шаблонизатора.&lt;/h4&gt;
+
+&lt;p&gt;For example django’s built-in ORM works only with SQL databases. If you want to connect to mongodb, you’ll К примеру django’вский встроенный ORM работает только с SQL базами данных. Если вы хотите подключить mongodb, то вам придется отказаться (либо допиливать самому) от всех готовых приложений, которые завязаны на ORM django, включая админку. Это же вас ждет, если вы хотите использовать например SQL Alchemy. Так же, если вы хотите сменить встроенный шаблонизатор на другой (Jinja2), то опять-таки, многие готовые аппы для django могут так просто не заработать. С админкой та же беда. У tornado этих проблем меньше. Но в то же время для tornado вообще меньше готовых приложений, встроенной админки тоже, как вы понимаете, нет. И да, нужно использовать асинхронный драйвер для работы с выбранной БД, чтобы использовать все преимущества асинхронности. Не для всех БД такие драйвера есть. Точно есть для mongodb, posgresql. Для mysql - не знаю.&lt;/p&gt;
+
+&lt;h3 id=&quot;минусы-tornado&quot;&gt;Минусы tornado&lt;/h3&gt;
+
+&lt;h4 id=&quot;1-меньшая-популярность-чем-у-django&quot;&gt;1. Меньшая популярность (чем у django).&lt;/h4&gt;
+
+&lt;p&gt;Это означает, что многое из того, что есть готового для django, для tornado придется делать самому. Админку например.&lt;/p&gt;
+
+&lt;h4 id=&quot;2-сложность-кода&quot;&gt;2. Сложность кода.&lt;/h4&gt;
+
+&lt;p&gt;Как ни крути, но асинхронный код писать сложнее, чем синхронный. Т.е. более высокий порог вхождения.&lt;/p&gt;
+
+&lt;h3 id=&quot;проект-типового-приложения-на-tornado&quot;&gt;Проект типового приложения на tornado&lt;/h3&gt;
+
+&lt;p&gt;Здесь &lt;a href=&quot;https://github.com/st4lk/acl_webapp&quot;&gt;https://github.com/st4lk/acl_webapp&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Преставляет из себя ACL приложение, т.е. приложение с правами доступа. Права основаны на модели: у каждого юзера есть поле permissions:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;permissions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;model_name_1&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;read&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,],&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;model_name_2&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;read&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;write&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;model_name_3&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;read&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;write&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;delete&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;В данном случае у пользователя есть права “только чтение” для модели model_name_1, “читать и записывать” для model_name_2, и “читать, записывать, удалять” для model_name_3.&lt;/p&gt;
+
+&lt;p&gt;Проект следует структуре django: есть приложения (apps), каждое из которых выполняет определеную функцию. Вот пример приложений:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;accounts&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;news&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pages&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;и т.д.&lt;/p&gt;
+
+&lt;p&gt;Каждое приложение содержит модели, хендлеры, формы.&lt;/p&gt;
+
+&lt;p&gt;Базовые хендлеры:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ListHandler&lt;/li&gt;
+  &lt;li&gt;DetailHandler&lt;/li&gt;
+  &lt;li&gt;CreateHandler&lt;/li&gt;
+  &lt;li&gt;DeleteHandler&lt;/li&gt;
+  &lt;li&gt;и т.д.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Все настройки определены в &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;использумые-технологии&quot;&gt;Использумые технологии&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.mongodb.org/&quot;&gt;mongodb&lt;/a&gt; (база данных)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://motor.readthedocs.org/en/stable/&quot;&gt;motor&lt;/a&gt; (асинхронный драйвер для БД)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://schematics.readthedocs.org/en/latest/&quot;&gt;schematics&lt;/a&gt; (построение абстрактных моделей БД)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://wtforms.readthedocs.org/en/latest/&quot;&gt;WTForms&lt;/a&gt; (формы)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://jinja.pocoo.org/docs/&quot;&gt;Jinja2&lt;/a&gt; (html шаблоны)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;P.S. Возможно, я где-то ошибся в понимании tornado. Буду рад, если вы сообщите об этом или о чем-то другом в комментариях!&lt;/p&gt;</content><author><name></name></author><category term="async" /><category term="tornado" /><category term="mongodb" /><summary type="html">Star Tornado - асинхронный веб фреймворк для python’а. Вначале я приведу краткий перечень плюсов и минусов tornado, а потом расскажу о типовом веб проекте с использованием этого инструмента.</summary></entry><entry><title type="html">Django проект: с нуля до работающего сервера</title><link href="https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server.html" rel="alternate" type="text/html" title="Django проект: с нуля до работающего сервера" /><published>2013-11-13T18:19:43+00:00</published><updated>2013-11-13T18:19:43+00:00</updated><id>https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server</id><content type="html" xml:base="https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server.html">&lt;p&gt;В этом посте хочу описать свой опыт создания и запуска django проекта на VPS-хостинге.&lt;/p&gt;
 
 &lt;p&gt;Разделим задачу на этапы:&lt;/p&gt;
 
@@ -1518,29 +1611,4 @@ request.get_full_path() почему-то возвращает не строку
 &lt;p&gt;А если предпочитаемый язык - русский, то редиректа не будет, т.е. при обращении к &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt; оторбразиться &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h4 id=&quot;замечание&quot;&gt;Замечание&lt;/h4&gt;
-&lt;p&gt;При таком подходе возможна следующая ситуация. Предпочитаемый язык браузера - английский. Но пользователь хочет увидеть русскую версию, которая отображается без префикса. Если для переключения языков использовать простые ссылки, т.е. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;{{ specific language url}}&quot;&amp;gt;&lt;/code&gt;, то пользователь будет постоянно перенаправляться на английскую версию. Поэтому при переключении языков надо записывать в cookie пользователя выбранный им язык. Это можно делать с помощью специального встроенного в django &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#the-set-language-redirect-view&quot;&gt;set_language&lt;/a&gt; view.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="i18n" /><summary type="html">Star Начиная с django 1.4, можно задать префикс для url для каждого включенного языка. К примеру, мы хотим сайт, который будет иметь русскую и английскую версию. Для этого добавляем в settings.py:</summary></entry><entry><title type="html">Скрипт для скачивания музыки вконтакте</title><link href="https://st4lk.github.io/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html" rel="alternate" type="text/html" title="Скрипт для скачивания музыки вконтакте" /><published>2013-02-04T18:19:43+00:00</published><updated>2013-02-04T18:19:43+00:00</updated><id>https://st4lk.github.io/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru</id><content type="html" xml:base="https://st4lk.github.io/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/4708673&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg&quot; alt=&quot;Скрипт для скачивания музыки вконтакте&quot; title=&quot;Скрипт для скачивания музыки вконтакте&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Беглый поиск соответствующего скрипта на python’е не дал результов. В &lt;a href=&quot;http://habrahabr.ru/post/143860/&quot;&gt;статье&lt;/a&gt; на хабре ссылка не работает. Решил написать свой велосипед, он доступен &lt;a href=&quot;https://gist.github.com/4708673&quot;&gt;здесь&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Запуск (нужен установленный &lt;a href=&quot;http://www.python.org/download/releases/2.7.4/&quot;&gt;python интерпретатор&lt;/a&gt;):&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python vkcom_audio_download.py
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Проверял на python 2.6 и 2.7. Никаких дополнительных библиотек не требуется.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;принцип-работы&quot;&gt;Принцип работы&lt;/h3&gt;
-
-&lt;p&gt;Скрипт проверяет сохраненный access_token. Если его нет или срок истек, то открывается страница в браузере с запросом на доступ к данным аккаунта (аудио записям). После подтверждения идет редирект на h&lt;a href=&quot;https://oauth.vk.com/blank.htm#&quot;&gt;ttps://oauth.vk.com/blank.htm#&lt;/a&gt;… . Нужно скопировать весь url, на который вас редиректнуло и вставить его в консоль скрипта. Далее будут скачиваться все ваши аудиозаписи. Если аудиозапись уже есть на диске - то скачивания не происходит.&lt;/p&gt;
-
-&lt;p&gt;Будут запрошены ваши данные приложением с app_id = 3358129. Можно создать свое Standalone-приложение с доступом к аудио здесь: &lt;a href=&quot;http://vk.com/editapp?act=create&quot;&gt;http://vk.com/editapp?act=create&lt;/a&gt;. И заменить APP_ID на ваше.&lt;/p&gt;
-
-&lt;p&gt;Ссылка на скрипт: &lt;a href=&quot;https://gist.github.com/4708673&quot;&gt;https://gist.github.com/4708673&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Код скрипта:&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/st4lk/4708673.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="free" /><category term="python" /><summary type="html">Gist Беглый поиск соответствующего скрипта на python’е не дал результов. В статье на хабре ссылка не работает. Решил написать свой велосипед, он доступен здесь. Запуск (нужен установленный python интерпретатор): python vkcom_audio_download.py Проверял на python 2.6 и 2.7. Никаких дополнительных библиотек не требуется.</summary></entry></feed>
+&lt;p&gt;При таком подходе возможна следующая ситуация. Предпочитаемый язык браузера - английский. Но пользователь хочет увидеть русскую версию, которая отображается без префикса. Если для переключения языков использовать простые ссылки, т.е. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;{{ specific language url}}&quot;&amp;gt;&lt;/code&gt;, то пользователь будет постоянно перенаправляться на английскую версию. Поэтому при переключении языков надо записывать в cookie пользователя выбранный им язык. Это можно делать с помощью специального встроенного в django &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#the-set-language-redirect-view&quot;&gt;set_language&lt;/a&gt; view.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="i18n" /><summary type="html">Star Начиная с django 1.4, можно задать префикс для url для каждого включенного языка. К примеру, мы хотим сайт, который будет иметь русскую и английскую версию. Для этого добавляем в settings.py:</summary></entry></feed>
