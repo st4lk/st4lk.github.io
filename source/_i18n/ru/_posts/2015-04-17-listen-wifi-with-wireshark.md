@@ -156,7 +156,7 @@ X-Frame-Options: SAMEORIGIN
 Зайду в админку этого сайта (lexev.org). В wireshark поставлю Display фильтр
 
 ```bash
-    http.request.full_uri contains lexev.org
+http.request.full_uri contains lexev.org
 ```
 
 чтобы видеть только запросы на домен lexev.org. Вот что получилось:
@@ -188,7 +188,7 @@ Ok, Start. Все, теперь мы слушаем всю сеть (кроме 
 Для этого зададим такой хитрый фильтр:
 
 ```bash
-    (port 80 and tcp[((tcp[12:1] & 0xf0) >> 2):4] = 0x47455420) or (tcp dst port 80 and (tcp[((tcp[12:1] & 0xf0) >> 2):4] = 0x504f5354))
+(port 80 and tcp[((tcp[12:1] & 0xf0) >> 2):4] = 0x47455420) or (tcp dst port 80 and (tcp[((tcp[12:1] & 0xf0) >> 2):4] = 0x504f5354))
 ```
 
 на этапе выбора интерфейса (кнопка Options):
@@ -223,8 +223,8 @@ Ok, Start. Все, теперь мы слушаем всю сеть (кроме 
 Нажимаем Edit напротив Decryption Keys. Далее New. В новом окошке вводим:
 
 ```bash
-    Key type: wpa-pwd
-    Key: password:wifiname
+Key type: wpa-pwd
+Key: password:wifiname
 ```
 
 Соответственно заменяем password на пароль от wifi сети, а wifiname - на название сети.
@@ -247,7 +247,7 @@ Apply, ok.
 Вот так можно сохранить поля "номер фрейма", "HTTP метод", "full_uri"
 
 ```bash
-    tshark -r macdak_pushkin_get_post_only.pcap -T fields -e frame.number -e http.request.method -e http.request.full_uri > results.csv
+tshark -r macdak_pushkin_get_post_only.pcap -T fields -e frame.number -e http.request.method -e http.request.full_uri > results.csv
 ```
 
 Написав небольшой python скриптик, подсчитал количество запросов на каждый url и сгруппировал по доменам второго уровня.
