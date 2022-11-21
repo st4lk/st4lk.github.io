@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "What you should know about mongodb indexes"
-date:   2014-01-30 18:19:43 +0000
-categories: async api bitcoin tornado
+date:   2014-03-07 18:19:43 +0000
+categories: database mongodb
 redirect_from:
   - /2014/mongodb-indexes/
 ---
