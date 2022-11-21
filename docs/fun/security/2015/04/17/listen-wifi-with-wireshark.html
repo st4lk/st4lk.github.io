@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Слушаем wifi с помощью wireshark | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Слушаем wifi с помощью wireshark" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Всегда знал, что можно посмотреть сетевые пакеты, которые передаются по wifi сети. Но на практике этого не делал (на работе анализировал сетевые пакеты, но то был не HTTP протокол). Решил восполнить этот пробел, ведь это интересно и полезно. Более стройно выстраивается понимание протоколов TCP-IP и HTTP. Видно, как летят наши пароли и сессии, после такого опыта поневоле начинаешь относиться к безопасности сайта с большим трепетом." />
+<meta property="og:description" content="Всегда знал, что можно посмотреть сетевые пакеты, которые передаются по wifi сети. Но на практике этого не делал (на работе анализировал сетевые пакеты, но то был не HTTP протокол). Решил восполнить этот пробел, ведь это интересно и полезно. Более стройно выстраивается понимание протоколов TCP-IP и HTTP. Видно, как летят наши пароли и сессии, после такого опыта поневоле начинаешь относиться к безопасности сайта с большим трепетом." />
+<link rel="canonical" href="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html" />
+<meta property="og:url" content="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-04-17T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Слушаем wifi с помощью wireshark" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-04-17T18:19:43+00:00","datePublished":"2015-04-17T18:19:43+00:00","description":"Всегда знал, что можно посмотреть сетевые пакеты, которые передаются по wifi сети. Но на практике этого не делал (на работе анализировал сетевые пакеты, но то был не HTTP протокол). Решил восполнить этот пробел, ведь это интересно и полезно. Более стройно выстраивается понимание протоколов TCP-IP и HTTP. Видно, как летят наши пароли и сессии, после такого опыта поневоле начинаешь относиться к безопасности сайта с большим трепетом.","headline":"Слушаем wifi с помощью wireshark","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html"},"url":"https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Записи разработчика</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/fun/security/2015/04/17/listen-wifi-with-wireshark.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/fun/security/2015/04/17/listen-wifi-with-wireshark.html" ><img src="/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Слушаем wifi с помощью wireshark</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-04-17T18:19:43+00:00" itemprop="datePublished">Apr 17, 2015
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/fun/security/2015/04/17/listen-wifi-with-wireshark.html"><img src="https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg" alt="Слушаем wifi с помощью wireshark" title="Слушаем wifi с помощью wireshark" /></a></p>
+
+<p>Всегда знал, что можно посмотреть сетевые пакеты, которые передаются по wifi сети. Но на практике этого не делал (на работе анализировал сетевые пакеты, но то был не HTTP протокол). Решил восполнить этот пробел, ведь это интересно и полезно. Более стройно выстраивается понимание протоколов TCP-IP и HTTP. Видно, как летят наши пароли и сессии, после такого опыта поневоле начинаешь относиться к безопасности сайта с большим трепетом.</p>
+
+<!--more-->
+
+<p>Трафик будем слушать с помощью программы Wireshark. Есть много утилит для анализа сетевой активности (ngrep, tcpdump, mitmproxy), но Wireshark пожалуй самая популярная и имеет огромный функционал.</p>
+
+<p>Опишу работу программы на примере таких задач:</p>
+
+<ul>
+  <li><a href="#localhost">послушать сетевые пакеты, которые мы отправляем/принимаем <strong>внутри локальной</strong> машины (localhost)</a></li>
+  <li><a href="#local_out">послушать сетевые пакеты, которые отправляет/принимает наша <strong>локальная</strong> машина в/из внешнего мира (интернет)</a></li>
+  <li><a href="#wifi_open_other">послушать сетевые пакеты, которые отправляют/принимают <strong>другие участники открытой wifi</strong> сети</a></li>
+  <li><a href="#wifi_closed_other">послушать сетевые пакеты, которые отправляют/принимают <strong>другие участники закрытой wifi</strong> сети</a></li>
+</ul>
+
+<p>Все действия я выполнял на ноутобуке MacBook Pro с OS X Yosemite, на других устройствах возможно что-то будет по-другому.</p>
+
+<p>Небольшой дисклеймер: все ваши действия на вашей совести и ответсвенности. Не используйте описанные здесь техники во вред кому-либо.</p>
+
+<h3 id="сетевые-пакеты-локального-интерфейса-localhost">Сетевые пакеты локального интерфейса (localhost)<a name="localhost"></a></h3>
+
+<p>Итак, устанавливаем wireshark. Запускаем, заходим в меню Capture -&gt; Intefaces.</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/4509/85893628.c67/0_17f346_a2cf0b57_orig.png"><img src="https://img-fotki.yandex.ru/get/4509/85893628.c67/0_17f346_a2cf0b57_XL.png" alt="ws interface" title="ws interface" /></a></p>
+
+<p>Я запускаю на ноутобуке, который подключен только к wifi сети (en0 интерфейс).
+Насколько я понимаю, awdl0 - это кабельный сетевой интерфейс. По кабелю ноутбук никуда не подключен, поэтому и пакетов нет.
+А lo0 - это локальный интерфейс, им сейчас и займемся.
+Ставим галочку напротив него и нажимаем Start.
+Чтобы сосредоточиться только на HTTP протоколе, зададим <em>Display filter: http</em> (этот фильтр применяется к уже перехваченным и обработанным пакетам, в отличие от Capture filter, но о нем позднее):</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/15599/85893628.c67/0_17f347_e85f8329_orig.png"><img src="https://img-fotki.yandex.ru/get/15599/85893628.c67/0_17f347_e85f8329_XL.png" alt="ws http filter" title="ws http filter" /></a></p>
+
+<p>Сейчас мы будем ловить сетевые пакеты, передающееся от нашего браузера к django development серверу и обратно.
+Есть особенности, связанные именно с django сервером.</p>
+
+<ul>
+  <li>Во-первых, он отдает HTTP 1.0, а не HTTP 1.1.</li>
+  <li>Во-вторых, что более важно, в ответных HTTP заголовках может не быть  <br />
+ни <code class="language-plaintext highlighter-rouge">Content-Length: &lt;response length&gt;</code>, ни <code class="language-plaintext highlighter-rouge">Transfer-Encoding: chunked</code>. В этом случае для определения конца ответа нужно дождаться закрытия соединения с сервером, чего не происходит. Это имеет значение при работе с wireshark. Wireshark понимает большое количество протоколов, в том числе и HTTP. Данные HTTP протокола могут передаваться в нескольких TCP сегментах, но программа группирует эти сегменты и показывает нам итоговый HTTP запрос или ответ. С запросом проблем не возникает, но HTTP ответа не видно в списке фреймов wireshark, потому что она не понимает, что ответ уже закончен (нет ни Content-Length, ни Transfer-Encoding).</li>
+</ul>
+
+<p>В принципе это не страшно, т.к. мы может нажать на фрейм запроса и выбрать из меню Analyse-&gt;Follow TCP Stream. В отдельном окне мы увидим HTTP запрос и соответствующий HTTP ответ (не важно, завершен он или нет). <em>Follow TCP Stream</em> так же удобен в том случае, если HTTP запрос и ответ идут не по порядку (между ними могут случиться другие запросы). Т.е. мы выбираем запрос, нажимаем <em>Follow TCP Stream</em> и видим всю цепочку сообщений.
+Однако, мне хотелось видеть и запросы и ответы в списке фреймов.
+Это мы можем сделать, добавив <code class="language-plaintext highlighter-rouge">ConditionalGetMiddleware</code> в список наших <code class="language-plaintext highlighter-rouge">MIDDLEWARE_CLASSES</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">DEBUG</span><span class="p">:</span>
+    <span class="n">MIDDLEWARE_CLASSES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s">'django.middleware.http.ConditionalGetMiddleware'</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">+</span> <span class="n">MIDDLEWARE_CLASSES</span>
+</code></pre></div></div>
+
+<p>Прослойка будет выставлять Content-Length в ответах.</p>
+
+<p>Такое нужно только при работе с django development сервером и wireshark. В остальных случаях все работает: продакшн серверы выставляют <code class="language-plaintext highlighter-rouge">Transfer-Encoding: chunked</code> и отдают HTTP по кусочкам (вероятно это делает proxy сервер (nginx, apache)).</p>
+
+<p>Теперь запустим простой django проект, который на главной странице отображает имя текущего пользователя, а так же форму для логина и пароля. Если пользователь не залогинен, то вместо имени показываем AnonymousUser.</p>
+
+<p>Для чистоты эксперимента почистим все куки в браузере для адреса 127.0.0.1.
+Откроем страницу <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>.</p>
+
+<p>Если мы <strong>не</strong> задали ‘ConditionalGetMiddleware’, то скорее всего увидим только запрос:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/4609/85893628.c68/0_17f349_2b69b414_orig.png"><img src="https://img-fotki.yandex.ru/get/4609/85893628.c68/0_17f349_2b69b414_XL.png" alt="localhost request only" title="localhost request only" /></a></p>
+
+<p>Ответ все же можно увидеть, выбрав запрос и зайдя в <em>Analyse-&gt;Follow TCP Stream</em>:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6210/85893628.c68/0_17f34a_b9583d43_orig.png"><img src="https://img-fotki.yandex.ru/get/6210/85893628.c68/0_17f34a_b9583d43_XL.png" alt="localhost request only follow tcp" title="localhost request only follow tcp" /></a></p>
+
+<p>А если мы включили ‘ConditionalGetMiddleware’, то видим HTTP ответ уже в списке фреймов:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6307/85893628.c68/0_17f34b_617a4295_orig.png"><img src="https://img-fotki.yandex.ru/get/6307/85893628.c68/0_17f34b_617a4295_XL.png" alt="localhost request response" title="localhost request response" /></a></p>
+
+<p>Content-Length задан:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/5820/85893628.c68/0_17f34c_f706aca8_orig.png"><img src="https://img-fotki.yandex.ru/get/5820/85893628.c68/0_17f34c_f706aca8_XL.png" alt="localhost request response follow tcp" title="localhost request response follow tcp" /></a></p>
+
+<p>Ну пока не очень интересно, только поковырялись с wireshark.
+Но давайте попробуем залогиниться.</p>
+
+<p>Вводим логин+пароль и нажимаем Login. В wireshark увидим 4 новых фрейма: POST запрос, редирект на главную страницу (ответ 302), запрос на получение главной, ответ главной страницы:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/16121/85893628.c68/0_17f34d_fc2e6c1b_orig.png"><img src="https://img-fotki.yandex.ru/get/16121/85893628.c68/0_17f34d_fc2e6c1b_XL.png" alt="localhost four new frames" title="localhost four new frames" /></a></p>
+
+<p>Проследим внимательно за передаваемой информацией.</p>
+
+<p>Фрейм с POST запросом помимо HTTP заголовков содержит данные формы. Вот как они выглядят:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/5703/85893628.c68/0_17f34e_e290f091_orig.png"><img src="https://img-fotki.yandex.ru/get/5703/85893628.c68/0_17f34e_e290f091_XL.png" alt="localhost login password" title="localhost login password" /></a></p>
+
+<p>Логин и пароль как на ладони.</p>
+
+<p>Ответом на POST запрос был фрейм с HTTP кодом 302 (редирект). В этом ответе сервер просит сохранить сессию в куках:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_orig.png"><img src="https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_XL.png" alt="localhost 302 session" title="localhost 302 session" /></a></p>
+
+<p>Следующим идет запрос главной страницы, в куках передается id сессии:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_orig.png"><img src="https://img-fotki.yandex.ru/get/5302/85893628.c68/0_17f350_c48d0b1d_XL.png" alt="localhost session in request" title="localhost session in request" /></a></p>
+
+<p>Вообщем вот так можно смотреть за данными, которыми обменивается ваше приложение с клиентом.
+Все эти данные можно увидеть и в wifi сети, которые передаются любым пользователем (если идут запросы по незащищенному соединению http).
+Если мы логинимся - виден логин/пароль.
+Если просто отправляем запросы - виден id сессии.</p>
+
+<p>Зная id сессии мы легко можем зайти под ее обладателем, просто записав их в наши куки.
+Для простоты, можно проверить какой-нибудь консольной утилитой (curl, httpie).
+Пример с httpie:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http 127.0.0.1:8000 <span class="s2">"Cookie: sessionid=tmpocxkz6zsir6xe6i03kspucvlqq385"</span>
+HTTP/1.0 200 OK
+Content-Length: 567
+Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+Date: Thu, 16 Apr 2015 13:06:58 GMT
+Server: WSGIServer/0.1 Python/2.7.6
+Set-Cookie:  <span class="nv">csrftoken</span><span class="o">=</span>3bUoLB28WyzcH7qG5GXreWPm0Pj11861<span class="p">;</span> <span class="nv">expires</span><span class="o">=</span>Thu, 14-Apr-2016 13:06:58 GMT<span class="p">;</span> Max-Age<span class="o">=</span>31449600<span class="p">;</span> <span class="nv">Path</span><span class="o">=</span>/
+Vary: Cookie
+X-Frame-Options: SAMEORIGIN
+
+    &lt;html&gt;
+        &lt;body&gt;
+            Hello, alex
+            &lt;div&gt;
+                &lt;form <span class="nv">action</span><span class="o">=</span><span class="s2">"/login/"</span> <span class="nv">method</span><span class="o">=</span><span class="s2">"POST"</span><span class="o">&gt;</span>
+                    &lt;input <span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span> <span class="nv">name</span><span class="o">=</span><span class="s2">"username"</span> /&gt;
+                    &lt;input <span class="nb">type</span><span class="o">=</span><span class="s2">"password"</span> <span class="nv">name</span><span class="o">=</span><span class="s2">"password"</span> /&gt;
+                    &lt;input <span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span> hidden <span class="nv">name</span><span class="o">=</span><span class="s2">"next"</span> <span class="nv">value</span><span class="o">=</span><span class="s2">"/"</span> /&gt;
+                    &lt;input <span class="nb">type</span><span class="o">=</span><span class="s1">'hidden'</span> <span class="nv">name</span><span class="o">=</span><span class="s1">'csrfmiddlewaretoken'</span> <span class="nv">value</span><span class="o">=</span><span class="s1">'3bUoLB28WyzcH7qG5GXreWPm0Pj11861'</span> /&gt;
+                    &lt;input <span class="nb">type</span><span class="o">=</span><span class="s2">"submit"</span> <span class="nv">name</span><span class="o">=</span><span class="s2">"Login"</span> <span class="nv">value</span><span class="o">=</span><span class="s2">"Login"</span> /&gt;
+                &lt;/form&gt;
+            &lt;/div&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+</code></pre></div></div>
+
+<p>Вывелось <code class="language-plaintext highlighter-rouge">Hello, alex</code>, значит мы зашли под пользователем alex.</p>
+
+<h3 id="сетевые-пакеты-нашей-локальной-машины-во-внешний-мир">Сетевые пакеты нашей локальной машины во внешний мир<a name="local_out"></a></h3>
+
+<p>Послушаем внешние сетевые запросы нашего компьютера.</p>
+
+<p>В wireshark выбираем Capture -&gt; Intefaces, ставим галочку напротив en0 и нажимаем Start:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3000/85893628.c68/0_17f35a_55441968_orig.png"><img src="https://img-fotki.yandex.ru/get/3000/85893628.c68/0_17f35a_55441968_XL.png" alt="my wifi interface" title="my wifi interface" /></a></p>
+
+<p>Зайду в админку этого сайта (lexev.org). В wireshark поставлю Display фильтр</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    http.request.full_uri contains lexev.org
+</code></pre></div></div>
+
+<p>чтобы видеть только запросы на домен lexev.org. Вот что получилось:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6841/85893628.c68/0_17f35b_e70a8cfa_orig.png"><img src="https://img-fotki.yandex.ru/get/6841/85893628.c68/0_17f35b_e70a8cfa_XL.png" alt="my wifi lexev" title="my wifi lexev" /></a></p>
+
+<p>Видно id сессии, можно делать с ней все что захочешь.</p>
+
+<h3 id="сетевые-пакеты-других-пользователей-открытой-wifi-сети">Сетевые пакеты других пользователей открытой wifi сети<a name="wifi_open_other"></a></h3>
+
+<p>До сих пор мы слушали только свои запросы и ответы. Но гораздо интересней послушать других пользователей.</p>
+
+<p>Зайдем в кафе с открытой wifi сетью, запустим wireshark.
+Заходим в Capture -&gt; Intefaces, выбираем соответствующий интерфейс и нажимаем Options (не Start).
+Видим что-то такое:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6830/85893628.c68/0_17f355_9d02aa03_orig.png"><img src="https://img-fotki.yandex.ru/get/6830/85893628.c68/0_17f355_9d02aa03_XL.png" alt="public wifi options" title="public wifi options" /></a></p>
+
+<p>Дважды щелкаем на интерфейс и ставим галочку напротив <em>Capture packets in monitor mode</em>:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3107/85893628.c68/0_17f356_946d17dd_orig.png"><img src="https://img-fotki.yandex.ru/get/3107/85893628.c68/0_17f356_946d17dd_XL.png" alt="public wifi monitor model" title="public wifi monitor model" /></a></p>
+
+<p>Ok, Start. Все, теперь мы слушаем всю сеть (кроме нас самих).</p>
+
+<p>В публичной wifi сети будет летать очень много пакетов, за час легко можно наловить больше Гб информации. Соответственно неудобно ее анализировать и сохранять. Тут пригодятся Capture фильтры, они применяются к еще не обработанным фреймам. Отсеченные фреймы этим фильтром не сохраняются. Отличие от Display фильтров в том, что мы работаем с нераскодированными данными, мы не знаем, что это - http или что-то другое. Поэтому Capture фильтры сложней составить.
+Итак, давайте попробуем сохранять только HTTP запросы GET или POST на 80 порту.</p>
+
+<p>Для этого зададим такой хитрый фильтр:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">(</span>port 80 and tcp[<span class="o">((</span>tcp[12:1] &amp; 0xf0<span class="o">)</span> <span class="o">&gt;&gt;</span> 2<span class="o">)</span>:4] <span class="o">=</span> 0x47455420<span class="o">)</span> or <span class="o">(</span>tcp dst port 80 and <span class="o">(</span>tcp[<span class="o">((</span>tcp[12:1] &amp; 0xf0<span class="o">)</span> <span class="o">&gt;&gt;</span> 2<span class="o">)</span>:4] <span class="o">=</span> 0x504f5354<span class="o">))</span>
+</code></pre></div></div>
+
+<p>на этапе выбора интерфейса (кнопка Options):</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/15496/85893628.c68/0_17f357_7d774c65_orig.png"><img src="https://img-fotki.yandex.ru/get/15496/85893628.c68/0_17f357_7d774c65_XL.png" alt="public wifi capture filter" title="public wifi capture filter" /></a></p>
+
+<p>Попробуем подключиться с другого девайса (телефона) к этой wifi сети и опять отправим GET запрос на lexev.org.
+Для удобства добавим тот же Display фильтр домена (Capture и Display фильтры можно комбинировать).
+Видим id сессии:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3613/85893628.c68/0_17f358_8b8382aa_orig.png"><img src="https://img-fotki.yandex.ru/get/3613/85893628.c68/0_17f358_8b8382aa_XL.png" alt="public wifi admin session" title="public wifi admin session" /></a></p>
+
+<p>Ради интереса попробуем войти, введя логин и пароль. Смотрите все:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/15586/85893628.c68/0_17f359_d776258e_orig.png"><img src="https://img-fotki.yandex.ru/get/15586/85893628.c68/0_17f359_d776258e_XL.png" alt="public wifi admin login and password" title="public wifi admin login and password" /></a></p>
+
+<p>Все как на ладони.</p>
+
+<h3 id="сетевые-пакеты-других-пользователей-в-закрытой-wifi-сети">Сетевые пакеты других пользователей в закрытой wifi сети<a name="wifi_closed_other"></a></h3>
+
+<p>Допустим есть wifi сеть с WPA шифрованием.
+В интерфейсах выберем wifi, включим для него monitor mode (все как для открытой сети, только без Capture фильтра) и попробуем послушать сетевые пакеты.
+В результатах будет что-то такое:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/5113/85893628.c68/0_17f351_caf24487_orig.png"><img src="https://img-fotki.yandex.ru/get/5113/85893628.c68/0_17f351_caf24487_XL.png" alt="private undercrypted" title="private undercrypted" /></a></p>
+
+<p>Мы видим зашифрованные данные. Но, если мы знаем пароль от wifi, то можем расшифровать пакеты.
+Для этого заходим в Edit -&gt; Preferences. Выбираем Protocol -&gt; IEEE 802.11.</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/5801/85893628.c68/0_17f352_eb1faebf_orig.png"><img src="https://img-fotki.yandex.ru/get/5801/85893628.c68/0_17f352_eb1faebf_XL.png" alt="private IEEE" title="private IEEE" /></a></p>
+
+<p>Нажимаем Edit напротив Decryption Keys. Далее New. В новом окошке вводим:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Key <span class="nb">type</span>: wpa-pwd
+    Key: password:wifiname
+</code></pre></div></div>
+
+<p>Соответственно заменяем password на пароль от wifi сети, а wifiname - на название сети.</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/4913/85893628.c68/0_17f353_f8d36ba3_orig.png"><img src="https://img-fotki.yandex.ru/get/4913/85893628.c68/0_17f353_f8d36ba3_XL.png" alt="private wifi password" title="private add password" /></a></p>
+
+<p>Apply, ok.</p>
+
+<p>Все, теперь wireshark расшифровывает пакеты, и мы можем смотреть http данные как и раньше:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/52/85893628.c68/0_17f354_19d29c5e_orig.png"><img src="https://img-fotki.yandex.ru/get/52/85893628.c68/0_17f354_19d29c5e_orig.png" alt="private wifi decrypted" title="private add decrypted" /></a></p>
+
+<h3 id="послушаем-открытую-wifi-сеть">Послушаем открытую wifi сеть</h3>
+
+<p>Ради интереса зашел в макдональдс и примерно на час запустил wireshark (ловил только GET и POST http запросы).
+Далее сохранил все пакеты в файл pcap (File -&gt; Save as).
+Теперь вопрос, как проанализировать сохраненные фреймы? Их накопилось довольно много, вручную лазить по ним не удобно.
+Воспользуемся программой <a href="https://www.wireshark.org/docs/man-pages/tshark.html">tshark</a>, с помощью нее можно выбрать нужные данные и записать их в CSV.</p>
+
+<p>Вот так можно сохранить поля “номер фрейма”, “HTTP метод”, “full_uri”</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    tshark <span class="nt">-r</span> macdak_pushkin_get_post_only.pcap <span class="nt">-T</span> fields <span class="nt">-e</span> frame.number <span class="nt">-e</span> http.request.method <span class="nt">-e</span> http.request.full_uri <span class="o">&gt;</span> results.csv
+</code></pre></div></div>
+
+<p>Написав небольшой python скриптик, подсчитал количество запросов на каждый url и сгруппировал по доменам второго уровня.
+Вот 20 самых популярных доменов, на которые заходили:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Домен</th>
+      <th>Количество запросов</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>vk.com</td>
+      <td>6280</td>
+    </tr>
+    <tr>
+      <td>beeline.ru</td>
+      <td>5407</td>
+    </tr>
+    <tr>
+      <td>vk.me</td>
+      <td>2817</td>
+    </tr>
+    <tr>
+      <td>instagram.com</td>
+      <td>867</td>
+    </tr>
+    <tr>
+      <td>google.com</td>
+      <td>544</td>
+    </tr>
+    <tr>
+      <td>apple.com</td>
+      <td>536</td>
+    </tr>
+    <tr>
+      <td>yandex.ru</td>
+      <td>473</td>
+    </tr>
+    <tr>
+      <td>symcb.com</td>
+      <td>471</td>
+    </tr>
+    <tr>
+      <td>msftncsi.com</td>
+      <td>441</td>
+    </tr>
+    <tr>
+      <td>msn.com</td>
+      <td>304</td>
+    </tr>
+    <tr>
+      <td>yandex.net</td>
+      <td>302</td>
+    </tr>
+    <tr>
+      <td>trendmicro.com</td>
+      <td>292</td>
+    </tr>
+    <tr>
+      <td>co.uk</td>
+      <td>270</td>
+    </tr>
+    <tr>
+      <td>badoocdn.com</td>
+      <td>258</td>
+    </tr>
+    <tr>
+      <td>yadro.ru</td>
+      <td>188</td>
+    </tr>
+    <tr>
+      <td>marketgid.com</td>
+      <td>184</td>
+    </tr>
+    <tr>
+      <td>adfox.ru</td>
+      <td>183</td>
+    </tr>
+    <tr>
+      <td>mycdn.me</td>
+      <td>165</td>
+    </tr>
+    <tr>
+      <td>interfax.ru</td>
+      <td>154</td>
+    </tr>
+    <tr>
+      <td>scorecardresearch.com</td>
+      <td>137</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Да, пару интересных сессий удалось перехватить. Например, для сайта знакомств mamba.ru, они передаются в открытую по HTTP.
+Скопировал куки, вставил их в chrome с помощью плагина <a href="https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg">EditThisCookie</a>, зашел на сайт и вуаля, я - Сергей. Могу читать сообщения, смотреть настройки и прочее. Сразу скажу, что ничего я там не делал, посмотрел и вышел :).</p>
+
+<h3 id="способы-защиты">Способы защиты</h3>
+
+<p>Пожалуй единственным способом защиты является использование TLS (https). Здесь тоже есть нюанcы, его нужно использовать правильно. Описание правильной (и безопасной) работы с https заслуживает отдельного поста, так что тут не буду на этом останавливаться.</p>
+
+<p>Вот как выглядит https трафик в wireshark:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/15564/85893628.c68/0_17f348_d9eec045_orig.png"><img src="https://img-fotki.yandex.ru/get/15564/85893628.c68/0_17f348_d9eec045_orig.png" alt="private wifi decrypted" title="private add decrypted" /></a></p>
+
+<p>Все данные зашифрованы, ничего не узнать.</p>
+
+<h3 id="итог">Итог</h3>
+
+<ul>
+  <li>По возможности используйте https, особенно если вы получаете какие-либо важные данные от пользователя (если что-то связано с банковскими данными/карточками, так вообще обязательно).</li>
+  <li>Будучи в открытой wifi сети, заходя на сайт по незащищенному каналу (http) всегда помните, что вас можно легко прослушать. Это же относится и к закрытой wifi, злоумышленнику достаточно лишь узнать пароль от wifi.</li>
+</ul>
+
+<h3 id="полезные-ссылки">Полезные ссылки</h3>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=T-5p5ewqhVw">Dan Callahan: Quick Wins for Better Website Security - PyCon 2014</a></li>
+  <li><a href="https://www.youtube.com/watch?v=SBQB_yS2K4M">Hynek Schlawack: The Sorry State of SSL - PyCon 2014</a></li>
+  <li><a href="http://www.youtube.com/watch?v=4o-xqqidvKA">Benjamin Peterson - A Dive into TLS - PyCon 2015</a></li>
+  <li><a href="http://www.youtube.com/watch?v=HqnUKTjxI1E">Ashwini Oruganti, Christopher Armstrong - Introduction to HTTPS: A Comedy of Errors - PyCon 2015</a></li>
+  <li><a href="http://www.youtube.com/watch?v=f9XVNIeRxUo">Getting comfortable with web security: A hands-on session - PyCon 2015</a></li>
+</ul>
+
+  </div><a class="u-url" href="/fun/security/2015/04/17/listen-wifi-with-wireshark.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

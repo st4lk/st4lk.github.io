@@ -1,4 +1,365 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T23:09:33+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Отладка SQL в django тестах</title><link href="https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html" rel="alternate" type="text/html" title="Отладка SQL в django тестах" /><published>2015-03-04T18:19:43+00:00</published><updated>2015-03-04T18:19:43+00:00</updated><id>https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test</id><content type="html" xml:base="https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html">&lt;p&gt;&lt;a href=&quot;/database/django/logging/sql/2015/03/04/debug-sql-django-test.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/4517/85893628.c67/0_1795f5_a958c090_orig.png&quot; alt=&quot;Отладка SQL в django тестах&quot; title=&quot;Отладка SQL в django тестах&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T23:19:51+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Слушаем wifi с помощью wireshark</title><link href="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html" rel="alternate" type="text/html" title="Слушаем wifi с помощью wireshark" /><published>2015-04-17T18:19:43+00:00</published><updated>2015-04-17T18:19:43+00:00</updated><id>https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark</id><content type="html" xml:base="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html">&lt;p&gt;&lt;a href=&quot;/fun/security/2015/04/17/listen-wifi-with-wireshark.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg&quot; alt=&quot;Слушаем wifi с помощью wireshark&quot; title=&quot;Слушаем wifi с помощью wireshark&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Всегда знал, что можно посмотреть сетевые пакеты, которые передаются по wifi сети. Но на практике этого не делал (на работе анализировал сетевые пакеты, но то был не HTTP протокол). Решил восполнить этот пробел, ведь это интересно и полезно. Более стройно выстраивается понимание протоколов TCP-IP и HTTP. Видно, как летят наши пароли и сессии, после такого опыта поневоле начинаешь относиться к безопасности сайта с большим трепетом.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Трафик будем слушать с помощью программы Wireshark. Есть много утилит для анализа сетевой активности (ngrep, tcpdump, mitmproxy), но Wireshark пожалуй самая популярная и имеет огромный функционал.&lt;/p&gt;
+
+&lt;p&gt;Опишу работу программы на примере таких задач:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#localhost&quot;&gt;послушать сетевые пакеты, которые мы отправляем/принимаем &lt;strong&gt;внутри локальной&lt;/strong&gt; машины (localhost)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#local_out&quot;&gt;послушать сетевые пакеты, которые отправляет/принимает наша &lt;strong&gt;локальная&lt;/strong&gt; машина в/из внешнего мира (интернет)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#wifi_open_other&quot;&gt;послушать сетевые пакеты, которые отправляют/принимают &lt;strong&gt;другие участники открытой wifi&lt;/strong&gt; сети&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#wifi_closed_other&quot;&gt;послушать сетевые пакеты, которые отправляют/принимают &lt;strong&gt;другие участники закрытой wifi&lt;/strong&gt; сети&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Все действия я выполнял на ноутобуке MacBook Pro с OS X Yosemite, на других устройствах возможно что-то будет по-другому.&lt;/p&gt;
+
+&lt;p&gt;Небольшой дисклеймер: все ваши действия на вашей совести и ответсвенности. Не используйте описанные здесь техники во вред кому-либо.&lt;/p&gt;
+
+&lt;h3 id=&quot;сетевые-пакеты-локального-интерфейса-localhost&quot;&gt;Сетевые пакеты локального интерфейса (localhost)&lt;a name=&quot;localhost&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Итак, устанавливаем wireshark. Запускаем, заходим в меню Capture -&amp;gt; Intefaces.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/4509/85893628.c67/0_17f346_a2cf0b57_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/4509/85893628.c67/0_17f346_a2cf0b57_XL.png&quot; alt=&quot;ws interface&quot; title=&quot;ws interface&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Я запускаю на ноутобуке, который подключен только к wifi сети (en0 интерфейс).
+Насколько я понимаю, awdl0 - это кабельный сетевой интерфейс. По кабелю ноутбук никуда не подключен, поэтому и пакетов нет.
+А lo0 - это локальный интерфейс, им сейчас и займемся.
+Ставим галочку напротив него и нажимаем Start.
+Чтобы сосредоточиться только на HTTP протоколе, зададим &lt;em&gt;Display filter: http&lt;/em&gt; (этот фильтр применяется к уже перехваченным и обработанным пакетам, в отличие от Capture filter, но о нем позднее):&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/15599/85893628.c67/0_17f347_e85f8329_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/15599/85893628.c67/0_17f347_e85f8329_XL.png&quot; alt=&quot;ws http filter&quot; title=&quot;ws http filter&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Сейчас мы будем ловить сетевые пакеты, передающееся от нашего браузера к django development серверу и обратно.
+Есть особенности, связанные именно с django сервером.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Во-первых, он отдает HTTP 1.0, а не HTTP 1.1.&lt;/li&gt;
+  &lt;li&gt;Во-вторых, что более важно, в ответных HTTP заголовках может не быть  &lt;br /&gt;
+ни &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Content-Length: &amp;lt;response length&amp;gt;&lt;/code&gt;, ни &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Transfer-Encoding: chunked&lt;/code&gt;. В этом случае для определения конца ответа нужно дождаться закрытия соединения с сервером, чего не происходит. Это имеет значение при работе с wireshark. Wireshark понимает большое количество протоколов, в том числе и HTTP. Данные HTTP протокола могут передаваться в нескольких TCP сегментах, но программа группирует эти сегменты и показывает нам итоговый HTTP запрос или ответ. С запросом проблем не возникает, но HTTP ответа не видно в списке фреймов wireshark, потому что она не понимает, что ответ уже закончен (нет ни Content-Length, ни Transfer-Encoding).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;В принципе это не страшно, т.к. мы может нажать на фрейм запроса и выбрать из меню Analyse-&amp;gt;Follow TCP Stream. В отдельном окне мы увидим HTTP запрос и соответствующий HTTP ответ (не важно, завершен он или нет). &lt;em&gt;Follow TCP Stream&lt;/em&gt; так же удобен в том случае, если HTTP запрос и ответ идут не по порядку (между ними могут случиться другие запросы). Т.е. мы выбираем запрос, нажимаем &lt;em&gt;Follow TCP Stream&lt;/em&gt; и видим всю цепочку сообщений.
+Однако, мне хотелось видеть и запросы и ответы в списке фреймов.
+Это мы можем сделать, добавив &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ConditionalGetMiddleware&lt;/code&gt; в список наших &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MIDDLEWARE_CLASSES&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;MIDDLEWARE_CLASSES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&apos;django.middleware.http.ConditionalGetMiddleware&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MIDDLEWARE_CLASSES&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Прослойка будет выставлять Content-Length в ответах.&lt;/p&gt;
+
+&lt;p&gt;Такое нужно только при работе с django development сервером и wireshark. В остальных случаях все работает: продакшн серверы выставляют &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Transfer-Encoding: chunked&lt;/code&gt; и отдают HTTP по кусочкам (вероятно это делает proxy сервер (nginx, apache)).&lt;/p&gt;
+
+&lt;p&gt;Теперь запустим простой django проект, который на главной странице отображает имя текущего пользователя, а так же форму для логина и пароля. Если пользователь не залогинен, то вместо имени показываем AnonymousUser.&lt;/p&gt;
+
+&lt;p&gt;Для чистоты эксперимента почистим все куки в браузере для адреса 127.0.0.1.
+Откроем страницу &lt;a href=&quot;http://127.0.0.1:8000/&quot;&gt;http://127.0.0.1:8000/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Если мы &lt;strong&gt;не&lt;/strong&gt; задали ‘ConditionalGetMiddleware’, то скорее всего увидим только запрос:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/4609/85893628.c68/0_17f349_2b69b414_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/4609/85893628.c68/0_17f349_2b69b414_XL.png&quot; alt=&quot;localhost request only&quot; title=&quot;localhost request only&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ответ все же можно увидеть, выбрав запрос и зайдя в &lt;em&gt;Analyse-&amp;gt;Follow TCP Stream&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/6210/85893628.c68/0_17f34a_b9583d43_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6210/85893628.c68/0_17f34a_b9583d43_XL.png&quot; alt=&quot;localhost request only follow tcp&quot; title=&quot;localhost request only follow tcp&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;А если мы включили ‘ConditionalGetMiddleware’, то видим HTTP ответ уже в списке фреймов:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/6307/85893628.c68/0_17f34b_617a4295_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6307/85893628.c68/0_17f34b_617a4295_XL.png&quot; alt=&quot;localhost request response&quot; title=&quot;localhost request response&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Content-Length задан:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/5820/85893628.c68/0_17f34c_f706aca8_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/5820/85893628.c68/0_17f34c_f706aca8_XL.png&quot; alt=&quot;localhost request response follow tcp&quot; title=&quot;localhost request response follow tcp&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ну пока не очень интересно, только поковырялись с wireshark.
+Но давайте попробуем залогиниться.&lt;/p&gt;
+
+&lt;p&gt;Вводим логин+пароль и нажимаем Login. В wireshark увидим 4 новых фрейма: POST запрос, редирект на главную страницу (ответ 302), запрос на получение главной, ответ главной страницы:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/16121/85893628.c68/0_17f34d_fc2e6c1b_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/16121/85893628.c68/0_17f34d_fc2e6c1b_XL.png&quot; alt=&quot;localhost four new frames&quot; title=&quot;localhost four new frames&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Проследим внимательно за передаваемой информацией.&lt;/p&gt;
+
+&lt;p&gt;Фрейм с POST запросом помимо HTTP заголовков содержит данные формы. Вот как они выглядят:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/5703/85893628.c68/0_17f34e_e290f091_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/5703/85893628.c68/0_17f34e_e290f091_XL.png&quot; alt=&quot;localhost login password&quot; title=&quot;localhost login password&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Логин и пароль как на ладони.&lt;/p&gt;
+
+&lt;p&gt;Ответом на POST запрос был фрейм с HTTP кодом 302 (редирект). В этом ответе сервер просит сохранить сессию в куках:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_XL.png&quot; alt=&quot;localhost 302 session&quot; title=&quot;localhost 302 session&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Следующим идет запрос главной страницы, в куках передается id сессии:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/5302/85893628.c68/0_17f350_c48d0b1d_XL.png&quot; alt=&quot;localhost session in request&quot; title=&quot;localhost session in request&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Вообщем вот так можно смотреть за данными, которыми обменивается ваше приложение с клиентом.
+Все эти данные можно увидеть и в wifi сети, которые передаются любым пользователем (если идут запросы по незащищенному соединению http).
+Если мы логинимся - виден логин/пароль.
+Если просто отправляем запросы - виден id сессии.&lt;/p&gt;
+
+&lt;p&gt;Зная id сессии мы легко можем зайти под ее обладателем, просто записав их в наши куки.
+Для простоты, можно проверить какой-нибудь консольной утилитой (curl, httpie).
+Пример с httpie:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;http 127.0.0.1:8000 &lt;span class=&quot;s2&quot;&gt;&quot;Cookie: sessionid=tmpocxkz6zsir6xe6i03kspucvlqq385&quot;&lt;/span&gt;
+HTTP/1.0 200 OK
+Content-Length: 567
+Content-Type: text/html&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;charset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;utf-8
+Date: Thu, 16 Apr 2015 13:06:58 GMT
+Server: WSGIServer/0.1 Python/2.7.6
+Set-Cookie:  &lt;span class=&quot;nv&quot;&gt;csrftoken&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3bUoLB28WyzcH7qG5GXreWPm0Pj11861&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;expires&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Thu, 14-Apr-2016 13:06:58 GMT&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; Max-Age&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;31449600&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;Path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/
+Vary: Cookie
+X-Frame-Options: SAMEORIGIN
+
+    &amp;lt;html&amp;gt;
+        &amp;lt;body&amp;gt;
+            Hello, alex
+            &amp;lt;div&amp;gt;
+                &amp;lt;form &lt;span class=&quot;nv&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/login/&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+                    &amp;lt;input &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;username&quot;&lt;/span&gt; /&amp;gt;
+                    &amp;lt;input &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;password&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;password&quot;&lt;/span&gt; /&amp;gt;
+                    &amp;lt;input &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text&quot;&lt;/span&gt; hidden &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;next&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/&quot;&lt;/span&gt; /&amp;gt;
+                    &amp;lt;input &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;hidden&apos;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;csrfmiddlewaretoken&apos;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;3bUoLB28WyzcH7qG5GXreWPm0Pj11861&apos;&lt;/span&gt; /&amp;gt;
+                    &amp;lt;input &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Login&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Login&quot;&lt;/span&gt; /&amp;gt;
+                &amp;lt;/form&amp;gt;
+            &amp;lt;/div&amp;gt;
+        &amp;lt;/body&amp;gt;
+    &amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Вывелось &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hello, alex&lt;/code&gt;, значит мы зашли под пользователем alex.&lt;/p&gt;
+
+&lt;h3 id=&quot;сетевые-пакеты-нашей-локальной-машины-во-внешний-мир&quot;&gt;Сетевые пакеты нашей локальной машины во внешний мир&lt;a name=&quot;local_out&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Послушаем внешние сетевые запросы нашего компьютера.&lt;/p&gt;
+
+&lt;p&gt;В wireshark выбираем Capture -&amp;gt; Intefaces, ставим галочку напротив en0 и нажимаем Start:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/3000/85893628.c68/0_17f35a_55441968_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/3000/85893628.c68/0_17f35a_55441968_XL.png&quot; alt=&quot;my wifi interface&quot; title=&quot;my wifi interface&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Зайду в админку этого сайта (lexev.org). В wireshark поставлю Display фильтр&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    http.request.full_uri contains lexev.org
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;чтобы видеть только запросы на домен lexev.org. Вот что получилось:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/6841/85893628.c68/0_17f35b_e70a8cfa_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6841/85893628.c68/0_17f35b_e70a8cfa_XL.png&quot; alt=&quot;my wifi lexev&quot; title=&quot;my wifi lexev&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Видно id сессии, можно делать с ней все что захочешь.&lt;/p&gt;
+
+&lt;h3 id=&quot;сетевые-пакеты-других-пользователей-открытой-wifi-сети&quot;&gt;Сетевые пакеты других пользователей открытой wifi сети&lt;a name=&quot;wifi_open_other&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;До сих пор мы слушали только свои запросы и ответы. Но гораздо интересней послушать других пользователей.&lt;/p&gt;
+
+&lt;p&gt;Зайдем в кафе с открытой wifi сетью, запустим wireshark.
+Заходим в Capture -&amp;gt; Intefaces, выбираем соответствующий интерфейс и нажимаем Options (не Start).
+Видим что-то такое:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/6830/85893628.c68/0_17f355_9d02aa03_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6830/85893628.c68/0_17f355_9d02aa03_XL.png&quot; alt=&quot;public wifi options&quot; title=&quot;public wifi options&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Дважды щелкаем на интерфейс и ставим галочку напротив &lt;em&gt;Capture packets in monitor mode&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/3107/85893628.c68/0_17f356_946d17dd_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/3107/85893628.c68/0_17f356_946d17dd_XL.png&quot; alt=&quot;public wifi monitor model&quot; title=&quot;public wifi monitor model&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ok, Start. Все, теперь мы слушаем всю сеть (кроме нас самих).&lt;/p&gt;
+
+&lt;p&gt;В публичной wifi сети будет летать очень много пакетов, за час легко можно наловить больше Гб информации. Соответственно неудобно ее анализировать и сохранять. Тут пригодятся Capture фильтры, они применяются к еще не обработанным фреймам. Отсеченные фреймы этим фильтром не сохраняются. Отличие от Display фильтров в том, что мы работаем с нераскодированными данными, мы не знаем, что это - http или что-то другое. Поэтому Capture фильтры сложней составить.
+Итак, давайте попробуем сохранять только HTTP запросы GET или POST на 80 порту.&lt;/p&gt;
+
+&lt;p&gt;Для этого зададим такой хитрый фильтр:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;port 80 and tcp[&lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;tcp[12:1] &amp;amp; 0xf0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:4] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x47455420&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; or &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;tcp dst port 80 and &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;tcp[&lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;tcp[12:1] &amp;amp; 0xf0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; 2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:4] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0x504f5354&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;на этапе выбора интерфейса (кнопка Options):&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/15496/85893628.c68/0_17f357_7d774c65_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/15496/85893628.c68/0_17f357_7d774c65_XL.png&quot; alt=&quot;public wifi capture filter&quot; title=&quot;public wifi capture filter&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Попробуем подключиться с другого девайса (телефона) к этой wifi сети и опять отправим GET запрос на lexev.org.
+Для удобства добавим тот же Display фильтр домена (Capture и Display фильтры можно комбинировать).
+Видим id сессии:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/3613/85893628.c68/0_17f358_8b8382aa_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/3613/85893628.c68/0_17f358_8b8382aa_XL.png&quot; alt=&quot;public wifi admin session&quot; title=&quot;public wifi admin session&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ради интереса попробуем войти, введя логин и пароль. Смотрите все:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/15586/85893628.c68/0_17f359_d776258e_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/15586/85893628.c68/0_17f359_d776258e_XL.png&quot; alt=&quot;public wifi admin login and password&quot; title=&quot;public wifi admin login and password&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Все как на ладони.&lt;/p&gt;
+
+&lt;h3 id=&quot;сетевые-пакеты-других-пользователей-в-закрытой-wifi-сети&quot;&gt;Сетевые пакеты других пользователей в закрытой wifi сети&lt;a name=&quot;wifi_closed_other&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Допустим есть wifi сеть с WPA шифрованием.
+В интерфейсах выберем wifi, включим для него monitor mode (все как для открытой сети, только без Capture фильтра) и попробуем послушать сетевые пакеты.
+В результатах будет что-то такое:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/5113/85893628.c68/0_17f351_caf24487_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/5113/85893628.c68/0_17f351_caf24487_XL.png&quot; alt=&quot;private undercrypted&quot; title=&quot;private undercrypted&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Мы видим зашифрованные данные. Но, если мы знаем пароль от wifi, то можем расшифровать пакеты.
+Для этого заходим в Edit -&amp;gt; Preferences. Выбираем Protocol -&amp;gt; IEEE 802.11.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/5801/85893628.c68/0_17f352_eb1faebf_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/5801/85893628.c68/0_17f352_eb1faebf_XL.png&quot; alt=&quot;private IEEE&quot; title=&quot;private IEEE&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Нажимаем Edit напротив Decryption Keys. Далее New. В новом окошке вводим:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    Key &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;: wpa-pwd
+    Key: password:wifiname
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Соответственно заменяем password на пароль от wifi сети, а wifiname - на название сети.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/4913/85893628.c68/0_17f353_f8d36ba3_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/4913/85893628.c68/0_17f353_f8d36ba3_XL.png&quot; alt=&quot;private wifi password&quot; title=&quot;private add password&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Apply, ok.&lt;/p&gt;
+
+&lt;p&gt;Все, теперь wireshark расшифровывает пакеты, и мы можем смотреть http данные как и раньше:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/52/85893628.c68/0_17f354_19d29c5e_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/52/85893628.c68/0_17f354_19d29c5e_orig.png&quot; alt=&quot;private wifi decrypted&quot; title=&quot;private add decrypted&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;послушаем-открытую-wifi-сеть&quot;&gt;Послушаем открытую wifi сеть&lt;/h3&gt;
+
+&lt;p&gt;Ради интереса зашел в макдональдс и примерно на час запустил wireshark (ловил только GET и POST http запросы).
+Далее сохранил все пакеты в файл pcap (File -&amp;gt; Save as).
+Теперь вопрос, как проанализировать сохраненные фреймы? Их накопилось довольно много, вручную лазить по ним не удобно.
+Воспользуемся программой &lt;a href=&quot;https://www.wireshark.org/docs/man-pages/tshark.html&quot;&gt;tshark&lt;/a&gt;, с помощью нее можно выбрать нужные данные и записать их в CSV.&lt;/p&gt;
+
+&lt;p&gt;Вот так можно сохранить поля “номер фрейма”, “HTTP метод”, “full_uri”&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    tshark &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; macdak_pushkin_get_post_only.pcap &lt;span class=&quot;nt&quot;&gt;-T&lt;/span&gt; fields &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; frame.number &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; http.request.method &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; http.request.full_uri &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; results.csv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Написав небольшой python скриптик, подсчитал количество запросов на каждый url и сгруппировал по доменам второго уровня.
+Вот 20 самых популярных доменов, на которые заходили:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Домен&lt;/th&gt;
+      &lt;th&gt;Количество запросов&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;vk.com&lt;/td&gt;
+      &lt;td&gt;6280&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;beeline.ru&lt;/td&gt;
+      &lt;td&gt;5407&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;vk.me&lt;/td&gt;
+      &lt;td&gt;2817&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;instagram.com&lt;/td&gt;
+      &lt;td&gt;867&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;google.com&lt;/td&gt;
+      &lt;td&gt;544&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;apple.com&lt;/td&gt;
+      &lt;td&gt;536&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;yandex.ru&lt;/td&gt;
+      &lt;td&gt;473&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;symcb.com&lt;/td&gt;
+      &lt;td&gt;471&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msftncsi.com&lt;/td&gt;
+      &lt;td&gt;441&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msn.com&lt;/td&gt;
+      &lt;td&gt;304&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;yandex.net&lt;/td&gt;
+      &lt;td&gt;302&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;trendmicro.com&lt;/td&gt;
+      &lt;td&gt;292&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;co.uk&lt;/td&gt;
+      &lt;td&gt;270&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;badoocdn.com&lt;/td&gt;
+      &lt;td&gt;258&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;yadro.ru&lt;/td&gt;
+      &lt;td&gt;188&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;marketgid.com&lt;/td&gt;
+      &lt;td&gt;184&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;adfox.ru&lt;/td&gt;
+      &lt;td&gt;183&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;mycdn.me&lt;/td&gt;
+      &lt;td&gt;165&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;interfax.ru&lt;/td&gt;
+      &lt;td&gt;154&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;scorecardresearch.com&lt;/td&gt;
+      &lt;td&gt;137&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Да, пару интересных сессий удалось перехватить. Например, для сайта знакомств mamba.ru, они передаются в открытую по HTTP.
+Скопировал куки, вставил их в chrome с помощью плагина &lt;a href=&quot;https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg&quot;&gt;EditThisCookie&lt;/a&gt;, зашел на сайт и вуаля, я - Сергей. Могу читать сообщения, смотреть настройки и прочее. Сразу скажу, что ничего я там не делал, посмотрел и вышел :).&lt;/p&gt;
+
+&lt;h3 id=&quot;способы-защиты&quot;&gt;Способы защиты&lt;/h3&gt;
+
+&lt;p&gt;Пожалуй единственным способом защиты является использование TLS (https). Здесь тоже есть нюанcы, его нужно использовать правильно. Описание правильной (и безопасной) работы с https заслуживает отдельного поста, так что тут не буду на этом останавливаться.&lt;/p&gt;
+
+&lt;p&gt;Вот как выглядит https трафик в wireshark:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/15564/85893628.c68/0_17f348_d9eec045_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/15564/85893628.c68/0_17f348_d9eec045_orig.png&quot; alt=&quot;private wifi decrypted&quot; title=&quot;private add decrypted&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Все данные зашифрованы, ничего не узнать.&lt;/p&gt;
+
+&lt;h3 id=&quot;итог&quot;&gt;Итог&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;По возможности используйте https, особенно если вы получаете какие-либо важные данные от пользователя (если что-то связано с банковскими данными/карточками, так вообще обязательно).&lt;/li&gt;
+  &lt;li&gt;Будучи в открытой wifi сети, заходя на сайт по незащищенному каналу (http) всегда помните, что вас можно легко прослушать. Это же относится и к закрытой wifi, злоумышленнику достаточно лишь узнать пароль от wifi.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;полезные-ссылки&quot;&gt;Полезные ссылки&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=T-5p5ewqhVw&quot;&gt;Dan Callahan: Quick Wins for Better Website Security - PyCon 2014&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=SBQB_yS2K4M&quot;&gt;Hynek Schlawack: The Sorry State of SSL - PyCon 2014&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.youtube.com/watch?v=4o-xqqidvKA&quot;&gt;Benjamin Peterson - A Dive into TLS - PyCon 2015&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.youtube.com/watch?v=HqnUKTjxI1E&quot;&gt;Ashwini Oruganti, Christopher Armstrong - Introduction to HTTPS: A Comedy of Errors - PyCon 2015&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.youtube.com/watch?v=f9XVNIeRxUo&quot;&gt;Getting comfortable with web security: A hands-on session - PyCon 2015&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="fun" /><category term="security" /><summary type="html">Всегда знал, что можно посмотреть сетевые пакеты, которые передаются по wifi сети. Но на практике этого не делал (на работе анализировал сетевые пакеты, но то был не HTTP протокол). Решил восполнить этот пробел, ведь это интересно и полезно. Более стройно выстраивается понимание протоколов TCP-IP и HTTP. Видно, как летят наши пароли и сессии, после такого опыта поневоле начинаешь относиться к безопасности сайта с большим трепетом.</summary></entry><entry><title type="html">Отладка SQL в django тестах</title><link href="https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html" rel="alternate" type="text/html" title="Отладка SQL в django тестах" /><published>2015-03-04T18:19:43+00:00</published><updated>2015-03-04T18:19:43+00:00</updated><id>https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test</id><content type="html" xml:base="https://st4lk.github.io/database/django/logging/sql/2015/03/04/debug-sql-django-test.html">&lt;p&gt;&lt;a href=&quot;/database/django/logging/sql/2015/03/04/debug-sql-django-test.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/4517/85893628.c67/0_1795f5_a958c090_orig.png&quot; alt=&quot;Отладка SQL в django тестах&quot; title=&quot;Отладка SQL в django тестах&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;В django тестах можно замерять количество сделанных SQL запросов:&lt;/p&gt;
 
@@ -2043,185 +2404,4 @@ Avg Conn Time                 0.00ms
 
 &lt;p&gt;В &lt;a href=&quot;https://gist.github.com/st4lk/9877661&quot;&gt;gist’e&lt;/a&gt; приведены примеры интеграции с django, а также использования просто из python скрипта.&lt;/p&gt;
 
-&lt;script src=&quot;https://gist.github.com/st4lk/9877661.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="django" /><category term="email" /><category term="free" /><summary type="html">Отправлять email сообщения с сервера можно просто по SMTP протоколу. Но есть другой способ - через специальные сервисы рассылки. Про один такой, mandrill.com, я немного расскажу.</summary></entry><entry><title type="html">Что нужно знать об индексах в mongodb</title><link href="https://st4lk.github.io/database/mongodb/2014/03/07/mongodb-indexes.html" rel="alternate" type="text/html" title="Что нужно знать об индексах в mongodb" /><published>2014-03-07T18:19:43+00:00</published><updated>2014-03-07T18:19:43+00:00</updated><id>https://st4lk.github.io/database/mongodb/2014/03/07/mongodb-indexes</id><content type="html" xml:base="https://st4lk.github.io/database/mongodb/2014/03/07/mongodb-indexes.html">&lt;p&gt;&lt;a href=&quot;/database/mongodb/2014/03/07/mongodb-indexes.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-03-07-mongodb-indexes/mongoDB-logo_small.png&quot; alt=&quot;Что нужно знать об индексах в mongodb&quot; title=&quot;Что нужно знать об индексах в mongodb&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Недавно закончил курс “M101P: MongoDB for Developers” (он периодически повторяется, например &lt;a href=&quot;https://education.mongodb.com/courses/10gen/M101P/2014_April/about&quot;&gt;следующий&lt;/a&gt; стартует в апреле).
-В процессе прохождения натолкнулся на некоторые интересные моменты.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;1-выбор-индекса-для-запроса&quot;&gt;1. Выбор индекса для запроса.&lt;/h3&gt;
-
-&lt;p&gt;Допустим у нас коллекция с такими данными:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;_id&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;81810&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;97482&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;44288&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;_id&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11734&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;27893&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19485&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// и т.д.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Всего 99999 объектов. У коллекции есть индексы:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ensureIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ensureIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Вопрос: какой индекс будет использован при запросе&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$lt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$gt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;?&lt;/p&gt;
-
-&lt;p&gt;Интуитивно очень хотелось бы, чтобы был использован индекс {a: 1, b: 1, c: 1}, ведь вроде бы он покрывает все нужные нам поля. Но, к сожалению, это не так.&lt;/p&gt;
-
-&lt;p&gt;Во-первых, индекс {a: 1, b: 1, c: 1} в этом случае &lt;a href=&quot;http://docs.mongodb.org/manual/tutorial/sort-results-with-indexes/#use-indexes-to-sort-query-results&quot;&gt;не может быть&lt;/a&gt; использован одновременно для find и для sort, т.к. find содержит операторы сравнения ($lt, $gt). Т.е. в таком запросе&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;индекс был бы использован полностью. Но, к сожалению, у нас не такой запрос.&lt;/p&gt;
-
-&lt;p&gt;Ну ладно, бог с ней с сортировкой, наверно индекс {a: 1, b: 1, c: 1} будет использован только для find, а сортировка уже будет сделана без индексов.
-Эх, смотрим:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$lt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$gt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BtreeCursor c_-1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9498&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;nscanned&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;99999&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scanAndOrder&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// другие поля не так интересны&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;{a: 1, b: 1, c: 1} даже не был задействован, вместо него индекс {c: -1} был использован для сортировки, потому что так решил mongodb’шный query optimizer.&lt;/p&gt;
-
-&lt;p&gt;Вот где пригодится принудительный выбор индексов оператором &lt;a href=&quot;http://docs.mongodb.org/manual/reference/operator/meta/hint/&quot;&gt;$hint&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$lt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$gt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BtreeCursor a_1_b_1_c_1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9498&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;nscanned&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9974&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scanAndOrder&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// другие поля не так интересны&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Сейчас индекс использовался для find, а сортировка осуществилась без индексов. Думаю, использовать индекс для фильтрации 9498 элементов из 99999 и затем к ним применить сортировку намного эффективнее нежели применить полный перебор к 99999 элементам и затем сортировку найденных 9498 осуществить с помощью индексов.&lt;/p&gt;
-
-&lt;h3 id=&quot;2-направление-индекса&quot;&gt;2. Направление индекса&lt;/h3&gt;
-
-&lt;p&gt;Возвращаясь к предыдущему примеру, видно, что один из индексов имеет значение “-1”:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ensureIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Это значит, что создан “нисходящий” индекс по полю “c”. Какое это вообще имеет значение?&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BtreeCursor c_-1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BtreeCursor c_-1 reverse&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;В обоих случаях применился индекс, только во втором случае он использовался в обратном порядке.
-Зачем тогда нужно указывать “направление” индекса?&lt;/p&gt;
-
-&lt;p&gt;Направление индекса пригодится при сортировке по двум и более полям:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ensureIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// тут индекс не может быть использован&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BasicCursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scanAndOrder&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// а тут - может&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BtreeCursor a_1_b_1_c_1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scanAndOrder&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// но для сортировки по одному полю направление индекса не важно:&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BtreeCursor a_1_b_1_c_1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scanAndOrder&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BtreeCursor a_1_b_1_c_1 reverse&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scanAndOrder&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Т.е. правило такое: &lt;strong&gt;при сортировке по двум и более полям направление сортировки должно совпадать с направлением индекса для всех полей&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;3-индексы-и-aggregation&quot;&gt;3. Индексы и aggregation&lt;/h3&gt;
-
-&lt;p&gt;Aggregation - очень, очень классная функция в mongodb. Было бы крайне полезно получать explain данные и об aggregation запросах. Такая возможность появится в версии 2.6 (на момент написания статьи эта версия официально еще не вышла).&lt;/p&gt;
-
-&lt;p&gt;Вот как можно будет применить explain в &lt;a href=&quot;http://docs.mongodb.org/master/release-notes/2.6/&quot;&gt;версии 2.6&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;aggregate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;$match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$lt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$gt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}},&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;$sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}},&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;$group&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;a_total&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;$sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;$a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Но!
-Оказывается, explain можно использовать для aggregation и в &lt;a href=&quot;http://stackoverflow.com/a/19601769/821594&quot;&gt;текущей версии 2.4&lt;/a&gt;, только эта функция не документирована!
-Это можно сделать не напрямую, а используя runCommand:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;runCommand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;aggregate&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;$match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$lt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$gt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}},&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;$sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}},&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;$group&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;a_total&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;$sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;$a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;explain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Вывод будет таким (сокращенно):&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;serverPipeline&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;$lt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;
-                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-                &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;$gt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;
-                &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-            &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-            &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cursor&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;BtreeCursor c_-1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9498&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;nscanned&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;99999&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scanAndOrder&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;c1&quot;&gt;// ..&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;ok&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Вот правда hint к aggregation применить пока нельзя: &lt;a href=&quot;https://jira.mongodb.org/browse/SERVER-7944&quot;&gt;SERVER-7944&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;ps&quot;&gt;P.S.&lt;/h3&gt;
-&lt;p&gt;Кстати, всем завершившим курс “M101P: MongoDB for Developers” выдают вот такой сертификат: &lt;a href=&quot;https://s3.amazonaws.com/edu-cert.10gen.com/downloads/01739dbdba0e46f7964b160203b4f749/Certificate.pdf&quot;&gt;M101P&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="mongodb" /><summary type="html">Недавно закончил курс “M101P: MongoDB for Developers” (он периодически повторяется, например следующий стартует в апреле). В процессе прохождения натолкнулся на некоторые интересные моменты.</summary></entry></feed>
+&lt;script src=&quot;https://gist.github.com/st4lk/9877661.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="django" /><category term="email" /><category term="free" /><summary type="html">Отправлять email сообщения с сервера можно просто по SMTP протоколу. Но есть другой способ - через специальные сервисы рассылки. Про один такой, mandrill.com, я немного расскажу.</summary></entry></feed>
