@@ -43,7 +43,24 @@
       <div class="wrapper">
         <div class="home">
 <h2 class="post-list-heading">Posts</h2>
-    <ul class="post-list"><li><span class="post-meta">Nov 2, 2014</span>
+    <ul class="post-list"><li><span class="post-meta">Dec 15, 2014</span>
+        <h3>
+          <a class="post-link" href="/en/tornado/2014/12/15/set-url-for-tornado-handlers.html">
+            Set url for Tornado handlers
+          </a>
+        </h3><p><a href="/en/tornado/2014/12/15/set-url-for-tornado-handlers.html"><img src="https://img-fotki.yandex.ru/get/17846/85893628.c66/0_1644bf_5c58d342_L.png" alt="Set url for Tornado handlers" title="Set url for Tornado handlers" /></a></p>
+
+<p>To set url for tornado handlers we can pass list of tuples <code class="language-plaintext highlighter-rouge">(url regex, handler)</code> into application initialisation:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">application</span> <span class="o">=</span> <span class="n">tornado</span><span class="p">.</span><span class="n">web</span><span class="p">.</span><span class="n">Application</span><span class="p">([</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s">"/"</span><span class="p">,</span> <span class="n">MainHandler</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s">"/some/path/page/(?P&lt;pk&gt;[0-9]+)$"</span><span class="p">,</span> <span class="n">PageHandler</span><span class="p">),</span>
+<span class="p">])</span>
+</code></pre></div></div>
+
+<p>But it is more convenient to use wrapper <a href="http://www.tornadoweb.org/en/stable/web.html?highlight=url#tornado.web.URLSpec"><code class="language-plaintext highlighter-rouge">tornado.web.url</code></a>, that allows to assign meaningful names for paths (similar to <a href="https://docs.djangoproject.com/en/dev/ref/urls/#django.conf.urls.url">django url</a>).</p>
+
+</li><li><span class="post-meta">Nov 2, 2014</span>
         <h3>
           <a class="post-link" href="/en/django/celery/2014/11/02/django-celery-setup.html">
             Django celery setup
