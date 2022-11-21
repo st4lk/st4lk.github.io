@@ -1,4 +1,104 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-20T23:41:13+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Django queryset.count cache</title><link href="https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache.html" rel="alternate" type="text/html" title="Django queryset.count cache" /><published>2013-07-11T18:19:43+00:00</published><updated>2013-07-11T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache</id><content type="html" xml:base="https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache.html">&lt;p&gt;&lt;a href=&quot;/en/database/django/sql/2013/07/11/django-querysetcount-cache.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-07-11-django-querysetcount-cache/to-count-22117_small.jpeg&quot; alt=&quot;Django queryset.count cache&quot; title=&quot;Django queryset.count cache&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T08:18:44+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Python logging for every day</title><link href="https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day.html" rel="alternate" type="text/html" title="Python logging for every day" /><published>2013-08-20T18:19:43+00:00</published><updated>2013-08-20T18:19:43+00:00</updated><id>https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day</id><content type="html" xml:base="https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/6287746&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has &lt;a href=&quot;http://docs.python.org/library/logging.html&quot;&gt;logging&lt;/a&gt; module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;print&lt;/code&gt; instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h3 id=&quot;logging-requirements-will-be-the-following&quot;&gt;Logging requirements will be the following:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;All logs must be written to file and in console (duplicated)&lt;/li&gt;
+  &lt;li&gt;Log file is rotated (not exceed specified size)&lt;/li&gt;
+  &lt;li&gt;All third party libraries logs are also handled&lt;/li&gt;
+  &lt;li&gt;Works on python 2.5+ 3.0+&lt;/li&gt;
+  &lt;li&gt;Log message contains: message, logger name, source file name, source file line, timestamp, message level (DEBUG/INFO/WARNING etc)&lt;/li&gt;
+  &lt;li&gt;It is possible to log unicode strings.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;how-to-use-these-settings&quot;&gt;How to use these settings&lt;/h3&gt;
+
+&lt;p&gt;In &lt;a href=&quot;https://gist.github.com/st4lk/6287746&quot;&gt;snippet&lt;/a&gt; there are three types of settings: using logging classes, with &lt;a href=&quot;http://docs.python.org/2/library/logging.config.html#logging.config.fileConfig&quot;&gt;fileConfig&lt;/a&gt; and with &lt;a href=&quot;http://docs.python.org/2/library/logging.config.html#logging.config.dictConfig&quot;&gt;dictConfig&lt;/a&gt;. Choose whatever you like. The most simple is the first, it works on most python versions: 2.5+, 3.0+. Insert those settings in your script - and you logging is set up. Now all log messages are stored to file and are printed to console.&lt;/p&gt;
+
+&lt;h3 id=&quot;in-code-logging-options-are-set-for-root-logger&quot;&gt;In code logging options are set for root logger&lt;/h3&gt;
+
+&lt;p&gt;It stands at the top of loggers hierarchy and consequently it handles all messages from every logger (for better understanding of logging module you can search posts in internet. For example, there is good tutorial in python documentation: &lt;a href=&quot;http://docs.python.org/2/howto/logging.html#logging-basic-tutorial&quot;&gt;http://docs.python.org/2/howto/logging.html#logging-basic-tutorial&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h4 id=&quot;example&quot;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Lets write simple script:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;logging&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;started&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;finished&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If run it as is, messages will not be printed anywhere.&lt;/p&gt;
+
+&lt;p&gt;Now add settigns from my snippet (using classes):&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;###############################################
+#### LOGGING CLASS SETTINGS (py25+, py30+) ####
+###############################################
+#### also will work with py23, py24 without &apos;encoding&apos; arg
+&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;logging&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;logging.handlers&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Formatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;%(levelname)s:%(name)s: %(message)s &apos;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&apos;(%(asctime)s; %(filename)s:%(lineno)d)&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;datefmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%Y-%m-%d %H:%M:%S&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;handlers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RotatingFileHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;rotated.log&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;utf8&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;maxBytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;backupCount&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StreamHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;root_logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;root_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setLevel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;handlers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setFormatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setLevel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;root_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;##############################
+#### END LOGGING SETTINGS ####
+##############################
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;started&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;finished&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Run the script. In console (and in file rotated.log) we can see messages:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;INFO:root: started &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:52:31&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; test.py:21&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+INFO:root: finished &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:52:31&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; test.py:22&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Check, that logs from used libs are also handled. I create dummy lib &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;thirdpartylib&lt;/code&gt; with code:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;logging&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;do_something&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;something is done in thirdpartylib&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;do_something&lt;/code&gt; from your script:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;thirdpartylib&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;started&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;thirdpartylib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;do_something&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;finished&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Output will be the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;INFO:root: started &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:57:27&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; test.py:135&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+DEBUG:thirdpartylib: something is &lt;span class=&quot;k&quot;&gt;done in &lt;/span&gt;thirdpartylib &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:57:27&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; __init__.py:5&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+INFO:root: finished &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:57:27&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; test.py:137&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Snippet:&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/6287746.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="python" /><category term="logging" /><summary type="html">Gist When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has logging module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes print instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.</summary></entry><entry><title type="html">Django queryset.count cache</title><link href="https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache.html" rel="alternate" type="text/html" title="Django queryset.count cache" /><published>2013-07-11T18:19:43+00:00</published><updated>2013-07-11T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache</id><content type="html" xml:base="https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache.html">&lt;p&gt;&lt;a href=&quot;/en/database/django/sql/2013/07/11/django-querysetcount-cache.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-07-11-django-querysetcount-cache/to-count-22117_small.jpeg&quot; alt=&quot;Django queryset.count cache&quot; title=&quot;Django queryset.count cache&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Once I mentioned, that my django application makes several similiar queries like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SELECT COUNT(*) ...&lt;/code&gt;. As it turns out (for me it was surprise), &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;queryset.count()&lt;/code&gt; has not obvious cache. But let me start the story from the beginning (and sorry for my english :) ).&lt;/p&gt;
 
@@ -1093,70 +1193,4 @@ For some reason, request.get_full_path() returns not the &lt;code class=&quot;la
 
 &lt;p&gt;Script on &lt;a href=&quot;http://code.google.com/p/mobileesp/source/browse/Python/mdetect.py&quot;&gt;code.google.com&lt;/a&gt;, all methods have comments with description.&lt;/p&gt;
 
-&lt;p&gt;Description at &lt;a href=&quot;http://blog.mobileesp.com/?cat=10&quot;&gt;project site&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="python" /><summary type="html">Script will be useful, if you want to show different version of site for desktop computers and mobile devices. Big variety of methods to detect mobile type. Avaliable in different languages, including python. The port to python was made by me with help from my freelance customer.</summary></entry><entry><title type="html">Debug django project with embedded python debugger pdb</title><link href="https://st4lk.github.io/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html" rel="alternate" type="text/html" title="Debug django project with embedded python debugger pdb" /><published>2012-11-18T18:19:43+00:00</published><updated>2012-11-18T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb</id><content type="html" xml:base="https://st4lk.github.io/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html">&lt;p&gt;I use &lt;a href=&quot;http://www.sublimetext.com/&quot;&gt;sublime-text&lt;/a&gt; as code editor. It doesn’t have a debugger, so to debug django projects i often used&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var_name&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;and look for output in local development server console. I use this approach today also, but sometimes it is great to run code step by step to see variables at each step.&lt;/p&gt;
-
-&lt;p&gt;It can be done with embedded python debugger pdb:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;I.e. we put this line in needed place of code, where we want so stop. It is a breakpoint. Now refresh project page in browser. When project code will reach this line, browser will hang and in console we’ll see:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;We now inside debugger and can input &lt;a href=&quot;http://docs.python.org/2/library/pdb.html#debugger-commands&quot;&gt;commands&lt;/a&gt;, for example these:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;l - (list), look the source code&lt;/li&gt;
-  &lt;li&gt;n - (step next) step to next line without entering inside function&lt;/li&gt;
-  &lt;li&gt;s - (step in) step inside to next line, i.e. if we are standing at function call, we’ll go inside this function&lt;/li&gt;
-  &lt;li&gt;r - (step out) step to first line after current block of code. For example, if current line is inside cycle and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;r&lt;/code&gt; is pressed, next line will be first line after this cycle.&lt;/li&gt;
-  &lt;li&gt;c - (continue) continue until next breakpoint, i.e. until &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pdb.set_trace()&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;p - (print) execude python code or just show variable: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;p var_name&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
-
-&lt;p&gt;Suppose we have such a view:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view.jpeg&quot; alt=&quot;view&quot; title=&quot;view&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Insert &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import pdb; pdb.set_trace()&lt;/code&gt; in needed place and run dev server, if it not already started:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/view_pdb.jpeg&quot; alt=&quot;view_pdb&quot; title=&quot;view_pdb&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;In browser access the page, that calls this view. The page will hang:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_hang.jpeg&quot; alt=&quot;browser_hang&quot; title=&quot;browser_hang&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;In console we see (Pdb):&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_console.jpeg&quot; alt=&quot;pdb_console&quot; title=&quot;pdb_console&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Lets look, where we now by command &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;l&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_l.jpeg&quot; alt=&quot;pdb_l&quot; title=&quot;pdb_l&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Make two next steps with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;n&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_nn.jpeg&quot; alt=&quot;pdb_nn&quot; title=&quot;pdb_nn&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Look value of variables &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;about.content&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_p.jpeg&quot; alt=&quot;pdb_p&quot; title=&quot;pdb_p&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Continue with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;c&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/pdb_c.jpeg&quot; alt=&quot;pdb_c&quot; title=&quot;pdb_c&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Page is shown in browser:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/posts/2012-11-18-debug-django-project-embedded-python-debugger-pdb/browser_done.jpeg&quot; alt=&quot;browser_done&quot; title=&quot;browser_done&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="python" /><category term="sublime" /><summary type="html">I use sublime-text as code editor. It doesn’t have a debugger, so to debug django projects i often used print var_name and look for output in local development server console. I use this approach today also, but sometimes it is great to run code step by step to see variables at each step. It can be done with embedded python debugger pdb: import pdb; pdb.set_trace()</summary></entry></feed>
+&lt;p&gt;Description at &lt;a href=&quot;http://blog.mobileesp.com/?cat=10&quot;&gt;project site&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="python" /><summary type="html">Script will be useful, if you want to show different version of site for desktop computers and mobile devices. Big variety of methods to detect mobile type. Avaliable in different languages, including python. The port to python was made by me with help from my freelance customer.</summary></entry></feed>

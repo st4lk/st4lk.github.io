@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Python logging for every day | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Python logging for every day" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Gist When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has logging module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes print instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post." />
+<meta property="og:description" content="Gist When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has logging module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes print instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post." />
+<link rel="canonical" href="https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day.html" />
+<meta property="og:url" content="https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-08-20T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Python logging for every day" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2013-08-20T18:19:43+00:00","datePublished":"2013-08-20T18:19:43+00:00","description":"Gist When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has logging module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes print instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.","headline":"Python logging for every day","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day.html"},"url":"https://st4lk.github.io/en/python/logging/2013/08/20/python-logging-every-day.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/en/assets/main.css">
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/en/">Developer Articles</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/en/about/">About</a><a class="page-link" style="margin-right: 0px" href="/python/logging/2013/08/20/python-logging-every-day.html" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/python/logging/2013/08/20/python-logging-every-day.html" ><img src="/en/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Python logging for every day</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2013-08-20T18:19:43+00:00" itemprop="datePublished">Aug 20, 2013
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/6287746" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
+
+<p>When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has <a href="http://docs.python.org/library/logging.html">logging</a> module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes <code class="language-plaintext highlighter-rouge">print</code> instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.</p>
+
+<!--more-->
+
+<h3 id="logging-requirements-will-be-the-following">Logging requirements will be the following:</h3>
+
+<ul>
+  <li>All logs must be written to file and in console (duplicated)</li>
+  <li>Log file is rotated (not exceed specified size)</li>
+  <li>All third party libraries logs are also handled</li>
+  <li>Works on python 2.5+ 3.0+</li>
+  <li>Log message contains: message, logger name, source file name, source file line, timestamp, message level (DEBUG/INFO/WARNING etc)</li>
+  <li>It is possible to log unicode strings.</li>
+</ul>
+
+<h3 id="how-to-use-these-settings">How to use these settings</h3>
+
+<p>In <a href="https://gist.github.com/st4lk/6287746">snippet</a> there are three types of settings: using logging classes, with <a href="http://docs.python.org/2/library/logging.config.html#logging.config.fileConfig">fileConfig</a> and with <a href="http://docs.python.org/2/library/logging.config.html#logging.config.dictConfig">dictConfig</a>. Choose whatever you like. The most simple is the first, it works on most python versions: 2.5+, 3.0+. Insert those settings in your script - and you logging is set up. Now all log messages are stored to file and are printed to console.</p>
+
+<h3 id="in-code-logging-options-are-set-for-root-logger">In code logging options are set for root logger</h3>
+
+<p>It stands at the top of loggers hierarchy and consequently it handles all messages from every logger (for better understanding of logging module you can search posts in internet. For example, there is good tutorial in python documentation: <a href="http://docs.python.org/2/howto/logging.html#logging-basic-tutorial">http://docs.python.org/2/howto/logging.html#logging-basic-tutorial</a>).</p>
+
+<h4 id="example">Example</h4>
+
+<p>Lets write simple script:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">'started'</span><span class="p">)</span>
+<span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">'finished'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If run it as is, messages will not be printed anywhere.</p>
+
+<p>Now add settigns from my snippet (using classes):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">###############################################
+#### LOGGING CLASS SETTINGS (py25+, py30+) ####
+###############################################
+#### also will work with py23, py24 without 'encoding' arg
+</span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">logging.handlers</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="s">'%(levelname)s:%(name)s: %(message)s '</span>
+    <span class="s">'(%(asctime)s; %(filename)s:%(lineno)d)'</span><span class="p">,</span>
+    <span class="n">datefmt</span><span class="o">=</span><span class="s">"%Y-%m-%d %H:%M:%S"</span><span class="p">)</span>
+<span class="n">handlers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">handlers</span><span class="p">.</span><span class="n">RotatingFileHandler</span><span class="p">(</span><span class="s">'rotated.log'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">'utf8'</span><span class="p">,</span>
+        <span class="n">maxBytes</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">backupCount</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="p">]</span>
+<span class="n">root_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">getLogger</span><span class="p">()</span>
+<span class="n">root_logger</span><span class="p">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="p">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">handlers</span><span class="p">:</span>
+    <span class="n">h</span><span class="p">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">h</span><span class="p">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="p">.</span><span class="n">DEBUG</span><span class="p">)</span>
+    <span class="n">root_logger</span><span class="p">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+<span class="c1">##############################
+#### END LOGGING SETTINGS ####
+##############################
+</span>
+<span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">'started'</span><span class="p">)</span>
+<span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">'finished'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Run the script. In console (and in file rotated.log) we can see messages:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO:root: started <span class="o">(</span>2013-08-21 01:52:31<span class="p">;</span> test.py:21<span class="o">)</span>
+INFO:root: finished <span class="o">(</span>2013-08-21 01:52:31<span class="p">;</span> test.py:22<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Check, that logs from used libs are also handled. I create dummy lib <code class="language-plaintext highlighter-rouge">thirdpartylib</code> with code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">do_something</span><span class="p">():</span>
+    <span class="n">logger</span><span class="p">.</span><span class="n">debug</span><span class="p">(</span><span class="s">'something is done in thirdpartylib'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now call <code class="language-plaintext highlighter-rouge">do_something</code> from your script:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">thirdpartylib</span>
+
+<span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">'started'</span><span class="p">)</span>
+<span class="n">thirdpartylib</span><span class="p">.</span><span class="n">do_something</span><span class="p">()</span>
+<span class="n">logging</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">'finished'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output will be the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO:root: started <span class="o">(</span>2013-08-21 01:57:27<span class="p">;</span> test.py:135<span class="o">)</span>
+DEBUG:thirdpartylib: something is <span class="k">done in </span>thirdpartylib <span class="o">(</span>2013-08-21 01:57:27<span class="p">;</span> __init__.py:5<span class="o">)</span>
+INFO:root: finished <span class="o">(</span>2013-08-21 01:57:27<span class="p">;</span> test.py:137<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Snippet:</p>
+
+<script src="https://gist.github.com/st4lk/6287746.js"></script>
+
+
+  </div><a class="u-url" href="/en/python/logging/2013/08/20/python-logging-every-day.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/en/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/en/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
