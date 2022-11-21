@@ -1,4 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T20:05:11+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Remote url for localhost server</title><link href="https://st4lk.github.io/en/deploy/free/2014/05/09/remote-url-localhost-server.html" rel="alternate" type="text/html" title="Remote url for localhost server" /><published>2014-05-09T18:19:43+00:00</published><updated>2014-05-09T18:19:43+00:00</updated><id>https://st4lk.github.io/en/deploy/free/2014/05/09/remote-url-localhost-server</id><content type="html" xml:base="https://st4lk.github.io/en/deploy/free/2014/05/09/remote-url-localhost-server.html">&lt;p&gt;&lt;a href=&quot;/en/deploy/free/2014/05/09/remote-url-localhost-server.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-05-09-remote-url-localhost-server/ngrok_logo.jpeg&quot; alt=&quot;Remote url for localhost server&quot; title=&quot;Remote url for localhost server&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T20:52:20+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Nested Sql Queries Django</title><link href="https://st4lk.github.io/en/2014/09/09/nested-sql-queries-django.html" rel="alternate" type="text/html" title="Nested Sql Queries Django" /><published>2014-09-09T00:00:00+00:00</published><updated>2014-09-09T00:00:00+00:00</updated><id>https://st4lk.github.io/en/2014/09/09/nested-sql-queries-django</id><content type="html" xml:base="https://st4lk.github.io/en/2014/09/09/nested-sql-queries-django.html"></content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Free t-shirt from New Relic</title><link href="https://st4lk.github.io/en/fun/free/2014/05/29/new-relic-free-shirt.html" rel="alternate" type="text/html" title="Free t-shirt from New Relic" /><published>2014-05-29T18:19:43+00:00</published><updated>2014-05-29T18:19:43+00:00</updated><id>https://st4lk.github.io/en/fun/free/2014/05/29/new-relic-free-shirt</id><content type="html" xml:base="https://st4lk.github.io/en/fun/free/2014/05/29/new-relic-free-shirt.html">&lt;p&gt;&lt;a href=&quot;/en/fun/free/2014/05/29/new-relic-free-shirt.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-05-29-new-relic-free-shirt/tshift_orig.png&quot; alt=&quot;Free t-shirt from New Relic&quot; title=&quot;Free t-shirt from New Relic&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://newrelic.com/&quot;&gt;New Relic&lt;/a&gt; - service for site monitoring. It shows statistic of your application, where it spend most of time, how often it access the database and many other information. For description of this cool service i need to write a separate post. Here i want to tell about another thing - how i’ve got a free t-shirt from New Relic.&lt;/p&gt;
+
+&lt;p&gt;Actually, it is needed just to register and setup New Relic on a working web site. As it said in their &lt;a href=&quot;http://newrelic.com/lp/datanerd&quot;&gt;offer&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Of course, when i setup newrelic, i don’t have a target to get a t-shirt. I learned about it accidentally. For fun i entered my address, but expecting that nobody will deliver something from USA to Russia for free. Сuriously enough, i don’t receive any warnings. Moreover, after couple of days i get an email with confirmation that delivery started.&lt;/p&gt;
+
+&lt;p&gt;It was pleasant, but anyway i was waiting to receive some cancellation.&lt;/p&gt;
+
+&lt;p&gt;To my surprise, after about 20 days i found in mailbox such notice:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9667/85893628.92a/0_11c8f5_72ffdd69_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9667/85893628.92a/0_11c8f5_72ffdd69_L.jpg&quot; alt=&quot;Mail notice&quot; title=&quot;Mail notice&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;At postoffice i’ve got a packet:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9651/85893628.92a/0_11c8f6_2297db59_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9651/85893628.92a/0_11c8f6_2297db59_L.jpg&quot; alt=&quot;Mail packet&quot; title=&quot;Mail packet&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;And a t-shirt inside:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9666/85893628.92a/0_11c8f8_1e1c89_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9666/85893628.92a/0_11c8f8_1e1c89_L.jpg&quot; alt=&quot;T-shirt&quot; title=&quot;T-shirt&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/5309/85893628.92a/0_11c8f9_3ce02d9f_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/5309/85893628.92a/0_11c8f9_3ce02d9f_L.jpg&quot; alt=&quot;T-shirt on me&quot; title=&quot;T-shirt on me&quot; /&gt;&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="fun" /><category term="free" /><summary type="html">New Relic - service for site monitoring. It shows statistic of your application, where it spend most of time, how often it access the database and many other information. For description of this cool service i need to write a separate post. Here i want to tell about another thing - how i’ve got a free t-shirt from New Relic. Actually, it is needed just to register and setup New Relic on a working web site. As it said in their offer.</summary></entry><entry><title type="html">Remote url for localhost server</title><link href="https://st4lk.github.io/en/deploy/free/2014/05/09/remote-url-localhost-server.html" rel="alternate" type="text/html" title="Remote url for localhost server" /><published>2014-05-09T18:19:43+00:00</published><updated>2014-05-09T18:19:43+00:00</updated><id>https://st4lk.github.io/en/deploy/free/2014/05/09/remote-url-localhost-server</id><content type="html" xml:base="https://st4lk.github.io/en/deploy/free/2014/05/09/remote-url-localhost-server.html">&lt;p&gt;&lt;a href=&quot;/en/deploy/free/2014/05/09/remote-url-localhost-server.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-05-09-remote-url-localhost-server/ngrok_logo.jpeg&quot; alt=&quot;Remote url for localhost server&quot; title=&quot;Remote url for localhost server&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;There is a nice tool called &lt;a href=&quot;https://ngrok.com/&quot;&gt;ngrok&lt;/a&gt;. It allows to bind the URL for your localhost server!&lt;/p&gt;
 
@@ -1006,190 +1030,4 @@ INFO:root: finished &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2013-08-21 01:
 
 &lt;p&gt;Snippet:&lt;/p&gt;
 
-&lt;script src=&quot;https://gist.github.com/st4lk/6287746.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="python" /><category term="logging" /><summary type="html">Gist When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has logging module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes print instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.</summary></entry><entry><title type="html">Django queryset.count cache</title><link href="https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache.html" rel="alternate" type="text/html" title="Django queryset.count cache" /><published>2013-07-11T18:19:43+00:00</published><updated>2013-07-11T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache</id><content type="html" xml:base="https://st4lk.github.io/en/database/django/sql/2013/07/11/django-querysetcount-cache.html">&lt;p&gt;&lt;a href=&quot;/en/database/django/sql/2013/07/11/django-querysetcount-cache.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-07-11-django-querysetcount-cache/to-count-22117_small.jpeg&quot; alt=&quot;Django queryset.count cache&quot; title=&quot;Django queryset.count cache&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Once I mentioned, that my django application makes several similiar queries like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SELECT COUNT(*) ...&lt;/code&gt;. As it turns out (for me it was surprise), &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;queryset.count()&lt;/code&gt; has not obvious cache. But let me start the story from the beginning (and sorry for my english :) ).&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;As it is known, django’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;queryset&lt;/code&gt; is lazy and have cache.&lt;/p&gt;
-
-&lt;p&gt;Lets say we have such model:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CharField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;When some django query is declared there is no database attempt (thats why it is called “lazy”):&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The attempt is made when we actually access elements from queryset, for example in cycle:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;During executing line &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;for item in items:&lt;/code&gt; sql query was performed:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;main_item&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;main_item&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;name&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;main_item&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;At next access to elements from queryset, database attempt will not occur, because all elements were touched and consequently put into cache. So, this code will hit the DB only once:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# hit the database
-&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Nevertheless there are some cases, when database can be touched again. To not put very much information in a single post, refer to documentation: &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/db/queries/#caching-and-querysets&quot;&gt;https://docs.djangoproject.com/en/dev/topics/db/queries/#caching-and-querysets&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;now-directly-about-count&quot;&gt;Now directly about count&lt;/h3&gt;
-
-&lt;p&gt;Keeping in mind, that queryset has cache, i thought, that .count() will also be cached. But it is not (not always precisely). If count() method was called before queryset is put in cache, then database will be touched every time count() is called:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# not hit DB
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# hit DB
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# hit DB
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# hit DB
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# hit DB and put into cache
-&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Нowever, if source queryset is cached, then count will not touch the database:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# no DB hit
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# hit DB and put to cache
-&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;All this concerns django templates too. The code, that made identical queries like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SELECT COUNT(*) ...&lt;/code&gt; has several checks like:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;and also some count output:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Before these lines the queryset elements were not being accessed. As a result, each mentioned line create database query.&lt;/p&gt;
-
-&lt;p&gt;Again, if such cycle was before:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endfor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;{{ items.count }}&lt;/code&gt; doesn’t hit the DB.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Approaches to exclude redundant database calls.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;If we know, that we’ll need to access all elements from query set, it is ok to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;len&lt;/code&gt;.&lt;/p&gt;
-
-    &lt;p&gt;Python code:&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# DB
-&lt;/span&gt;  &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;# ...
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;and reversed, that is also acceptable:&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# DB
-&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;# ...
-&lt;/span&gt;  &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;  &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;Django template:&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# DB
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;and reversed:&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# DB
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# cache
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;If it is needed to know only count of elements, or source queryset for count is different to queryset, that will be used to access elements, then we shall use count(). But it is better, if it will be called only once.&lt;/p&gt;
-
-    &lt;p&gt;If count is needed more than one time, then instead of this:&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;we can create additional variable in template context (in view, that renders this template):&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c1&quot;&gt;# views.py
-&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;items_count&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-  &lt;span class=&quot;c1&quot;&gt;# template
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items_count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items_count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;or we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;{% with items.count as items_count %}&lt;/code&gt; and not declare any additional variable in context:&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c1&quot;&gt;# template
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items_count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-       &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items_count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
-       &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items_count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endwith&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Of course, everywere in this post word “cache” means queryset internal cache, and not &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/cache/&quot;&gt;caching&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="django" /><category term="sql" /><summary type="html">Once I mentioned, that my django application makes several similiar queries like SELECT COUNT(*) .... As it turns out (for me it was surprise), queryset.count() has not obvious cache. But let me start the story from the beginning (and sorry for my english :) ).</summary></entry><entry><title type="html">Unicode string formatting</title><link href="https://st4lk.github.io/en/python/unicode/2013/06/20/unicode-string-formatting.html" rel="alternate" type="text/html" title="Unicode string formatting" /><published>2013-06-20T18:19:43+00:00</published><updated>2013-06-20T18:19:43+00:00</updated><id>https://st4lk.github.io/en/python/unicode/2013/06/20/unicode-string-formatting</id><content type="html" xml:base="https://st4lk.github.io/en/python/unicode/2013/06/20/unicode-string-formatting.html">&lt;p&gt;Did you know, if one of values in string formatting expression with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%&lt;/code&gt; operator is unicode, then result string will also be unicode?&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello, %s&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;sa&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Alex&quot;&lt;/span&gt;
-&lt;span class=&quot;sa&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Hello, Alex&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello, %s&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;sa&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Алексей&quot;&lt;/span&gt;
-&lt;span class=&quot;sa&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Hello, &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\u0410\u043b\u0435\u043a\u0441\u0435\u0439&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;I used to work with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.format&lt;/code&gt; string method and its behavior is more attractive to me: type of source string is saved and if some parameter contains non-ascii symbols, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UnicodeEncodeError&lt;/code&gt; exception is raised.&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello, {0}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Alex&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&apos;Hello, Alex&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello, {0}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Алексей&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;Traceback&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;most&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;recent&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;last&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;stdin&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;UnicodeEncodeError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;ascii&apos;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;codec&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;can&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;t encode characters in position 0-6: ordinal not in range(128)
-&amp;gt;&amp;gt;&amp;gt; u&quot;Hello, {0}&quot;.format(u&quot;Алексей&quot;)
-u&apos;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; \&lt;span class=&quot;n&quot;&gt;u0410&lt;/span&gt;\&lt;span class=&quot;n&quot;&gt;u043b&lt;/span&gt;\&lt;span class=&quot;n&quot;&gt;u0435&lt;/span&gt;\&lt;span class=&quot;n&quot;&gt;u043a&lt;/span&gt;\&lt;span class=&quot;n&quot;&gt;u0441&lt;/span&gt;\&lt;span class=&quot;n&quot;&gt;u0435&lt;/span&gt;\&lt;span class=&quot;n&quot;&gt;u0439&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Is it a big deal, what string type is returned? Well, sometimes yes. For example when working with &lt;a href=&quot;http://www.lexev.org/en/2013/parse-url-which-chontains-unicode-query-using-urlp/&quot;&gt;urlparse.parse_qs&lt;/a&gt;, type of string make sense.&lt;/p&gt;
-
-&lt;p&gt;So it is better to keep in mind, that code like:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello, %s&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;can return a unicode string.&lt;/p&gt;
-
-&lt;p&gt;Some links:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://docs.python.org/2/library/stdtypes.html#string-formatting&quot;&gt;% documentation&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://docs.python.org/2/library/string.html#format-string-syntax&quot;&gt;.format documentation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="python" /><category term="unicode" /><summary type="html">Did you know, if one of values in string formatting expression with % operator is unicode, then result string will also be unicode? &amp;gt;&amp;gt;&amp;gt; &quot;Hello, %s&quot; % u&quot;Alex&quot; u&apos;Hello, Alex&apos; &amp;gt;&amp;gt;&amp;gt; &quot;Hello, %s&quot; % u&quot;Алексей&quot; u&apos;Hello, \u0410\u043b\u0435\u043a\u0441\u0435\u0439&apos;</summary></entry></feed>
+&lt;script src=&quot;https://gist.github.com/st4lk/6287746.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="python" /><category term="logging" /><summary type="html">Gist When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has logging module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes print instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.</summary></entry></feed>
