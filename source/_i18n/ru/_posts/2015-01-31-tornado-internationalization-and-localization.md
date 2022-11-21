@@ -1067,7 +1067,6 @@ home.html:
 {% raw %}
 ```html
 <div>{{_("{count} event is gonna happen", "{count} events are gonna happen", count).format(count=count)}}</div>
-}
 ```
 {% endraw %}
 
