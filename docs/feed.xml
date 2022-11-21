@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T19:28:14+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Tornado: пример веб приложения</title><link href="https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html" rel="alternate" type="text/html" title="Tornado: пример веб приложения" /><published>2013-12-29T18:19:43+00:00</published><updated>2013-12-29T18:19:43+00:00</updated><id>https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example</id><content type="html" xml:base="https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/acl_webapp&quot; data-icon=&quot;octicon-star&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/acl_webapp on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T19:33:57+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Асинхронный Bitcoin RPC клиент на python</title><link href="https://st4lk.github.io/async/api/bitcoin/tornado/2014/01/30/async-bitcoin-rpc-client.html" rel="alternate" type="text/html" title="Асинхронный Bitcoin RPC клиент на python" /><published>2014-01-30T18:19:43+00:00</published><updated>2014-01-30T18:19:43+00:00</updated><id>https://st4lk.github.io/async/api/bitcoin/tornado/2014/01/30/async-bitcoin-rpc-client</id><content type="html" xml:base="https://st4lk.github.io/async/api/bitcoin/tornado/2014/01/30/async-bitcoin-rpc-client.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/python-bitcoinrpc-tornado&quot; data-icon=&quot;octicon-star&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/python-bitcoinrpc-tornado on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Для работы с &lt;a href=&quot;https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list&quot;&gt;Bitcoin RPC&lt;/a&gt; на python’е есть библиотека &lt;a href=&quot;https://github.com/jgarzik/python-bitcoinrpc&quot;&gt;Python-BitcoinRPC&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Но недавно мне понадобилось обратиться к API из приложения на tornado. Указанная библиотека работает в синхронном, т.е. блокирующем режиме. Для торнадо было бы намного лучше использовать асинхронную версию. Готовой найти не удалось, поэтому написал свой форк - асинхронный, который использует торнадовский AsyncHTTPClient: &lt;a href=&quot;https://github.com/st4lk/python-bitcoinrpc-tornado&quot;&gt;https://github.com/st4lk/python-bitcoinrpc-tornado&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Пример (выводит текущее количество блоков в сети Bitcoin):&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;bitcoinrpc_async.authproxy&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AsyncAuthServiceProxy&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tornado&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;BITCOIN_RPC_URL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;http://user:password@127.0.0.1:8332&quot;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coroutine&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;show_block_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AsyncAuthServiceProxy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BITCOIN_RPC_URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getblockcount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show_block_count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="async" /><category term="api" /><category term="bitcoin" /><category term="tornado" /><summary type="html">Star Для работы с Bitcoin RPC на python’е есть библиотека Python-BitcoinRPC. Но недавно мне понадобилось обратиться к API из приложения на tornado. Указанная библиотека работает в синхронном, т.е. блокирующем режиме. Для торнадо было бы намного лучше использовать асинхронную версию. Готовой найти не удалось, поэтому написал свой форк - асинхронный, который использует торнадовский AsyncHTTPClient: https://github.com/st4lk/python-bitcoinrpc-tornado.</summary></entry><entry><title type="html">Tornado: пример веб приложения</title><link href="https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html" rel="alternate" type="text/html" title="Tornado: пример веб приложения" /><published>2013-12-29T18:19:43+00:00</published><updated>2013-12-29T18:19:43+00:00</updated><id>https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example</id><content type="html" xml:base="https://st4lk.github.io/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/acl_webapp&quot; data-icon=&quot;octicon-star&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/acl_webapp on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2013-12-29-tornado-web-application-example/tornado.jpeg&quot; alt=&quot;Tornado: пример веб приложения&quot; title=&quot;Tornado: пример веб приложения&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -1493,122 +1518,4 @@ request.get_full_path() почему-то возвращает не строку
 &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="python" /><summary type="html">В python’е значения функции по умолчанию создаются в момент выполнения инструкции def, а не при каждом вызове функции. Если значение - неизменяемый объект (например строка, целое число, кортеж), то никаких подводных камней здесь нет. А вот если объект изменяемый (например список), то есть возможность попасть в ловушку. Вот пример: def foo(l=[]): l.append(&apos;x&apos;) return l Казалось бы, при каждом вызове foo() будет возвращаться список [‘x’]. Но:</summary></entry><entry><title type="html">Многоязычный сайт на django без редиректов</title><link href="https://st4lk.github.io/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html" rel="alternate" type="text/html" title="Многоязычный сайт на django без редиректов" /><published>2013-02-26T18:19:43+00:00</published><updated>2013-02-26T18:19:43+00:00</updated><id>https://st4lk.github.io/django/i18n/2013/02/26/multilanguage-site-django-without-redirects</id><content type="html" xml:base="https://st4lk.github.io/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/django-solid-i18n-urls&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/django-solid-i18n-urls on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Начиная с django 1.4, можно задать &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#language-prefix-in-url-patterns&quot;&gt;префикс для url&lt;/a&gt; для каждого включенного языка. К примеру, мы хотим сайт, который будет иметь русскую и английскую версию.&lt;/p&gt;
-
-&lt;p&gt;Для этого добавляем в &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.py&lt;/code&gt;:&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# default language, it will be used, if django can&apos;t recognize user&apos;s language
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LANGUAGE_CODE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;ru&apos;&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# list of activated languages
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LANGUAGES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;ru&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Russian&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;en&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;English&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# enable django’s translation system
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;USE_I18N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# specify path for translation files
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LOCALE_PATHS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PROJECT_DIR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;locale&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# add LocaleMiddleware
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MIDDLEWARE_CLASSES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-   &lt;span class=&quot;c1&quot;&gt;# ...
-&lt;/span&gt;   &lt;span class=&quot;s&quot;&gt;&apos;django.middleware.locale.LocaleMiddleware&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-   &lt;span class=&quot;c1&quot;&gt;# ...
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;И в &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;urls.py&lt;/code&gt; используем i18n_patterns вместо patterns:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.conf.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.conf.urls.i18n&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i18n_patterns&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i18n_patterns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;^about/$&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;about.view&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;about&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;В этом случае, когда мы обратимся по адресу /about/, django &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#how-django-discovers-language-preference&quot;&gt;попытается определить&lt;/a&gt; предпочитаемый нами язык и сделает редирект на страницу с префиксом языка. Допустим django определил, что наш язык - русский, тогда произойдет редирект на /ru/about/. При этом, если мы сами пройдем по адресу /en/about/, то уже никаких редиректов не будет, а отобразится английская версия сайта, т.к. в url уже присутствует префикс /en/.&lt;/p&gt;
-
-&lt;p&gt;При такой схеме могут возникнуть проблемы с индексированием сайта некоторыми поисковыми системами. Например &lt;a href=&quot;http://yandex.ru/&quot;&gt;yandex.ru&lt;/a&gt; очень долго отказывался индексировать сайт, т.к. не получал http кода 200 с корневого url. C Google’ом таких проблем не было, но все же и он не рекомендует использовать редиректы. Из &lt;a href=&quot;http://support.google.com/webmasters/bin/answer.py?hl=ru&amp;amp;answer=182192&quot;&gt;http://support.google.com/webmasters/bin/answer.py?hl=ru&amp;amp;answer=182192&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Избегайте автоматического перенаправления по языку пользователя. Это может привести к тому, что пользователи и поисковые системы не смогут просмотреть все версии вашего сайта.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;strong&gt;Поэтому я решил создать пакет, который позволял бы работать без редиректов&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Схема работы будет такая:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Если в url нет языкового префикса, то используется язык по умолчанию (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.LANGUAGE_CODE&lt;/code&gt;)&lt;/li&gt;
-  &lt;li&gt;Если префикс есть, то используется язык, соответствующий префиксу (/en/ = англ), но при этом префикса для языка по умолчанию нет.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Благо для этого нужно совсем немного кода, нужно лишь изменить LocaleMiddleware и i18n_patterns, что я и сделал в репозитории &lt;a href=&quot;https://github.com/st4lk/django-solid-i18n-urls&quot;&gt;https://github.com/st4lk/django-solid-i18n-urls&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Установка:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Устанавливаем django-solid-i18n-urls, например с помощью pip:&lt;/p&gt;
-
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;solid_i18n
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Изменяем LocaleMiddleware на SolidLocaleMiddleware:&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;n&quot;&gt;MIDDLEWARE_CLASSES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# ...
-&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# remove &apos;django.middleware.locale.LocaleMiddleware&apos;,
-&lt;/span&gt;    &lt;span class=&quot;s&quot;&gt;&apos;solid_i18n.middleware.SolidLocaleMiddleware&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;c1&quot;&gt;# ...
-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Вместо i18n_patterns используем solid_i18n_patterns:&lt;/p&gt;
-
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.conf.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
- &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;solid_i18n.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solid_i18n_patterns&lt;/span&gt;
-  
- &lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;solid_i18n_patterns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-     &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;^about/$&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;about.view&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;about&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
- &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Репозиторий на github: &lt;a href=&quot;https://github.com/st4lk/django-solid-i18n-urls&quot;&gt;https://github.com/st4lk/django-solid-i18n-urls&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;updated&quot;&gt;UPDATED&lt;/h3&gt;
-
-&lt;p&gt;Добавлена опция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.SOLID_I18N_USE_REDIRECTS&lt;/code&gt; (по умолчанию False). Если она равна True, то будут использованы редиректы по следующим правилам:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;При обращении по url без языкового префикса, например &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt;, язык будет определен из &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#how-django-discovers-language-preference&quot;&gt;предпочтений&lt;/a&gt; пользователя. Если этот язык не равен языку по умолчанию (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.LANGUAGE_CODE&lt;/code&gt;), то будет перенаправление на url с соответствующем префиксом. Если равен, то отображается url без префикса (который и был запрошен).&lt;/li&gt;
-  &lt;li&gt;При обращении по url с языковым префиксом поведение не меняется, т.е. всегда используется язык из префикса.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Привет:&lt;/p&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# settings.py: 
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LANGUAGE_CODE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;ru&apos;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;SOLID_I18N_USE_REDIRECTS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Допустим предпочитаемый язык пользователя - английский.&lt;/p&gt;
-
-&lt;p&gt;Тогда при обращении к &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt; будет редирект на &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/en/&apos;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;А если предпочитаемый язык - русский, то редиректа не будет, т.е. при обращении к &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt; оторбразиться &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;/&apos;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;замечание&quot;&gt;Замечание&lt;/h4&gt;
-&lt;p&gt;При таком подходе возможна следующая ситуация. Предпочитаемый язык браузера - английский. Но пользователь хочет увидеть русскую версию, которая отображается без префикса. Если для переключения языков использовать простые ссылки, т.е. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;{{ specific language url}}&quot;&amp;gt;&lt;/code&gt;, то пользователь будет постоянно перенаправляться на английскую версию. Поэтому при переключении языков надо записывать в cookie пользователя выбранный им язык. Это можно делать с помощью специального встроенного в django &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#the-set-language-redirect-view&quot;&gt;set_language&lt;/a&gt; view.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="i18n" /><summary type="html">Star Начиная с django 1.4, можно задать префикс для url для каждого включенного языка. К примеру, мы хотим сайт, который будет иметь русскую и английскую версию. Для этого добавляем в settings.py:</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="python" /><summary type="html">В python’е значения функции по умолчанию создаются в момент выполнения инструкции def, а не при каждом вызове функции. Если значение - неизменяемый объект (например строка, целое число, кортеж), то никаких подводных камней здесь нет. А вот если объект изменяемый (например список), то есть возможность попасть в ловушку. Вот пример: def foo(l=[]): l.append(&apos;x&apos;) return l Казалось бы, при каждом вызове foo() будет возвращаться список [‘x’]. Но:</summary></entry></feed>
