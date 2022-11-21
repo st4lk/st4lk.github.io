@@ -1,4 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T21:56:03+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Set url for Tornado handlers</title><link href="https://st4lk.github.io/en/tornado/2014/12/15/set-url-for-tornado-handlers.html" rel="alternate" type="text/html" title="Set url for Tornado handlers" /><published>2014-12-15T18:19:43+00:00</published><updated>2014-12-15T18:19:43+00:00</updated><id>https://st4lk.github.io/en/tornado/2014/12/15/set-url-for-tornado-handlers</id><content type="html" xml:base="https://st4lk.github.io/en/tornado/2014/12/15/set-url-for-tornado-handlers.html">&lt;p&gt;&lt;a href=&quot;/en/tornado/2014/12/15/set-url-for-tornado-handlers.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/17846/85893628.c66/0_1644bf_5c58d342_L.png&quot; alt=&quot;Set url for Tornado handlers&quot; title=&quot;Set url for Tornado handlers&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T22:02:45+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Timestamp and ObjectId in mongoDB</title><link href="https://st4lk.github.io/en/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html" rel="alternate" type="text/html" title="Timestamp and ObjectId in mongoDB" /><published>2015-01-18T18:19:43+00:00</published><updated>2015-01-18T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/mongodb/2015/01/18/timestamp-objectid-mongodb</id><content type="html" xml:base="https://st4lk.github.io/en/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html">&lt;p&gt;&lt;a href=&quot;/en/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/17859/85893628.c67/0_16f717_c4a5da7b_orig.png&quot; alt=&quot;Timestamp and ObjectId in mongoDB&quot; title=&quot;Timestamp and ObjectId in mongoDB&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Every record in mongoDB has field &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;, that must be unique inside collection.
+By default type of this field is &lt;a href=&quot;http://docs.mongodb.org/manual/reference/object-id/&quot;&gt;ObjectId&lt;/a&gt;,
+and it is assigned automatically if field is not set.&lt;/p&gt;
+
+&lt;p&gt;Lets look at ObjectId more carefully.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;It is 12 bytes that includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;a 4-byte value representing the seconds since the Unix epoch,&lt;/li&gt;
+  &lt;li&gt;a 3-byte machine identifier,&lt;/li&gt;
+  &lt;li&gt;a 2-byte process id, and&lt;/li&gt;
+  &lt;li&gt;a 3-byte counter, starting with a random value.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As we see, first 4 bytes represent creation date and we can use it:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;sort by field &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt; and you’ll get documents in creation time order&lt;/li&gt;
+  &lt;li&gt;we can get creation time of the document from ObjectId&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;But keep in mind, that this date has accuracy of seconds. If two documents are created
+during one second then their order is not defined in sorting by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;So, if accuracy of second is enough for us then we do &lt;strong&gt;NOT&lt;/strong&gt; need field like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ISODate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2015-01-18T12:07:47.036Z&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// other fields&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;as creation date is included in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;get-date-from-objectid&quot;&gt;Get date from ObjectId&lt;/h3&gt;
+
+&lt;p&gt;In mongoDB shell date can be retrieved by method &lt;a href=&quot;http://docs.mongodb.org/manual/reference/method/ObjectId.getTimestamp/#ObjectId.getTimestamp&quot;&gt;getTimestamp()&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;findOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getTimestamp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;ISODate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2015-01-18T09:07:47Z&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And in python code - by attribute &lt;a href=&quot;http://api.mongodb.org/python/current/api/bson/objectid.html?highlight=generation_time#bson.objectid.ObjectId.generation_time&quot;&gt;generation_time&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pymongo&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MongoClient&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MongoClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;_id&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;generation_time&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2015&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;47&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tzinfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tz_util&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FixedOffset&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;at&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x10e758d50&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Date is returned in UTC and in python it is aware datetime with timezone.&lt;/p&gt;
+
+&lt;p&gt;To be clear, these versions i use:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;mongoDB v2.6.6&lt;/li&gt;
+  &lt;li&gt;pymongo v2.7.2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;P.S. thanks &lt;a href=&quot;https://twitter.com/eugeneglybin&quot;&gt;@eugeneglybin&lt;/a&gt; to pointing out.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="mongodb" /><summary type="html">Every record in mongoDB has field _id, that must be unique inside collection. By default type of this field is ObjectId, and it is assigned automatically if field is not set. Lets look at ObjectId more carefully.</summary></entry><entry><title type="html">Set url for Tornado handlers</title><link href="https://st4lk.github.io/en/tornado/2014/12/15/set-url-for-tornado-handlers.html" rel="alternate" type="text/html" title="Set url for Tornado handlers" /><published>2014-12-15T18:19:43+00:00</published><updated>2014-12-15T18:19:43+00:00</updated><id>https://st4lk.github.io/en/tornado/2014/12/15/set-url-for-tornado-handlers</id><content type="html" xml:base="https://st4lk.github.io/en/tornado/2014/12/15/set-url-for-tornado-handlers.html">&lt;p&gt;&lt;a href=&quot;/en/tornado/2014/12/15/set-url-for-tornado-handlers.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/17846/85893628.c66/0_1644bf_5c58d342_L.png&quot; alt=&quot;Set url for Tornado handlers&quot; title=&quot;Set url for Tornado handlers&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;To set url for tornado handlers we can pass list of tuples &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(url regex, handler)&lt;/code&gt; into application initialisation:&lt;/p&gt;
 
@@ -1048,304 +1113,4 @@ We can do it not directly, but with runCommand:&lt;/p&gt;
   &lt;li&gt;&lt;a href=&quot;http://jinja.pocoo.org/docs/&quot;&gt;Jinja2&lt;/a&gt; (html templates)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;P.S. It is possible, that i’ve made a mistake in tornado describing and understanding. I’ll be glad to read it in comments!&lt;/p&gt;</content><author><name></name></author><category term="async" /><category term="tornado" /><category term="mongodb" /><summary type="html">Star Tornado - async web framework for python. I’ll cover shortly pros and cons about tornado and introduce typical web project, that is built on top of it. By describing pros and cons i mean my own point of view in compare with django.</summary></entry><entry><title type="html">Django project: from beginning to working server</title><link href="https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server.html" rel="alternate" type="text/html" title="Django project: from beginning to working server" /><published>2013-11-13T18:19:43+00:00</published><updated>2013-11-13T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server</id><content type="html" xml:base="https://st4lk.github.io/en/django/deploy/2013/11/13/django-project-beginning-working-server.html">&lt;p&gt;In this post i’ll describe my experience of deploying django project to VPS-hosting.&lt;/p&gt;
-
-&lt;p&gt;Steps of deploying and server setup:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Creation of django project&lt;/li&gt;
-  &lt;li&gt;Deploy setup&lt;/li&gt;
-  &lt;li&gt;Server setup&lt;/li&gt;
-  &lt;li&gt;Deploy&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;creation-of-django-project&quot;&gt;Creation of django project&lt;/h3&gt;
-
-&lt;p&gt;Assume, that project is called myproject.&lt;/p&gt;
-
-&lt;p&gt;First, create it on local machine. We’ll need pip and virtualenv (if not installed yet).&lt;/p&gt;
-
-&lt;p&gt;Create virtual environment:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;virtualenv venv-myproject
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Acitvate it:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# on *nix system&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;source &lt;/span&gt;venv-myproject/bin/activate
-
-REM on windows
-venv&lt;span class=&quot;se&quot;&gt;\S&lt;/span&gt;cripts&lt;span class=&quot;se&quot;&gt;\a&lt;/span&gt;ctivate.bat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Next it is need to create a django project skeleton. We can just install django and use command ‘django-admin.py startproject’. This will create a very basic and poor project. Many time will be needed to add common used things, settings. Very useful to have your own template of a project with common used settings. I like &lt;a href=&quot;https://github.com/audreyr/cookiecutter&quot;&gt;cookiecutter&lt;/a&gt;, it is easy to use. You can take this template &lt;a href=&quot;https://github.com/pydanny/cookiecutter-django&quot;&gt;https://github.com/pydanny/cookiecutter-djangopackag&lt;/a&gt; and modify it. Here is my: &lt;a href=&quot;https://github.com/st4lk/cookiecutter-django&quot;&gt;https://github.com/st4lk/cookiecutter-django&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Install cookiecutter:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;cookiecutter
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Create django project from template (my template for example):&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cookiecutter https://github.com/st4lk/cookiecutter-django.git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;After this you’ll see question in console (project name, etc.). Initial project creation is done.&lt;/p&gt;
-
-&lt;p&gt;Then we work with project locally.&lt;/p&gt;
-
-&lt;p&gt;At some moment we are ready to deploy it. But currently our server has just OS installed and nothing else. Lets fix that (i’ll describe server with ubuntu).&lt;/p&gt;
-
-&lt;h3 id=&quot;deploy-setup&quot;&gt;Deploy setup&lt;/h3&gt;
-
-&lt;p&gt;I deside to talk about deploy now, because it will affect all other actions.&lt;/p&gt;
-
-&lt;p&gt;Once i was working with project, that used &lt;strong&gt;makesite&lt;/strong&gt; utility for deploy. I like it and use it with some of my projects.&lt;/p&gt;
-
-&lt;p&gt;Links:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;project at github: &lt;a href=&quot;https://github.com/klen/makesite&quot;&gt;https://github.com/klen/makesite&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;description from author (in russian): &lt;a href=&quot;http://klen.github.io/deploy-setup-ru.html&quot;&gt;http://klen.github.io/deploy-setup-ru.html&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;makesite can install, update, unistall project on server.&lt;/p&gt;
-
-&lt;p&gt;At project creation makesite create all nessesary environment automatically, based on specific templates. Environment includes: creation of virtualenv, nginx configuration, uwsgi, supervisor, database initialization. So all the project needs to be started. Project install command:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;makesite &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &amp;lt;project_name&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;When we need to deploy a project, we push it to remote repository (that is hosted on github, bitbucket or any other server). Then, we access our server by ssh (were project is launched) and enter such command:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;makesite update &amp;lt;project_name&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Thats all, the project is updated.&lt;/p&gt;
-
-&lt;h4 id=&quot;makesite-configuration&quot;&gt;makesite configuration&lt;/h4&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Create makesite.ini. Lets call it “main”, as we’ll have another one.&lt;/p&gt;
-
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; [Main]
- # production mode
- mode=project
- # project domain, will be used in nginx config
- domain=example.com
- # postgres superuser (for database creation)
- pguser=postgres
- # postgres superuser password
- pgpassword=secret_password
- # database name
- dbname=project_name
- # postgres user, that will have access to database (same, as in django settings.py)
- dbuser=project_user
- # postgres user password
- dbpassword=project_user_password
- # postgres host name
- pghost=127.0.0.1
- # remote repository address
- src=git+git@bitbucket.org:username/example.git
- # user, the makesite will work from
- src_user=root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Create in root folder of project file makesite.ini, we’ll call it “additional”:&lt;/p&gt;
-
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; [Main]
- template=virtualenv,db-postgres,django,uwsgi
- django_settings=&amp;lt;project_name.settings&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;project_name.settings&amp;gt;&lt;/code&gt; is path to settings module, relative to ‘manage.py’. It is needed to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.&lt;/code&gt;, not &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Default settings for uwsgi, nginx and supervisor will be taken from &lt;a href=&quot;https://github.com/klen/makesite/tree/master/makesite/templates/uwsgi/deploy&quot;&gt;https://github.com/klen/makesite/tree/master/makesite/templates/uwsgi/deploy&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you need to customize them, add following lines to “additional” makesite.ini&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Templates]
-uwsgi=%(source_dir)s/deploy/makesite_templates/uwsgi
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Create path ‘deploy/makesite_templates’ in your project, copy &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uwsgi&lt;/code&gt; dir from &lt;a href=&quot;https://github.com/klen/makesite/tree/master/makesite/templates&quot;&gt;https://github.com/klen/makesite/tree/master/makesite/templates&lt;/a&gt;. Then modify needed configs here ‘deploy/makesite_templates/uwsgi/deploy/’&lt;/p&gt;
-
-&lt;p&gt;In summary we hanve:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;main makesite.ini (we’ll need it later on server)&lt;/li&gt;
-  &lt;li&gt;additional makesite.ini, that is placed in project root&lt;/li&gt;
-  &lt;li&gt;path deploy/makesite_templates/uwsgi if required.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Don’t forget to put all this stuff (except main makesite.ini) under git and push the changes..&lt;/p&gt;
-
-&lt;h3 id=&quot;server-setup&quot;&gt;Server setup&lt;/h3&gt;
-
-&lt;p&gt;All commands are checked for Ubuntu 12.04.&lt;/p&gt;
-
-&lt;p&gt;Access server with root account.&lt;/p&gt;
-
-&lt;p&gt;Check python version:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;python&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;I assert, that it is 2.7&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# We are root&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Update the system&lt;/span&gt;
-apt-get update
-apt-get upgrade
-
-&lt;span class=&quot;c&quot;&gt;# Compilation utils&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;build-essential
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libpq-dev
-
-&lt;span class=&quot;c&quot;&gt;# Config locale&lt;/span&gt;
-locale-gen ru_RU.UTF-8
-locale-gen en_US.UTF-8
-dpkg-reconfigure locales
-
-&lt;span class=&quot;c&quot;&gt;# git setup&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git
-
-&lt;span class=&quot;c&quot;&gt;# setup-tools&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-setuptools python-pip
-
-&lt;span class=&quot;c&quot;&gt;# Another compilation packages&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python2.7-dev
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-dev
-
-&lt;span class=&quot;c&quot;&gt;# postgres setup&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;postgresql
-
-&lt;span class=&quot;c&quot;&gt;# modify /etc/postgresql/{postgres_version}/main/pg_hba.conf&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# line&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# &quot;local   all             postgres                                peer&quot;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# change to&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# &quot;local   all             postgres                                md5&quot;&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; postgres psql template1
-&lt;span class=&quot;c&quot;&gt;#postgres superuser password&lt;/span&gt;
-&lt;span class=&quot;se&quot;&gt;\p&lt;/span&gt;assword postgres
-&lt;span class=&quot;c&quot;&gt;# !!! enter password and remember it&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# press ctrl+d to exit&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# postgres utils&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;pgagent
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;pgadmin3
-
-&lt;span class=&quot;c&quot;&gt;#If you need to customize postgres settings, modify this file:&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# /etc/postgresql/{postgres_version}/main/postgresql.conf&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Restart postgres&lt;/span&gt;
-/etc/init.d/postgresql restart
-
-&lt;span class=&quot;c&quot;&gt;# uwsgi&lt;/span&gt;
-pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;uwsgi
-
-&lt;span class=&quot;c&quot;&gt;# nginx, virtualenv, supervisor&lt;/span&gt;
-easy_install elementtree
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-virtualenv nginx supervisor
-
-&lt;span class=&quot;c&quot;&gt;# working with images&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libjpeg-dev
-pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; Pillow
-
-&lt;span class=&quot;c&quot;&gt;# Create ssh key, that will be used by makesite&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cd
-test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; .ssh &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; .ssh
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.ssh
-ssh-keygen
-&lt;span class=&quot;c&quot;&gt;#&quot;Enter file in which to save the key&quot;: makesite&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Other question just hit enter:&lt;/span&gt;
-
-  Generating public/private rsa key pair.
-  Enter file &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;which to save the key &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;/home/ubuntu/.ssh/id_rsa&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: makesite
-  Enter passphrase &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;empty &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;no passphrase&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-  Enter same passphrase again:
-  Your identification has been saved &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;makesite.
-  Your public key has been saved &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;makesite.pub.
-
-&lt;span class=&quot;c&quot;&gt;# Copy to id_rsa&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;makesite id_rsa
-&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;makesite.pub id_rsa.pub
-
-&lt;span class=&quot;c&quot;&gt;# ! Important&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Tak public key makesite.pub and add it to your remote repository.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Description from github: https://help.github.com/articles/generating-ssh-keys#step-3-add-your-ssh-key-to-github&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Create path, where project will be placed&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; /var/www
-
-&lt;span class=&quot;c&quot;&gt;# Put &quot;main&quot; makesite.ini into /var/www&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# makesite setup&lt;/span&gt;
-pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;makesite
-
-&lt;span class=&quot;c&quot;&gt;# Check bash settings&lt;/span&gt;
-makesite shell &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /var/www
-&lt;span class=&quot;c&quot;&gt;# Write them into ~/.bashrc&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; ~/.bashrc
-&lt;span class=&quot;c&quot;&gt;# copy and paste previous output&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# it was something like:&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Makesite integration&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ====================&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;MAKESITE_HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/www
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /usr/local/lib/python2.7/dist-packages/makesite/shell.sh
-
-&lt;span class=&quot;c&quot;&gt;# enter&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ctrl+d to exit&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# load settings for current session&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; ~/.bashrc
-
-&lt;span class=&quot;c&quot;&gt;# it is useful&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mercurial
-
-&lt;span class=&quot;c&quot;&gt;# Now install project. It takes some time.&lt;/span&gt;
-makesite &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &amp;lt;project_name&amp;gt;
-
-&lt;span class=&quot;c&quot;&gt;# If you see message&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# OPERATION SUCCESSFUL&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# at the end, then installation is done successfully.&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Check, that dependencies are installed from requirements.txt:&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/www/&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;project_name&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/master
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .virtualenv/bin/activate
-pip freeze
-
-&lt;span class=&quot;c&quot;&gt;# Check, that database is create, tables are synced, migration are applied.&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Check, that STATIC_ROOT and MEDIA_ROOT have right values.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# corresponding folders must be placed here:&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# /var/www/{project_name}/master/&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# if some folders are missed, you can create in manuall&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# but change owner and group to www-data&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# update static&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# (virtualenv must be activated)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/www/&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;project_name&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/master/source 
-python manage.py collectstatic &lt;span class=&quot;nt&quot;&gt;--noinput&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Restart nginx&lt;/span&gt;
-/etc/init.d/nginx restart
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Thats all, project is launched.&lt;/p&gt;
-
-&lt;h3 id=&quot;deploy&quot;&gt;Deploy&lt;/h3&gt;
-
-&lt;p&gt;As it written before, to update a project make:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;push to remote repo&lt;/li&gt;
-  &lt;li&gt;access server by ssh and from server type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;makesite update &amp;lt;project_name&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="django" /><category term="deploy" /><summary type="html">In this post i’ll describe my experience of deploying django project to VPS-hosting. Steps of deploying and server setup: Creation of django project Deploy setup Server setup Deploy</summary></entry></feed>
+&lt;p&gt;P.S. It is possible, that i’ve made a mistake in tornado describing and understanding. I’ll be glad to read it in comments!&lt;/p&gt;</content><author><name></name></author><category term="async" /><category term="tornado" /><category term="mongodb" /><summary type="html">Star Tornado - async web framework for python. I’ll cover shortly pros and cons about tornado and introduce typical web project, that is built on top of it. By describing pros and cons i mean my own point of view in compare with django.</summary></entry></feed>

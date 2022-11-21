@@ -1,4 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T21:55:54+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Задание url для обработчиков Tornado</title><link href="https://st4lk.github.io/tornado/2014/12/15/set-url-for-tornado-handlers.html" rel="alternate" type="text/html" title="Задание url для обработчиков Tornado" /><published>2014-12-15T18:19:43+00:00</published><updated>2014-12-15T18:19:43+00:00</updated><id>https://st4lk.github.io/tornado/2014/12/15/set-url-for-tornado-handlers</id><content type="html" xml:base="https://st4lk.github.io/tornado/2014/12/15/set-url-for-tornado-handlers.html">&lt;p&gt;&lt;a href=&quot;/tornado/2014/12/15/set-url-for-tornado-handlers.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/17846/85893628.c66/0_1644bf_5c58d342_L.png&quot; alt=&quot;Задание url для обработчиков Tornado&quot; title=&quot;Задание url для обработчиков Tornado&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-21T22:02:36+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Timestamp и ObjectId в mongoDB</title><link href="https://st4lk.github.io/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html" rel="alternate" type="text/html" title="Timestamp и ObjectId в mongoDB" /><published>2015-01-18T18:19:43+00:00</published><updated>2015-01-18T18:19:43+00:00</updated><id>https://st4lk.github.io/database/mongodb/2015/01/18/timestamp-objectid-mongodb</id><content type="html" xml:base="https://st4lk.github.io/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html">&lt;p&gt;&lt;a href=&quot;/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/17859/85893628.c67/0_16f717_c4a5da7b_orig.png&quot; alt=&quot;Timestamp и ObjectId в mongoDB&quot; title=&quot;Timestamp и ObjectId в mongoDB&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;У каждой записи в mongoDB есть поле &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;, которое должно быть уникальным в коллекции.
+По умолчанию тип этого поля - &lt;a href=&quot;http://docs.mongodb.org/manual/reference/object-id/&quot;&gt;ObjectId&lt;/a&gt;, и оно присваивается автоматически, если поле не заполнено при сохранении.&lt;/p&gt;
+
+&lt;p&gt;Давайте рассмотрим, что из себя представляет тип ObjectId.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Это 12 байт, которые состоят из:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;4 байта, содержащие количество секунд с начала Unix эпохи&lt;/li&gt;
+  &lt;li&gt;3 байта, содержащие идентификатор устройства&lt;/li&gt;
+  &lt;li&gt;2 байта, содержащие id процесса&lt;/li&gt;
+  &lt;li&gt;3 байта, содержащие счетчик, который стартует со случайного значения&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Как видим, первые 4 байта содержат дату создания, и ее можно использовать:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Сортируя по полю &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt; мы получаем документы в порядке их создания&lt;/li&gt;
+  &lt;li&gt;Мы можем получить время создания документа, имея только поле &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Но надо иметь в виду, что эта дата создания доступна с точностью до секунды. Если два документа созданы в течение одной секунды, то их порядок при сортировке по &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt; не определен.&lt;/p&gt;
+
+&lt;p&gt;Т.о. если нам достаточна секундная точность, то можем &lt;strong&gt;НЕ&lt;/strong&gt; создавать поля наподобие &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;created_at&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ISODate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2015-01-18T12:07:47.036Z&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// остальные поля&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;т.к. дата создания содержится в поле &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;получение-даты-из-objectid&quot;&gt;Получение даты из ObjectId&lt;/h3&gt;
+
+&lt;p&gt;В mongoDB shell дату можно получить с помощью метода &lt;a href=&quot;http://docs.mongodb.org/manual/reference/method/ObjectId.getTimestamp/#ObjectId.getTimestamp&quot;&gt;getTimestamp()&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;findOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getTimestamp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;ISODate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2015-01-18T09:07:47Z&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;А в коде питона - с помощью аттрибута &lt;a href=&quot;http://api.mongodb.org/python/current/api/bson/objectid.html?highlight=generation_time#bson.objectid.ObjectId.generation_time&quot;&gt;generation_time&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pymongo&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MongoClient&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MongoClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;_id&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;generation_time&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2015&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;47&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tzinfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tz_util&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FixedOffset&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;at&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x10e758d50&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Дата возвращается в UTC, причем в питоне это aware datetime c таймзоной.&lt;/p&gt;
+
+&lt;p&gt;На всякий случай, в этих примерах я использовал такие версии:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;mongoDB v2.6.6&lt;/li&gt;
+  &lt;li&gt;pymongo v2.7.2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;P.S. спасибо &lt;a href=&quot;https://twitter.com/eugeneglybin&quot;&gt;@eugeneglybin&lt;/a&gt; за наводку.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="mongodb" /><summary type="html">У каждой записи в mongoDB есть поле _id, которое должно быть уникальным в коллекции. По умолчанию тип этого поля - ObjectId, и оно присваивается автоматически, если поле не заполнено при сохранении. Давайте рассмотрим, что из себя представляет тип ObjectId.</summary></entry><entry><title type="html">Задание url для обработчиков Tornado</title><link href="https://st4lk.github.io/tornado/2014/12/15/set-url-for-tornado-handlers.html" rel="alternate" type="text/html" title="Задание url для обработчиков Tornado" /><published>2014-12-15T18:19:43+00:00</published><updated>2014-12-15T18:19:43+00:00</updated><id>https://st4lk.github.io/tornado/2014/12/15/set-url-for-tornado-handlers</id><content type="html" xml:base="https://st4lk.github.io/tornado/2014/12/15/set-url-for-tornado-handlers.html">&lt;p&gt;&lt;a href=&quot;/tornado/2014/12/15/set-url-for-tornado-handlers.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/17846/85893628.c66/0_1644bf_5c58d342_L.png&quot; alt=&quot;Задание url для обработчиков Tornado&quot; title=&quot;Задание url для обработчиков Tornado&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;В tornado, для привязки обработчиков к url’ам, можно передать список из кортежей &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(url regex, handler)&lt;/code&gt; при инициализации приложения:&lt;/p&gt;
 
@@ -1048,314 +1111,4 @@ Avg Conn Time                 0.00ms
   &lt;li&gt;&lt;a href=&quot;http://jinja.pocoo.org/docs/&quot;&gt;Jinja2&lt;/a&gt; (html шаблоны)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;P.S. Возможно, я где-то ошибся в понимании tornado. Буду рад, если вы сообщите об этом или о чем-то другом в комментариях!&lt;/p&gt;</content><author><name></name></author><category term="async" /><category term="tornado" /><category term="mongodb" /><summary type="html">Star Tornado - асинхронный веб фреймворк для python’а. Вначале я приведу краткий перечень плюсов и минусов tornado, а потом расскажу о типовом веб проекте с использованием этого инструмента.</summary></entry><entry><title type="html">Django проект: с нуля до работающего сервера</title><link href="https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server.html" rel="alternate" type="text/html" title="Django проект: с нуля до работающего сервера" /><published>2013-11-13T18:19:43+00:00</published><updated>2013-11-13T18:19:43+00:00</updated><id>https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server</id><content type="html" xml:base="https://st4lk.github.io/django/deploy/2013/11/13/django-project-beginning-working-server.html">&lt;p&gt;В этом посте хочу описать свой опыт создания и запуска django проекта на VPS-хостинге.&lt;/p&gt;
-
-&lt;p&gt;Разделим задачу на этапы:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Создание django-проекта&lt;/li&gt;
-  &lt;li&gt;Настройка деплоя&lt;/li&gt;
-  &lt;li&gt;Настройка сервера (установка нужных библиотек)&lt;/li&gt;
-  &lt;li&gt;Деплой проекта&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;создание-django-проекта&quot;&gt;Создание django-проекта&lt;/h3&gt;
-
-&lt;p&gt;Итак. Пусть наш проект называется myproject. Создадим его на локальном компьютере. Будем считать, что python у нас в системе установлен. Для начала нам понадобятся pip и virtualenv (если еще не стоят).&lt;/p&gt;
-
-&lt;p&gt;Создаем виртуальное окружение:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;virtualenv venv-myproject
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Активируем его:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# on *nix system&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;source &lt;/span&gt;venv-myproject/bin/activate
-
-REM on windows
-venv&lt;span class=&quot;se&quot;&gt;\S&lt;/span&gt;cripts&lt;span class=&quot;se&quot;&gt;\a&lt;/span&gt;ctivate.bat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Далее нужно создать заготовку (минимально необходимые файлы проекта). Самый простой вариант - установить django и использовать команду django-admin.py startproject. Так создастся совсем базовый набор файлов. Нужно будет еще много вещей доделывать руками, это долго. Лучше иметь свой шаблон, где уже определены все наиболее часто используемые настройки, библиотеки. Для этих целей существуют разные утилиты, мне нравится &lt;a href=&quot;https://github.com/audreyr/cookiecutter&quot;&gt;cookiecutter&lt;/a&gt;. Я взял за основу &lt;a href=&quot;https://github.com/pydanny/cookiecutter-django&quot;&gt;cookiecutter шаблон для django&lt;/a&gt; и создал свой: &lt;a href=&quot;https://github.com/st4lk/cookiecutter-django&quot;&gt;https://github.com/st4lk/cookiecutter-django&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Для начала установим cookiecutter:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;cookiecutter
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Теперь создадим django проект из шаблона:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cookiecutter https://github.com/st4lk/cookiecutter-django.git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;После этого в консоле будут заданы вопросы (название проекта, имя и т.д.) и создание заготовки проекта готово.&lt;/p&gt;
-
-&lt;p&gt;Работаем над проектом локально, тестим его.&lt;/p&gt;
-
-&lt;p&gt;И вот пришло время запустить проект на сервере. Но наш сервер пока представляет из себя голую операционную систему, в которую необходимо установить утилиты и библиотеки для работы веб приложения. Я буду описывать сервер с ОС Ubuntu.&lt;/p&gt;
-
-&lt;h3 id=&quot;настройка-деплоя&quot;&gt;Настройка деплоя&lt;/h3&gt;
-
-&lt;p&gt;Решил осветить этот вопрос до настройки сервера, т.к. способ деплоя будет влиять на все дальнейшие действия. Как-то я принимал проект, который использовал утилиту makesite. Она мне понравилась, использую ее и сейчас для некоторых проектов. Будет использоваться связка nginx, uwsgi, supervisor.&lt;/p&gt;
-
-&lt;p&gt;Cсылки:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;проект на github: &lt;a href=&quot;https://github.com/klen/makesite&quot;&gt;https://github.com/klen/makesite&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;описание процесса от создателя утилиты: &lt;a href=&quot;http://klen.github.io/deploy-setup-ru.html&quot;&gt;http://klen.github.io/deploy-setup-ru.html&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;makesite умеет создавать, обновлять, удалять проект на сервере.&lt;/p&gt;
-
-&lt;p&gt;При создании проекта makesite создает все необходимое окружение автоматически, основываясь на специальных шаблонах. В окружение входит: создание virtualenv, настройка nginx, uwsgi, supervisor, инициализация БД. Т.е. все необходимое, чтобы проект работал. Команда создания проекта:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;makesite &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &amp;lt;project_name&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;где &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;project_name&amp;gt;&lt;/code&gt; - название нашего проекта. Позднее мы будем пользоваться этим названием для обновления.&lt;/p&gt;
-
-&lt;p&gt;Процесс обновления (деплоя) выглядит так. Мы разрабатываем проект локально, коммитим. При этом мы имеем внешний репозиторий на каком-либо сервере. Это может быть github, bitbucket или же свой собственный. В какой-то момент мы решаем обновить проект на сервере. Для этого мы push’им проект в наш внешний репозиторий. Далее, заходим по ssh на наш сервер (production сервер, на котором проект работает) и вводим такую команду:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;makesite update &amp;lt;project_name&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Все, проект обновился. Makesite обновил код на сервере из репозитория, установил новые зависимости, выполнил миграции для БД, перезапустил Nginx. Все эти действия записаны в bash скриптах makesite’а и при желании их можно изменять, удалять, добавлять.&lt;/p&gt;
-
-&lt;h4 id=&quot;настройка-makesite&quot;&gt;Настройка makesite&lt;/h4&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Создаем файл makesite.ini. Назовем его “главный”, чтобы не путаться, т.к. будет еще один. Вот шаблон для него:&lt;/p&gt;
-
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; [Main]
- # режим &apos;продакшн&apos;
- mode=project
- # домен нашего сервера, будет использован например для создания файла конфигурации nginx
- domain=example.com
- # имя пользователя БД postgres (для создания базы проекта)
- pguser=postgres
- # пароль пользователя БД postgres
- pgpassword=secret_password
- # имя базы данных проекта
- dbname=project_name
- # имя пользователя базы проекта
- dbuser=project_user
- # пароль пользователя базы проекта
- dbpassword=project_user_password
- # адрес процесса postgres. Скорее всего это менять не надо.
- pghost=127.0.0.1
- # адрес нашего внешнего репозитория
- src=git+git@bitbucket.org:username/example.git
- # пользователь, от которого makesite будет осуществлять свои действия
- src_user=root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Создаем в корневой папке нашего проекта еще один файл makesite.ini, назовем его “дополнительный”:&lt;/p&gt;
-
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; [Main]
- template=virtualenv,db-postgres,django,uwsgi
- django_settings=&amp;lt;project_name.settings&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;где &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;project_name.settings&amp;gt;&lt;/code&gt; заменяем на путь к модулю settings, относительно файла manage.py. Здесь именно python путь, т.е. используем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.&lt;/code&gt;, а не &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Дефолтные настройки для uwsgi, nginx и supervisor: &lt;a href=&quot;https://github.com/klen/makesite/tree/master/makesite/templates/uwsgi/deploy&quot;&gt;https://github.com/klen/makesite/tree/master/makesite/templates/uwsgi/deploy&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Если понадобиться их изменить, мы добавляем такие строки к текущему makesite.ini (дополнительному)&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Templates]
-uwsgi=%(source_dir)s/deploy/makesite_templates/uwsgi
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Создаем директорию ‘deploy/makesite_templates’ в нашем проекте, копируем туда папку &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uwsgi&lt;/code&gt; отсюда: &lt;a href=&quot;https://github.com/klen/makesite/tree/master/makesite/templates&quot;&gt;https://github.com/klen/makesite/tree/master/makesite/templates&lt;/a&gt;. Затем ищем и изменяем нужные нам конфигурационные файлы тут: ‘deploy/makesite_templates/uwsgi/deploy/’&lt;/p&gt;
-
-&lt;p&gt;Итого у нас имеется&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;главный makesite.ini (его пока держим в сторонке, его нужно будет положить на сервер)&lt;/li&gt;
-  &lt;li&gt;дополнительный makesite.ini, который лежит в корне проекта&lt;/li&gt;
-  &lt;li&gt;если нужно, то папка deploy/makesite_templates/uwsgi с измененными настройками nginx, uwsgi, supervisor. Эта папка так же лежит в проекте.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Не забываем положить под git все это добро и сделать push на внешний репозиторий.&lt;/p&gt;
-
-&lt;h3 id=&quot;настройка-сервера&quot;&gt;Настройка сервера&lt;/h3&gt;
-
-&lt;p&gt;Все команды проверял для дистрибутива Ubuntu 12.04. В качестве базы данных будет использовать postgresql. Поехали.&lt;/p&gt;
-
-&lt;p&gt;Заходим на сервер под root’ом.&lt;/p&gt;
-
-&lt;p&gt;Проверяем версию python:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;python&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Далее я предполагаю, что python версии 2.7.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Мы зашли под root&apos;ом&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Первым делом обновим систему&lt;/span&gt;
-apt-get update
-apt-get upgrade
-
-&lt;span class=&quot;c&quot;&gt;# Утилиты для сборки&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;build-essential
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libpq-dev
-
-&lt;span class=&quot;c&quot;&gt;# Конфигурирование локалей&lt;/span&gt;
-locale-gen ru_RU.UTF-8
-locale-gen en_US.UTF-8
-dpkg-reconfigure locales
-
-&lt;span class=&quot;c&quot;&gt;# Установка git&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git
-
-&lt;span class=&quot;c&quot;&gt;# Устанавливаем setup-tools&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-setuptools python-pip
-
-&lt;span class=&quot;c&quot;&gt;# Исходники python2.7 для сборки библиотек&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python2.7-dev
-
-&lt;span class=&quot;c&quot;&gt;# На всякий случай&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-dev
-
-&lt;span class=&quot;c&quot;&gt;# Устоновка postgres&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;postgresql
-
-&lt;span class=&quot;c&quot;&gt;# правим файл&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# /etc/postgresql/{postgres_version}/main/pg_hba.conf&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# строку&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# &quot;local   all             postgres                                peer&quot;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Меняем на&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# &quot;local   all             postgres                                md5&quot;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Настройка postgres&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; postgres psql template1
-&lt;span class=&quot;c&quot;&gt;# Установка пароля для юзера postgres&lt;/span&gt;
-&lt;span class=&quot;se&quot;&gt;\p&lt;/span&gt;assword postgres
-&lt;span class=&quot;c&quot;&gt;# !!! Вводим пароль и запоминаем его&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# нажимаем ctrl+d чтобы выйти&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Полезности для postgres&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;pgagent
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;pgadmin3
-
-&lt;span class=&quot;c&quot;&gt;# Если нужно изменить какие-либо настройки, обновляем конфиг (только если знаем, что делаем):&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# /etc/postgresql/{postgres_version}/main/postgresql.conf&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# где {postgres_version} = версия postgres.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Перезапусаем postgres&lt;/span&gt;
-/etc/init.d/postgresql restart
-
-&lt;span class=&quot;c&quot;&gt;# Установка uwsgi&lt;/span&gt;
-pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;uwsgi
-
-&lt;span class=&quot;c&quot;&gt;# Установка nginx, virtualenv, supervisor&lt;/span&gt;
-easy_install elementtree
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-virtualenv nginx supervisor
-
-&lt;span class=&quot;c&quot;&gt;# Скорее всего это понадобиться для работы с изображениями&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libjpeg-dev
-pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; Pillow
-
-&lt;span class=&quot;c&quot;&gt;# Создаем отдельный ssh ключ на сервере, который будет использовать makesite&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cd
-test&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; .ssh &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; .ssh
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.ssh
-ssh-keygen
-&lt;span class=&quot;c&quot;&gt;# На вопрос &quot;Enter file in which to save the key&quot; пишем makesite&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# На остальные просто enter, т.е. как-то так:&lt;/span&gt;
-
-  Generating public/private rsa key pair.
-  Enter file &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;which to save the key &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;/home/ubuntu/.ssh/id_rsa&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: makesite
-  Enter passphrase &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;empty &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;no passphrase&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;:
-  Enter same passphrase again:
-  Your identification has been saved &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;makesite.
-  Your public key has been saved &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;makesite.pub.
-
-&lt;span class=&quot;c&quot;&gt;# Копируем ключ в id_rsa&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;makesite id_rsa
-&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;makesite.pub id_rsa.pub
-
-&lt;span class=&quot;c&quot;&gt;# ! Важно&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Берем публичный ключ makesite.pub и добавляем его в список доступа нашего репозитория (который на github или bitbucket или на собственном сервере)&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Описание с github: https://help.github.com/articles/generating-ssh-keys#step-3-add-your-ssh-key-to-github&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Скорее всего команда &apos;clip&apos; (из github описания) не будет найдена, поэтому просто копируем содержимое файла makesite.pub &quot;ручками&quot;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Создаем директорию для хранения наших будущих сайтов&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; /var/www
-
-&lt;span class=&quot;c&quot;&gt;# Кладем наш &quot;главный&quot; makesite.ini в /var/www&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Устанавливаем makesite&lt;/span&gt;
-pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;makesite
-
-&lt;span class=&quot;c&quot;&gt;# Выводим и проверяем настройки bash&lt;/span&gt;
-makesite shell &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /var/www
-&lt;span class=&quot;c&quot;&gt;# Записываем их в ваш ~/.bashrc&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; ~/.bashrc
-&lt;span class=&quot;c&quot;&gt;# копируем и вставляем вывод предыдущей команды&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# он примерно такой:&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Makesite integration&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ====================&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;MAKESITE_HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/www
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /usr/local/lib/python2.7/dist-packages/makesite/shell.sh
-
-&lt;span class=&quot;c&quot;&gt;# enter&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ctrl+d для выхода&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Загружаем настройки для текущего сеанса&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; ~/.bashrc
-
-&lt;span class=&quot;c&quot;&gt;# Если вдруг у вас есть зависимости в requirements.txt&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# для которых нужно скачать репозиторий с помощью mercurial&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# например что-то такое:&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# -e hg+https://bitbucket.org/psam/django-postman/@92ede1fd0c32f4e5acc6c78b25804dc047267d3e#egg=django_postman-dev&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# то нужно установить mercurial&lt;/span&gt;
-apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mercurial
-
-&lt;span class=&quot;c&quot;&gt;# Устанавливаем проект (занимает время, может минут 5)&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# предварительно изменив &amp;lt;project_name&amp;gt; на название нашего проекта&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Это название будем использовать позднее при обновлении проекта&lt;/span&gt;
-makesite &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &amp;lt;project_name&amp;gt;
-
-&lt;span class=&quot;c&quot;&gt;# Если вывелась строчка&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# OPERATION SUCCESSFUL&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# то все ок, если нет - смотрим ошибку&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# На всякий случай проверим, установились ли библиотеки из requirements.txt:&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/www/&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;project_name&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/master
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .virtualenv/bin/activate
-pip freeze
-&lt;span class=&quot;c&quot;&gt;# смотрим, установились ли зависимости из requirements.txt&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Так же можно проверить, создались ли таблицы и применились ли миграции.&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Убедитесь, что STATIC_ROOT и MEDIA_ROOT имеют верные значения&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# соответствующие папки должны быть тут:&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# /var/www/{project_name}/master/&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# если каких-то папок не хватает, то можно создать их вручную&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# указав владельца и группу www-data&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# обновим статику (предполагается, что virtualenv активирована):&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/www/&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;project_name&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/master/source 
-python manage.py collectstatic &lt;span class=&quot;nt&quot;&gt;--noinput&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# На всякий случай перезапустим nginx&lt;/span&gt;
-/etc/init.d/nginx restart
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Все, проект запущен и работает.&lt;/p&gt;
-
-&lt;h3 id=&quot;деплой-проекта&quot;&gt;Деплой проекта&lt;/h3&gt;
-
-&lt;p&gt;Как уже говорилось, для обновления проекта действия такие:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;делаем push в наш репозиторий&lt;/li&gt;
-  &lt;li&gt;заходим на сервер по ssh и вводим &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;makesite update &amp;lt;project_name&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="django" /><category term="deploy" /><summary type="html">В этом посте хочу описать свой опыт создания и запуска django проекта на VPS-хостинге. Разделим задачу на этапы: Создание django-проекта Настройка деплоя Настройка сервера (установка нужных библиотек) Деплой проекта</summary></entry></feed>
+&lt;p&gt;P.S. Возможно, я где-то ошибся в понимании tornado. Буду рад, если вы сообщите об этом или о чем-то другом в комментариях!&lt;/p&gt;</content><author><name></name></author><category term="async" /><category term="tornado" /><category term="mongodb" /><summary type="html">Star Tornado - асинхронный веб фреймворк для python’а. Вначале я приведу краткий перечень плюсов и минусов tornado, а потом расскажу о типовом веб проекте с использованием этого инструмента.</summary></entry></feed>

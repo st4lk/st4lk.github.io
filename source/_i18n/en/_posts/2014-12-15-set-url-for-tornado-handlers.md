@@ -4,7 +4,7 @@ title:  "Set url for Tornado handlers"
 date:   2014-12-15 18:19:43 +0000
 categories: tornado
 redirect_from:
-  - /2014/django-celery-setup/
+  - /2014/set-url-for-tornado-handlers/
 ---
 
 [![Set url for Tornado handlers](https://img-fotki.yandex.ru/get/17846/85893628.c66/0_1644bf_5c58d342_L.png "Set url for Tornado handlers")]({{ site.baseurl }}{{ page.url }})
