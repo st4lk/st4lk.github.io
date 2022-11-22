@@ -1,4 +1,817 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-22T11:53:54+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">OAuth and django rest framework</title><link href="https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html" rel="alternate" type="text/html" title="OAuth and django rest framework" /><published>2015-07-18T18:19:43+00:00</published><updated>2015-07-18T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework</id><content type="html" xml:base="https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/django-rest-social-auth&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/django-rest-social-auth on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-22T12:07:10+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Trying JSON in Django and PostgreSQL (and compare with MongoDB)</title><link href="https://st4lk.github.io/en/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html" rel="alternate" type="text/html" title="Trying JSON in Django and PostgreSQL (and compare with MongoDB)" /><published>2015-09-30T18:19:43+00:00</published><updated>2015-09-30T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql</id><content type="html" xml:base="https://st4lk.github.io/en/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html">&lt;p&gt;&lt;a href=&quot;/en/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/3706/85893628.c69/0_19430e_cafd0257_XL.png&quot; alt=&quot;Trying JSON in Django and PostgreSQL&quot; title=&quot;Trying JSON in Django and PostgreSQL&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;New &lt;a href=&quot;https://docs.djangoproject.com/en/1.9/ref/contrib/postgres/fields/#jsonfield&quot;&gt;JSONField&lt;/a&gt; will be added in Django 1.9, it can be used with PostgreSQL &amp;gt;= 9.4. Let’s try to work with it and find out, in what situations it can be useful.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Currently django 1.9 alpha is available, final version is scheduled on December 2015.
+Alpha can be installed with pip:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install --pre django
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now imagine that we have an e-commerce site, where we offer products of different types. For example, laptops and t-shirts. Obviously, such goods will have different attributes: t-shirts will have size, color and laptops - screen size, CPU frequency, hard drive and so on. One of the approaches to design such data in SQL is &lt;a href=&quot;https://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model&quot;&gt;Entity–attribute–value model (EAV)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;But now we have JSON, so let’s try to organise data using this type.&lt;/p&gt;
+
+&lt;p&gt;Create simple model for products:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from django.db import models
+from django.contrib.postgres.fields import JSONField
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category)
+    price = models.IntegerField()
+    attributes = JSONField()
+
+    def __str__(self):
+        return self.name
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As we can see, there are several common fields for all products (name, category, price) plus specific to particular product attributes (as JSON field).&lt;/p&gt;
+
+&lt;p&gt;Create objects:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tshirt = Category.objects.create(name=&apos;tshirts&apos;)
+notebook = Category.objects.create(name=&apos;notebook&apos;)
+
+# Tshirts
+Product.objects.create(name=&apos;Silk tshirt&apos;, category=tshirt, price=100, attributes={
+    &apos;colors&apos;: [&apos;red&apos;, &apos;black&apos;],
+    &apos;sizes&apos;: [&apos;S&apos;, &apos;M&apos;],
+    &apos;model&apos;: &apos;polo&apos;,
+    &apos;material&apos;: &apos;silk&apos;,
+})
+
+Product.objects.create(name=&apos;Bamboo tshirt&apos;, category=tshirt, price=120, attributes={
+    &apos;colors&apos;: [&apos;white&apos;, &apos;yellow&apos;],
+    &apos;sizes&apos;: [&apos;M&apos;, &apos;L&apos;, &apos;XL&apos;],
+    &apos;model&apos;: &apos;poet&apos;,
+    &apos;material&apos;: &apos;bamboo&apos;,
+})
+
+# Notebooks
+Product.objects.create(name=&apos;MacBook Pro&apos;, category=notebook, price=2000, attributes={
+    &apos;brand&apos;: &apos;Apple&apos;,
+    &apos;screen&apos;: 15.0,
+    &apos;speed&apos;: 2200,
+    &apos;hd&apos;: 256,
+})
+
+Product.objects.create(name=&apos;ATIV Book 9&apos;, category=notebook, price=1200, attributes={
+    &apos;brand&apos;: &apos;Samsung&apos;,
+    &apos;screen&apos;: 12.2,
+    &apos;speed&apos;: 2400,
+    &apos;hd&apos;: 128,
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;queries&quot;&gt;Queries&lt;/h3&gt;
+
+&lt;p&gt;Let’s see, what queries we can make.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with both ‘M’ and ‘L’ sizes:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=tshirt, attributes__contains={&apos;sizes&apos;: [&apos;M&apos;, &apos;L&apos;]})
+ [&amp;lt;Product: Bamboo tshirt&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with both ‘M’ and ‘L’ sizes, both white and yellow colors, with poetry on it (model=poet):&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=tshirt,
+     attributes__contains={&apos;sizes&apos;: [&apos;M&apos;, &apos;L&apos;], &apos;colors&apos;: [&apos;white&apos;, &apos;yellow&apos;],
+     &apos;model&apos;: &apos;poet&apos;})
+ [&amp;lt;Product: Bamboo tshirt&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU frequency 2400 and screen size 12.2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook,
+     attributes__contains={&apos;speed&apos;: 2400, &apos;screen&apos;: 12.2})
+ [&amp;lt;Product: ATIV Book 9&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with red color, model polo and with size ‘M’ or ‘L’&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=tshirt,
+     attributes__contains={&apos;colors&apos;: [&apos;red&apos;], &apos;model&apos;: &apos;polo&apos;},
+     attributes__sizes__has_any_keys=[&apos;M&apos;, &apos;L&apos;])
+ [&amp;lt;Product: Silk tshirt&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU greater that 2000 and screen larger that 13&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook, attributes__speed__gt=2000,
+     attributes__screen__gt=13)
+ [&amp;lt;Product: MacBook Pro&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU frequency equal to 2200 or 2400&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook, attributes__speed__in=(2200, 2400))
+ [&amp;lt;Product: ATIV Book 9&amp;gt;, &amp;lt;Product: MacBook Pro&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;or like this:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; from django.db.models import Q
+ &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook).filter(
+     Q(attributes__contains={&apos;speed&apos;: 2200}) | Q(attributes__contains={&apos;speed&apos;: 2400}))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;indexes&quot;&gt;Indexes&lt;/h3&gt;
+
+&lt;p&gt;Let’s find out, how effective can be our queries.&lt;/p&gt;
+
+&lt;p&gt;PostgreSQL supports &lt;a href=&quot;http://www.postgresql.org/docs/9.4/static/datatype-json.html#JSON-INDEXING&quot;&gt;different indexes&lt;/a&gt; for JSON types:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;GIN&lt;/p&gt;
+
+    &lt;p&gt;this index in its turn can support different operators:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;jsonb_ops (default), supports operators &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@&amp;gt;, ?, ?&amp;amp;, ?|&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;jsonb_path_ops, supports only &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@&amp;gt;&lt;/code&gt;, but works faster and requires less space&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;btree&lt;/p&gt;
+
+    &lt;p&gt;can be useful in searching exact json document&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;hash&lt;/p&gt;
+
+    &lt;p&gt;same as btree, can be useful in searching exact json document&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;сorrespondence-of-some-django-operations-and-postgresql-operators&quot;&gt;Сorrespondence of some Django operations and PostgreSQL operators&lt;/h4&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Django        Postgres
+----------------------
+contains      @&amp;gt;
+contained_by  &amp;lt;@
+has_key       ?
+has_any_keys  ?|
+has_keys      ?&amp;amp;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In our case the most interesting operator is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@&amp;gt;&lt;/code&gt;. Django will transform operation &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;contains&lt;/code&gt; to it for json fields.&lt;/p&gt;
+
+&lt;p&gt;If we simply add &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;db_index=True&lt;/code&gt;, btree index will be created:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Product(models.Model):
+    ...
+    attributes = JSONField(db_index=True)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For our queries GIN index will be more applicable. To create it we’ll use &lt;a href=&quot;https://docs.djangoproject.com/en/dev/ref/migration-operations/#django.db.migrations.operations.RunSQL&quot;&gt;RunSQL&lt;/a&gt; operation.&lt;/p&gt;
+
+&lt;p&gt;First create empty migration. In current example app with products has name ‘catalogue_simple’&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python manage.py makemigrations --empty catalogue_simple
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In created file (in my case it is 0002_auto_20150928_1610.py) add couple imports and commands to create and discard index:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from catalogue_simple.models import Product
+from psycopg2.extensions import AsIs
+
+class Migration(migrations.Migration):
+    # ...
+    operations = [
+        migrations.RunSQL(
+            [(&quot;CREATE INDEX catalogue_product_attrs_gin ON %s USING gin&quot;
+                &quot;(attributes jsonb_path_ops);&quot;, [AsIs(Product._meta.db_table)])],
+            [(&apos;DROP INDEX catalogue_product_attrs_gin;&apos;, None)],
+        )
+    ]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Here catalogue_product_attrs_gin - index name (we can choose any), attributes - name of JSON field, Product - product model. We are creating jsonb_path_ops index, as it will cover the most common operation in our queries - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;contains&lt;/code&gt;. Extension &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AsIs&lt;/code&gt; is used to not wrap &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%s&lt;/code&gt; param with single quotes.&lt;/p&gt;
+
+&lt;p&gt;We don’t need btree index, so don’t add it:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Product(models.Model):
+    ...
+    attributes = JSONField()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;test-data&quot;&gt;Test data&lt;/h4&gt;
+
+&lt;p&gt;I’ve generated 1 000 000 products of 4 different categoires, 250 000 in each. Every product category has its own attributes, from 4 to 7 keys. Some values are scalar (t-shirt material), some - lists (t-shirt sizes).&lt;/p&gt;
+
+&lt;h4 id=&quot;queries-and-indexes&quot;&gt;Queries and indexes&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with both ‘M’ and ‘L’ sizes:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=tshirt, attributes__contains={&apos;sizes&apos;: [&apos;M&apos;, &apos;L&apos;]})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Corresponding SQL (enumeration of all field names is replaced with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*&lt;/code&gt; for brevity):&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; SELECT * FROM &quot;catalogue_simple_product&quot; WHERE
+ (&quot;catalogue_simple_product&quot;.&quot;category_id&quot; = 5
+     AND
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; @&amp;gt; &apos;{&quot;sizes&quot;: [&quot;M&quot;, &quot;L&quot;]}&apos;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Without GIN index on attributes query time is 292 ms, &lt;a href=&quot;http://explain.depesz.com/s/xmWS&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;Same query with GIN index - 250 ms, &lt;a href=&quot;http://explain.depesz.com/s/cHk&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;In this case we don’t gain much performance (292 ms vs 250 ms), because result contains a lot of rows: 66412.
+ It is called “low selectivity”.
+ Selectivity - ratio of filtered rows to the total rows. If this ratio tends to 1, we say “low selectivity”, to 0 - “high selectivity”.
+ This metric helps us to estimate index effectiveness. With low selectivity index will not gain much performance.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with both ‘M’ and ‘L’ sizes, both white and yellow colors, with poetry on it (model=poet):&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=tshirt,
+     attributes__contains={&apos;sizes&apos;: [&apos;M&apos;, &apos;L&apos;], &apos;colors&apos;: [&apos;white&apos;, &apos;yellow&apos;],
+     &apos;model&apos;: &apos;poet&apos;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Corresponding SQL:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; SELECT * FROM &quot;catalogue_simple_product&quot; WHERE
+ (&quot;catalogue_simple_product&quot;.&quot;category_id&quot; = 5
+     AND
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; @&amp;gt; &apos;{
+     &quot;colors&quot;: [&quot;white&quot;, &quot;yellow&quot;],
+     &quot;model&quot;: &quot;poet&quot;,
+     &quot;sizes&quot;: [&quot;M&quot;, &quot;L&quot;]
+ }&apos;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Without GIN index - 240 ms, &lt;a href=&quot;http://explain.depesz.com/s/8Zx5&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;With GIN index - 49 ms, &lt;a href=&quot;http://explain.depesz.com/s/qYN&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;Query became faster: 240 ms vs 49 ms. Result contains 3737 rows, higher selectivity than in previous request.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU frequency 2400 and screen size 12.2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook,
+     attributes__contains={&apos;speed&apos;: 2400, &apos;screen&apos;: 12.2})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Corresponding SQL:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; SELECT * FROM &quot;catalogue_simple_product&quot; WHERE
+ (&quot;catalogue_simple_product&quot;.&quot;category_id&quot; = 7
+     AND
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; @&amp;gt; &apos;{&quot;screen&quot;: 12.2, &quot;speed&quot;: 2400}&apos;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Without GIN index - 222 ms, &lt;a href=&quot;http://explain.depesz.com/s/Ocgt&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;With GIN index - 34 ms, &lt;a href=&quot;http://explain.depesz.com/s/Ik8E&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;222ms vs 34ms. Result contains 10389 rows.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with red color, model polo and with size ‘M’ or ‘L’&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=tshirt,
+     attributes__contains={&apos;colors&apos;: [&apos;red&apos;], &apos;model&apos;: &apos;polo&apos;},
+     attributes__sizes__has_any_keys=[&apos;M&apos;, &apos;L&apos;])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Corresponding SQL:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; SELECT * FROM &quot;catalogue_simple_product&quot; WHERE
+ (&quot;catalogue_simple_product&quot;.&quot;category_id&quot; = 5
+     AND
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; @&amp;gt; &apos;{&quot;colors&quot;: [&quot;red&quot;], &quot;model&quot;: &quot;polo&quot;}&apos;
+     AND
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; -&amp;gt; &apos;sizes&apos; ?| ARRAY[&apos;M&apos;, &apos;L&apos;]);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Without GIN index - 253 ms, &lt;a href=&quot;http://explain.depesz.com/s/6SJ&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;With GIN index - 78 ms, &lt;a href=&quot;http://explain.depesz.com/s/Lgb&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;253 ms vs 78 ms. Result contains 18428 rows. In this query &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;has_any_keys&lt;/code&gt; &lt;em&gt;can’t&lt;/em&gt; use index, as we declared &lt;em&gt;jsonb_path_ops&lt;/em&gt; index. But index &lt;em&gt;jsonb_ops&lt;/em&gt; also will not work, because we are looking for array elements and not for first level keys.
+ If such query is common and it has high selectivity, we can create index on particular JSON key:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; CREATE INDEX gin_sizes ON catalogue_simple_product USING gin ((attributes -&amp;gt; &apos;sizes&apos;));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;But in current example this don’t make sense, as filter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;attributes&quot; -&amp;gt; &apos;sizes&apos; ?| ARRAY[&apos;M&apos;, &apos;L&apos;]&lt;/code&gt; has low selectivity:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=tshirt,
+     attributes__contains={&apos;colors&apos;: [&apos;red&apos;], &apos;model&apos;: &apos;polo&apos;},
+     attributes__sizes__has_any_keys=[&apos;M&apos;, &apos;L&apos;]).count()
+ 18428
+
+ &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=tshirt,
+     attributes__contains={&apos;colors&apos;: [&apos;red&apos;], &apos;model&apos;: &apos;polo&apos;}).count()
+ 25162
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Only ~25% of objects are filtered by sizes in this query.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU greater that 2000 and screen larger that 13&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook, attributes__speed__gt=2000,
+     attributes__screen__gt=13)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Corresponding SQL:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; SELECT * FROM &quot;catalogue_simple_product&quot; WHERE
+ (&quot;catalogue_simple_product&quot;.&quot;category_id&quot; = 7
+     AND
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; -&amp;gt; &apos;screen&apos; &amp;gt; &apos;13&apos;
+     AND
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; -&amp;gt; &apos;speed&apos; &amp;gt; &apos;2000&apos;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;GIN index will not help here. If such request is common, we can create btree index on needed JSON keys:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; CREATE INDEX attrs_screen_speed ON catalogue_simple_product ((attributes -&amp;gt; &apos;screen&apos;), (attributes -&amp;gt; &apos;speed&apos;));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Result contains 10536 rows.&lt;/p&gt;
+
+    &lt;p&gt;Without btree index query time is 352 ms, &lt;a href=&quot;http://explain.depesz.com/s/GWNM&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;With btree index - 46 ms, &lt;a href=&quot;http://explain.depesz.com/s/YQO&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU frequency equal to 2200 or 2400&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook, attributes__speed__in=(2200, 2400))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Corresponding SQL:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; SELECT * FROM &quot;catalogue_simple_product&quot; WHERE
+ (&quot;catalogue_simple_product&quot;.&quot;category_id&quot; = 7
+     AND
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; -&amp;gt; &apos;speed&apos; IN (&apos;2200&apos;, &apos;2400&apos;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;This query is &lt;strong&gt;not&lt;/strong&gt; covered by GIN index. Query time ~ 389 ms, &lt;a href=&quot;http://explain.depesz.com/s/6U9&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;Let’s try to rewrite this query to use existing GIN index&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; from django.db.models import Q
+ &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook).filter(Q(attributes__contains={&apos;speed&apos;: 2200}) | Q(attributes__contains={&apos;speed&apos;: 2400}))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;SQL:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; SELECT * FROM &quot;catalogue_simple_product&quot; WHERE
+ (&quot;catalogue_simple_product&quot;.&quot;category_id&quot; = 7
+     AND
+ (&quot;catalogue_simple_product&quot;.&quot;attributes&quot; @&amp;gt; &apos;{&quot;speed&quot;: 2200}&apos;
+         OR 
+ &quot;catalogue_simple_product&quot;.&quot;attributes&quot; @&amp;gt; &apos;{&quot;speed&quot;: 2400}&apos;));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Now GIN index can be used, query time ~ 337 ms &lt;a href=&quot;http://explain.depesz.com/s/Sdq&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;As we see, there is no much difference. But let’s check the selectivity of this query.
+ Result contains 124 995 rows from 250 000 possible for current category, we have very low selectivity.&lt;/p&gt;
+
+    &lt;p&gt;Create 100 laptops with CPU frequency 3200 and 100 laptops with 3500. There are no other laptops with such frequencies in database.&lt;/p&gt;
+
+    &lt;p&gt;No check the performance:&lt;/p&gt;
+
+    &lt;p&gt;Query doesn’t use GIN index:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook, attributes__speed__in=(3200, 3500))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;we get the same time ~ 391 ms &lt;a href=&quot;http://explain.depesz.com/s/ThI&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;Query does use GIN index:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt;&amp;gt;&amp;gt; Product.objects.filter(category=notebook).filter(Q(attributes__contains={&apos;speed&apos;: 3200}) | Q(attributes__contains={&apos;speed&apos;: 3500}))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Now we have query time only 0.773 ms! &lt;a href=&quot;http://explain.depesz.com/s/rqXN&quot;&gt;EXPLAIN ANALYSE&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;resume-of-indexes&quot;&gt;Resume of indexes&lt;/h4&gt;
+
+&lt;p&gt;We can use single GIN index (jsonb_path_ops) to query by several attributes, and not just by one!&lt;/p&gt;
+
+&lt;p&gt;Of course, it is not a silver bullet. We must always take into account, what data is we working with. And consequently choose right design.&lt;/p&gt;
+
+&lt;h3 id=&quot;nosql-database-mongodb&quot;&gt;NoSQL database (MongoDB)&lt;/h3&gt;
+
+&lt;p&gt;Can we store same data and make similar queries in MongoDB (v3.0.6)?&lt;/p&gt;
+
+&lt;p&gt;To use only one single index in queries by unknown fields in advance, we need to use different structure in MongoDB.&lt;/p&gt;
+
+&lt;p&gt;Field attributes will be a list of embedded documents, that have name and value:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; db.catalogue_simple.find().pretty()
+{
+    &quot;_id&quot; : ObjectId(&quot;560ab1970a0a88fe77d00f02&quot;),
+    &quot;category&quot; : &quot;tshirts&quot;,
+    &quot;name&quot; : &quot;Silk tshirt&quot;,
+    &quot;price&quot; : 100,
+    &quot;attributes&quot; : [
+        {
+            &quot;name&quot; : &quot;colors&quot;,
+            &quot;value&quot; : &quot;red&quot;
+        },
+        {
+            &quot;name&quot; : &quot;colors&quot;,
+            &quot;value&quot; : &quot;black&quot;
+        },
+        {
+            &quot;name&quot; : &quot;sizes&quot;,
+            &quot;value&quot; : &quot;S&quot;
+        },
+        {
+            &quot;name&quot; : &quot;sizes&quot;,
+            &quot;value&quot; : &quot;M&quot;
+        },
+        {
+            &quot;name&quot; : &quot;model&quot;,
+            &quot;value&quot; : &quot;polo&quot;
+        },
+        {
+            &quot;name&quot; : &quot;material&quot;,
+            &quot;value&quot; : &quot;silk&quot;
+        }
+    ]
+}
+{
+    &quot;_id&quot; : ObjectId(&quot;560ab1dd0a0a88fe77d00f03&quot;),
+    &quot;category&quot; : &quot;tshirts&quot;,
+    &quot;name&quot; : &quot;Bamboo tshirt&quot;,
+    &quot;price&quot; : 120,
+    &quot;attributes&quot; : [
+        {
+            &quot;name&quot; : &quot;colors&quot;,
+            &quot;value&quot; : &quot;white&quot;
+        },
+        {
+            &quot;name&quot; : &quot;colors&quot;,
+            &quot;value&quot; : &quot;yellow&quot;
+        },
+        {
+            &quot;name&quot; : &quot;sizes&quot;,
+            &quot;value&quot; : &quot;M&quot;
+        },
+        {
+            &quot;name&quot; : &quot;sizes&quot;,
+            &quot;value&quot; : &quot;L&quot;
+        },
+        {
+            &quot;name&quot; : &quot;sizes&quot;,
+            &quot;value&quot; : &quot;XL&quot;
+        },
+        {
+            &quot;name&quot; : &quot;model&quot;,
+            &quot;value&quot; : &quot;poet&quot;
+        },
+        {
+            &quot;name&quot; : &quot;material&quot;,
+            &quot;value&quot; : &quot;bamboo&quot;
+        }
+    ]
+}
+{
+    &quot;_id&quot; : ObjectId(&quot;560ab2cb0a0a88fe77d00f04&quot;),
+    &quot;category&quot; : &quot;notebook&quot;,
+    &quot;name&quot; : &quot;MacBook Pro&quot;,
+    &quot;price&quot; : 2000,
+    &quot;attributes&quot; : [
+        {
+            &quot;name&quot; : &quot;brand&quot;,
+            &quot;value&quot; : &quot;Apple&quot;
+        },
+        {
+            &quot;name&quot; : &quot;screen&quot;,
+            &quot;value&quot; : 15
+        },
+        {
+            &quot;name&quot; : &quot;speed&quot;,
+            &quot;value&quot; : 2200
+        },
+        {
+            &quot;name&quot; : &quot;hd&quot;,
+            &quot;value&quot; : 256
+        }
+    ]
+}
+{
+    &quot;_id&quot; : ObjectId(&quot;560ab2ec0a0a88fe77d00f05&quot;),
+    &quot;category&quot; : &quot;notebook&quot;,
+    &quot;name&quot; : &quot;ATIV Book 9&quot;,
+    &quot;price&quot; : 1200,
+    &quot;attributes&quot; : [
+        {
+            &quot;name&quot; : &quot;brand&quot;,
+            &quot;value&quot; : &quot;Samsung&quot;
+        },
+        {
+            &quot;name&quot; : &quot;screen&quot;,
+            &quot;value&quot; : 12.2
+        },
+        {
+            &quot;name&quot; : &quot;speed&quot;,
+            &quot;value&quot; : 2400
+        },
+        {
+            &quot;name&quot; : &quot;hd&quot;,
+            &quot;value&quot; : 128
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;queries-mongodb&quot;&gt;Queries (MongoDB)&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with both ‘M’ and ‘L’ sizes:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;M&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;L&quot;}}
+ ]}, category: &apos;tshirts&apos;})
+
+ {&quot;name&quot; : &quot;Bamboo tshirt&quot;, /* ... */}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with both ‘M’ and ‘L’ sizes, both white and yellow colors, with poetry on it (model=poet):&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;M&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;L&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;colors&quot;, &quot;value&quot;: &quot;white&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;colors&quot;, &quot;value&quot;: &quot;yellow&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;model&quot;, &quot;value&quot;: &quot;poet&quot;}}
+ ]}, category: &apos;tshirts&apos;})
+
+ {&quot;name&quot; : &quot;Bamboo tshirt&quot;, /* ... */}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU frequency 2400 and screen size 12.2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;speed&quot;, &quot;value&quot;: 2400}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;screen&quot;, &quot;value&quot;: 12.2}}
+ ]}, category: &apos;notebook&apos;})
+
+ {&quot;name&quot; : &quot;ATIV Book 9&quot;, /* ... */}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with red color, model polo and with size ‘M’ or ‘L’&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;colors&quot;, &quot;value&quot;: &quot;red&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;model&quot;, &quot;value&quot;: &quot;polo&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: {&quot;$in&quot;: [&quot;M&quot;, &quot;L&quot;]}}}
+ ]}, category: &apos;tshirts&apos;})
+
+ {&quot;name&quot; : &quot;Silk tshirt&quot;, /* ... */}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU greater that 2000 and screen larger that 13&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;speed&quot;, &quot;value&quot;: {&quot;$gt&quot;: 2000}}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;screen&quot;, &quot;value&quot;: {&quot;$gt&quot;: 13}}}
+ ]}, category: &apos;notebook&apos;})
+
+ {&quot;name&quot; : &quot;MacBook Pro&quot;, /* ... */}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU frequency equal to 2200 or 2400&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;speed&quot;, &quot;value&quot;: {&quot;$in&quot;: [2200, 2400]}}},
+ ]}, category: &apos;notebook&apos;})
+
+ {&quot;name&quot; : &quot;MacBook Pro&quot;, /* ... */}, {&quot;name&quot; : &quot;ATIV Book 9&quot;, /* ... */}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;indexes-mongodb&quot;&gt;Indexes (MongoDB)&lt;/h3&gt;
+
+&lt;p&gt;We can create &lt;a href=&quot;http://docs.mongodb.org/manual/core/index-multikey/#index-arrays-with-embedded-documents&quot;&gt;multikey index&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; db.catalogue_simple.ensureIndex({&quot;attributes.name&quot; : 1, &quot;attributes.value&quot; : 1})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For fairness, create index on category (django automatically creates it for ForeignKey fields)&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; db.catalogue_simple.ensureIndex({&quot;category&quot;: 1})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Keep in mind, that MongoDB will use index only for first filter from $all operator. Although MongoDB docs tells about &lt;a href=&quot;http://docs.mongodb.org/manual/core/index-intersection/&quot;&gt;index intersection&lt;/a&gt;, looks like it can’t be used in our case.&lt;/p&gt;
+
+&lt;p&gt;Illustrative example. Imagine, that in database there is only 1 product with size “XXXS” and a lot of products with size “M”.&lt;/p&gt;
+
+&lt;p&gt;We want products, that have both sizes “XXXS” and “M”.&lt;/p&gt;
+
+&lt;p&gt;Check out the query:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; db.catalogue_simple.find({attributes: {$all: [
+    {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;M&quot;}},
+    {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;XXXS&quot;}},
+]}, category: &apos;tshirts&apos;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;MongoDB will apply index only to “M” value. As a result, many documents will be scanned:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;nReturned&quot; : 1,
+&quot;executionTimeMillis&quot; : 1902,
+&quot;totalKeysExamined&quot; : 249934,
+&quot;totalDocsExamined&quot; : 249934,
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;But if we place size “XXXS” to the first position:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; db.catalogue_simple.find({attributes: {$all: [
+    {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;XXXS&quot;}},
+    {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;M&quot;}},
+]}, category: &apos;tshirts&apos;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;only one document will be scanned:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;nReturned&quot; : 1,
+&quot;executionTimeMillis&quot; : 0,
+&quot;totalKeysExamined&quot; : 1,
+&quot;totalDocsExamined&quot; : 1,
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The moral is, put filter with highest selectivity to the first place. Unfortunately, we don’t always have such information.&lt;/p&gt;
+
+&lt;h4 id=&quot;test-data-mongodb&quot;&gt;Test data (MongoDB)&lt;/h4&gt;
+
+&lt;p&gt;Test data is exactly the same as in PostgreSQL (only structure is different): 4 categories, 250 000 products in each category, 1 000 000 in total.&lt;/p&gt;
+
+&lt;h4 id=&quot;queries-and-indexes-mongodb&quot;&gt;Queries and indexes (MongoDB)&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with both ‘M’ and ‘L’ sizes:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;M&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;L&quot;}}
+ ]}, category: &apos;tshirts&apos;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Without multikey index on attributes query time is 706 ms, category index is used.&lt;/p&gt;
+
+    &lt;p&gt;Output of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.explain(&apos;executionStats&apos;)&lt;/code&gt;:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &quot;winningPlan&quot; : {
+     // ...
+     &quot;indexName&quot; : &quot;category_1&quot;,
+ }
+ &quot;executionStats&quot; : {
+     &quot;nReturned&quot; : 66412,
+     &quot;executionTimeMillis&quot; : 706,
+     &quot;totalKeysExamined&quot; : 250001,
+     &quot;totalDocsExamined&quot; : 250001,
+ }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;After creation of multikey index on attributes field nothing changes, as MongoDB optimizer decides, that category index is better (i suppose because of low selectivity of attributes query).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with both ‘M’ and ‘L’ sizes, both white and yellow colors, with poetry on it (model=poet):&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;M&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;L&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;colors&quot;, &quot;value&quot;: &quot;white&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;colors&quot;, &quot;value&quot;: &quot;yellow&quot;}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;model&quot;, &quot;value&quot;: &quot;poet&quot;}},
+ ]}, category: &apos;tshirts&apos;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Behaviour is similar to first query.&lt;/p&gt;
+
+    &lt;p&gt;Behaviour can change, if we put higher selective filter to the first place. In test data color is more selective, that size. So, make it first:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+         {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;colors&quot;, &quot;value&quot;: &quot;white&quot;}},
+         {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;M&quot;}},
+         {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;sizes&quot;, &quot;value&quot;: &quot;L&quot;}},
+         {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;colors&quot;, &quot;value&quot;: &quot;yellow&quot;}},
+         {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;model&quot;, &quot;value&quot;: &quot;poet&quot;}},
+     ]}, category: &apos;tshirts&apos;}).explain(&apos;executionStats&apos;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Explain:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &quot;winningPlan&quot; : {
+     // ...
+     &quot;indexName&quot; : &quot;attributes.name_1_attributes.value_1&quot;,
+ }
+ &quot;executionStats&quot; : {
+     &quot;nReturned&quot; : 3737,
+     &quot;executionTimeMillis&quot; : 658,
+     &quot;totalKeysExamined&quot; : 124902,
+     &quot;totalDocsExamined&quot; : 124902,
+ }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Query time - 658 ms.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU frequency 2400 and screen size 12.2&lt;/p&gt;
+
+    &lt;p&gt;Same as points 1 and 2.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get t-shirts with red color, model polo and with size ‘M’ or ‘L’&lt;/p&gt;
+
+    &lt;p&gt;Same as points 1 and 2.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU greater that 2000 and screen larger that 13&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &amp;gt; db.catalogue_simple.find({attributes: {$all: [
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;speed&quot;, &quot;value&quot;: {&quot;$gt&quot;: 2000}}},
+     {&quot;$elemMatch&quot;: {&quot;name&quot;: &quot;screen&quot;, &quot;value&quot;: {&quot;$gt&quot;: 13}}}
+ ]}, category: &apos;notebook&apos;}).explain(&apos;executionStats&apos;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Remember, PostgreSQL can’t use GIN index in such a query.
+ But multikey index in current data structure can work.&lt;/p&gt;
+
+    &lt;p&gt;We have good selectivity for speed in this request:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &quot;winningPlan&quot; : {
+     // ...
+     &quot;indexName&quot; : &quot;attributes.name_1_attributes.value_1&quot;,
+ }
+ &quot;executionStats&quot; : {
+     &quot;nReturned&quot; : 10536,
+     &quot;executionTimeMillis&quot; : 160,
+     &quot;totalKeysExamined&quot; : 62472,
+     &quot;totalDocsExamined&quot; : 62472,
+ }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get laptops with CPU frequency equal to 2200 or 2400&lt;/p&gt;
+
+    &lt;p&gt;Same as previous points.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;resume&quot;&gt;Resume&lt;/h3&gt;
+
+&lt;p&gt;PostgreSQL 9.4 introduced new type jsonb. It can be used effectively in queries. And we can use single index to query on different json keys. Not all operations are available (for example greater than/less than, we need a separate index on particular key), but anyway this is incredibly useful for a wide range of tasks. And starting from Django 1.9 this functionality is available out of the box.&lt;/p&gt;
+
+&lt;p&gt;MongoDB doesn’t have analogue to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@&amp;gt;&lt;/code&gt; operator. We can adopt the structure of data to make similar queries, using one index. But it is less effective, than in PostgreSQL. Because index is applied only to one key. On the other hand MongoDB support higher range of operations when filtering on &lt;em&gt;any&lt;/em&gt; &lt;em&gt;one&lt;/em&gt; key, using single index.&lt;/p&gt;
+
+&lt;p&gt;I really like JSON in PostgreSQL, it can be used in many tasks. And we have all advantages of SQL: joins and transactions, that are not presented in MongoDB. And now it is supported by Django ORM.&lt;/p&gt;
+
+&lt;h3 id=&quot;useful-links&quot;&gt;Useful links&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.djangoproject.com/en/dev/ref/contrib/postgres/fields/#jsonfield&quot;&gt;Django JSONField docs&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.postgresql.org/docs/9.4/static/datatype-json.html&quot;&gt;PostgreSQL JSON type docs&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.postgresql.org/docs/9.4/static/functions-json.html&quot;&gt;PostgreSQL JSON functions and operations docs&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.youtube.com/watch?v=78A2gJBgL9g&quot;&gt;Christophe Pettus - PostgreSQL Proficiency for Python People - PyCon 2015 (video)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://thebuild.com/presentations/json2015-pgconfus.pdf&quot;&gt;PostgreSQL and JSON: 2015. Christophe Pettus. PGConf US 2015 (slides)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://events.yandex.ru/lib/talks/1707/&quot;&gt;Asya Kamsky, Yandex 2014 MongoDB meetup&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="database" /><category term="django" /><category term="mongodb" /><category term="postgresql" /><category term="sql" /><summary type="html">New JSONField will be added in Django 1.9, it can be used with PostgreSQL &amp;gt;= 9.4. Let’s try to work with it and find out, in what situations it can be useful.</summary></entry><entry><title type="html">OAuth and django rest framework</title><link href="https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html" rel="alternate" type="text/html" title="OAuth and django rest framework" /><published>2015-07-18T18:19:43+00:00</published><updated>2015-07-18T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework</id><content type="html" xml:base="https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/django-rest-social-auth&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/django-rest-social-auth on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6615/85893628.c69/0_18e574_16d44873_XL.png&quot; alt=&quot;OAuth and django rest framework&quot; title=&quot;OAuth and django rest framework&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -3517,381 +4330,4 @@ during one second then their order is not defined in sorting by &lt;code class=&
  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Paths now have meaningful names that are used in url representation by method &lt;a href=&quot;http://www.tornadoweb.org/en/stable/web.html?highlight=url#tornado.web.Application.reverse_url&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reverse_url&lt;/code&gt;&lt;/a&gt;. If it is needed to change some path, we’ll do it in one single place. Much more convenient!&lt;/p&gt;</content><author><name></name></author><category term="tornado" /><summary type="html">To set url for tornado handlers we can pass list of tuples (url regex, handler) into application initialisation: application = tornado.web.Application([ (r&quot;/&quot;, MainHandler), (r&quot;/some/path/page/(?P&amp;lt;pk&amp;gt;[0-9]+)$&quot;, PageHandler), ]) But it is more convenient to use wrapper tornado.web.url, that allows to assign meaningful names for paths (similar to django url).</summary></entry><entry><title type="html">Django celery setup</title><link href="https://st4lk.github.io/en/django/celery/2014/11/02/django-celery-setup.html" rel="alternate" type="text/html" title="Django celery setup" /><published>2014-11-02T18:19:43+00:00</published><updated>2014-11-02T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/celery/2014/11/02/django-celery-setup</id><content type="html" xml:base="https://st4lk.github.io/en/django/celery/2014/11/02/django-celery-setup.html">&lt;p&gt;&lt;a href=&quot;/en/django/celery/2014/11/02/django-celery-setup.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-11-02-django-celery-setup/2and5_celery_420.jpeg&quot; alt=&quot;Django celery setup&quot; title=&quot;Django celery setup&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;To enable &lt;a href=&quot;http://www.celeryproject.org/&quot;&gt;celery&lt;/a&gt; in new django project i often look in previous ones to refresh in my memory some steps: what settings should be specified, how to launch, how to stop and so on.&lt;/p&gt;
-
-&lt;p&gt;Here i want to combine all together in one place.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;what-we-must-get-as-a-result&quot;&gt;What we must get as a result&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Add delayed task executing in django project, controlled by celery, to not load current django process. Examples of such tasks: email sending, working with third party api, heavy processing and etc.&lt;/li&gt;
-  &lt;li&gt;Use &lt;a href=&quot;http://redis.io/&quot;&gt;redis&lt;/a&gt; as a broker.&lt;/li&gt;
-  &lt;li&gt;In admin we can see launched and finished tasks.&lt;/li&gt;
-  &lt;li&gt;In admin we can see status of all workers (online/offline).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;celery-setup&quot;&gt;Celery setup&lt;/h3&gt;
-
-&lt;h4 id=&quot;install-redis&quot;&gt;Install redis&lt;/h4&gt;
-
-&lt;p&gt;To be able to exchange messages between processes we need a broker, that will hold those messages. I choose redis, as it is common solution, it fast, easy to install, low memory usage, reliable. List of all possible brokers can be found &lt;a href=&quot;http://celery.readthedocs.org/en/latest/getting-started/brokers/#broker-overview&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Just in case let’s check our server (all examples for ubuntu):&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;build-essential
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;tcl8.5
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Download &lt;a href=&quot;http://redis.io/download/&quot;&gt;last version&lt;/a&gt;. When i wrote this post, it was 2.8.17.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget http://download.redis.io/releases/redis-2.8.17.tar.gz
-&lt;span class=&quot;nb&quot;&gt;tar &lt;/span&gt;xzf redis-2.8.17.tar.gz
-&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;redis-2.8.17
-make
-make &lt;span class=&quot;nb&quot;&gt;test
-sudo &lt;/span&gt;make &lt;span class=&quot;nb&quot;&gt;install
-cd &lt;/span&gt;utils
-&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; ./install_server.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Start redis server&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service redis_6379 start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;We can stop it by command&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service redis_6379 stop
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Start redis at system boot up&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;update-rc.d redis_6379 defaults
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Also we’ll need a redis driver for python, install it&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;redis
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;install-django-celery&quot;&gt;Install django-celery&lt;/h4&gt;
-
-&lt;p&gt;In fact, it is not necessary to install some special django app to add celery functionality, as it written in &lt;a href=&quot;http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html&quot;&gt;docs&lt;/a&gt;. But for usefull integration with django admin it is easier to install &lt;a href=&quot;https://pypi.python.org/pypi/django-celery&quot;&gt;django-celery&lt;/a&gt; (look &lt;a href=&quot;http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html#using-the-django-orm-cache-as-a-result-backend&quot;&gt;why&lt;/a&gt;).&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;django-celery
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Add following configuration to settings.py:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;djcelery&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# redis server address
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BROKER_URL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;redis://localhost:6379/0&apos;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# store task results in redis
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERY_RESULT_BACKEND&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;redis://localhost:6379/0&apos;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# task result life time until they will be deleted
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERY_TASK_RESULT_EXPIRES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;86400&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 7 days
-# needed for worker monitoring
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERY_SEND_EVENTS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# where to store periodic tasks (needed for scheduler)
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERYBEAT_SCHEDULER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;djcelery.schedulers.DatabaseScheduler&quot;&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# add following lines to the end of settings.py
-&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;djcelery&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;djcelery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setup_loader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Task are defined in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tasks.py&lt;/code&gt;file, that is placed in app folder:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- proj/
-  - proj/__init__.py
-  - proj/settings.py
-  - proj/urls.py
-- &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/  &lt;span class=&quot;c&quot;&gt;# some app&lt;/span&gt;
-  - &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/__init__.py
-  - &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/models.py
-  - &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/views.py
-  - &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;/tasks.py  &lt;span class=&quot;c&quot;&gt;# users tasks lives here&lt;/span&gt;
-- products/
-  - products/__init__.py
-  - products/models.py
-  - products/views.py
-  - products/tasks.py  &lt;span class=&quot;c&quot;&gt;# products tasks lives here&lt;/span&gt;
-- manage.py
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Create simplest task.&lt;/p&gt;
-
-&lt;p&gt;users/tasks.py:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# -*- coding: utf-8 -*-
-&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.task&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ignore_result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max_retries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default_retry_delay&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;just_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Print from celery task&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;launch-task&quot;&gt;Launch task&lt;/h4&gt;
-
-&lt;h5 id=&quot;debugging&quot;&gt;Debugging&lt;/h5&gt;
-
-&lt;p&gt;To check, that tasks are working, start&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py runserver&lt;/code&gt;  # django project&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py celery worker --concurrency=1&lt;/code&gt;  # celery worker: process, that will do the tasks&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python manage.py celery beat&lt;/code&gt;  # celery beat: process, that will execute periodic tasks&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Last two commands can be combined into one (key &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-B&lt;/code&gt;):&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  python manage.py celery worker &lt;span class=&quot;nt&quot;&gt;-B&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--concurrency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Let’s try to launch our task &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;just_print&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;There are two ways to start a task:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;By scheduler, that will call the task every time period (10 seconds for example) or every particular time (like crontab do).&lt;/li&gt;
-  &lt;li&gt;From code, in needed place and under needed conditions.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&quot;launch-task-by-scheduler&quot;&gt;Launch task by scheduler&lt;/h5&gt;
-
-&lt;p&gt;Go to admin page at address &lt;a href=&quot;http://127.0.0.1:8000/admin/djcelery/periodictask/&quot;&gt;http://{host}/admin/djcelery/periodictask/&lt;/a&gt; and press “Add periodic task”.&lt;/p&gt;
-
-&lt;p&gt;Fill fields as it is shown in screenshot below and press save.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/2714/85893628.c66/0_15fe67_b0ad7288_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/2714/85893628.c66/0_15fe67_b0ad7288_XL.png&quot; alt=&quot;Launch periodic task every 10 seconds&quot; title=&quot;Launch periodic task every 10 seconds&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;To indicate launch time instead of period, do the same, as in previous case, but fill Crontab (Interval must be blanked):&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/6700/85893628.c66/0_15fe66_8c4b6564_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6700/85893628.c66/0_15fe66_8c4b6564_XL.png&quot; alt=&quot;Launch periodic task at every new minute&quot; title=&quot;Launch periodic task at every new minute&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h5 id=&quot;note&quot;&gt;Note&lt;/h5&gt;
-
-&lt;p&gt;Periodic task can be created automatically at project start (when celery process is started), to not create them manually in admin (but they still will be shown in admin). To achieve it, we can define them in settings.py.&lt;/p&gt;
-
-&lt;p&gt;Every 10 seconds:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;CELERYBEAT_SCHEDULE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&apos;example-task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&apos;task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;apps.users.tasks.just_print&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&apos;schedule&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# in seconds, or timedelta(seconds=10)
-&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Every new minute (will start at 0 second of every minute):&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.schedules&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;CELERYBEAT_SCHEDULE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&apos;example-task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&apos;task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;apps.users.tasks.just_print&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&apos;schedule&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Or for example every 7-th minute of every hour:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.schedules&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;CELERYBEAT_SCHEDULE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&apos;example-task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&apos;task&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;apps.users.tasks.just_print&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&apos;schedule&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;For details about periodic task creation in settings.py look &lt;a href=&quot;http://celery.readthedocs.org/en/latest/userguide/periodic-tasks.html&quot;&gt;celery documentation&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Also, task can be decorated with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@periodic_task&lt;/code&gt; instead of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@task&lt;/code&gt;. And this task will be periodic. Period is defined by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;run_every&lt;/code&gt; argument. Value is the same, as in ‘schedule’ key in CELERYBEAT_SCHEDULE:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.task&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;periodic_task&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;periodic_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ignore_result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;run_every&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 10 seconds, or timedelta(seconds=10)
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;just_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Print from celery task&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;or crontab&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.task&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;periodic_task&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;celery.schedules&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;periodic_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ignore_result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;run_every&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;crontab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# every minute
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;just_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Print from celery task&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;start-task-from-code&quot;&gt;Start task from code&lt;/h5&gt;
-
-&lt;p&gt;To start task from code call method &lt;a href=&quot;http://celery.readthedocs.org/en/latest/userguide/calling.html#basics&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.delay()&lt;/code&gt;&lt;/a&gt;. For example, from view:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.tasks&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;just_print&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UserListView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ListView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;User&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_context_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;just_print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UserListView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_context_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;monitoring&quot;&gt;Monitoring&lt;/h4&gt;
-
-&lt;p&gt;In admin section Djcelery we can see rows &lt;a href=&quot;http://127.0.0.1:8000/admin/djcelery/taskstate/&quot;&gt;Tasks&lt;/a&gt; and &lt;a href=&quot;http://127.0.0.1:8000/admin/djcelery/workerstate/&quot;&gt;Workers&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/6819/85893628.c66/0_15fe68_a4352d4f_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/6819/85893628.c66/0_15fe68_a4352d4f_XL.png&quot; alt=&quot;Djcelery in admin&quot; title=&quot;Djcelery in admin&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;But currently they are blanked inside. To see information there about workers status and tasks history we need to start celerycam:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python manage.py celerycam &lt;span class=&quot;nt&quot;&gt;--frequency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Now we can see, that 1 worker is online:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/3301/85893628.c66/0_15fe6b_a74622e4_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/3301/85893628.c66/0_15fe6b_a74622e4_XL.png&quot; alt=&quot;Worker status in admin&quot; title=&quot;Worker status in admin&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;And tasks status:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/2914/85893628.c66/0_15fe6a_49533167_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/2914/85893628.c66/0_15fe6a_49533167_XL.png&quot; alt=&quot;Tasks status in admin&quot; title=&quot;Tasks status in admin&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;By default, celerycam delete statuses of old tasks by following rules:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;collector is started every hour (look &lt;a href=&quot;https://github.com/celery/celery/blob/3.1/celery/events/snapshot.py#L40&quot;&gt;clerey 3.1 code&lt;/a&gt;, can’t find how to change it from settings.py)&lt;/li&gt;
-  &lt;li&gt;collector delete all task, that are exceed allowed life time.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Life time of task status can be defined in settings.py (default values are shown):&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;datetime&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;CELERYCAM_EXPIRE_SUCCESS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;days&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;CELERYCAM_EXPIRE_ERROR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;days&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;CELERYCAM_EXPIRE_PENDING&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;days&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;launch-in-production&quot;&gt;Launch in production&lt;/h4&gt;
-
-&lt;p&gt;In production all celery processes must be started as daemons.&lt;/p&gt;
-
-&lt;p&gt;We can run a bash script to start/stop them or define a config for supervisor.&lt;/p&gt;
-
-&lt;h5 id=&quot;bash-scripts&quot;&gt;Bash scripts&lt;/h5&gt;
-
-&lt;p&gt;celery_start.sh:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;PYTHON&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python
-&lt;span class=&quot;nv&quot;&gt;PROJECT_FOLDER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/project_dir/project/
-&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/pid/
-&lt;span class=&quot;nv&quot;&gt;LOGS_FOLDER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/logs/
-&lt;span class=&quot;nv&quot;&gt;BEAT_SHEDULE_FILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/shedule/celerybeat-schedule  &lt;span class=&quot;c&quot;&gt;# celery beat need to store the last run times of the tasks in a local database file&lt;/span&gt;
-
-&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PROJECT_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;manage.py celery worker &lt;span class=&quot;nt&quot;&gt;--concurrency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1 &lt;span class=&quot;nt&quot;&gt;--detach&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_worker.pid &lt;span class=&quot;nt&quot;&gt;--logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LOGS_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_worker.log
-&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PROJECT_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;manage.py celery beat &lt;span class=&quot;nt&quot;&gt;--detach&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_beat.pid &lt;span class=&quot;nt&quot;&gt;--logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LOGS_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_beat.log &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;BEAT_SHEDULE_FILE&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PROJECT_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;manage.py celerycam &lt;span class=&quot;nt&quot;&gt;--frequency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.0 &lt;span class=&quot;nt&quot;&gt;--detach&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celerycam.pid &lt;span class=&quot;nt&quot;&gt;--logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LOGS_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celerycam.log
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;celery_stop.sh:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;PYTHON&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python
-&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/pid/
-
-&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; celery multi stopwait worker1 &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celerycam.pid
-&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; celery multi stopwait worker1 &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_beat.pid
-&lt;span class=&quot;nv&quot;&gt;$PYTHON&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; celery multi stopwait worker1 &lt;span class=&quot;nt&quot;&gt;--pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PID_FOLDER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;celery_worker.pid
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;supervisord&quot;&gt;supervisord&lt;/h4&gt;
-
-&lt;p&gt;Best practice is to launch celery processes under the control of &lt;a href=&quot;http://supervisord.org/&quot;&gt;supervisord&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Create configuration for every celery process in django project, for example, in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deploy&lt;/code&gt; folder:&lt;/p&gt;
-
-&lt;p&gt;supervisor.celeryd.conf&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;program:djangoproject.celeryd]
-&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python /path/to/django_project/manage.py celeryd &lt;span class=&quot;nt&quot;&gt;--concurrency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;www-data
-&lt;span class=&quot;nv&quot;&gt;numprocs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-&lt;span class=&quot;nv&quot;&gt;directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/django_project
-&lt;span class=&quot;nv&quot;&gt;stdout_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celery_worker.log
-&lt;span class=&quot;nv&quot;&gt;stderr_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celery_worker.log
-&lt;span class=&quot;nv&quot;&gt;autostart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;autorestart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;startsecs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
-stopwaitsecs &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 120
-&lt;span class=&quot;nv&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;998
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;supervisor.celerybeat.conf&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;program:djangoproject.celerybeat]
-&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python /path/to/django_project/manage.py celery beat &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /path/to/celerybeat-schedule
-&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;www-data
-&lt;span class=&quot;nv&quot;&gt;numprocs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-&lt;span class=&quot;nv&quot;&gt;directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/django_project
-&lt;span class=&quot;nv&quot;&gt;stdout_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celery_beat.log
-&lt;span class=&quot;nv&quot;&gt;stderr_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celery_beat.log
-&lt;span class=&quot;nv&quot;&gt;autostart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;autorestart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;startsecs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
-stopwaitsecs &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 120
-&lt;span class=&quot;nv&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;998
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;supervisor.celerycam.conf&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;program:djangoproject.celerycam]
-&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/bin/python /path/to/django_project/manage.py celerycam &lt;span class=&quot;nt&quot;&gt;--frequency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.0
-&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;www-data
-&lt;span class=&quot;nv&quot;&gt;numprocs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-&lt;span class=&quot;nv&quot;&gt;directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/django_project
-&lt;span class=&quot;nv&quot;&gt;stdout_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celerycam.log
-&lt;span class=&quot;nv&quot;&gt;stderr_logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/path/to/log/celerycam.log
-&lt;span class=&quot;nv&quot;&gt;autostart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;autorestart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;startsecs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10
-stopwaitsecs &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 120
-&lt;span class=&quot;nv&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;998
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Change all &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/path/to/&lt;/code&gt; to correct paths and also define needed user.&lt;/p&gt;
-
-&lt;p&gt;Now create symlink to your celery configs in /etc/supervisor/conf.d/ folder, to let supervisor know about them:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /etc/supervisor/conf.d
-&lt;span class=&quot;nb&quot;&gt;sudo ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /path/to/django_project/deploy/supervisor.celeryd.conf
-&lt;span class=&quot;nb&quot;&gt;sudo ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /path/to/django_project/deploy/supervisor.celerybeat.conf
-&lt;span class=&quot;nb&quot;&gt;sudo ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /path/to/django_project/deploy/supervisor.celerycam.conf
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Restart supervisor:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;supervisorctl reload
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Check, that all needed processes are started:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ps aux | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;python
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;other&quot;&gt;Other&lt;/h4&gt;
-
-&lt;p&gt;In periodic tasks section of admin (&lt;a href=&quot;http://127.0.0.1:8000/admin/djcelery/periodictask/&quot;&gt;http://{host}/admin/djcelery/periodictask/&lt;/a&gt;) we can see a celery.backend_cleanup task:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://img-fotki.yandex.ru/get/10/85893628.c66/0_15fe69_fe0539e0_orig.png&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/10/85893628.c66/0_15fe69_fe0539e0_XL.png&quot; alt=&quot;celery.backend_cleanup&quot; title=&quot;celery.backend_cleanup&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;This task is cleaning all old task results (not statuses), that are stored in database. Old means that they were created more time ago, than defined in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;settings.CELERY_TASK_RESULT_EXPIRES&lt;/code&gt;. But, as we are storing task results in redis, we don’t need this cleanup task. So, we can just delete it from admin page. Redis will drop all old entries by itself.&lt;/p&gt;</content><author><name></name></author><category term="django" /><category term="celery" /><summary type="html">To enable celery in new django project i often look in previous ones to refresh in my memory some steps: what settings should be specified, how to launch, how to stop and so on. Here i want to combine all together in one place.</summary></entry></feed>
+&lt;p&gt;Paths now have meaningful names that are used in url representation by method &lt;a href=&quot;http://www.tornadoweb.org/en/stable/web.html?highlight=url#tornado.web.Application.reverse_url&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reverse_url&lt;/code&gt;&lt;/a&gt;. If it is needed to change some path, we’ll do it in one single place. Much more convenient!&lt;/p&gt;</content><author><name></name></author><category term="tornado" /><summary type="html">To set url for tornado handlers we can pass list of tuples (url regex, handler) into application initialisation: application = tornado.web.Application([ (r&quot;/&quot;, MainHandler), (r&quot;/some/path/page/(?P&amp;lt;pk&amp;gt;[0-9]+)$&quot;, PageHandler), ]) But it is more convenient to use wrapper tornado.web.url, that allows to assign meaningful names for paths (similar to django url).</summary></entry></feed>

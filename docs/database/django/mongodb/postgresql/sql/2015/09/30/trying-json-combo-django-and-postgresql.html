@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Пробуем JSON в Django и PostgreSQL (и сравниваем с MongoDB) | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Пробуем JSON в Django и PostgreSQL (и сравниваем с MongoDB)" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="В Django 1.9 будет добавлено поле JSONField, его можно использовать с базой данных PostgreSQL &gt;= 9.4. Давайте попробуем с ним поработать и оценить, насколько оно удобно." />
+<meta property="og:description" content="В Django 1.9 будет добавлено поле JSONField, его можно использовать с базой данных PostgreSQL &gt;= 9.4. Давайте попробуем с ним поработать и оценить, насколько оно удобно." />
+<link rel="canonical" href="https://st4lk.github.io/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html" />
+<meta property="og:url" content="https://st4lk.github.io/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-09-30T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Пробуем JSON в Django и PostgreSQL (и сравниваем с MongoDB)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-09-30T18:19:43+00:00","datePublished":"2015-09-30T18:19:43+00:00","description":"В Django 1.9 будет добавлено поле JSONField, его можно использовать с базой данных PostgreSQL &gt;= 9.4. Давайте попробуем с ним поработать и оценить, насколько оно удобно.","headline":"Пробуем JSON в Django и PostgreSQL (и сравниваем с MongoDB)","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html"},"url":"https://st4lk.github.io/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Записи разработчика</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html" ><img src="/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Пробуем JSON в Django и PostgreSQL (и сравниваем с MongoDB)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-09-30T18:19:43+00:00" itemprop="datePublished">Sep 30, 2015
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html"><img src="https://img-fotki.yandex.ru/get/3706/85893628.c69/0_19430e_cafd0257_XL.png" alt="Пробуем JSON в Django и PostgreSQL" title="Пробуем JSON в Django и PostgreSQL" /></a></p>
+
+<p>В Django 1.9 будет добавлено поле <a href="https://docs.djangoproject.com/en/1.9/ref/contrib/postgres/fields/#jsonfield">JSONField</a>, его можно использовать с базой данных PostgreSQL &gt;= 9.4. Давайте попробуем с ним поработать и оценить, насколько оно удобно.</p>
+
+<!--more-->
+
+<p>На данный момент доступна альфа версия django 1.9, финальная запланирована на декабрь 2015.
+Установить альфа версию можно так:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install --pre django
+</code></pre></div></div>
+
+<p>Итак представим, что у нас есть интернет магазин, в котором мы предлагаем товары разных типов. Например, ноутбуки и футболки. Очевидно, что у таких товаров будет разный набор параметров: у футболок будет размер, цвет, а у ноутбуков - размер экрана, частота процессора, объем жесткого диска и прочее.
+Один из подходов для работы с такими данными в SQL - <a href="https://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model">Entity–attribute–value model (EAV)</a>.</p>
+
+<p>Но теперь у нас есть JSON, попробуем организовать данные с помощью этого типа.</p>
+
+<p>Создадим простейшую модель для товаров:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from django.db import models
+from django.contrib.postgres.fields import JSONField
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category)
+    price = models.IntegerField()
+    attributes = JSONField()
+
+    def __str__(self):
+        return self.name
+</code></pre></div></div>
+
+<p>Как видим, у нас будет несколько общих полей для всех товаров (name, category, price), а также специфичные для каждого наименования атрибуты (attributes) в виде поля JSON.</p>
+
+<p>Создадим несколько объектов:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tshirt = Category.objects.create(name='tshirts')
+notebook = Category.objects.create(name='notebook')
+
+# Tshirts
+Product.objects.create(name='Silk tshirt', category=tshirt, price=100, attributes={
+    'colors': ['red', 'black'],
+    'sizes': ['S', 'M'],
+    'model': 'polo',
+    'material': 'silk',
+})
+
+Product.objects.create(name='Bamboo tshirt', category=tshirt, price=120, attributes={
+    'colors': ['white', 'yellow'],
+    'sizes': ['M', 'L', 'XL'],
+    'model': 'poet',
+    'material': 'bamboo',
+})
+
+# Notebooks
+Product.objects.create(name='MacBook Pro', category=notebook, price=2000, attributes={
+    'brand': 'Apple',
+    'screen': 15.0,
+    'speed': 2200,
+    'hd': 256,
+})
+
+Product.objects.create(name='ATIV Book 9', category=notebook, price=1200, attributes={
+    'brand': 'Samsung',
+    'screen': 12.2,
+    'speed': 2400,
+    'hd': 128,
+})
+</code></pre></div></div>
+
+<h3 id="запросы">Запросы</h3>
+
+<p>Посмотрим, какие запросы мы можем делать.</p>
+
+<ol>
+  <li>
+    <p>Получить все футболки размера ‘M’ и ‘L’ (у товара есть оба размера):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=tshirt, attributes__contains={'sizes': ['M', 'L']})
+ [&lt;Product: Bamboo tshirt&gt;]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все футболки с размерами ‘M’ и ‘L’, белого и желтого цветов, с надписей (model = poet):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=tshirt,
+     attributes__contains={'sizes': ['M', 'L'], 'colors': ['white', 'yellow'],
+     'model': 'poet'})
+ [&lt;Product: Bamboo tshirt&gt;]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора 2400 и диагональю экрана 12.2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=notebook,
+     attributes__contains={'speed': 2400, 'screen': 12.2})
+ [&lt;Product: ATIV Book 9&gt;]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все футболки красного цвета, поло, с размерами ‘M’ или ‘L’</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=tshirt,
+     attributes__contains={'colors': ['red'], 'model': 'polo'},
+     attributes__sizes__has_any_keys=['M', 'L'])
+ [&lt;Product: Silk tshirt&gt;]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора свыше 2000 и диагональю экрана больше 13</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=notebook, attributes__speed__gt=2000,
+     attributes__screen__gt=13)
+ [&lt;Product: MacBook Pro&gt;]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора 2200 или 2400</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=notebook, attributes__speed__in=(2200, 2400))
+ [&lt;Product: ATIV Book 9&gt;, &lt;Product: MacBook Pro&gt;]
+</code></pre></div>    </div>
+
+    <p>или так:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; from django.db.models import Q
+ &gt;&gt;&gt; Product.objects.filter(category=notebook).filter(
+     Q(attributes__contains={'speed': 2200}) | Q(attributes__contains={'speed': 2400}))
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="индексы">Индексы</h3>
+
+<p>Посмотрим, насколько эффективны могут быть наши запросы.</p>
+
+<p>В PostgreSQL для JSON полей можно применять <a href="http://www.postgresql.org/docs/9.4/static/datatype-json.html#JSON-INDEXING">разные индексы</a>:</p>
+
+<ul>
+  <li>
+    <p>GIN</p>
+
+    <p>данный индекс в свою очередь может поддерживать различные операторы:</p>
+
+    <ul>
+      <li>jsonb_ops (по умолчанию), поддерживает операторы <code class="language-plaintext highlighter-rouge">@&gt;, ?, ?&amp;, ?|</code></li>
+      <li>jsonb_path_ops, поддерживает только оператор <code class="language-plaintext highlighter-rouge">@&gt;</code>, но работает быстрее и занимает меньше места</li>
+    </ul>
+  </li>
+  <li>
+    <p>btree</p>
+
+    <p>может быть полезен только для поиска полного соответствия json документов</p>
+  </li>
+  <li>
+    <p>hash</p>
+
+    <p>как и btree, полезен для поиска полного соответствия json документов</p>
+  </li>
+</ul>
+
+<h4 id="соответсвие-некоторых-операций-в-django-и-postgres-операторов">Соответсвие некоторых операций в django и postgres операторов</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Django        Postgres
+----------------------
+contains      @&gt;
+contained_by  &lt;@
+has_key       ?
+has_any_keys  ?|
+has_keys      ?&amp;
+</code></pre></div></div>
+
+<p>В нашем случае наиболее интересный оператор - <code class="language-plaintext highlighter-rouge">@&gt;</code>, именно в него django транслирует фильтр <code class="language-plaintext highlighter-rouge">contains</code> для json полей.</p>
+
+<p>Если мы просто добавим <code class="language-plaintext highlighter-rouge">db_index=True</code>, будет создан btree индекс:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Product(models.Model):
+    ...
+    attributes = JSONField(db_index=True)
+</code></pre></div></div>
+
+<p>Для наших запросов намного полезней будет GIN индекс. Для его создания воспользуемся операцией <a href="https://docs.djangoproject.com/en/dev/ref/migration-operations/#django.db.migrations.operations.RunSQL">RunSQL</a>.</p>
+
+<p>Сперва создадим пустую миграцию. В моем случае приложение с товарами называется catalogue_simple</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py makemigrations --empty catalogue_simple
+</code></pre></div></div>
+
+<p>В созданном файле (у меня это 0002_auto_20150928_1610.py) добавим пару импортов, а также команды для создания и отката индекса:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from catalogue_simple.models import Product
+from psycopg2.extensions import AsIs
+
+class Migration(migrations.Migration):
+    # ...
+    operations = [
+        migrations.RunSQL(
+            [("CREATE INDEX catalogue_product_attrs_gin ON %s USING gin"
+                "(attributes jsonb_path_ops);", [AsIs(Product._meta.db_table)])],
+            [('DROP INDEX catalogue_product_attrs_gin;', None)],
+        )
+    ]
+</code></pre></div></div>
+
+<p>Здесь catalogue_product_attrs_gin - это название индекса (выбираем сами), attributes - название JSON поля, Product - модель товара. Создаем индекс jsonb_path_ops, т.к. в основном нам будет интересна только операция contains.
+Конструкция AsIs нужна, чтобы соответствующий параметр <code class="language-plaintext highlighter-rouge">%s</code> не оборачивался в одиночные кавычки.</p>
+
+<p>А btree индекс нам не нужен, поэтому не будем добавлять <code class="language-plaintext highlighter-rouge">db_index=True</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Product(models.Model):
+    ...
+    attributes = JSONField()
+</code></pre></div></div>
+
+<h4 id="тестовые-данные">Тестовые данные</h4>
+
+<p>Я сгенерил 1 000 000 товаров 4-х разных категорий, по 250 000 в каждой. У каждой категории товаров - свои атрибуты, от 4-х до 7. Некоторые значения - скалярные величины (material у футболок), некоторые - списки (sizes у футболок).</p>
+
+<h4 id="запросы-по-индексам">Запросы по индексам</h4>
+
+<ol>
+  <li>
+    <p>Получить все футболки размера ‘M’ и ‘L’ (у товара есть оба размера):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=tshirt, attributes__contains={'sizes': ['M', 'L']})
+</code></pre></div>    </div>
+
+    <p>Соответсвующий SQL (я заменил перечисление всех полей на <code class="language-plaintext highlighter-rouge">*</code> для краткости):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> SELECT * FROM "catalogue_simple_product" WHERE
+ ("catalogue_simple_product"."category_id" = 5
+     AND
+ "catalogue_simple_product"."attributes" @&gt; '{"sizes": ["M", "L"]}');
+</code></pre></div>    </div>
+
+    <p>Без GIN индекса для поля attributes запрос выполняется 292 ms, <a href="http://explain.depesz.com/s/xmWS">EXPLAIN ANALYSE</a>.</p>
+
+    <p>Этот же запрос после создания GIN индекса для поля attributes - 250 ms, <a href="http://explain.depesz.com/s/cHk">EXPLAIN ANALYSE</a>.</p>
+
+    <p>В данном случае большого выйгрыша мы не получили (было 292ms, стало 250ms), но это потому что результат содержит много строк: 66412.
+ Это называется “low selectivity”.
+ Selectivity - отношение отфильтрованных записей к их общему числу. Если это отношение стремится к 1, говорят low selectivity, если к 0 - high selectivity.
+ С помощью этого показателя можно оценить эффективность индекса. При low selectivity индекс не принесет особой пользы.</p>
+  </li>
+  <li>
+    <p>Получить все футболки с размерами ‘M’ и ‘L’, белого и желтого цветов, с надписей (model = poet):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=tshirt,
+     attributes__contains={'sizes': ['M', 'L'], 'colors': ['white', 'yellow'],
+     'model': 'poet'})
+</code></pre></div>    </div>
+
+    <p>Соответствующий SQL:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> SELECT * FROM "catalogue_simple_product" WHERE
+ ("catalogue_simple_product"."category_id" = 5
+     AND
+ "catalogue_simple_product"."attributes" @&gt; '{
+     "colors": ["white", "yellow"],
+     "model": "poet",
+     "sizes": ["M", "L"]
+ }');
+</code></pre></div>    </div>
+
+    <p>Без GIN индекса - 240 ms, <a href="http://explain.depesz.com/s/8Zx5">EXPLAIN ANALYSE</a>.</p>
+
+    <p>После создания GIN индекса - 49 ms, <a href="http://explain.depesz.com/s/qYN">EXPLAIN ANALYSE</a>.</p>
+
+    <p>Прирост заметен: 240 ms vs 49 ms. Запрос возращает 3737 строк, большая selectivity чем в предыдущем запросе.</p>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора 2400 и диагональю экрана 12.2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=notebook,
+     attributes__contains={'speed': 2400, 'screen': 12.2})
+</code></pre></div>    </div>
+
+    <p>Соответствующий SQL:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> SELECT * FROM "catalogue_simple_product" WHERE
+ ("catalogue_simple_product"."category_id" = 7
+     AND
+ "catalogue_simple_product"."attributes" @&gt; '{"screen": 12.2, "speed": 2400}');
+</code></pre></div>    </div>
+
+    <p>Без GIN индекса - 222 ms, <a href="http://explain.depesz.com/s/Ocgt">EXPLAIN ANALYSE</a>.</p>
+
+    <p>После создания GIN индекса - 34 ms, <a href="http://explain.depesz.com/s/Ik8E">EXPLAIN ANALYSE</a>.</p>
+
+    <p>222ms vs 34ms. Запрос возращает 10389 строк.</p>
+  </li>
+  <li>
+    <p>Получить все футболки красного цвета, поло, с размерами ‘M’ или ‘L’</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=tshirt,
+     attributes__contains={'colors': ['red'], 'model': 'polo'},
+     attributes__sizes__has_any_keys=['M', 'L'])
+</code></pre></div>    </div>
+
+    <p>Соответствующий SQL:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> SELECT * FROM "catalogue_simple_product" WHERE
+ ("catalogue_simple_product"."category_id" = 5
+     AND
+ "catalogue_simple_product"."attributes" @&gt; '{"colors": ["red"], "model": "polo"}'
+     AND
+ "catalogue_simple_product"."attributes" -&gt; 'sizes' ?| ARRAY['M', 'L']);
+</code></pre></div>    </div>
+
+    <p>Без GIN индекса - 253 ms, <a href="http://explain.depesz.com/s/6SJ">EXPLAIN ANALYSE</a>.</p>
+
+    <p>После создания GIN индекса - 78 ms, <a href="http://explain.depesz.com/s/Lgb">EXPLAIN ANALYSE</a>.</p>
+
+    <p>253 ms против 78 ms. Запрос возвращает 18428 строк. В этом запросе операция <code class="language-plaintext highlighter-rouge">has_any_keys</code>
+ никак не может использовать индекс, т.к. мы объявили индекс вида jsonb_path_ops.
+ Однако, запрос вида <code class="language-plaintext highlighter-rouge">"attributes" -&gt; 'sizes' ?| ARRAY['M', 'L']</code> не будет использовать и jsonb_ops индекс, т.к. мы ищем не по ключам первого уровня, а по значениям списка.
+ Если нам часто нужен такой запрос и у него будет большая selectivity, то можно создать индекс именно на этот ключ в JSON поле. Примерно так:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> CREATE INDEX gin_sizes ON catalogue_simple_product USING gin ((attributes -&gt; 'sizes'));
+</code></pre></div>    </div>
+
+    <p>Но в нашем случае этого делать не нужно, т.к. фильтр <code class="language-plaintext highlighter-rouge">"attributes" -&gt; 'sizes' ?| ARRAY['M', 'L']</code> обладет низкой selectivity:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=tshirt,
+     attributes__contains={'colors': ['red'], 'model': 'polo'},
+     attributes__sizes__has_any_keys=['M', 'L']).count()
+ 18428
+
+ &gt;&gt;&gt; Product.objects.filter(category=tshirt,
+     attributes__contains={'colors': ['red'], 'model': 'polo'}).count()
+ 25162
+</code></pre></div>    </div>
+
+    <p>Т.е. по размеру мы отфильтровываем лишь ~25%.</p>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора свыше 2000 и диагональю экрана больше 13</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=notebook, attributes__speed__gt=2000,
+     attributes__screen__gt=13)
+</code></pre></div>    </div>
+
+    <p>Соответствующий SQL:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> SELECT * FROM "catalogue_simple_product" WHERE
+ ("catalogue_simple_product"."category_id" = 7
+     AND
+ "catalogue_simple_product"."attributes" -&gt; 'screen' &gt; '13'
+     AND
+ "catalogue_simple_product"."attributes" -&gt; 'speed' &gt; '2000')
+</code></pre></div>    </div>
+
+    <p>В данном случае GIN индекс нам не поможет. Если такие запросы используются часто,
+ возможно имеет смысл создать btree индекс по конкретным ключам из JSON поля:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> CREATE INDEX attrs_screen_speed ON catalogue_simple_product ((attributes -&gt; 'screen'), (attributes -&gt; 'speed'));
+</code></pre></div>    </div>
+
+    <p>Запрос возвращает 10536 строк.</p>
+
+    <p>Без btree индекса attrs_screen_speed - 352 ms, <a href="http://explain.depesz.com/s/GWNM">EXPLAIN ANALYSE</a></p>
+
+    <p>После создания btree индекса attrs_screen_speed - 46 ms, <a href="http://explain.depesz.com/s/YQO">EXPLAIN ANALYSE</a>.</p>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора 2200 или 2400</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=notebook, attributes__speed__in=(2200, 2400))
+</code></pre></div>    </div>
+
+    <p>Соответствующий SQL:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> SELECT * FROM "catalogue_simple_product" WHERE
+ ("catalogue_simple_product"."category_id" = 7
+     AND
+ "catalogue_simple_product"."attributes" -&gt; 'speed' IN ('2200', '2400'))
+</code></pre></div>    </div>
+
+    <p>Этот запрос <strong>не</strong> покрывается нашим GIN индексом. Время выполнения ~ 389 ms, <a href="http://explain.depesz.com/s/6U9">EXPLAIN ANALYSE</a>.</p>
+
+    <p>Попробуем переписать этот же запрос с использованием существующего GIN индекса</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; from django.db.models import Q
+ &gt;&gt;&gt; Product.objects.filter(category=notebook).filter(Q(attributes__contains={'speed': 2200}) | Q(attributes__contains={'speed': 2400}))
+</code></pre></div>    </div>
+
+    <p>SQL:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> SELECT * FROM "catalogue_simple_product" WHERE
+ ("catalogue_simple_product"."category_id" = 7
+     AND
+ ("catalogue_simple_product"."attributes" @&gt; '{"speed": 2200}'
+         OR 
+ "catalogue_simple_product"."attributes" @&gt; '{"speed": 2400}'));
+</code></pre></div>    </div>
+
+    <p>Здесь GIN индекс может быть использован, время выполнения ~ 337 ms <a href="http://explain.depesz.com/s/Sdq">EXPLAIN ANALYSE</a>.</p>
+
+    <p>Особой разницы нет. Однако, посмотрим на selectivity данного запроса.
+ В результате мы имеем 124 995 строк из 250 000 возможных для данной категории, т.е. имеем очень низкий selectivty.</p>
+
+    <p>Создадим 100 ноутбуков с частотой процессора 3200 и 100 ноутбуков с частотой 3500. Других ноутбуков с такими скоростями в БД нет.
+ Посмотрим насколько эффективно будет использовать индекс в этом случае.</p>
+
+    <p>Запрос без GIN индекса:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=notebook, attributes__speed__in=(3200, 3500))
+</code></pre></div>    </div>
+
+    <p>Получаем те же ~ 391 ms <a href="http://explain.depesz.com/s/ThI">EXPLAIN ANALYSE</a>.</p>
+
+    <p>Теперь запрос, в котором может быт использован GIN индекс:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt;&gt;&gt; Product.objects.filter(category=notebook).filter(Q(attributes__contains={'speed': 3200}) | Q(attributes__contains={'speed': 3500}))
+</code></pre></div>    </div>
+
+    <p>В итоге получаем время выполнения лишь 0.773 ms! <a href="http://explain.depesz.com/s/rqXN">EXPLAIN ANALYSE</a>.</p>
+  </li>
+</ol>
+
+<h4 id="резюме-по-индексам">Резюме по индексам</h4>
+
+<p>Как мы видим, мы можем использовать один индекс GIN (jsonb_path_ops) в запросах по всем атрибутам, а не по одному конкретному ключу!
+Конечно, это не серебряная пуля, всегда нужно анализировать те данные, с которыми мы работаем и выбирать индексы исходя из нужных запросов.</p>
+
+<h3 id="nosql-database-mongodb">NoSQL database (MongoDB)</h3>
+
+<p>Давайте посмотрим, как мы можем хранить те же данные и выполнять аналогичные запросы в MongoDB (v3.0.6).</p>
+
+<p>Для того, чтобы использовать один индекс при фильтрации по неизвестным заранее полям в MongoDB, нам нужно будет использовать немного другую структуру данных.</p>
+
+<p>Поле attributes у нас будет списком, а значения - вложенные документы с ключами name и value:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; db.catalogue_simple.find().pretty()
+{
+    "_id" : ObjectId("560ab1970a0a88fe77d00f02"),
+    "category" : "tshirts",
+    "name" : "Silk tshirt",
+    "price" : 100,
+    "attributes" : [
+        {
+            "name" : "colors",
+            "value" : "red"
+        },
+        {
+            "name" : "colors",
+            "value" : "black"
+        },
+        {
+            "name" : "sizes",
+            "value" : "S"
+        },
+        {
+            "name" : "sizes",
+            "value" : "M"
+        },
+        {
+            "name" : "model",
+            "value" : "polo"
+        },
+        {
+            "name" : "material",
+            "value" : "silk"
+        }
+    ]
+}
+{
+    "_id" : ObjectId("560ab1dd0a0a88fe77d00f03"),
+    "category" : "tshirts",
+    "name" : "Bamboo tshirt",
+    "price" : 120,
+    "attributes" : [
+        {
+            "name" : "colors",
+            "value" : "white"
+        },
+        {
+            "name" : "colors",
+            "value" : "yellow"
+        },
+        {
+            "name" : "sizes",
+            "value" : "M"
+        },
+        {
+            "name" : "sizes",
+            "value" : "L"
+        },
+        {
+            "name" : "sizes",
+            "value" : "XL"
+        },
+        {
+            "name" : "model",
+            "value" : "poet"
+        },
+        {
+            "name" : "material",
+            "value" : "bamboo"
+        }
+    ]
+}
+{
+    "_id" : ObjectId("560ab2cb0a0a88fe77d00f04"),
+    "category" : "notebook",
+    "name" : "MacBook Pro",
+    "price" : 2000,
+    "attributes" : [
+        {
+            "name" : "brand",
+            "value" : "Apple"
+        },
+        {
+            "name" : "screen",
+            "value" : 15
+        },
+        {
+            "name" : "speed",
+            "value" : 2200
+        },
+        {
+            "name" : "hd",
+            "value" : 256
+        }
+    ]
+}
+{
+    "_id" : ObjectId("560ab2ec0a0a88fe77d00f05"),
+    "category" : "notebook",
+    "name" : "ATIV Book 9",
+    "price" : 1200,
+    "attributes" : [
+        {
+            "name" : "brand",
+            "value" : "Samsung"
+        },
+        {
+            "name" : "screen",
+            "value" : 12.2
+        },
+        {
+            "name" : "speed",
+            "value" : 2400
+        },
+        {
+            "name" : "hd",
+            "value" : 128
+        }
+    ]
+}
+</code></pre></div></div>
+
+<h3 id="запросы-mongodb">Запросы (MongoDB)</h3>
+
+<ol>
+  <li>
+    <p>Получить все футболки размера ‘M’ и ‘L’ (у товара есть оба размера):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "sizes", "value": "M"}},
+     {"$elemMatch": {"name": "sizes", "value": "L"}}
+ ]}, category: 'tshirts'})
+
+ {"name" : "Bamboo tshirt", /* ... */}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все футболки с размерами ‘M’ и ‘L’, белого и желтого цветов, с надписей (model = poet):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "sizes", "value": "M"}},
+     {"$elemMatch": {"name": "sizes", "value": "L"}},
+     {"$elemMatch": {"name": "colors", "value": "white"}},
+     {"$elemMatch": {"name": "colors", "value": "yellow"}},
+     {"$elemMatch": {"name": "model", "value": "poet"}}
+ ]}, category: 'tshirts'})
+
+ {"name" : "Bamboo tshirt", /* ... */}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора 2400 и диагональю экрана 12.2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "speed", "value": 2400}},
+     {"$elemMatch": {"name": "screen", "value": 12.2}}
+ ]}, category: 'notebook'})
+
+ {"name" : "ATIV Book 9", /* ... */}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все футболки красного цвета, поло, с размерами ‘M’ или ‘L’</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "colors", "value": "red"}},
+     {"$elemMatch": {"name": "model", "value": "polo"}},
+     {"$elemMatch": {"name": "sizes", "value": {"$in": ["M", "L"]}}}
+ ]}, category: 'tshirts'})
+
+ {"name" : "Silk tshirt", /* ... */}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора свыше 2000 и диагональю экрана больше 13</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "speed", "value": {"$gt": 2000}}},
+     {"$elemMatch": {"name": "screen", "value": {"$gt": 13}}}
+ ]}, category: 'notebook'})
+
+ {"name" : "MacBook Pro", /* ... */}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора 2200 или 2400</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "speed", "value": {"$in": [2200, 2400]}}},
+ ]}, category: 'notebook'})
+
+ {"name" : "MacBook Pro", /* ... */}, {"name" : "ATIV Book 9", /* ... */}
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="индексы-mongodb">Индексы (MongoDB)</h3>
+
+<p>В данной орагнизации данных мы можем создать <a href="http://docs.mongodb.org/manual/core/index-multikey/#index-arrays-with-embedded-documents">multikey index</a>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; db.catalogue_simple.ensureIndex({"attributes.name" : 1, "attributes.value" : 1})
+</code></pre></div></div>
+
+<p>Для честного сравнения создадим индекс по полю category (django автоматически создает его для ForeignKey полей)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; db.catalogue_simple.ensureIndex({"category": 1})
+</code></pre></div></div>
+
+<p>Еще следует учитывать, что mongodb будет использовать индекс только для первого фильтра оператора $all. Хоть в доках MongoDB говорится о <a href="http://docs.mongodb.org/manual/core/index-intersection/">index intersesection</a>, однако похоже, что пересечение индексов не работает в данных запросах.</p>
+
+<p>Наглядный пример. Пусть у нас в базе только 1 товар с размером “XXXS”, и очень много товаров с размером “M”.</p>
+
+<p>Мы хотим найти товары, у которых есть оба размера “XXXS” и “M”.</p>
+
+<p>Можем сделать такой запрос:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; db.catalogue_simple.find({attributes: {$all: [
+    {"$elemMatch": {"name": "sizes", "value": "M"}},
+    {"$elemMatch": {"name": "sizes", "value": "XXXS"}},
+]}, category: 'tshirts'})
+</code></pre></div></div>
+
+<p>В этом случае MongoDB применит индекс к значению “M”. В итоге будет просканированно много сущностей, затрачено много времени, а в результате только 1 документ:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"nReturned" : 1,
+"executionTimeMillis" : 1902,
+"totalKeysExamined" : 249934,
+"totalDocsExamined" : 249934,
+</code></pre></div></div>
+
+<p>А если сделаем запрос так (“XXXS” на первом месте):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; db.catalogue_simple.find({attributes: {$all: [
+    {"$elemMatch": {"name": "sizes", "value": "XXXS"}},
+    {"$elemMatch": {"name": "sizes", "value": "M"}},
+]}, category: 'tshirts'})
+</code></pre></div></div>
+
+<p>то результат получим сразу:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"nReturned" : 1,
+"executionTimeMillis" : 0,
+"totalKeysExamined" : 1,
+"totalDocsExamined" : 1,
+</code></pre></div></div>
+
+<p>Мораль такая, что на первое место нужно ставить поле с наибольшим selectivity. Если у нас конечно есть такая инфорамция.</p>
+
+<h4 id="тестовые-данные-mongodb">Тестовые данные (MongoDB)</h4>
+
+<p>Тестовые данные полностью идентичны использованным в PostgreSQL (за исключением структуры): 4 категории, по 250 000 товаров в каждой, всего 1 000 000.</p>
+
+<h4 id="запросы-по-индексам-mongodb">Запросы по индексам (MongoDB)</h4>
+
+<ol>
+  <li>
+    <p>Получить все футболки размера ‘M’ и ‘L’ (у товара есть оба размера):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "sizes", "value": "M"}},
+     {"$elemMatch": {"name": "sizes", "value": "L"}}
+ ]}, category: 'tshirts'})
+</code></pre></div>    </div>
+
+    <p>Без индекса по attributes запрос выполняется 706 ms, используется индекс category.</p>
+
+    <p>Вывод <code class="language-plaintext highlighter-rouge">.explain('executionStats')</code>:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> "winningPlan" : {
+     // ...
+     "indexName" : "category_1",
+ }
+ "executionStats" : {
+     "nReturned" : 66412,
+     "executionTimeMillis" : 706,
+     "totalKeysExamined" : 250001,
+     "totalDocsExamined" : 250001,
+ }
+</code></pre></div>    </div>
+
+    <p>С индексом по attributes ничего не меняется, т.к. optimizer не считает этот индекс лучше чем category (видимо малая selectivity).</p>
+  </li>
+  <li>
+    <p>Получить все футболки с размерами ‘M’ и ‘L’, белого и желтого цветов, с надписей (model = poet):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "sizes", "value": "M"}},
+     {"$elemMatch": {"name": "sizes", "value": "L"}},
+     {"$elemMatch": {"name": "colors", "value": "white"}},
+     {"$elemMatch": {"name": "colors", "value": "yellow"}},
+     {"$elemMatch": {"name": "model", "value": "poet"}},
+ ]}, category: 'tshirts'})
+</code></pre></div>    </div>
+
+    <p>Ситуация аналогична первому примеру.</p>
+
+    <p>Она может поменяться, если на первое место мы поставим значение с большой selectivity. В тестовых данных цветов больше, чем размеров. Поэтому, если поставить цвет на первое место, то будет использоваться индекс attributes:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+         {"$elemMatch": {"name": "colors", "value": "white"}},
+         {"$elemMatch": {"name": "sizes", "value": "M"}},
+         {"$elemMatch": {"name": "sizes", "value": "L"}},
+         {"$elemMatch": {"name": "colors", "value": "yellow"}},
+         {"$elemMatch": {"name": "model", "value": "poet"}},
+     ]}, category: 'tshirts'}).explain('executionStats')
+</code></pre></div>    </div>
+
+    <p>Вывод:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> "winningPlan" : {
+     // ...
+     "indexName" : "attributes.name_1_attributes.value_1",
+ }
+ "executionStats" : {
+     "nReturned" : 3737,
+     "executionTimeMillis" : 658,
+     "totalKeysExamined" : 124902,
+     "totalDocsExamined" : 124902,
+ }
+</code></pre></div>    </div>
+
+    <p>Время запроса - 658 ms.</p>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора 2400 и диагональю экрана 12.2</p>
+
+    <p>Аналогично пунктам 1 и 2.</p>
+  </li>
+  <li>
+    <p>Получить все футболки красного цвета, поло, с размерами ‘M’ или ‘L’</p>
+
+    <p>Аналогично пунктам 1 и 2.</p>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора свыше 2000 и диагональю экрана больше 13</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &gt; db.catalogue_simple.find({attributes: {$all: [
+     {"$elemMatch": {"name": "speed", "value": {"$gt": 2000}}},
+     {"$elemMatch": {"name": "screen", "value": {"$gt": 13}}}
+ ]}, category: 'notebook'}).explain('executionStats')
+</code></pre></div>    </div>
+
+    <p>Как мы помним, в PostgreSQL мы не могли использовать GIN индекс для этого запроса.
+ Однако в случае структуры данных, которую мы используем в MongoDB, существующий индекс будет работать.
+ Вопрос лишь в том, какой процент данных этот фильтр отсекает.
+ Тут selectivity оказалась относительно хорошей:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> "winningPlan" : {
+     // ...
+     "indexName" : "attributes.name_1_attributes.value_1",
+ }
+ "executionStats" : {
+     "nReturned" : 10536,
+     "executionTimeMillis" : 160,
+     "totalKeysExamined" : 62472,
+     "totalDocsExamined" : 62472,
+ }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Получить все ноутбуки с частотой процессора 2200 или 2400</p>
+
+    <p>Аналогично предыдущим пунктам.</p>
+  </li>
+</ol>
+
+<h3 id="итоги">Итоги</h3>
+
+<p>В PostgreSQL 9.4 появился тип jsonb, который можно эффективно использовать в запросах.
+Причем создав лишь один индекс мы можем фильтровать по всем ключам из JSON. Не все операции будут доступны (например больше/меньше, для них придется создавать отдельный индекс на каждый JSON ключ), но тем не менее этого  достаточно для широкого круга задач. И начиная с Django 1.9 эти функции доступны из коробки.</p>
+
+<p>В MongoDB аналога оператору <code class="language-plaintext highlighter-rouge">@&gt;</code> нет. Можно изменить структуру данных и делать аналогичные запросы по группе полей, используя один индекс. Но это менее эффективно, чем в PostgreSQL. Ведь индекс будет применяться только к первому ключу, а не ко всем.
+Зато MongoDB поддерживает гораздо больше операций при фильтрации по <em>одному</em> <em>любому</em> ключу, используя один индекс.</p>
+
+<p>Пока мне очень нравится JSON в PostgreSQL, оно здорово облегчает решение многих задач. При этом мы сохраняем возможности SQL: транзакции и join’ы, которых нет в MongoDB. И теперь это поддерживается Django ORM.</p>
+
+<h3 id="полезные-ссылки">Полезные ссылки</h3>
+
+<ul>
+  <li><a href="https://docs.djangoproject.com/en/dev/ref/contrib/postgres/fields/#jsonfield">Django JSONField docs</a></li>
+  <li><a href="http://www.postgresql.org/docs/9.4/static/datatype-json.html">PostgreSQL JSON type docs</a></li>
+  <li><a href="http://www.postgresql.org/docs/9.4/static/functions-json.html">PostgreSQL JSON functions and operations docs</a></li>
+  <li><a href="http://www.youtube.com/watch?v=78A2gJBgL9g">Christophe Pettus - PostgreSQL Proficiency for Python People - PyCon 2015 (video)</a></li>
+  <li><a href="http://thebuild.com/presentations/json2015-pgconfus.pdf">PostgreSQL and JSON: 2015. Christophe Pettus. PGConf US 2015 (slides)</a></li>
+  <li><a href="https://events.yandex.ru/lib/talks/1707/">Asya Kamsky, Yandex 2014 MongoDB meetup</a></li>
+</ul>
+
+  </div><a class="u-url" href="/database/django/mongodb/postgresql/sql/2015/09/30/trying-json-combo-django-and-postgresql.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
