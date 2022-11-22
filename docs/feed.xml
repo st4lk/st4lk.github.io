@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-22T00:02:18+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Python tips &amp;amp; tricks</title><link href="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html" rel="alternate" type="text/html" title="Python tips &amp;amp; tricks" /><published>2015-04-30T18:19:43+00:00</published><updated>2015-04-30T18:19:43+00:00</updated><id>https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks</id><content type="html" xml:base="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html">&lt;p&gt;&lt;a href=&quot;/python/2015/04/30/base-python-tips-tricks.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/9067/85893628.c68/0_181e3c_92d918ca_M.jpg&quot; alt=&quot;Python tips &amp;amp; tricks&quot; title=&quot;Python tips &amp;amp; tricks&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-22T08:52:32+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Python tips &amp;amp; tricks</title><link href="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html" rel="alternate" type="text/html" title="Python tips &amp;amp; tricks" /><published>2015-04-30T18:19:43+00:00</published><updated>2015-04-30T18:19:43+00:00</updated><id>https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks</id><content type="html" xml:base="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html">&lt;p&gt;&lt;a href=&quot;/python/2015/04/30/base-python-tips-tricks.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/9067/85893628.c68/0_181e3c_92d918ca_M.jpg&quot; alt=&quot;Python tips &amp;amp; tricks&quot; title=&quot;Python tips &amp;amp; tricks&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Недавно прочитал книгу &lt;a href=&quot;http://shop.oreilly.com/product/0636920028154.do&quot;&gt;Марка Лутца “Learning Python”, 5-ое издание&lt;/a&gt;. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта.&lt;/p&gt;
 
@@ -1520,7 +1520,91 @@
 
     &lt;p&gt;Это противоречит &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import this&lt;/code&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="python" /><summary type="html">Недавно прочитал книгу Марка Лутца “Learning Python”, 5-ое издание. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта.</summary></entry><entry><title type="html">Слушаем wifi с помощью wireshark</title><link href="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html" rel="alternate" type="text/html" title="Слушаем wifi с помощью wireshark" /><published>2015-04-17T18:19:43+00:00</published><updated>2015-04-17T18:19:43+00:00</updated><id>https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark</id><content type="html" xml:base="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html">&lt;p&gt;&lt;a href=&quot;/fun/security/2015/04/17/listen-wifi-with-wireshark.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg&quot; alt=&quot;Слушаем wifi с помощью wireshark&quot; title=&quot;Слушаем wifi с помощью wireshark&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="python" /><summary type="html">Недавно прочитал книгу Марка Лутца “Learning Python”, 5-ое издание. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта.</summary></entry><entry><title type="html">OAuth step by step</title><link href="https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step.html" rel="alternate" type="text/html" title="OAuth step by step" /><published>2015-04-30T18:19:43+00:00</published><updated>2015-04-30T18:19:43+00:00</updated><id>https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step</id><content type="html" xml:base="https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/4b71b72007a666435f81&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;/api/oauth/security/2015/04/30/oauth-step-step.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/9819/85893628.c68/0_185253_82b5fefa_M.png&quot; alt=&quot;OAuth step by step&quot; title=&quot;OAuth step by step&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;OAuth протокол бывает двух версий: 1.0 и 2.0.&lt;/p&gt;
+
+&lt;p&gt;Большинство сервисов сегодня используют версию 2.0, вероятно потому что
+ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в
+standalone-приложениях (те, которые без сервера).&lt;/p&gt;
+
+&lt;p&gt;Для понимания протоколов очень полезно взглянуть на их реализацию.
+Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий.
+Т.е. все скрипты реализуют функционал клиента (не сервера).
+Используются только стандартные python библиотеки.
+Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое.
+Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты.
+Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Для начала немного теории.
+Наверняка вы знаете, что есть два понятия - &lt;em&gt;аутентификация&lt;/em&gt; (authentication) и &lt;em&gt;авторизация&lt;/em&gt; (authorization).
+Они вроде бы об одном и том же, но все-таки немного о разном.
+На всякий случай напомню:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;аутентификация - это процесс подтверждения подлинности.
+  Т.е. нам нужно просто узнать, что данный человек действительно владеет аккаунтом google с таким id и нам этого достаточно.
+  Просто залогинить пользователя, не получая никаких прав на какие-либо действия с аккаунтом google’а.
+  Этим занимается например протокол OpenID (хотя сейчас google предлагает &lt;a href=&quot;https://developers.google.com/identity/sign-in/auth-migration#sign-in&quot;&gt;другой способ&lt;/a&gt;, OpenID - &lt;a href=&quot;https://developers.google.com/identity/protocols/OpenID2&quot;&gt;deprecated&lt;/a&gt;).&lt;/li&gt;
+  &lt;li&gt;авторизация - процесс предоставления полномочий что-то делать с аккаунтом.
+  Авторизация уже включает в себя аутентификацию, но дает дополнительные возможности.
+  Например, не просто подтвердить, что пользователь действительно является владельцем аккаунта с определенным id, но еще и узнать его email. А возможно и написать что-то на его стене.
+  Вот это предоставляет протокол OAuth.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Чтобы легче запомнить я использую слово “автор”. Если есть “автор” - значит речь идет о правах (авторстве). Если нет - значит просто проверка подлинности.&lt;/p&gt;
+
+&lt;h3 id=&quot;oauth-10&quot;&gt;OAuth 1.0&lt;/h3&gt;
+
+&lt;p&gt;Спецификация: &lt;a href=&quot;http://tools.ietf.org/html/rfc5849&quot;&gt;http://tools.ietf.org/html/rfc5849&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Самое главное, что нужно запомнить - в OAuth 1.0 &lt;strong&gt;все&lt;/strong&gt; запросы подписываются секретным ключом.
+Секретный ключ нужно хранить только в безопасном месте, единственное такое место - это сервер.
+Благодаря этому протокол обеспечивает полную безопасность, даже если не используется https.
+Безопасность в том плане, что даже подслушав запрос злоумышленник не сможет сделать другой валидный запрос.
+Подслушать сами передаваемые данные он конечно сможет, чтобы их скрыть нужен https.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/314e181faaea7d671d0e.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;oauth-10-less-legged-2-legged-1-legged-0-legged&quot;&gt;OAuth 1.0 less-legged (2-legged, 1-legged, 0-legged)&lt;/h3&gt;
+
+&lt;p&gt;Это модификация протокола OAuth 1.0, в котором пользователь никак не зайдествован.
+Формально это уже не OAuth протокол, т.к. в спецификции такая последовательность не описана.
+Просто используются те же приемы, поэтому и называют так же.
+В этом случае клиентское приложение является пользователем, оно может запрашивать либо общедоступные ресурсы, либо ресурсы, доступные самому клиентскому приложению (даже приватные).&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/719729c03cf0314179b4.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;oauth-20-с-участием-сервера&quot;&gt;OAuth 2.0 с участием сервера&lt;/h3&gt;
+
+&lt;p&gt;Спецификация: &lt;a href=&quot;http://tools.ietf.org/html/rfc6749&quot;&gt;http://tools.ietf.org/html/rfc6749&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Интересно, что в заглавии спецификации OAuth 2.0 назван фреймворком.
+В то время как в заглавии &lt;a href=&quot;http://tools.ietf.org/html/rfc5849&quot;&gt;спецификации&lt;/a&gt; OAuth 1.0 назван протоколом.&lt;/p&gt;
+
+&lt;p&gt;Для обеспечения полной безопасности OAuth 2.0 необходимо отправлять запросы по https (https должен обеспечивать service provider, например facebook).
+Получив access_token уже не нужно подписывать запросы секретным ключом.
+Т.е. если кто-то подслушает запрос и увидит access_token, то он сможет сделать валидный запрос. Вот зачем нужен https.
+Кроме того при получении access_token, секрет передается по http в открытом виде.&lt;/p&gt;
+
+&lt;p&gt;У полученного access_token всегда есть ограниченное время жизни.&lt;/p&gt;
+
+&lt;p&gt;В связи с этими особенностями (и некоторыми другими), один из проектировщиков протокола OAuth 1.0 даже отказался от участия в разработке OAuth 2.0, ведь последний очень легко реализовать неправильно и в результате безопасность не будет гарантирована. Подробности можно почитать по &lt;a href=&quot;http://hueniverse.com/2012/07/26/oauth-2-0-and-the-road-to-hell/&quot;&gt;ссылке&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Последовательность шагов для получения access_token по OAuth 2.0, которая включает сервер.
+Сервер для получения access_token отправляет секретный код. Обратите внимание, не используется ни одна крипто-библиотека.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/4b71b72007a666435f81.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;oauth-20-без-участия-сервера&quot;&gt;OAuth 2.0 без участия сервера&lt;/h3&gt;
+
+&lt;p&gt;С OAuth 2.0 можно работать и без сервера по упрощенной схеме. В этом случае мы тоже получаем access_token, но для его получения не нужно знать секрет приложения! Обычно время жизни у access_token, полученного таким способом, маленькое (1-2 часа), в то время как время жизни, полученного с участием сервера больше (может быть несколько десятков дней).&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/af1db97e36897b918f22.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="oauth" /><category term="security" /><summary type="html">Gist OAuth протокол бывает двух версий: 1.0 и 2.0. Большинство сервисов сегодня используют версию 2.0, вероятно потому что ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в standalone-приложениях (те, которые без сервера). Для понимания протоколов очень полезно взглянуть на их реализацию. Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий. Т.е. все скрипты реализуют функционал клиента (не сервера). Используются только стандартные python библиотеки. Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое. Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты. Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду.</summary></entry><entry><title type="html">Слушаем wifi с помощью wireshark</title><link href="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html" rel="alternate" type="text/html" title="Слушаем wifi с помощью wireshark" /><published>2015-04-17T18:19:43+00:00</published><updated>2015-04-17T18:19:43+00:00</updated><id>https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark</id><content type="html" xml:base="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html">&lt;p&gt;&lt;a href=&quot;/fun/security/2015/04/17/listen-wifi-with-wireshark.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg&quot; alt=&quot;Слушаем wifi с помощью wireshark&quot; title=&quot;Слушаем wifi с помощью wireshark&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Всегда знал, что можно посмотреть сетевые пакеты, которые передаются по wifi сети. Но на практике этого не делал (на работе анализировал сетевые пакеты, но то был не HTTP протокол). Решил восполнить этот пробел, ведь это интересно и полезно. Более стройно выстраивается понимание протоколов TCP-IP и HTTP. Видно, как летят наши пароли и сессии, после такого опыта поневоле начинаешь относиться к безопасности сайта с большим трепетом.&lt;/p&gt;
 
@@ -3771,77 +3855,4 @@ stopwaitsecs &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 120
 
 &lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9666/85893628.92a/0_11c8f8_1e1c89_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9666/85893628.92a/0_11c8f8_1e1c89_L.jpg&quot; alt=&quot;Футболка&quot; title=&quot;Футболка&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/5309/85893628.92a/0_11c8f9_3ce02d9f_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/5309/85893628.92a/0_11c8f9_3ce02d9f_L.jpg&quot; alt=&quot;Футболка на мне&quot; title=&quot;Футболка на мне&quot; /&gt;&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="fun" /><category term="free" /><summary type="html">New Relic - сервис для мониторинга веб приложения. Позволяет в подробных деталях смотреть статистику работы, где программа тратит больше всего времени, как часто обращается к базе данных и много всего прочего. Для описания этого прекрасного сервиса следует уделить отдельный пост. Здесь же хочу рассказать о другом - как я получил бесплатную футболку от New Relic. На самом деле, для этого нужно лишь зарегистрироваться и настроить New Relic на работающем сайте. Как и сказано в их предложении.</summary></entry><entry><title type="html">Внешний url для localhost сервера</title><link href="https://st4lk.github.io/deploy/free/2014/05/09/remote-url-localhost-server.html" rel="alternate" type="text/html" title="Внешний url для localhost сервера" /><published>2014-05-09T18:19:43+00:00</published><updated>2014-05-09T18:19:43+00:00</updated><id>https://st4lk.github.io/deploy/free/2014/05/09/remote-url-localhost-server</id><content type="html" xml:base="https://st4lk.github.io/deploy/free/2014/05/09/remote-url-localhost-server.html">&lt;p&gt;&lt;a href=&quot;/deploy/free/2014/05/09/remote-url-localhost-server.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-05-09-remote-url-localhost-server/ngrok_logo.jpeg&quot; alt=&quot;Внешний url для localhost сервера&quot; title=&quot;Внешний url для localhost сервера&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Есть замечательная тулза под названием &lt;a href=&quot;https://ngrok.com/&quot;&gt;ngrok&lt;/a&gt;. Она позволяет привязать URL для вашего localhost сервера!&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;Например, вы запускаете тестовый сервер django у себя на компьютере:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  python manage.py runserver
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;и этот сервер будет доступен через внешний URL.&lt;/p&gt;
-
-&lt;h3 id=&quot;для-чего&quot;&gt;Для чего?&lt;/h3&gt;
-
-&lt;p&gt;Как минимум есть такие задачи:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;продемонстрировать проект заказчику&lt;/li&gt;
-  &lt;li&gt;проверить интеграцию вашего сайта с платежной системой, которая отправляет уведомления. Например paypal, где для получения &lt;a href=&quot;https://developer.paypal.com/webapps/developer/docs/classic/products/instant-payment-notification/&quot;&gt;IPN&lt;/a&gt; сообщения нужен работающий URL, даже в sandbox&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;как&quot;&gt;Как&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Скачиваем ngrok &lt;a href=&quot;https://ngrok.com/download&quot;&gt;отсюда&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Распаковываем скаченный архив&lt;/li&gt;
-  &lt;li&gt;Запускаем тестовый django сервер (по умолчанию это 8000 порт)&lt;/li&gt;
-  &lt;li&gt;Запускаем ngrok:
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./ngrok 8000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;В коносле видим примерно следующее:
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ngrok
-
-Tunnel Status                 online
-Version                       1.6/1.6
-Forwarding                    http://51c85c8a.ngrok.com -&amp;gt; 127.0.0.1:8000
-Forwarding                    https://51c85c8a.ngrok.com -&amp;gt; 127.0.0.1:8000
-Web Interface                 127.0.0.1:4040
-&lt;span class=&quot;c&quot;&gt;# Conn                        0&lt;/span&gt;
-Avg Conn Time                 0.00ms
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Теперь заходим по адресу http://51c85c8a.ngrok.com и видим наш сервер!&lt;/p&gt;
-
-&lt;h3 id=&quot;улучшения&quot;&gt;Улучшения&lt;/h3&gt;
-
-&lt;p&gt;Не совсем удобно, что при каждом запуске ngrok будет присваивать новый url вида &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;********.ngrok.com&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Но можно присвоить свой поддомен и сервер будет доступен по этому адресу.&lt;/p&gt;
-
-&lt;p&gt;Для этого надо лишь:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://ngrok.com/user/signup&quot;&gt;зарегистрироваться&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;получить auth token&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;один раз указать ngrok полученный auth token (после первого запуска создается файл &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.ngrok&lt;/code&gt;, в котором сохраняется введенный token):&lt;/p&gt;
-
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./ngrok &lt;span class=&quot;nt&quot;&gt;-authtoken&lt;/span&gt; your_auth_token 8000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;теперь можно запускать так:&lt;/p&gt;
-
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./ngrok  &lt;span class=&quot;nt&quot;&gt;-subdomain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;mysupersite 8000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Теперь наш локальный сервер доступен по адресу http://mysupersite.ngrok.com&lt;/p&gt;</content><author><name></name></author><category term="deploy" /><category term="free" /><summary type="html">Есть замечательная тулза под названием ngrok. Она позволяет привязать URL для вашего localhost сервера!</summary></entry></feed>
+&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/5309/85893628.92a/0_11c8f9_3ce02d9f_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/5309/85893628.92a/0_11c8f9_3ce02d9f_L.jpg&quot; alt=&quot;Футболка на мне&quot; title=&quot;Футболка на мне&quot; /&gt;&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="fun" /><category term="free" /><summary type="html">New Relic - сервис для мониторинга веб приложения. Позволяет в подробных деталях смотреть статистику работы, где программа тратит больше всего времени, как часто обращается к базе данных и много всего прочего. Для описания этого прекрасного сервиса следует уделить отдельный пост. Здесь же хочу рассказать о другом - как я получил бесплатную футболку от New Relic. На самом деле, для этого нужно лишь зарегистрироваться и настроить New Relic на работающем сайте. Как и сказано в их предложении.</summary></entry></feed>
