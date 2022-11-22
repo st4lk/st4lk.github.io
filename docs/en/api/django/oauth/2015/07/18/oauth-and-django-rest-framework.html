@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>OAuth and django rest framework | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="OAuth and django rest framework" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Star This is a well known topic, but i can’t find the existing solution that will fully satisfy me. So i write it by myself :). Assume we have a “single page” web site, that is talking with backend via REST API. Client side can be written with ember, angularjs or some like this. Backend - django rest framework (DRF). We’ve got a task - add social login (OAuth protocol)." />
+<meta property="og:description" content="Star This is a well known topic, but i can’t find the existing solution that will fully satisfy me. So i write it by myself :). Assume we have a “single page” web site, that is talking with backend via REST API. Client side can be written with ember, angularjs or some like this. Backend - django rest framework (DRF). We’ve got a task - add social login (OAuth protocol)." />
+<link rel="canonical" href="https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html" />
+<meta property="og:url" content="https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-07-18T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="OAuth and django rest framework" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-07-18T18:19:43+00:00","datePublished":"2015-07-18T18:19:43+00:00","description":"Star This is a well known topic, but i can’t find the existing solution that will fully satisfy me. So i write it by myself :). Assume we have a “single page” web site, that is talking with backend via REST API. Client side can be written with ember, angularjs or some like this. Backend - django rest framework (DRF). We’ve got a task - add social login (OAuth protocol).","headline":"OAuth and django rest framework","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html"},"url":"https://st4lk.github.io/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/en/assets/main.css">
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/en/">Developer Articles</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/en/about/">About</a><a class="page-link" style="margin-right: 0px" href="/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html" ><img src="/en/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OAuth and django rest framework</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-07-18T18:19:43+00:00" itemprop="datePublished">Jul 18, 2015
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a class="github-button" href="https://github.com/st4lk/django-rest-social-auth" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/django-rest-social-auth on GitHub">Star</a></p>
+
+<p><a href="/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html"><img src="https://img-fotki.yandex.ru/get/6615/85893628.c69/0_18e574_16d44873_XL.png" alt="OAuth and django rest framework" title="OAuth and django rest framework" /></a></p>
+
+<p>This is a well known topic, but i can’t find the existing solution that will fully satisfy me. So i write it by myself :).</p>
+
+<p>Assume we have a “single page” web site, that is talking with backend via REST API. Client side can be written with ember, angularjs or some like this. Backend - django rest framework (DRF). We’ve got a task - add social login  (OAuth protocol).</p>
+
+<!--more-->
+
+<p>How it will look like in case of simple “old-school” site? User press login, social network page is opening. Person confirms the access, resource redirects back to our web page, providing special code in redirected url. Using this code we do the login. For such process there are several existing libraries, my favourite is  <a href="https://github.com/omab/python-social-auth">python-social-auth</a>.</p>
+
+<p>In case of single page site we can do the same. But, often development of frontend and backend are separated. Moreover, API can run on different subdomen, so backend can’t handle redirected url.</p>
+
+<p>So instead following scheme looks the most optimal. User press login, new popup window is opened with social network confirmation. User says yes, popup gets parameters from social resource, propagates them back to parent window (our frontend application). Finally, frontend sends these parameters to backend to finish login process.</p>
+
+<p>Thus backend developer must implement API resource, that will take parameters from OAuth provider as input, and respond with user details as output, including session information (session id in cookies or token). Frontend will call this resource after receiving corresponding data from social network (OAuth provider).</p>
+
+<p>The question is, what data it is better to send to that resource? Let’s take OAuth 2.0. We have two choices: request token or access token. In first case server will need to exchange request token to access token by itself. In second case access token is already given (it was acquired by frontend). At first sight, the second approach is easier. But it has several disadvantages.</p>
+
+<p>First, access token acquired by frontend have very short lifetime (couple of hours). We could save the access token in database for later usage (for example write something on user’s wall). With short lifetime it will be not trivial. Second, access token will be sent by frontend to our server. It is a potential security issue. If our API is not running on HTTPS, then access token can be easily eavesdropped. This token is enough to make valid requests.</p>
+
+<p>After searching for existing solutions, i’ve found <a href="https://github.com/Tivix/django-rest-auth">django-rest-auth</a>. 
+It suggest resource, that takes access token as input. But there is no resource, that will take request token as input and do the rest of the work by itself. Also this package is built on top of <a href="https://github.com/pennersr/django-allauth">django-allauth</a>, which is not my favourite.</p>
+
+<p>After summing all the things being said, i decided to write my own tool that will link django-rest-framework, python-social-auth and login resource with request token as input.</p>
+
+<p>Here it is: <a href="https://github.com/st4lk/django-rest-social-auth"><strong>django-rest-social-auth</strong></a>.</p>
+
+<p>Details can be found in readme. This package is very small but useful (to my mind of course). All the customisation from python-social-auth is still available.</p>
+
+<p>Live working example - site <a href="http://www.woobie.ru/">woobie.ru</a>, where this package is used.</p>
+
+  </div><a class="u-url" href="/en/api/django/oauth/2015/07/18/oauth-and-django-rest-framework.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/en/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/en/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

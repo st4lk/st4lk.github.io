@@ -7,7 +7,7 @@ redirect_from:
   - /2013/tornado-web-application-example/
 ---
 
-<a class="github-button" href="https://github.com/st4lk/acl_webapp" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star st4lk/acl_webapp on GitHub">Star</a>
+<a class="github-button" href="https://github.com/st4lk/acl_webapp" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/acl_webapp on GitHub">Star</a>
 
 [![Tornado web application example](/assets/images/posts/2013-12-29-tornado-web-application-example/tornado.jpeg "Tornado web application example")]({{ site.baseurl }}{{ page.url }})
 

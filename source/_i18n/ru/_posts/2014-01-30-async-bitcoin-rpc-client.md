@@ -7,7 +7,7 @@ redirect_from:
   - /2014/async-bitcoin-rpc-client/
 ---
 
-<a class="github-button" href="https://github.com/st4lk/python-bitcoinrpc-tornado" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star st4lk/python-bitcoinrpc-tornado on GitHub">Star</a>
+<a class="github-button" href="https://github.com/st4lk/python-bitcoinrpc-tornado" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/python-bitcoinrpc-tornado on GitHub">Star</a>
 
 Для работы с [Bitcoin RPC](https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list) на python'е есть библиотека [Python-BitcoinRPC](https://github.com/jgarzik/python-bitcoinrpc).
 

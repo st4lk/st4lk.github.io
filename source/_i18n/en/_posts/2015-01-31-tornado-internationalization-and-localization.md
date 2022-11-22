@@ -7,7 +7,7 @@ redirect_from:
   - /2015/tornado-internationalization-and-localization/
 ---
 
-<a class="github-button" href="https://github.com/st4lk/tornado_i18n_example" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star st4lk/tornado_i18n_example on GitHub">Star</a>
+<a class="github-button" href="https://github.com/st4lk/tornado_i18n_example" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/tornado_i18n_example on GitHub">Star</a>
 
 [![Tornado i18n and l10n](https://img-fotki.yandex.ru/get/4/85893628.c67/0_1715c7_738478c6_orig.png "Tornado i18n and l10n")]({{ site.baseurl }}{{ page.url }})
 
