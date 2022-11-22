@@ -1,4 +1,144 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-22T15:31:24+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Django: signal or model method?</title><link href="https://st4lk.github.io/en/django/signal/2016/08/01/django-signal-or-model-method.html" rel="alternate" type="text/html" title="Django: signal or model method?" /><published>2016-08-01T18:19:43+00:00</published><updated>2016-08-01T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/signal/2016/08/01/django-signal-or-model-method</id><content type="html" xml:base="https://st4lk.github.io/en/django/signal/2016/08/01/django-signal-or-model-method.html">&lt;p&gt;&lt;a href=&quot;/en/django/signal/2016/08/01/django-signal-or-model-method.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/95108/85893628.c69/0_1d577c_baad2650_orig.png&quot; alt=&quot;Django: signal or model method?&quot; title=&quot;Django: signal or model method?&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-22T15:35:25+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Trap in counting related objects in Django</title><link href="https://st4lk.github.io/en/database/django/sql/2017/01/14/count-filtered-related-objects-django.html" rel="alternate" type="text/html" title="Trap in counting related objects in Django" /><published>2017-01-14T18:19:43+00:00</published><updated>2017-01-14T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/django/sql/2017/01/14/count-filtered-related-objects-django</id><content type="html" xml:base="https://st4lk.github.io/en/database/django/sql/2017/01/14/count-filtered-related-objects-django.html">&lt;p&gt;&lt;a href=&quot;/en/database/django/sql/2017/01/14/count-filtered-related-objects-django.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/172931/85893628.c6b/0_1f68eb_c4171bf7_L.png&quot; alt=&quot;Trap in counting related objects in Django&quot; title=&quot;Trap in counting related objects in Django&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Task: for every object count number of related objects satisfying some conditions.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Category(models.Model):
+    title = models.CharField(max_length=50)
+
+class Article(models.Model):
+    title = models.CharField(max_length=50)
+    category = models.ForeignKey(Category)
+    approved_at = models.DateTimeField(blank=True, null=True)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Pay attention at field &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Article.approved_at&lt;/code&gt;, it contains article approval time and it can be null.&lt;/p&gt;
+
+&lt;p&gt;Create test data:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from django.utils import timezone
+
+c1 = Category.objects.create(title=&apos;c1&apos;)
+c2 = Category.objects.create(title=&apos;c2&apos;)
+
+a1 = Article.objects.create(category=c1, title=&apos;a1&apos;)
+a2 = Article.objects.create(category=c1, title=&apos;a2&apos;, approved_at=timezone.now())
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So we have two categories. The first one has one approved and one not approved article. The second category doesn’t have any article.&lt;/p&gt;
+
+&lt;p&gt;Let’s begin with counting all articles for each category:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from django.db.models import Count
+
+&amp;gt;&amp;gt;&amp;gt; Category.objects.annotate(
+...     article_count=Count(&apos;article&apos;)
+... ).values(&apos;title&apos;, &apos;article_count&apos;)
+
+&amp;lt;QuerySet [{&apos;article_count&apos;: 2, &apos;title&apos;: u&apos;c1&apos;}, {&apos;article_count&apos;: 0, &apos;title&apos;: u&apos;c2&apos;}]&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Django ORM built following expected SQL query:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;SELECT &quot;main_category&quot;.&quot;title&quot;, COUNT(&quot;main_article&quot;.&quot;id&quot;) AS &quot;article_count&quot;
+    FROM &quot;main_category&quot;
+    LEFT OUTER JOIN &quot;main_article&quot; ON (&quot;main_category&quot;.&quot;id&quot; = &quot;main_article&quot;.&quot;category_id&quot;)
+    GROUP BY &quot;main_category&quot;.&quot;id&quot;, &quot;main_category&quot;.&quot;title&quot;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Ok, now we want to count only approved articles. Using SQL language, we can just update JOIN part:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;SELECT &quot;main_category&quot;.&quot;title&quot;, COUNT(&quot;main_article&quot;.&quot;id&quot;) AS &quot;article_count&quot;
+    FROM &quot;main_category&quot;
+    LEFT OUTER JOIN &quot;main_article&quot; 
+        ON (&quot;main_category&quot;.&quot;id&quot; = &quot;main_article&quot;.&quot;category_id&quot; AND
+            &quot;main_article&quot;.&quot;approved_at&quot; IS NOT NULL)
+    GROUP BY &quot;main_category&quot;.&quot;id&quot;, &quot;main_category&quot;.&quot;title&quot;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Unfortunately, Django ORM doesn’t allow to apply any filter for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Count&lt;/code&gt; (at least in v1.10). But starting from v1.8 we have &lt;a href=&quot;https://docs.djangoproject.com/en/dev/ref/models/conditional-expressions/&quot;&gt;conditional expressions&lt;/a&gt;, so let’s use it:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from django.db.models import Count, Case, When
+
+&amp;gt;&amp;gt;&amp;gt; Category.objects.annotate(
+...     article_count=Count(
+...         Case(When(article__approved_at__isnull=False, then=1))
+...     )
+... ).values(&apos;title&apos;, &apos;article_count&apos;)
+
+&amp;lt;QuerySet [{&apos;article_count&apos;: 1, &apos;title&apos;: u&apos;c1&apos;}, {&apos;article_count&apos;: 0, &apos;title&apos;: u&apos;c2&apos;}]&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The returned values are valid. Corresponding SQL query:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;SELECT &quot;main_category&quot;.&quot;title&quot;, COUNT(
+    CASE WHEN &quot;main_article&quot;.&quot;approved_at&quot; IS NOT NULL THEN 1 ELSE NULL END
+) AS &quot;article_count&quot;
+FROM &quot;main_category&quot;
+LEFT OUTER JOIN &quot;main_article&quot; ON (&quot;main_category&quot;.&quot;id&quot; = &quot;main_article&quot;.&quot;category_id&quot;)
+GROUP BY &quot;main_category&quot;.&quot;id&quot;, &quot;main_category&quot;.&quot;title&quot;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;the-trap&quot;&gt;The Trap&lt;/h2&gt;
+
+&lt;p&gt;Here is an interesting question, how we can count number of &lt;em&gt;not approved&lt;/em&gt; articles?&lt;/p&gt;
+
+&lt;p&gt;The first thought that comes to the mind is to change &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;False&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;True&lt;/code&gt; in the query:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; Category.objects.annotate(
+...     article_count=Count(
+...         Case(When(article__approved_at__isnull=True, then=1))
+...     )
+... ).values(&apos;title&apos;, &apos;article_count&apos;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;But query returns not valid values:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;QuerySet [{&apos;article_count&apos;: 1, &apos;title&apos;: u&apos;c1&apos;}, {&apos;article_count&apos;: 1, &apos;title&apos;: u&apos;c2&apos;}]&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The second category has mysterious unapproved article.&lt;/p&gt;
+
+&lt;p&gt;Check the SQL:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;SELECT &quot;main_category&quot;.&quot;title&quot;, COUNT(
+    CASE WHEN &quot;main_article&quot;.&quot;approved_at&quot; IS NULL THEN 1 ELSE NULL END
+) AS &quot;article_count&quot;
+FROM &quot;main_category&quot;
+LEFT OUTER JOIN &quot;main_article&quot; ON (&quot;main_category&quot;.&quot;id&quot; = &quot;main_article&quot;.&quot;category_id&quot;)
+GROUP BY &quot;main_category&quot;.&quot;id&quot;, &quot;main_category&quot;.&quot;title&quot;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The condition&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CASE WHEN &quot;main_article&quot;.&quot;approved_at&quot; IS NULL THEN 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;will be true even if category doesn’t have any article at all!&lt;/p&gt;
+
+&lt;p&gt;One approach to fix is the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; Category.objects.annotate(
+...     article_count=Count(
+...         Case(
+...             When(
+...                 article__id__isnull=False,
+...                 article__approved_at__isnull=True,
+...                 then=1
+...             )
+...         )
+...     )
+... ).values(&apos;title&apos;, &apos;article_count&apos;)
+
+&amp;lt;QuerySet [{&apos;article_count&apos;: 1, &apos;title&apos;: u&apos;c1&apos;}, {&apos;article_count&apos;: 0, &apos;title&apos;: u&apos;c2&apos;}]&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;the-moral-of-the-story&quot;&gt;The moral of the story&lt;/h2&gt;
+
+&lt;p&gt;When condition like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IS NULL&lt;/code&gt; happens, double check every edge case!&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="django" /><category term="sql" /><summary type="html">Task: for every object count number of related objects satisfying some conditions.</summary></entry><entry><title type="html">Django: signal or model method?</title><link href="https://st4lk.github.io/en/django/signal/2016/08/01/django-signal-or-model-method.html" rel="alternate" type="text/html" title="Django: signal or model method?" /><published>2016-08-01T18:19:43+00:00</published><updated>2016-08-01T18:19:43+00:00</updated><id>https://st4lk.github.io/en/django/signal/2016/08/01/django-signal-or-model-method</id><content type="html" xml:base="https://st4lk.github.io/en/django/signal/2016/08/01/django-signal-or-model-method.html">&lt;p&gt;&lt;a href=&quot;/en/django/signal/2016/08/01/django-signal-or-model-method.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/95108/85893628.c69/0_1d577c_baad2650_orig.png&quot; alt=&quot;Django: signal or model method?&quot; title=&quot;Django: signal or model method?&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;When I needed to implement some functionality on model saving, I always asked a question to myself - where to place it. In signal or in model method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;save()&lt;/code&gt;? Let’s see, what and when is more applicable.&lt;/p&gt;
 
@@ -4214,69 +4354,4 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;https://github.com/st4
 
 &lt;p&gt;Great, now we use babel and code is the same, as with xgettext!&lt;/p&gt;
 
-&lt;p&gt;The code of example is available on github: &lt;a href=&quot;https://github.com/st4lk/tornado_i18n_example&quot;&gt;https://github.com/st4lk/tornado_i18n_example&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="i18n" /><category term="async" /><category term="tornado" /><summary type="html">Star Let’s talk about i18n, i10n and tornado implementation. This post have a lot of text, but i wanted to describe many things that i faced during realization of i18n in tornado project. The step by step instruction is placed in the second part of this article.</summary></entry><entry><title type="html">Timestamp and ObjectId in mongoDB</title><link href="https://st4lk.github.io/en/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html" rel="alternate" type="text/html" title="Timestamp and ObjectId in mongoDB" /><published>2015-01-18T18:19:43+00:00</published><updated>2015-01-18T18:19:43+00:00</updated><id>https://st4lk.github.io/en/database/mongodb/2015/01/18/timestamp-objectid-mongodb</id><content type="html" xml:base="https://st4lk.github.io/en/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html">&lt;p&gt;&lt;a href=&quot;/en/database/mongodb/2015/01/18/timestamp-objectid-mongodb.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/17859/85893628.c67/0_16f717_c4a5da7b_orig.png&quot; alt=&quot;Timestamp and ObjectId in mongoDB&quot; title=&quot;Timestamp and ObjectId in mongoDB&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Every record in mongoDB has field &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;, that must be unique inside collection.
-By default type of this field is &lt;a href=&quot;http://docs.mongodb.org/manual/reference/object-id/&quot;&gt;ObjectId&lt;/a&gt;,
-and it is assigned automatically if field is not set.&lt;/p&gt;
-
-&lt;p&gt;Lets look at ObjectId more carefully.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;It is 12 bytes that includes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;a 4-byte value representing the seconds since the Unix epoch,&lt;/li&gt;
-  &lt;li&gt;a 3-byte machine identifier,&lt;/li&gt;
-  &lt;li&gt;a 2-byte process id, and&lt;/li&gt;
-  &lt;li&gt;a 3-byte counter, starting with a random value.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As we see, first 4 bytes represent creation date and we can use it:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;sort by field &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt; and you’ll get documents in creation time order&lt;/li&gt;
-  &lt;li&gt;we can get creation time of the document from ObjectId&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;But keep in mind, that this date has accuracy of seconds. If two documents are created
-during one second then their order is not defined in sorting by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;So, if accuracy of second is enough for us then we do &lt;strong&gt;NOT&lt;/strong&gt; need field like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ISODate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2015-01-18T12:07:47.036Z&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// other fields&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;as creation date is included in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_id&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;get-date-from-objectid&quot;&gt;Get date from ObjectId&lt;/h3&gt;
-
-&lt;p&gt;In mongoDB shell date can be retrieved by method &lt;a href=&quot;http://docs.mongodb.org/manual/reference/method/ObjectId.getTimestamp/#ObjectId.getTimestamp&quot;&gt;getTimestamp()&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;findOne&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getTimestamp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;ISODate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2015-01-18T09:07:47Z&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And in python code - by attribute &lt;a href=&quot;http://api.mongodb.org/python/current/api/bson/objectid.html?highlight=generation_time#bson.objectid.ObjectId.generation_time&quot;&gt;generation_time&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pymongo&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MongoClient&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MongoClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_one&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;_id&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;generation_time&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2015&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;47&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tzinfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tz_util&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FixedOffset&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;at&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x10e758d50&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Date is returned in UTC and in python it is aware datetime with timezone.&lt;/p&gt;
-
-&lt;p&gt;To be clear, these versions i use:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;mongoDB v2.6.6&lt;/li&gt;
-  &lt;li&gt;pymongo v2.7.2&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;P.S. thanks &lt;a href=&quot;https://twitter.com/eugeneglybin&quot;&gt;@eugeneglybin&lt;/a&gt; to pointing out.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="mongodb" /><summary type="html">Every record in mongoDB has field _id, that must be unique inside collection. By default type of this field is ObjectId, and it is assigned automatically if field is not set. Lets look at ObjectId more carefully.</summary></entry></feed>
+&lt;p&gt;The code of example is available on github: &lt;a href=&quot;https://github.com/st4lk/tornado_i18n_example&quot;&gt;https://github.com/st4lk/tornado_i18n_example&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="i18n" /><category term="async" /><category term="tornado" /><summary type="html">Star Let’s talk about i18n, i10n and tornado implementation. This post have a lot of text, but i wanted to describe many things that i faced during realization of i18n in tornado project. The step by step instruction is placed in the second part of this article.</summary></entry></feed>
