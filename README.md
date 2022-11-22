@@ -28,7 +28,7 @@ SCRIPT=build.sh make run-script
 ### Inside docker (optional)
 
 ```bash
-cd /srv/jekyll/docs
+cd /srv/jekyll/source
 bundle install
 
 # serve content
