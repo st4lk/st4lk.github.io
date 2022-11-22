@@ -13,6 +13,7 @@
 <meta property="og:url" content="https://st4lk.github.io/en/" />
 <meta property="og:site_name" content="Developer articles" />
 <meta property="og:type" content="website" />
+<link rel="next" href="https://st4lk.github.io/en/page2/" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Developer articles" />
 <script type="application/ld+json">
@@ -41,8 +42,7 @@
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="home">
-<h2 class="post-list-heading">Posts</h2>
+        <div class="home"><h2 class="post-list-heading">Posts</h2>
     <ul class="post-list"><li><span class="post-meta">Feb 19, 2019</span>
         <h3>
           <a class="post-link" href="/en/python/sublime/lsp/2019/02/19/sublime-text-and-language-server-protocol-lsp.html">
@@ -271,208 +271,38 @@ During this course i’ve found to myself interesting features of mongodb.</p>
 
 <p>But recently i need to call API from tornado application. Mentioned lib works in synchronous, i.e. blocking mode. For tornado it will be much better to use asynchronous version. Tried to search for existing solution, but can’t find it. So i create my async fork, that use tornado’s AsyncHTTPClient: <a href="https://github.com/st4lk/python-bitcoinrpc-tornado">https://github.com/st4lk/python-bitcoinrpc-tornado</a>.</p>
 
-</li><li><span class="post-meta">Dec 29, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html">
-            Tornado web application example
-          </a>
-        </h3><p><a class="github-button" href="https://github.com/st4lk/acl_webapp" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/acl_webapp on GitHub">Star</a></p>
+</li></ul><!-- Pagination links -->
+<!-- pagination (a page1 folder isn't created by Jekyll.
+To avoid 404s when going to the first page it must be
+specified separately) -->
 
-<p><a href="/en/async/tornado/mongodb/2013/12/29/tornado-web-application-example.html"><img src="/assets/images/posts/2013-12-29-tornado-web-application-example/tornado.jpeg" alt="Tornado web application example" title="Tornado web application example" /></a></p>
-
-<p><a href="http://www.tornadoweb.org/">Tornado</a> - async web framework for python. I’ll cover shortly pros and cons about tornado and introduce typical web project, that is built on top of it.</p>
-
-<p>By describing pros and cons i mean my own point of view in compare with django.</p>
-
-</li><li><span class="post-meta">Nov 13, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/django/deploy/2013/11/13/django-project-beginning-working-server.html">
-            Django project: from beginning to working server
-          </a>
-        </h3><p>In this post i’ll describe my experience of deploying django project to VPS-hosting.</p>
-
-<p>Steps of deploying and server setup:</p>
-
-<ol>
-  <li>Creation of django project</li>
-  <li>Deploy setup</li>
-  <li>Server setup</li>
-  <li>Deploy</li>
-</ol>
-
-</li><li><span class="post-meta">Sep 26, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/django/logging/2013/09/26/django-logging-settings.html">
-            Django logging settings
-          </a>
-        </h3><div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/6725777" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
-
-<p>Let’s look at default django logging settings and try to make them more useful.</p>
-
-<p>Here what we have in settings.py after command <code class="language-plaintext highlighter-rouge">django-admin.py startproject project_name</code> (django 1.5):</p>
-
-</li><li><span class="post-meta">Aug 20, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/python/logging/2013/08/20/python-logging-every-day.html">
-            Python logging for every day
-          </a>
-        </h3><div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/6287746" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
-
-<p>When writing a small python program or script, it is sometimes needed to output debug message or maybe event. It is known, that python has <a href="http://docs.python.org/library/logging.html">logging</a> module exactly for that purpose. But in my case usually such thing happens: it is lack of time and hands just writes <code class="language-plaintext highlighter-rouge">print</code> instead of logging, because i can’t remember all those complicated logging settings. But then, if script is launched often or i must provide it to customer, i have to replace all prints with logging, because it is better to log all messages to file. So, not to keep in my head all these settings, i am writing this post.</p>
-
-</li><li><span class="post-meta">Jul 11, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/database/django/sql/2013/07/11/django-querysetcount-cache.html">
-            Django queryset.count cache
-          </a>
-        </h3><p><a href="/en/database/django/sql/2013/07/11/django-querysetcount-cache.html"><img src="/assets/images/posts/2013-07-11-django-querysetcount-cache/to-count-22117_small.jpeg" alt="Django queryset.count cache" title="Django queryset.count cache" /></a></p>
-
-<p>Once I mentioned, that my django application makes several similiar queries like <code class="language-plaintext highlighter-rouge">SELECT COUNT(*) ...</code>. As it turns out (for me it was surprise), <code class="language-plaintext highlighter-rouge">queryset.count()</code> has not obvious cache. But let me start the story from the beginning (and sorry for my english :) ).</p>
-
-</li><li><span class="post-meta">Jun 20, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/python/unicode/2013/06/20/unicode-string-formatting.html">
-            Unicode string formatting
-          </a>
-        </h3><p>Did you know, if one of values in string formatting expression with <code class="language-plaintext highlighter-rouge">%</code> operator is unicode, then result string will also be unicode?</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="s">"Hello, %s"</span> <span class="o">%</span> <span class="sa">u</span><span class="s">"Alex"</span>
-<span class="sa">u</span><span class="s">'Hello, Alex'</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s">"Hello, %s"</span> <span class="o">%</span> <span class="sa">u</span><span class="s">"Алексей"</span>
-<span class="sa">u</span><span class="s">'Hello, </span><span class="se">\u0410\u043b\u0435\u043a\u0441\u0435\u0439</span><span class="s">'</span>
-</code></pre></div></div>
-
-</li><li><span class="post-meta">May 22, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/django/python/unicode/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html">
-            Parse url which contains unicode query, using urlparse.parse_qs
-          </a>
-        </h3><p>Task: get dictionary of URL GET query. For example, we have following url:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://example.com/?key=value&amp;a=b
-</code></pre></div></div>
-
-<p>it is needed to get a dict:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'value'</span><span class="p">],</span> <span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">]}</span>
-</code></pre></div></div>
-
-<p>Values are lists, because one key may have several values:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">In</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="err">?</span><span class="n">key</span><span class="o">=</span><span class="n">value</span><span class="o">&amp;</span><span class="n">a</span><span class="o">=</span><span class="n">b</span><span class="o">&amp;</span><span class="n">a</span><span class="o">=</span><span class="n">c</span>
-<span class="n">Out</span><span class="p">:</span> <span class="p">{</span><span class="s">'key'</span><span class="p">:</span> <span class="p">[</span><span class="s">'value'</span><span class="p">],</span> <span class="s">'a'</span><span class="p">:</span> <span class="p">[</span><span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">]}</span>
-</code></pre></div></div>
-
-</li><li><span class="post-meta">Apr 12, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/django/database/sql/2013/04/12/django-admin-site-optimisation.html">
-            Django admin site optimisation
-          </a>
-        </h3><p><a href="/en/django/database/sql/2013/04/12/django-admin-site-optimisation.html"><img src="/assets/images/posts/2013-04-12-django-admin-site-optimisation/django-admin-performance.png" alt="Django admin site optimisation" title="Django admin site optimisation" /></a></p>
-
-<p>It is known, that less amount of database attempts leads to better performance. Usually admin page - part of site with low traffic, but anyway it is good, if no additional database calls happen there. It is more pleasant to use it, because page renders faster and also frees server resources.</p>
-
-<p>In this post i’ll try to reduce some database attempts in admin page, when model method <code class="language-plaintext highlighter-rouge">__unicode__</code> contains related object field. I suppose, that examples describe the situation more clear.</p>
-
-</li><li><span class="post-meta">Mar 5, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/python/2013/03/05/python-mutable-default-arguments.html">
-            Python function with mutable default arguments
-          </a>
-        </h3><p><a href="/en/python/2013/03/05/python-mutable-default-arguments.html"><img src="/assets/images/posts/2013-03-05-python-mutable-default-arguments/jellyfish-1.jpeg" alt="Python mutable default arguments" title="Python mutable default arguments" /></a></p>
-
-<p>In python default function arguments are created during executing instruction def and not at each function call. If argument value is immutable object (for example string, integer, tuple) it is ok, but if value is mutable, then there can be a trap:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="p">[]):</span>
-    <span class="n">l</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">'x'</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">l</span>
-</code></pre></div></div>
-
-<p>It seems, that every call to foo() will return list [‘x’]. But:</p>
-
-</li><li><span class="post-meta">Feb 26, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/django/i18n/2013/02/26/multilanguage-site-django-without-redirects.html">
-            Multilanguage site on django without redirects
-          </a>
-        </h3><p><a class="github-button" href="https://github.com/st4lk/django-solid-i18n-urls" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/django-solid-i18n-urls on GitHub">Star</a></p>
-
-<p>Starting from django 1.4, it is possible to set <a href="https://docs.djangoproject.com/en/dev/topics/i18n/translation/#language-prefix-in-url-patterns">url prefix</a> for each activated language. For example, we want site, that will have russian and english version.</p>
-
-<p>To do it, add following to <code class="language-plaintext highlighter-rouge">settings.py</code>:</p>
-
-</li><li><span class="post-meta">Feb 4, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html">
-            Script for downloading music from vkontakte
-          </a>
-        </h3><div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/4708673" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
-
-<p><a href="/en/api/free/python/2013/02/04/script-downloading-music-vkcom-vkontakteru.html"><img src="/assets/images/posts/2013-02-04-script-downloading-music-vkcom-vkontakteru/vk_audio.jpeg" alt="Script for downloading music from vkontakte" title="Script for downloading music from vkontakte" /></a></p>
-
-<p>A quick search of corresponding python script doesn’t give results. In <a href="http://habrahabr.ru/post/143860/">post</a> on habra link is broken. So i decided to write my own bicycle, it is avaliable <a href="https://gist.github.com/4708673">here</a>.</p>
-
-<p>Launch (needs installed <a href="http://www.python.org/download/releases/2.7.4/">python interpreter</a>):</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python vkcom_audio_download.py
-</code></pre></div></div>
-
-<p>Tested on python 2.6 and 2.7. No external libraries required.</p>
-
-</li><li><span class="post-meta">Jan 3, 2013</span>
-        <h3>
-          <a class="post-link" href="/en/django/python/2013/01/03/sublime-text-and-github-gists.html">
-            Sublime text and github gists
-          </a>
-        </h3><p><a href="/en/django/python/2013/01/03/sublime-text-and-github-gists.html"><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg" alt="Sublime and github gist" title="Sublime and github gist" /></a></p>
-
-<p>In <a href="http://www.sublimetext.com/">Sublime text</a> there are big variety of useful tools, that help to write code. I’ve learned only a small part of them, currently i’m trying to write in Vintage mode (vim style cursor management). But now i want to tell about integration <a href="https://gist.github.com/">github gists</a> with sublime text. If you don’t now, github gists let you save snippets as a separate file without creation full repository. But it have many repository features - versions, possibility to fork.</p>
-
-</li><li><span class="post-meta">Nov 29, 2012</span>
-        <h3>
-          <a class="post-link" href="/en/django/python/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html">
-            MobileESP: Easily detect mobile web site visitors
-          </a>
-        </h3><p>Script will be useful, if you want to show different version of site for desktop computers and mobile devices. Big variety of methods to detect mobile type. Avaliable in different languages, including python. The port to python was made by me with help from my freelance customer.</p>
-
-</li><li><span class="post-meta">Nov 18, 2012</span>
-        <h3>
-          <a class="post-link" href="/en/django/python/sublime/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html">
-            Debug django project with embedded python debugger pdb
-          </a>
-        </h3><p>I use <a href="http://www.sublimetext.com/">sublime-text</a> as code editor. It doesn’t have a debugger, so to debug django projects i often used</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="n">var_name</span>
-</code></pre></div></div>
-
-<p>and look for output in local development server console. I use this approach today also, but sometimes it is great to run code step by step to see variables at each step.</p>
-
-<p>It can be done with embedded python debugger pdb:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pdb</span><span class="p">;</span> <span class="n">pdb</span><span class="p">.</span><span class="n">set_trace</span><span class="p">()</span>
-</code></pre></div></div>
-
-</li><li><span class="post-meta">Oct 8, 2012</span>
-        <h3>
-          <a class="post-link" href="/en/free/openshift/python/2012/10/08/cloud-service-openshift.html">
-            Cloud service Openshift
-          </a>
-        </h3><p><a href="/en/free/openshift/python/2012/10/08/cloud-service-openshift.html"><img src="/assets/images/posts/2012-10-08-cloud-service-openshift/openshift-icon.png" alt="Cloud service Openshift" title="Cloud service Openshift" /></a></p>
-
-<p>I know a few hosting providers with free account and python availability. It is <a href="https://appengine.google.com/">Google App Engine</a> and <a href="https://www.alwaysdata.com/">Alwaysdata</a>. But recently i found great project <a href="https://openshift.redhat.com/">Openshift</a> from RedHat and this blog site is working on it. Let me describe mentioned hostings first.</p>
-
-</li><li><span class="post-meta">Aug 31, 2012</span>
-        <h3>
-          <a class="post-link" href="/en/api/java/2012/08/31/aphorism-messenger.html">
-            Aphorism messenger
-          </a>
-        </h3><p><a href="/en/api/java/2012/08/31/aphorism-messenger.html"><img src="/assets/images/posts/2012-08-31-aphorism-messenger/owl_48x48.png" alt="Aphorism messenger" title="Aphorism messenger" /></a></p>
-
-<p>I have an interesting project I want to tell you about. The idea to create it was born when I was learning Java. I have read couple of books, made some small task programs but I would like to create something bigger.</p>
-
-</li></ul>
-
-    <p class="rss-subscribe">subscribe <a href="/en/feed.xml">via RSS</a></p></div>
+<div class="pagination">
+  <ul>
+    
+      <li class="disabled">
+        <a href="#">&laquo;</a>
+      </li>
+    
+    
+      <li class="active">
+        <a href="#">1</a>
+      </li>
+    
+    
+      
+        <li>
+          <a href="/en/page2">2</a>
+        </li>
+      
+    
+    
+      <li>
+        <a href="/en/page2">&raquo;</a>
+      </li>
+    
+  </ul>
+</div>
+<p class="rss-subscribe">subscribe <a href="/en/feed.xml">via RSS</a></p></div>
 
       </div>
     </main><footer class="site-footer h-card">
