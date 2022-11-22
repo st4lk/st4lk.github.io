@@ -201,7 +201,7 @@ X-Frame-Options: SAMEORIGIN
 
 <p>Зайду в админку этого сайта (lexev.org). В wireshark поставлю Display фильтр</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    http.request.full_uri contains lexev.org
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http.request.full_uri contains lexev.org
 </code></pre></div></div>
 
 <p>чтобы видеть только запросы на домен lexev.org. Вот что получилось:</p>
@@ -231,7 +231,7 @@ X-Frame-Options: SAMEORIGIN
 
 <p>Для этого зададим такой хитрый фильтр:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">(</span>port 80 and tcp[<span class="o">((</span>tcp[12:1] &amp; 0xf0<span class="o">)</span> <span class="o">&gt;&gt;</span> 2<span class="o">)</span>:4] <span class="o">=</span> 0x47455420<span class="o">)</span> or <span class="o">(</span>tcp dst port 80 and <span class="o">(</span>tcp[<span class="o">((</span>tcp[12:1] &amp; 0xf0<span class="o">)</span> <span class="o">&gt;&gt;</span> 2<span class="o">)</span>:4] <span class="o">=</span> 0x504f5354<span class="o">))</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>port 80 and tcp[<span class="o">((</span>tcp[12:1] &amp; 0xf0<span class="o">)</span> <span class="o">&gt;&gt;</span> 2<span class="o">)</span>:4] <span class="o">=</span> 0x47455420<span class="o">)</span> or <span class="o">(</span>tcp dst port 80 and <span class="o">(</span>tcp[<span class="o">((</span>tcp[12:1] &amp; 0xf0<span class="o">)</span> <span class="o">&gt;&gt;</span> 2<span class="o">)</span>:4] <span class="o">=</span> 0x504f5354<span class="o">))</span>
 </code></pre></div></div>
 
 <p>на этапе выбора интерфейса (кнопка Options):</p>
@@ -265,8 +265,8 @@ X-Frame-Options: SAMEORIGIN
 
 <p>Нажимаем Edit напротив Decryption Keys. Далее New. В новом окошке вводим:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Key <span class="nb">type</span>: wpa-pwd
-    Key: password:wifiname
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Key <span class="nb">type</span>: wpa-pwd
+Key: password:wifiname
 </code></pre></div></div>
 
 <p>Соответственно заменяем password на пароль от wifi сети, а wifiname - на название сети.</p>
@@ -288,7 +288,7 @@ X-Frame-Options: SAMEORIGIN
 
 <p>Вот так можно сохранить поля “номер фрейма”, “HTTP метод”, “full_uri”</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    tshark <span class="nt">-r</span> macdak_pushkin_get_post_only.pcap <span class="nt">-T</span> fields <span class="nt">-e</span> frame.number <span class="nt">-e</span> http.request.method <span class="nt">-e</span> http.request.full_uri <span class="o">&gt;</span> results.csv
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tshark <span class="nt">-r</span> macdak_pushkin_get_post_only.pcap <span class="nt">-T</span> fields <span class="nt">-e</span> frame.number <span class="nt">-e</span> http.request.method <span class="nt">-e</span> http.request.full_uri <span class="o">&gt;</span> results.csv
 </code></pre></div></div>
 
 <p>Написав небольшой python скриптик, подсчитал количество запросов на каждый url и сгруппировал по доменам второго уровня.

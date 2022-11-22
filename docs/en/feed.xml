@@ -1,4 +1,1529 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-21T23:24:34+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Listen wifi with wireshark</title><link href="https://st4lk.github.io/en/fun/security/2015/04/17/listen-wifi-with-wireshark.html" rel="alternate" type="text/html" title="Listen wifi with wireshark" /><published>2015-04-17T18:19:43+00:00</published><updated>2015-04-17T18:19:43+00:00</updated><id>https://st4lk.github.io/en/fun/security/2015/04/17/listen-wifi-with-wireshark</id><content type="html" xml:base="https://st4lk.github.io/en/fun/security/2015/04/17/listen-wifi-with-wireshark.html">&lt;p&gt;&lt;a href=&quot;/en/fun/security/2015/04/17/listen-wifi-with-wireshark.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg&quot; alt=&quot;Listen wifi with wireshark&quot; title=&quot;Listen wifi with wireshark&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/en/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/en/" rel="alternate" type="text/html" hreflang="en" /><updated>2022-11-22T00:02:28+00:00</updated><id>https://st4lk.github.io/en/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Python tips &amp;amp; tricks</title><link href="https://st4lk.github.io/en/python/2015/04/30/base-python-tips-tricks.html" rel="alternate" type="text/html" title="Python tips &amp;amp; tricks" /><published>2015-04-30T18:19:43+00:00</published><updated>2015-04-30T18:19:43+00:00</updated><id>https://st4lk.github.io/en/python/2015/04/30/base-python-tips-tricks</id><content type="html" xml:base="https://st4lk.github.io/en/python/2015/04/30/base-python-tips-tricks.html">&lt;p&gt;&lt;a href=&quot;/en/python/2015/04/30/base-python-tips-tricks.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/9067/85893628.c68/0_181e3c_92d918ca_M.jpg&quot; alt=&quot;Python tips &amp;amp; tricks&quot; title=&quot;Python tips &amp;amp; tricks&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Recently i’ve read the book &lt;a href=&quot;http://shop.oreilly.com/product/0636920028154.do&quot;&gt;Learning Python, 5th Edition by Mark Lutz&lt;/a&gt;.
+Here is a list of most interesting insights for me.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;set generation:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  {x for x in [1,2]}
+  set(x for x in [1,2])
+  assert set(x for x in [1,2]) == {x for x in [1,2]}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;dict generation:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  {x:x**2 for x in [1,2]}
+  dict((x, x**2) for x in [1,2])
+  assert {x:x**2 for x in [1,2]} == dict((x, x**2) for x in [1,2])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;division of integers&lt;/p&gt;
+
+    &lt;p&gt;In python 3 division of integers returns float&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; 1 / 2
+  0.5
+  &amp;gt;&amp;gt;&amp;gt; - 1 / 2
+  -0.5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;In python 2 division of integers - round to floor, it is not truncate&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; 1 / 2    # 0.5 round floor -&amp;gt; 0
+  0
+  &amp;gt;&amp;gt;&amp;gt; - 1 / 2  # -0.5 round floor -&amp;gt; -1 (not 0)
+  -1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;In python 2 and 3 round to floor integer division&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; 1 // 2
+  0
+  &amp;gt;&amp;gt;&amp;gt; - 1 // 2
+  -1
+  &amp;gt;&amp;gt;&amp;gt; 13 // 2.0
+  6.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;is&lt;/code&gt; - check, that variables point to the same address, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;==&lt;/code&gt; - check, that variables have same values&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python 3: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[1, &apos;spam&apos;].sort()&lt;/code&gt; raises exception (different types)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python 3: dict().keys() returns iterator (view object, linked to dict). It is set-like object, we can apply set operations to it (union and so on)&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; dict(a=1, b=2).keys()
+  dict_keys([&apos;b&apos;, &apos;a&apos;])
+  &amp;gt;&amp;gt;&amp;gt; dict(a=1, b=2).keys() | {&apos;c&apos;, &apos;d&apos;}
+  {&apos;b&apos;, &apos;d&apos;, &apos;a&apos;, &apos;c&apos;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;frozenset - immutable set, hashable, can be used as key in dict&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; fz = frozenset([1,2])
+  &amp;gt;&amp;gt;&amp;gt; fz.add(3)
+  AttributeError: &apos;frozenset&apos; object has no attribute &apos;add&apos;
+  &amp;gt;&amp;gt;&amp;gt; {fz: 5}
+  {frozenset([1, 2]): 5}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;list support compare operators: ==, &amp;lt;, &amp;gt;, &amp;lt;=, &amp;gt;=. List compare is similiar to string compare. In py3 all objects must be the same type&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; [1, 2] == [1, 2]
+  True
+  &amp;gt;&amp;gt;&amp;gt; [2, 2] &amp;gt; [1, 2]
+  True
+  &amp;gt;&amp;gt;&amp;gt; [1] &amp;gt; [&apos;sh&apos;]  # python2
+  False
+  &amp;gt;&amp;gt;&amp;gt; [1] &amp;gt; [&apos;sh&apos;]  # python3
+  TypeError: unorderable types: int() &amp;gt; str()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;dict compare&lt;/p&gt;
+
+    &lt;p&gt;python 2 and 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; dict(a=1) == dict(a=1)
+  True
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 2 only&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; dict(a=3) &amp;gt; dict(a=2)
+  True
+  &amp;gt;&amp;gt;&amp;gt; dict(a=3) &amp;gt; dict(a=2, b=1)
+  False
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;list + string, list + tuple is forbidden, but list += string is allowed&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; L = []
+  &amp;gt;&amp;gt;&amp;gt; L + &apos;spam&apos;
+  TypeError: can only concatenate list (not &quot;str&quot;) to list
+
+  &amp;gt;&amp;gt;&amp;gt; L = []
+  &amp;gt;&amp;gt;&amp;gt; L += &apos;spam&apos;
+  &amp;gt;&amp;gt;&amp;gt; L
+  [&apos;s&apos;, &apos;p&apos;, &apos;a&apos;, &apos;m&apos;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;L += a is faster than L = L + a.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;L += [1,2] is in place modification! (new list is not created)&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; L = []
+  &amp;gt;&amp;gt;&amp;gt; id(L)
+  4368997048
+  &amp;gt;&amp;gt;&amp;gt; L += [1,2]
+  &amp;gt;&amp;gt;&amp;gt; id(L)
+  4368997048
+  &amp;gt;&amp;gt;&amp;gt; L = L + [1,2]
+  &amp;gt;&amp;gt;&amp;gt; id(L)
+  4368996976
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;‘spam’[0][0][0] can last forever, every time we’ll get single-char-string ‘s’&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;variables unpack in python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; a, *b = &apos;spam&apos;
+  &amp;gt;&amp;gt;&amp;gt; a
+  &apos;s&apos;
+  &amp;gt;&amp;gt;&amp;gt; b
+  [&apos;p&apos;, &apos;a&apos;, &apos;m&apos;]
+
+  &amp;gt;&amp;gt;&amp;gt; *a, b = &apos;spam&apos;
+  &amp;gt;&amp;gt;&amp;gt; a
+  [&apos;s&apos;, &apos;p&apos;, &apos;a&apos;]
+  &amp;gt;&amp;gt;&amp;gt; b
+  &apos;m&apos;
+
+  &amp;gt;&amp;gt;&amp;gt; a, *b, c = &apos;spam&apos;
+  &amp;gt;&amp;gt;&amp;gt; a
+  &apos;s&apos;
+  &amp;gt;&amp;gt;&amp;gt; b
+  [&apos;p&apos;, &apos;a&apos;]
+  &amp;gt;&amp;gt;&amp;gt; c
+  &apos;m&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python 2: True = 0, but not in python 3&lt;/p&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; True = 0
+  &amp;gt;&amp;gt;&amp;gt; True
+  0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; True = 0
+  SyntaxError: can&apos;t assign to keyword
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;sys.stdout = open(‘temp.txt’, ‘w’) - all prints goes to file temp.txt&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;and&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;or&lt;/code&gt; returns object, not True/False&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;while&lt;/code&gt; has &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;else&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python 3: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;...&lt;/code&gt; is the same as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pass&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;reversed works with lists, not generator&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; reversed([1,2,3])
+  &amp;lt;list_reverseiterator object at 0x10127c550&amp;gt;
+  &amp;gt;&amp;gt;&amp;gt; reversed((x for x in [1,2,3]))
+  TypeError: argument to reversed() must be a sequence
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;zip iterates until the smallest sequence&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; [x for x in zip([1,2,3], [4,5])]
+  [(1, 4), (2, 5)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python 2: map(None, s1, s2) is the same as zip, but iterates until longest sequence. Insert None for elements without pair.&lt;/p&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; map(None, [1,2,3], [4,5])
+  [(1, 4), (2, 5), (3, None)]
+  &amp;gt;&amp;gt;&amp;gt; map(None, [1,2], [4,5,6])
+  [(1, 4), (2, 5), (None, 6)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; list(map(None, [1,2,3], [4,5]))
+  TypeError: &apos;NoneType&apos; object is not callable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;map can take more than one iterators (similiar to zip)&lt;/p&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; map(lambda x, y: (x, y), [1,2], [3,4])
+  [(1, 3), (2, 4)]
+  &amp;gt;&amp;gt;&amp;gt; map(lambda x, y: (x, y), [1,2], [3,4,5])
+  [(1, 3), (2, 4), (None, 5)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; list(map(lambda x, y: (x, y), [1,2], [3,4]))
+  [(1, 3), (2, 4)]
+  &amp;gt;&amp;gt;&amp;gt; list(map(lambda x, y: (x, y), [1,2], [3,4,5]))
+  [(1, 3), (2, 4)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;nested list comprehensions&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; [x+y for x in &apos;abc&apos; for y in &apos;lmn&apos;]
+  [&apos;al&apos;, &apos;am&apos;, &apos;an&apos;, &apos;bl&apos;, &apos;bm&apos;, &apos;bn&apos;, &apos;cl&apos;, &apos;cm&apos;, &apos;cn&apos;]
+
+  # flat list of lists
+  &amp;gt;&amp;gt;&amp;gt; csv = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  &amp;gt;&amp;gt;&amp;gt; [col for row in csv for col in row]
+  [1, 2, 3, 4, 5, 6, 7, 8, 9]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;sorted returns list (not generator) in py2 and py3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; sorted(x for x in [2,1,3])
+  [1, 2, 3]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;*args accept any iterator, not only list&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;unzip: zip(*zip(a,b))&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; zip(*zip([1,2],[3,4]))
+  [(1, 2), (3, 4)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3: map returns generator, it can be iterated only once&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; m = map(lambda x: x, [1,2,3])
+  &amp;gt;&amp;gt;&amp;gt; [x for x in m]
+  [1, 2, 3]
+  &amp;gt;&amp;gt;&amp;gt; [x for x in m]
+  []
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3: range is not a simple generator, it support len() and index access&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; r = range(10)
+  &amp;gt;&amp;gt;&amp;gt; r
+  range(0, 10)
+  &amp;gt;&amp;gt;&amp;gt; len(r)
+  10
+  &amp;gt;&amp;gt;&amp;gt; r[3]
+  3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;generator allows only single scan&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;cycle import works! But only for import without from&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;try has else, will be execution when no exception happened&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;with&lt;/code&gt; similar to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;finally&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;except (name1, name2) - orders from top to bottom, from left to right&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;except Exception:&lt;/code&gt; vs &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;except:&lt;/code&gt; - first doesn’t catch system errors (KeyboardInterrupt, SystemExit, GeneratorExit например)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;set().remove(x) - removes x or KeyError, set().discard(x) - removes x or nothing&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3.3+ accept u””, U”” for backwards compatibility with py2&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;default encoding is in sys module sys.getdefaultencoding()&lt;/p&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; sys.getdefaultencoding()
+  &apos;ascii&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; sys.getdefaultencoding()
+  &apos;utf-8&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;[c for c in sorted([1,2,3], key=lambda c: -c)] - variable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;c&lt;/code&gt; will not conflict here&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;in py2 variable inside comprehension can change outer variables and also accessible after, in py3 - not&lt;/p&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; x = 1
+  &amp;gt;&amp;gt;&amp;gt; [x for x in range(3)]
+  [0, 1, 2]
+  &amp;gt;&amp;gt;&amp;gt; x
+  2
+  # creates new var
+  &amp;gt;&amp;gt;&amp;gt; [y for y in range(3)]
+  [0, 1, 2]
+  &amp;gt;&amp;gt;&amp;gt; y
+  2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; x = 1
+  &amp;gt;&amp;gt;&amp;gt; [x for x in range(3)]
+  &amp;gt;&amp;gt;&amp;gt; x
+  1
+  # no new var
+  &amp;gt;&amp;gt;&amp;gt; [y for y in range(3)]
+  [0, 1, 2]
+  &amp;gt;&amp;gt;&amp;gt; y
+  NameError: name &apos;y&apos; is not defined
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3 has nonlocal statement. It is used to reference the variable in outer def block (in py2 it is not possible to access such variable)&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  def f():
+      x = 2  # local for f
+      def g():
+          nonlocal x  # python3 only
+          x = 3  # local for g
+      g()
+      print(x)
+  &amp;gt;&amp;gt;&amp;gt; f()  # python3 only
+  3
+  &amp;gt;&amp;gt;&amp;gt; f()  # with commented nonlocal
+  2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;LEGB rule (local, enclosing, global, builtin) or LNGB (N=nonlocal) - order of variable search in python&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3 exception variable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;as name&lt;/code&gt; is removed after block execution (even if variable was declared before try block)&lt;/p&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; x = 1
+  &amp;gt;&amp;gt;&amp;gt; try:
+  ...     1/0
+  ... except Exception as x:
+  ...     pass
+  &amp;gt;&amp;gt;&amp;gt; x
+  ZeroDivisionError(&apos;integer division or modulo by zero&apos;,)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; x = 1
+  &amp;gt;&amp;gt;&amp;gt; try:
+  ...     1/0
+  ... except Exception as x:
+  ...     pass
+  &amp;gt;&amp;gt;&amp;gt; x
+  NameError: name &apos;x&apos; is not defined
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;override builtin and undo override&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; open = 99
+  &amp;gt;&amp;gt;&amp;gt; open
+  99
+  &amp;gt;&amp;gt;&amp;gt; del open
+  &amp;gt;&amp;gt;&amp;gt; open
+  &amp;lt;built-in function open&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py2 fun: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__builtins__.True = False&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;lambda can take default arguments&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;nonlocal functionality can be replaced by mutable object or function attribute&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  def f():
+      x = [1]
+      def g():
+          print x[0]
+          x.append(2)
+      g()
+      print x
+  &amp;gt;&amp;gt;&amp;gt; f()
+  1
+  [1, 2]
+
+  def f():
+      x = 1
+      def g():
+          print g.x
+          g.x = 2
+      g.x = x
+      g()
+      print g.x
+  &amp;gt;&amp;gt;&amp;gt; f()
+  1
+  2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3 keyword only arguments&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  def f(*args, name):
+      print(&quot;args&quot;, args)
+      print(&quot;name&quot;, name)
+  &amp;gt;&amp;gt;&amp;gt; f(1, 2)
+  TypeError: f() missing 1 required keyword-only argument: &apos;name&apos;
+  &amp;gt;&amp;gt;&amp;gt; f(1, 2, name=3)
+  args (1, 2)
+  name 3
+
+  def f(*args, name=3):
+      print(&quot;args&quot;, args)
+      print(&quot;name&quot;, name)
+  &amp;gt;&amp;gt;&amp;gt; f(1, 2)
+  args (1, 2)
+  name 3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;in py3 there is unpack of variables, it returns list. And arguments unpack in function call returns tuple&lt;/p&gt;
+
+    &lt;p&gt;python 2 and 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  def f(a, *b):
+      print(b)
+  &amp;gt;&amp;gt;&amp;gt; f(1, *[2, 3])
+  (2, 3)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; a, *b = [1, 2, 3]
+  &amp;gt;&amp;gt;&amp;gt; print(b)
+  [2, 3]
+  &amp;gt;&amp;gt;&amp;gt; a, *b = (1, 2, 3)
+  &amp;gt;&amp;gt;&amp;gt; print(b)
+  [2, 3]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;add list to the beginning of existing list: L[:0] = [1, 2, 3]&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;get and set maximum recursion limit&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; sys.getrecursionlimit()  # 1000
+  &amp;gt;&amp;gt;&amp;gt; sys.setrecursionlimit(10000)
+  &amp;gt;&amp;gt;&amp;gt; help(sys.setrecursionlimit)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;function arguments&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; def f(a):
+  ...     b = 1
+  ... 
+  &amp;gt;&amp;gt;&amp;gt; f.__name__
+  &apos;f&apos;
+  &amp;gt;&amp;gt;&amp;gt; f.__code__.co_varnames
+  (&apos;a&apos;, &apos;b&apos;)
+  &amp;gt;&amp;gt;&amp;gt; f.__code__.co_argcount
+  1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;in py3 we can add annotations to function arguments. This information is saved in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;func.__annotations__&lt;/code&gt;. Nothing is done automatically with annotations, but we can work with them manually (for example for checking type and range of argument from decorator)&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; def func(a: &apos;spam&apos;, b: (1, 10), c: float):
+  ...     return a + b + c
+  &amp;gt;&amp;gt;&amp;gt; func.__annotations__
+  {&apos;b&apos;: (1, 10), &apos;c&apos;: &amp;lt;class &apos;float&apos;&amp;gt;, &apos;a&apos;: &apos;spam&apos;}
+
+  # default values
+  &amp;gt;&amp;gt;&amp;gt; def func(a: &apos;spam&apos;=4, b: (1, 10)=5, c: float=0.1):
+  ...     return a + b + c
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;it is impossible to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;=&lt;/code&gt; in lambda, but it is possible to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setattr&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__dict__&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;operator module in std lib&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  import operator as op
+  reduce(op.add, [2, 4, 6])
+  # same as
+  reduce(lambda x, y: x+y, [2, 4, 6])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;KISS: Keep It Simple [Sir/Stupid]&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;comprehension vs map in general (better test on your system)&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;map(lambda x: x ..)&lt;/code&gt; slower than &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[x for x ..]&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[ord(x) for x ..]&lt;/code&gt; slower than &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;map(ord for x ..)&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;map(lambda x: L.append(x+10), range(10))&lt;/code&gt; even slower than &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;for x in range(10): L.append(x+10)&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;unpacking in lambda differs in py2 and py3&lt;/p&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; map(lambda (a, b, c): a, [(0,1,2), (3,4,5)])
+  [0, 3]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; list(map(lambda (a, b, c): a, [(0,1,2), (3,4,5)]))
+  SyntaxError: invalid syntax
+  &amp;gt;&amp;gt;&amp;gt; list(map(lambda a, b, c: a, [(0,1,2), (3,4,5)]))
+  TypeError: &amp;lt;lambda&amp;gt;() missing 2 required positional arguments: &apos;b&apos; and &apos;c&apos;
+  &amp;gt;&amp;gt;&amp;gt; list(map(lambda row: row[0], [(0,1,2), (3,4,5)]))
+  [0, 3]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;many builtin functions accept generators, no additional parenthesis are needed&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; &quot;&quot;.join(str(x) for x in [1, 2])
+  &apos;12&apos;
+  &amp;gt;&amp;gt;&amp;gt; sorted(str(x) for x in [1, 2])
+  [&apos;1&apos;, &apos;2&apos;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;but for args () is needed&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; sorted(str(x) for x in [1, 2], reverse=True)
+  SyntaxError: Generator expression must be parenthesized if not sole argument
+  &amp;gt;&amp;gt;&amp;gt; sorted((str(x) for x in [1, 2]), reverse=True)
+  [&apos;2&apos;, &apos;1&apos;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3: yield from iterator (following functions are the same)&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  def f():
+      for i in range(5):
+          yield i
+
+  def g():
+      yield from range(5)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;put last list element to the beginning&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  L = L[1:] + L[:1]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;zip for single list&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; zip([1,2,3])
+  [(1,), (2,), (3,)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;map and zip are similiar&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  map(lambda x,y: (x,y), S1, S2) == zip(S1, S2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python -m script_name&lt;/code&gt; - runs module (module is a .py file), that can be found from current search path. Module can be placed somewhere in site-packages folder, but is run as main (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__name__ = &apos;__main__&apos;&lt;/code&gt;). If script_name is a package (folder with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt;), then file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__main__.py&lt;/code&gt; will be launched. If no such file, then error. Some modules are smart and accepts arguments from command line, for example timeit: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python -m timeit &apos;&quot;-&quot;.join(str(n) for n in range(100))&apos;&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;there is no direct way to use global and local variable with same name simultaneously. We can play with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__main__.my_global_var&lt;/code&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  # OK
+  X = 99
+  def f():
+      print(X)
+  &amp;gt;&amp;gt;&amp;gt; f()
+  99
+
+  # ERROR
+  def f():
+      print(X)  # &amp;lt;- error
+      X = 99
+  &amp;gt;&amp;gt;&amp;gt; f()
+  UnboundLocalError: local variable &apos;X&apos; referenced before assignment
+
+  # global everywhere
+  def f():
+      global X
+      print(X)
+      X = 88
+
+  # hack with main
+  def f():
+      import __main__
+      print(__main__.X)
+      X = 88
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;square root performance&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  math.sqrt(x)  # fastest
+  x ** .5  # fast
+  pow(x, .5)  # slow
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3.2+ creates folder &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__pycache__&lt;/code&gt; for saving bytecode of different python versions there and to reuse them in future. There are no *.pyc files outside this folder now.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;.pyc for main script (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__name__ = &apos;__main__&apos;&lt;/code&gt;) is not created, only for import&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;import search order (look at sys.path):&lt;/p&gt;
+
+    &lt;ol&gt;
+      &lt;li&gt;home of program (+ in some versions current dir, from where program is launched, i.e. current dir)&lt;/li&gt;
+      &lt;li&gt;PYTHONPATH&lt;/li&gt;
+      &lt;li&gt;std lib dir&lt;/li&gt;
+      &lt;li&gt;content of any .pth file (if exists)&lt;/li&gt;
+      &lt;li&gt;site-packages dir&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;sys.path can be changed at runtime, this will impact all program&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;python -O creates a little bit optimized bytecode .pyo instead of .pyc, it ~5% faster. Also this flag removes all asserts from code. And changes value of var &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__debug__&lt;/code&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  # main.py
+  print __debug__
+  assert True == False
+
+  # python main.py
+  True
+  AssertionError
+
+  # python -O main.py
+  False
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;in py2 in function we can do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;from some_module import *&lt;/code&gt;, but with warning. In py3 - error&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  # python 2
+  def f():
+      from urllib import *
+      print(&apos;after import&apos;)
+  &amp;gt;&amp;gt;&amp;gt; f()
+  SyntaxWarning: import * only allowed at module level
+  after import
+
+  # python 3
+  &amp;gt;&amp;gt;&amp;gt; f()
+  SyntaxError: import * only allowed at module level
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reload&lt;/code&gt; doesn’t update objects, that are loaded with from: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;from x import y&lt;/code&gt;. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt; will not be reloaded after &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reload(x)&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reload&lt;/code&gt; doesn’t update c modules&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py3: in package there is &lt;strong&gt;no&lt;/strong&gt; package folder in sys.path. If module in package needs to import another module from the same package, relative import must be used: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;from . import smth&lt;/code&gt;. However, if module is launched as main program (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__main__&lt;/code&gt;), then package folder &lt;strong&gt;is&lt;/strong&gt; in sys.path.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py2: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;from __future__ import absolute_import&lt;/code&gt; makes import in py2 the same as in py3. It allows to import module string from standard library in following case very easy:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  mypkg
+  ├── __init__.py
+  ├── main.py  # import string from std here?
+  └── string.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;relative import is forbidden outside the package&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  # test.py
+  from . import a
+
+  # python 2
+  python test.py
+  ValueError: Attempted relative import in non-package
+
+  # python 3
+  python test.py
+  SystemError: Parent module &apos;&apos; not loaded, cannot perform relative import
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;cons of relative import:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;module with relative imports can’t be used as script (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__main__&lt;/code&gt;). Solution: use absolute import with package name at the beginning&lt;/li&gt;
+      &lt;li&gt;derives from previous point: we can’t launch tests, that are executed when running module as main program&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;in py3.3+ there are &lt;em&gt;namespace packages&lt;/em&gt;. They don’t have &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt;. Two (or more) namespace packages with same name can be placed in different locations in sys.path. Modules from those packages will be aggregated under same package name. If modules have same name - first found in sys.path will be taken. Namespace package always has lower priority under regular package (with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt;). When regular package is found - all found namespace packages with that name are discarded, normal package is used instead. Namespace package import process is slow.&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  # collect modules in namespace package
+  current_dir
+  └── mypkg
+      └── mymod1.py
+
+  site-packages
+  └── mypkg
+      └── mymod2.py
+
+  &amp;gt;&amp;gt;&amp;gt; import mypkg.mymod1
+  &amp;gt;&amp;gt;&amp;gt; import mypkg.mymod2
+
+  # redefine module in namespace package
+  current_dir
+  └── mypkg
+      └── mymod1.py
+      └── mymod2.py
+
+  site-packages
+  └── mypkg
+      └── mymod2.py
+
+  &amp;gt;&amp;gt;&amp;gt; import mypkg.mymod1
+  &amp;gt;&amp;gt;&amp;gt; import mypkg.mymod2  # current_dir.mypkg.mymod2
+
+  # regular package is used
+  current_dir
+  └── mypkg
+      └── mymod1.py
+
+  site-packages
+  └── mypkg
+      └── mymod2.py
+
+  another-packages
+  └── mypkg
+      └── mymod1.py
+
+  &amp;gt;&amp;gt;&amp;gt; import sys
+  &amp;gt;&amp;gt;&amp;gt; sys.append(&apos;another-packages&apos;)
+  &amp;gt;&amp;gt;&amp;gt; import mypkg.mymod1  # another-packages.mypkg.mymod1
+  &amp;gt;&amp;gt;&amp;gt; import mypkg.mymod2
+  ImportError: No module named &apos;mypkg.mymod2&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;In py2 and py3 new-style classes (inherent from object), when operator is applied, corresponding magic methods are searched in class, ignoring instance (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__getattr__&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__getattribute__&lt;/code&gt; are not invoked). But on direct call of magic method instance is not ignored (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__getattr__&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__getattribute__&lt;/code&gt; are invoked).&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(object):
+      def __repr__(self):
+          return &quot;class level repr&quot;
+      def normal_method(self):
+          return &quot;class level normal method&quot;
+
+  def instance_repr():
+      return &quot;instance level repr&quot;
+  def instance_normal_method():
+      return &quot;instance level normal method&quot;
+
+  a = A()
+  print(a)  # class level repr
+  print(a.normal_method())  # class level normal method
+
+  a.__repr__ = instance_repr
+  a.normal_method = instance_normal_method
+
+  print(a)  # class level repr
+  print(a.normal_method())  # instance level normal method
+
+  print(a.__repr__())  # instance level repr
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;ZODB - object database for python objects, support ACID-compatible transactions (including savepoints)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;slice object:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  L[2:4] == L[slice(2,4)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;iteration context (for, while, …) will try&lt;/p&gt;
+
+    &lt;ol&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__iter__&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__getitem__&lt;/code&gt;&lt;/p&gt;
+
+        &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; class Gen(object):
+     def __getitem__(self, index):
+         if index &amp;gt; 5:
+             raise StopIteration()
+         return index
+
+ for x in Gen():
+     print x,
+
+ # output
+ 0 1 2 3 4 5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;for calls &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__iter__()&lt;/code&gt;. Then calls method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;returned_object.__next__()&lt;/code&gt; (in py2 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.next()&lt;/code&gt;), until &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt;. It is possible to use yield &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__item__(): yield smth&lt;/code&gt;, then no need to define &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__next__&lt;/code&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__call__&lt;/code&gt; is invoked, when parentheses &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;()&lt;/code&gt; are applied to instance, not to class&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(object):
+      def __call__(self):
+          print(&quot;call&quot;)
+
+  a = A()  # nothing
+  a()  # print call
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__eq__&lt;/code&gt; = True doesn’t mean, that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__ne__&lt;/code&gt; = False&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;boolean context:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__bool__&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__nonzero__&lt;/code&gt; in py2)&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__len__&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;True&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;OOP patterns&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;inheritance - “is a”&lt;/li&gt;
+      &lt;li&gt;composition - “has a” (container stores other objects)&lt;/li&gt;
+      &lt;li&gt;delegation - special case of composition, when only one object is stored. Wrapper implement same interface, but add some intermediate steps.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;class attributes (including methods), that start with double underscores &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__&lt;/code&gt;, but don’t end with them, have special behaviour. They do not overlap with same named attributes in child classes. In &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__dict__&lt;/code&gt; they are stored as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_ClassName__attrname&lt;/code&gt;.&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(object):
+      __x = 1
+
+      def show_a(self):
+          print self.__x
+
+  class B(A):
+
+      def show_b(self):
+          print self.__x
+
+  &amp;gt;&amp;gt;&amp;gt; a = A()
+  &amp;gt;&amp;gt;&amp;gt; a.show_a()
+  1
+  &amp;gt;&amp;gt;&amp;gt; b = B()
+  &amp;gt;&amp;gt;&amp;gt; b.show_a()
+  1
+  &amp;gt;&amp;gt;&amp;gt; b.show_b()
+  AttributeError: &apos;B&apos; object has no attribute &apos;_B__x&apos;
+
+  class B(A):
+      __x = 2
+
+      def show_b(self):
+          print self.__x
+
+  &amp;gt;&amp;gt;&amp;gt; b = B()
+  &amp;gt;&amp;gt;&amp;gt; b.show_a()
+  1
+  &amp;gt;&amp;gt;&amp;gt; b.show_b()
+  2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;in py3 in class method we can suppress self argument and use that method only from class (not from instance) - it will behave as static method. But not in py2.&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(object):
+      def f():
+          print(&quot;f&quot;)
+
+  # python 2
+  &amp;gt;&amp;gt;&amp;gt; A.f()
+  TypeError: unbound method f() must be called with A instance as first argument (got nothing instead)
+
+  # python 3
+  &amp;gt;&amp;gt;&amp;gt; A.f()
+  f
+  &amp;gt;&amp;gt;&amp;gt; a = A()
+  &amp;gt;&amp;gt;&amp;gt; a.f()
+  TypeError: f() takes 0 positional arguments but 1 was given
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;bound function:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(object):
+      def f(self):
+          pass
+
+  a = A()
+  print(a.f.__self__)  # that is where self is saved
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;attribute search in classic (old-style) and new-style classes:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;classic. DFLR: Depth First, Left to Right&lt;/li&gt;
+      &lt;li&gt;new-style. Diamond pattern, L-R, D-F; MRO (more complex, that just LRDF)&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;MRO guards class, from which &amp;gt;= 2 other classes are subclassed, from being search twice. So class will be searched only once.&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  # python 2 old-style
+  class A: attr = 1
+
+  class B(A): pass
+
+  class C(A): attr = 2
+
+  class D(B,C): pass
+
+  &amp;gt;&amp;gt;&amp;gt; x = D()
+  &amp;gt;&amp;gt;&amp;gt; print(x.attr)  # x, D, B, A
+  1
+
+  # python 2 new-style
+  class A(object): attr = 1
+
+  class B(A): pass
+
+  class C(A): attr = 2
+
+  class D(B,C): pass
+
+  &amp;gt;&amp;gt;&amp;gt; x = D()
+  &amp;gt;&amp;gt;&amp;gt; print(x.attr)  # x, D, B, C
+  2
+
+  # scheme
+  A     A
+  |     |
+  B     C
+  \     /
+     |
+     D
+     |
+     X
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Check search order in new-style (mro algorithm):&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; D.__mro__
+  (&amp;lt;class &apos;__main__.D&apos;&amp;gt;, &amp;lt;class &apos;__main__.B&apos;&amp;gt;, &amp;lt;class &apos;__main__.C&apos;&amp;gt;, &amp;lt;class &apos;__main__.A&apos;&amp;gt;, &amp;lt;type &apos;object&apos;&amp;gt;)
+  &amp;gt;&amp;gt;&amp;gt; D.mro()  # same as list(D.__mro__)
+  [&amp;lt;class &apos;__main__.D&apos;&amp;gt;, &amp;lt;class &apos;__main__.B&apos;&amp;gt;, &amp;lt;class &apos;__main__.C&apos;&amp;gt;, &amp;lt;class &apos;__main__.A&apos;&amp;gt;, &amp;lt;type &apos;object&apos;&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;format() calls method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__format__&lt;/code&gt;. If it is not exist, then TypeError in py2.&lt;/p&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; print(&apos;{0}&apos;.format(object))
+  &amp;lt;type &apos;object&apos;&amp;gt;
+  &amp;gt;&amp;gt;&amp;gt; print(&apos;{0}&apos;.format(object.__reduce__))
+  TypeError: Type method_descriptor doesn&apos;t define __format__
+  # call __str__ explictly
+  &amp;gt;&amp;gt;&amp;gt; print(&apos;{0!s}&apos;.format(object.__reduce__))
+  &amp;lt;method &apos;__reduce__&apos; of &apos;object&apos; objects&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 3.4&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; print(&apos;{0}&apos;.format(object.__reduce__))
+  &amp;lt;method &apos;__reduce__&apos; of &apos;object&apos; objects&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 2 &amp;amp; 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(object):
+      def __format__(self, *args):
+          return &quot;A.__format__&quot;
+
+      def __str__(self):
+          return &quot;A.__str__&quot;
+
+  &amp;gt;&amp;gt;&amp;gt; a = A()
+  &amp;gt;&amp;gt;&amp;gt; &quot;{0}&quot;.format(a)
+  &apos;A.__format__&apos;
+  &amp;gt;&amp;gt;&amp;gt; print(a)
+  A.__str__
+  &amp;gt;&amp;gt;&amp;gt; &apos;%s&apos; % a
+  &apos;A.__str__&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__dict__&lt;/code&gt; doesn’t contain “virtual” attributes:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;new-style properties (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@property&lt;/code&gt;)&lt;/li&gt;
+      &lt;li&gt;slots&lt;/li&gt;
+      &lt;li&gt;descriptors&lt;/li&gt;
+      &lt;li&gt;dynamic attrs computed with tools like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__getattr__&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;MRO - method resolution order&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;diamond pattern - special case of ‘multi inheritance’, when 2 or more class can be child of the same class (object). This pattern is used in python.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;proxy object, returned by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;super()&lt;/code&gt;, doesn’t work with operators:&lt;/p&gt;
+
+    &lt;p&gt;python 3&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(list):
+      def get_some(self):
+          return super()[0]
+
+  &amp;gt;&amp;gt;&amp;gt; a = A([1, 2])
+  &amp;gt;&amp;gt;&amp;gt; a.get_some()
+  TypeError: &apos;super&apos; object is not subscriptable
+
+  class A(list):
+      def get_some(self):
+          return super().__getitem__(0)
+
+  &amp;gt;&amp;gt;&amp;gt; a = A([1,2])
+  &amp;gt;&amp;gt;&amp;gt; a.get_some()
+  1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;python 2&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(list):
+      def get_some(self):
+          return super(A, self)[0]
+
+  &amp;gt;&amp;gt;&amp;gt; a = A([1,2])
+  &amp;gt;&amp;gt;&amp;gt; a.get_some()
+  TypeError: &apos;super&apos; object has no attribute &apos;__getitem__&apos;
+
+  class A(list):
+      def get_some(self):
+          return super(A, self).__getitem__(0)
+
+  &amp;gt;&amp;gt;&amp;gt; a = A([1,2])
+  &amp;gt;&amp;gt;&amp;gt; a.get_some()
+  1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;super()&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;super() pros:&lt;/p&gt;
+
+        &lt;ul&gt;
+          &lt;li&gt;if superclass need to be changed in runtime, we can’t do it without super: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C.__bases__ = (Y, )&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;calls sequence of inherited methods in multi inheritance class, in MRO order.&lt;/p&gt;
+
+            &lt;p&gt;If we’ll try to do it without super, we can call method of some class twice.&lt;/p&gt;
+
+            &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(object):
+      def __init__(self):
+          print(&quot;A&quot;)
+
+  class B(A):
+      def __init__(self):
+          print(&quot;B&quot;)
+          super(B, self).__init__()
+
+  class C(A):
+      def __init__(self):
+          print(&quot;C&quot;)
+          super(C, self).__init__()
+
+  class D(B, C):
+      pass
+
+  &amp;gt;&amp;gt;&amp;gt; d = D()
+  B
+  C
+  A  # A only once
+  &amp;gt;&amp;gt;&amp;gt; B.mro()
+  [&amp;lt;class &apos;__main__.B&apos;&amp;gt;, &amp;lt;class &apos;__main__.A&apos;&amp;gt;, &amp;lt;type &apos;object&apos;&amp;gt;]
+  &amp;gt;&amp;gt;&amp;gt; D.mro()
+  [&amp;lt;class &apos;__main__.D&apos;&amp;gt;, &amp;lt;class &apos;__main__.B&apos;&amp;gt;, &amp;lt;class &apos;__main__.C&apos;&amp;gt;, &amp;lt;class &apos;__main__.A&apos;&amp;gt;, &amp;lt;type &apos;object&apos;&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+
+            &lt;p&gt;Sequence of methods&lt;/p&gt;
+
+            &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class B(object):
+      def __init__(self):
+          print(&quot;B&quot;)
+          # for B super is C here, by MRO order
+          super(B, self).__init__()
+
+  class C(object):
+      def __init__(self):
+          print(&quot;C&quot;)
+          # it is ok here to call super().__init__
+          # because object also has __init__
+          super(C, self).__init__()
+
+  class D(B, C):
+      pass
+
+  &amp;gt;&amp;gt;&amp;gt; d = D()
+  B
+  C
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;            &lt;/div&gt;
+          &lt;/li&gt;
+          &lt;li&gt;super will search attribute in MRO hierarchy. It will search all classes. So, for example hierarchy for super is the following: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C&lt;/code&gt;. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; doesn’t have attribute, whereas &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C&lt;/code&gt; has, then C.method will be used without error.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;super() cons (or features):&lt;/p&gt;
+
+        &lt;ul&gt;
+          &lt;li&gt;when super is used, all methods in sequence must accept same arguments&lt;/li&gt;
+          &lt;li&gt;super().m - all classes must have method m and call super().m, except last one, that must not call super.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;inherit method from exact class:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class A(B, C):
+      other = C.other  # not B other
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;finally block will be called even if exception was happened in except or else block&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;exception - always instance, even if raise ExceptionClass (without &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;()&lt;/code&gt;). Instance will be created automatically (without arguments):&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  raise Exception  # == raise Exception()
+  raise  # reraise caught exception
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;py2, look for builtin exceptions:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  import exceptions
+  help(exceptions)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;the downside of reading bytes from file and further manual decoding: if we’ll read by chunks, then some nasty case can happen, when one byte of one symbol will fall in first chunk, and another byte of same symbol - in second chunk. So it is better to use codecs.open in py2.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;When file name is given in unicode, python will automatically decode and encode from/to bytes. When file name is in bytes, then no encoding is happen. Default encoding for file names:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; sys.getfilesystemencoding()
+  &apos;utf-8&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;descriptor - class, that implement one of the following methods&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__get__&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__set__&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__delete__&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If descriptor doesn’t implement &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__set__&lt;/code&gt;, it doesn’t mean, that corresponding attribute is read-only. Attribute will be simply rewritten. To avoid it, implement &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__set__&lt;/code&gt; with exception.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;decorators can be combined, they will be called from bottom to top:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  @A
+  @B
+  @C
+  def f(): pass
+
+  # same as
+
+  f = A(B(C(f)))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;decorator can accept arguments&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  @dec(a, b)
+  def f(): pass
+
+  # same as
+
+  f = dec(a, b)(f)
+
+  # implementation:
+
+  def dec(a, b):
+      def actual_dec(f):
+          return f
+      return actual_dec
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;So decorator can include &lt;strong&gt;3 levels of callables&lt;/strong&gt;:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;callable to accept decorator args&lt;/li&gt;
+      &lt;li&gt;callable to serve as decorator&lt;/li&gt;
+      &lt;li&gt;callable to handle calls to the original function&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;during class creation, two methods of class type are called:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  type.__new__(type_class, class_name, super_classes, attr_dict)
+  type.__init__(class, class_name, super_classes, attr_dict)
+
+  # python 3
+  class Eggs: pass
+
+  class Spam(Eggs):
+      data = 1
+      def method(self, arg): pass
+
+  # same as
+  Eggs = type(&apos;Eggs&apos;, (), ...)  # in () object will be added automatically in python 3
+
+  Spam = type(&apos;Spam&apos;, (Eggs, ), {&apos;data&apos;: 1, &apos;method&apos;: method, &apos;__module__&apos;: &apos;__main__&apos;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Set metaclass&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;python 2&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class Spam(object):
+      __metaclass__ = Meta
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Inherit from object is not mandatory, but if it is not present, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__metaclass__&lt;/code&gt;
+  is used, then result will be new-style anyway, and in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__bases__&lt;/code&gt; object will be present.
+  But better to use object explicitly, as there can be problems, for example with inheritance.&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;python 3&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class Spam(Eggs, metaclass=Meta):
+      pass
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;attribute &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__metaclass__&lt;/code&gt; is just ignored&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Metaclass can not be a class itself. It just must return class. Function also can be a metaclass:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  def meta_func(class_name, bases, attr_dict):
+      return type(class_name, bases, attr_dict)
+
+  # python 2
+  class Spam(object):
+      __metaclass__ = meta_func
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Regular classes also have method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__new__&lt;/code&gt;. But it doesn’t create class, it is invoked at instance creation (takes class as input argument). This method calls &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__&lt;/code&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Magic methods of metaclass and class:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class Meta(type): pass
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;on creation of class Class (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;class Class(metaclass=Meta): ...&lt;/code&gt;) following methods are called:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  Meta.__new__
+  Meta.__init__
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;on creation of instance of class Class (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;instance = Class(...)&lt;/code&gt;) following methods are called:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  Meta.__call__
+      calls Class.__new__
+          calls Class.__init__
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;on calling of instance of class Class (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;instance()&lt;/code&gt;) following method is called:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  Class.__call__
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;It is not mandatory to subclass metaclass from type. We can use simple class with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__new__&lt;/code&gt; method as metaclass. But in that case methods &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__call__&lt;/code&gt; will not be called:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class MySimpleMetaClass(object):
+      def __new__(cls, *args, **kwargs):
+          new_class = type.__new__(type, *args, **kwargs)
+          return new_class
+
+      def __init__(new_class, *args, **kwargs):
+          print(&quot;__init__ won&apos;t be called...&quot;)
+
+      def __call__(*args, **kwargs):
+          print(&quot;__call__ won&apos;t be called...&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Metaclass of some class will be invoked for all subclasses. When &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__new__&lt;/code&gt; of metaclass is called for parent class, bases will contain &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(&amp;lt;type &apos;object&apos;&amp;gt;,)&lt;/code&gt;, and for subclass - parent class.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Metaclass attributes are inherited by class, not by instances of class.&lt;/p&gt;
+
+    &lt;p&gt;python 2 (python 3 has some syntax differences)&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class MyMetaClass(type):
+      attr = 2
+
+      def __new__(*args, **kwargs):
+          return type.__new__(*args, **kwargs)
+
+      def toast(*args, **kwargs):
+          print(args, kwargs)
+
+  class A(object):
+      __metaclass__ = MyMetaClass
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Metaclass is included in search sequence of class attributes&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; A.toast()
+  ((&amp;lt;class &apos;__main__.A&apos;&amp;gt;,), {})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Interesting, that method from metaclass is bound, although is called from class, not from instance. In fact class - is an instance of metaclass:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; A.toast
+  &amp;lt;bound method MyMetaClass.toast of &amp;lt;class &apos;__main__.A&apos;&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;But metaclass is not present in instance attribute search sequence&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; a = A()
+  &amp;gt;&amp;gt;&amp;gt; a.toast()
+  AttributeError: &apos;A&apos; object has no attribute &apos;toast&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;If some superclass has attribute with same name, as in metaclass, it has higher priority (no matter how deep superclass is)&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class B(object):
+      attr = 1
+
+  class C(B):
+      __metaclass__ = MyMetaClass
+
+  &amp;gt;&amp;gt;&amp;gt; C.attr
+  1  # MyMetaClass.attr = 2 is ignored
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Instance attributes are searched in its &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__dict__&lt;/code&gt;, next in all &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__dict__&lt;/code&gt; of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__class__.__mro__&lt;/code&gt;
+  Class attributes are searched also in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__class__.__mro__&lt;/code&gt;, it is different class, from instance it will be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__class__.__class__.__mro__&lt;/code&gt;.&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; inst = C()
+  &amp;gt;&amp;gt;&amp;gt; inst.__class__ -&amp;gt; &amp;lt;class &apos;__main__.C&apos;&amp;gt;
+  &amp;gt;&amp;gt;&amp;gt; C.__bases__    -&amp;gt; (&amp;lt;class &apos;__main__.B&apos;&amp;gt;,)
+  &amp;gt;&amp;gt;&amp;gt; C.__class__    -&amp;gt; &amp;lt;class &apos;__main__.MyMetaClass&apos;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Instance inherit attributes from all superclasses. Class - from superclasses and metaclasses. Metaclasses - from super-metaclasses (and probably from meta-metaclasess).&lt;/p&gt;
+
+    &lt;p&gt;Data descriptors (those, that define &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__set__&lt;/code&gt;) brings some changes in attribute search order for instances.
+  For class instance, data descriptor will have higher priority in search, even if they are declared in superclasess:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class DataDescriptor(object):
+      def __get__(self, instance, owner):
+          print(&quot;DataDescriptor.__get__&quot;)
+          return 5
+      def __set__(self, instance, value):
+          print(&quot;DataDescriptor.__set__&quot;, value)
+
+
+  class B(object):
+      attr = DataDescriptor()
+
+  class C(B):
+      pass
+
+  &amp;gt;&amp;gt;&amp;gt; c = C()
+  &amp;gt;&amp;gt;&amp;gt; c.__dict__[&apos;attr&apos;] = 88
+  &amp;gt;&amp;gt;&amp;gt; c.attr
+  DataDescriptor.__get__
+  5
+  &amp;gt;&amp;gt;&amp;gt; c.attr = 8
+  (&apos;DataDescriptor.__set__&apos;, 8)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Descriptor was called, in spite of attribute with same name is present in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;c.__dict__&lt;/code&gt;.
+  Attribute doesn’t hide descriptor of superclass.
+  Such behaviour will not happen in case of nondata descriptor:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class SimpleDescriptor(object):
+      def __get__(self, instance, owner):
+          print(&quot;SimpleDescriptor.__get__&quot;)
+          return 5
+
+  class B(object):
+      attr = SimpleDescriptor()
+
+  class C(B):
+      pass
+
+  &amp;gt;&amp;gt;&amp;gt; c = C()
+  &amp;gt;&amp;gt;&amp;gt; c.attr
+  SimpleDescriptor.__get__
+  5
+  &amp;gt;&amp;gt;&amp;gt; c.__dict__[&apos;attr&apos;] = 88
+  &amp;gt;&amp;gt;&amp;gt; c.attr
+  88
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Also, for builtin operators that call magic methods implicitly, the search order is special. It ignores &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;instance.__dict__&lt;/code&gt;, the search goes to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__dict__&lt;/code&gt; of classes from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__mro__&lt;/code&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;magic methods, that are called implicitly by builtin operators, are searched in metaclasses, ignoring the class (and all its superclasses)&lt;/p&gt;
+
+    &lt;p&gt;python 2 (in python 3 syntax differs a little bit)&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  class MyMetaClass(type):
+      def __new__(*args, **kwargs):
+          return type.__new__(*args, **kwargs)
+      def __str__(cls):
+          return &quot;__str__ from meta&quot;
+
+  class A(object):
+      __metaclass__ = MyMetaClass
+      def __str__(self):
+          return &quot;__str__ from class A&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyMetaClass.__str__&lt;/code&gt; will be called, not &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A.__str__&lt;/code&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; print A
+  __str__ from meta
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;And here method &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;object.__str__&lt;/code&gt; will be called:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &amp;gt;&amp;gt;&amp;gt; print MyMetaClass
+  &amp;lt;class &apos;__main__.MyMetaClass&apos;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Author Mark Lutz is a little upset, that python become too complicated nowadays. It have more than one obvious way to do some things:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str.format&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;with&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;try/finally&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;It goes contrary with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import this&lt;/code&gt; Zen.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="python" /><summary type="html">Recently i’ve read the book Learning Python, 5th Edition by Mark Lutz. Here is a list of most interesting insights for me.</summary></entry><entry><title type="html">Listen wifi with wireshark</title><link href="https://st4lk.github.io/en/fun/security/2015/04/17/listen-wifi-with-wireshark.html" rel="alternate" type="text/html" title="Listen wifi with wireshark" /><published>2015-04-17T18:19:43+00:00</published><updated>2015-04-17T18:19:43+00:00</updated><id>https://st4lk.github.io/en/fun/security/2015/04/17/listen-wifi-with-wireshark</id><content type="html" xml:base="https://st4lk.github.io/en/fun/security/2015/04/17/listen-wifi-with-wireshark.html">&lt;p&gt;&lt;a href=&quot;/en/fun/security/2015/04/17/listen-wifi-with-wireshark.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg&quot; alt=&quot;Listen wifi with wireshark&quot; title=&quot;Listen wifi with wireshark&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I always knew, that it is possible to catch wifi network packets. But haven’t done it in practise (i was analysing network packets, but not in HTTP protocol). So i decided to do it, as this is interesting and useful. Such experience help to understand TCP-IP and HTTP protocols and also to pay more attention for web security.&lt;/p&gt;
 
@@ -2316,88 +3841,4 @@ Avg Conn Time                 0.00ms
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;After that our local server will be shown at http://mysupersite.ngrok.com.&lt;/p&gt;</content><author><name></name></author><category term="deploy" /><category term="free" /><summary type="html">There is a nice tool called ngrok. It allows to bind the URL for your localhost server!</summary></entry><entry><title type="html">Send email in django project with mandrill service</title><link href="https://st4lk.github.io/en/api/django/email/free/2014/03/14/send-email-django-project-mandrill-service.html" rel="alternate" type="text/html" title="Send email in django project with mandrill service" /><published>2014-03-14T18:19:43+00:00</published><updated>2014-03-14T18:19:43+00:00</updated><id>https://st4lk.github.io/en/api/django/email/free/2014/03/14/send-email-django-project-mandrill-service</id><content type="html" xml:base="https://st4lk.github.io/en/api/django/email/free/2014/03/14/send-email-django-project-mandrill-service.html">&lt;p&gt;&lt;a href=&quot;/en/api/django/email/free/2014/03/14/send-email-django-project-mandrill-service.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-03-14-send-email-django-project-mandrill-service/mandrill-email.png&quot; alt=&quot;Send email in django project with mandrill service&quot; title=&quot;Send email in django project with mandrill service&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;To send email messages from server we can just use SMTP protocol. But there is another way - special email services. I’ll describe one of them here, &lt;a href=&quot;http://mandrill.com/&quot;&gt;mandrill.com&lt;/a&gt;.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h3 id=&quot;advantages&quot;&gt;Advantages&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Detailed statistic of sent emails. How many were sent, to whom, when. How many were opened, what links were clicked.&lt;/li&gt;
-  &lt;li&gt;Message templates. They can be modified through mandrill service, no need to create anything in django admin. It is possible to use variables in templates, set subject, even address of sender. In django application you just specify the template name and the context (variables).&lt;/li&gt;
-  &lt;li&gt;No need of your own mail service. And no need to enable you domain in google/yandex mail (but still it will be useful).&lt;/li&gt;
-  &lt;li&gt;Free plan, that allows to send 12000 messages per month.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;disadvantages&quot;&gt;Disadvantages&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;For click statistic all links in you email will be replaced by special redirect urls. Probably regular users will not mention that.&lt;/li&gt;
-  &lt;li&gt;In some mail clients (for example gmail in browser) the field ‘sender’ along with specified address will contain the real address of mandrill. But it is possible to set DKIM and SPF DNS records for your domain, so sender address will be correctly shown everywhere.&lt;/li&gt;
-  &lt;li&gt;If you want to send more than 12000 messages per month, you need to buy corresponding plan.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;To my mind, advantages are greater than disadvantages.&lt;/p&gt;
-
-&lt;h3 id=&quot;integration&quot;&gt;Integration&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Register on &lt;a href=&quot;https://mandrill.com/signup/&quot;&gt;https://mandrill.com/signup/&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Create API_KEY:&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9745/85893628.0/0_f6844_ecbf9fca_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9745/85893628.0/0_f6844_ecbf9fca_L.png&quot; alt=&quot;Create API_KEY step 1&quot; title=&quot;Create API_KEY step 1&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9805/85893628.0/0_f6845_733b2009_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9805/85893628.0/0_f6845_733b2009_L.png&quot; alt=&quot;Create API_KEY step 2&quot; title=&quot;Create API_KEY step 2&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9745/85893628.1/0_f6846_f8612a87_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9745/85893628.1/0_f6846_f8612a87_L.png&quot; alt=&quot;Create API_KEY step 3&quot; title=&quot;Create API_KEY step 3&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Create message template:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9805/85893628.0/0_f6847_faf2f86c_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9805/85893628.0/0_f6847_faf2f86c_L.png&quot; alt=&quot;Create message template step 1&quot; title=&quot;Create message template step 1&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9745/85893628.1/0_f6848_d4286972_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9745/85893628.1/0_f6848_d4286972_L.png&quot; alt=&quot;Create message template step 2&quot; title=&quot;Create message template step 2&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
-3.1. Set template name (for example template-1):&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9745/85893628.1/0_f6849_c232d9f3_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9745/85893628.1/0_f6849_c232d9f3_L.png&quot; alt=&quot;Set template name&quot; title=&quot;Set template name&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Edit the template contents:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9745/85893628.1/0_f684a_b8b66799_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9745/85893628.1/0_f684a_b8b66799_L.png&quot; alt=&quot;Edit the template contents&quot; title=&quot;Edit the template contents&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;statistic-example&quot;&gt;Statistic example&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Time send graph:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9799/85893628.1/0_f684e_2538ff4a_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9799/85893628.1/0_f684e_2538ff4a_L.png&quot; alt=&quot;ГTime send graph&quot; title=&quot;Time send graph&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Message open and link clicks graph:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9764/85893628.1/0_f684f_c33c7bb1_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9764/85893628.1/0_f684f_c33c7bb1_L.png&quot; alt=&quot;Message open and link clicks graph&quot; title=&quot;Message open and link clicks graph&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;List of all sent messages:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9828/85893628.1/0_f6850_89340ff9_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9828/85893628.1/0_f6850_89340ff9_L.png&quot; alt=&quot;List of all sent messages&quot; title=&quot;List of all sent messages&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Link statistic:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9764/85893628.1/0_f6851_de5ee46e_orig.png&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9764/85893628.1/0_f6851_de5ee46e_L.png&quot; alt=&quot;Link statistic&quot; title=&quot;Link statistic&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;django-integration&quot;&gt;Django integration&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://gist.github.com/st4lk/9877661&quot;&gt;Gist&lt;/a&gt; contains example of integration with django and also standalone usage in python script.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/st4lk/9877661.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="django" /><category term="email" /><category term="free" /><summary type="html">To send email messages from server we can just use SMTP protocol. But there is another way - special email services. I’ll describe one of them here, mandrill.com.</summary></entry></feed>
+&lt;p&gt;After that our local server will be shown at http://mysupersite.ngrok.com.&lt;/p&gt;</content><author><name></name></author><category term="deploy" /><category term="free" /><summary type="html">There is a nice tool called ngrok. It allows to bind the URL for your localhost server!</summary></entry></feed>

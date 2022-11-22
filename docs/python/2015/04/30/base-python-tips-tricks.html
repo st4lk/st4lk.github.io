@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Python tips &amp; tricks | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Python tips &amp; tricks" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Недавно прочитал книгу Марка Лутца “Learning Python”, 5-ое издание. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта." />
+<meta property="og:description" content="Недавно прочитал книгу Марка Лутца “Learning Python”, 5-ое издание. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта." />
+<link rel="canonical" href="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html" />
+<meta property="og:url" content="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-04-30T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Python tips &amp; tricks" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-04-30T18:19:43+00:00","datePublished":"2015-04-30T18:19:43+00:00","description":"Недавно прочитал книгу Марка Лутца “Learning Python”, 5-ое издание. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта.","headline":"Python tips &amp; tricks","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html"},"url":"https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Записи разработчика</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/python/2015/04/30/base-python-tips-tricks.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/python/2015/04/30/base-python-tips-tricks.html" ><img src="/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Python tips &amp; tricks</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-04-30T18:19:43+00:00" itemprop="datePublished">Apr 30, 2015
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/python/2015/04/30/base-python-tips-tricks.html"><img src="https://img-fotki.yandex.ru/get/9067/85893628.c68/0_181e3c_92d918ca_M.jpg" alt="Python tips &amp; tricks" title="Python tips &amp; tricks" /></a></p>
+
+<p>Недавно прочитал книгу <a href="http://shop.oreilly.com/product/0636920028154.do">Марка Лутца “Learning Python”, 5-ое издание</a>. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта.</p>
+
+<!--more-->
+
+<ul>
+  <li>
+    <p>генерация set’a:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  {x for x in [1,2]}
+  set(x for x in [1,2])
+  assert set(x for x in [1,2]) == {x for x in [1,2]}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>генерация dict’а:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  {x:x**2 for x in [1,2]}
+  dict((x, x**2) for x in [1,2])
+  assert {x:x**2 for x in [1,2]} == dict((x, x**2) for x in [1,2])
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>деление целых чисел</p>
+
+    <p>В python 3 деление целых чисел возвращает float</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; 1 / 2
+  0.5
+  &gt;&gt;&gt; - 1 / 2
+  -0.5
+</code></pre></div>    </div>
+
+    <p>В python 2 деление - округление в меньшую сторону, это не truncate</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; 1 / 2    # 0.5 floor округление -&gt; 0
+  0
+  &gt;&gt;&gt; - 1 / 2  # -0.5 floor округление -&gt; -1 (не 0)
+  -1
+</code></pre></div>    </div>
+
+    <p>В python 2 и 3 целочисленное деление</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; 1 // 2
+  0
+  &gt;&gt;&gt; - 1 // 2
+  -1
+  &gt;&gt;&gt; 13 // 2.0
+  6.0
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">is</code> - проверяет, что переменные указывают на один и тот же адрес, <code class="language-plaintext highlighter-rouge">==</code> проверяет, что объекты имеют одинаковые значения</p>
+  </li>
+  <li>
+    <p>python 3: <code class="language-plaintext highlighter-rouge">[1, 'spam'].sort()</code> возбуждает исключение (разные типы)</p>
+  </li>
+  <li>
+    <p>python 3: dict().keys() возвращает итератор (view объект, зависимый от dict). Это set-like объект, к нему можно применять set операции (union и пр.)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; dict(a=1, b=2).keys()
+  dict_keys(['b', 'a'])
+  &gt;&gt;&gt; dict(a=1, b=2).keys() | {'c', 'd'}
+  {'b', 'd', 'a', 'c'}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>frozenset - immutable set, он является hashable, можно использовать например как ключ в dict</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; fz = frozenset([1,2])
+  &gt;&gt;&gt; fz.add(3)
+  AttributeError: 'frozenset' object has no attribute 'add'
+  &gt;&gt;&gt; {fz: 5}
+  {frozenset([1, 2]): 5}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>list поддерживает операторы сравнения: ==, &lt;, &gt;, &lt;=, &gt;=. Сравнение аналогично сравнению срок. Для py3 все объекты должны быть одного типа</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; [1, 2] == [1, 2]
+  True
+  &gt;&gt;&gt; [2, 2] &gt; [1, 2]
+  True
+  &gt;&gt;&gt; [1] &gt; ['sh']  # python2
+  False
+  &gt;&gt;&gt; [1] &gt; ['sh']  # python3
+  TypeError: unorderable types: int() &gt; str()
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>сравнение dict’ов</p>
+
+    <p>python 2 and 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; dict(a=1) == dict(a=1)
+  True
+</code></pre></div>    </div>
+
+    <p>python 2 only</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; dict(a=3) &gt; dict(a=2)
+  True
+  &gt;&gt;&gt; dict(a=3) &gt; dict(a=2, b=1)
+  False
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>нельзя list + string, list + tuple, однако можно list += string</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; L = []
+  &gt;&gt;&gt; L + 'spam'
+  TypeError: can only concatenate list (not "str") to list
+
+  &gt;&gt;&gt; L = []
+  &gt;&gt;&gt; L += 'spam'
+  &gt;&gt;&gt; L
+  ['s', 'p', 'a', 'm']
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>L += a is faster that L = L + a.</p>
+  </li>
+  <li>
+    <p>L += [1,2] is in place modification! (не создается новый список)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; L = []
+  &gt;&gt;&gt; id(L)
+  4368997048
+  &gt;&gt;&gt; L += [1,2]
+  &gt;&gt;&gt; id(L)
+  4368997048
+  &gt;&gt;&gt; L = L + [1,2]
+  &gt;&gt;&gt; id(L)
+  4368996976
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>‘spam’[0][0][0] можно до бесконечности, каждый раз будет возвращатся односимвольная строка ‘s’</p>
+  </li>
+  <li>
+    <p>распаковка аргументов в python 3 при присваивании</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; a, *b = 'spam'
+  &gt;&gt;&gt; a
+  's'
+  &gt;&gt;&gt; b
+  ['p', 'a', 'm']
+
+  &gt;&gt;&gt; *a, b = 'spam'
+  &gt;&gt;&gt; a
+  ['s', 'p', 'a']
+  &gt;&gt;&gt; b
+  'm'
+
+  &gt;&gt;&gt; a, *b, c = 'spam'
+  &gt;&gt;&gt; a
+  's'
+  &gt;&gt;&gt; b
+  ['p', 'a']
+  &gt;&gt;&gt; c
+  'm'
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>python 2: True = 0, но не в python 3</p>
+
+    <p>python 2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; True = 0
+  &gt;&gt;&gt; True
+  0
+</code></pre></div>    </div>
+
+    <p>python 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; True = 0
+  SyntaxError: can't assign to keyword
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>sys.stdout = open(‘temp.txt’, ‘w’) - все print’ы будут идти в файл temp.txt</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">and</code>, <code class="language-plaintext highlighter-rouge">or</code> возвращают объект, а не True/False</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">while</code> has <code class="language-plaintext highlighter-rouge">else</code></p>
+  </li>
+  <li>
+    <p>python 3: <code class="language-plaintext highlighter-rouge">...</code> все равно что <code class="language-plaintext highlighter-rouge">pass</code></p>
+  </li>
+  <li>
+    <p>reversed works with lists, not generator</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; reversed([1,2,3])
+  &lt;list_reverseiterator object at 0x10127c550&gt;
+  &gt;&gt;&gt; reversed((x for x in [1,2,3]))
+  TypeError: argument to reversed() must be a sequence
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>zip итерирует до самой маленькой последовательности</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; [x for x in zip([1,2,3], [4,5])]
+  [(1, 4), (2, 5)]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>python 2: map(None, s1, s2) тоже самое, что zip, но добавялет None для элементов из более длинной последовательности</p>
+
+    <p>python 2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; map(None, [1,2,3], [4,5])
+  [(1, 4), (2, 5), (3, None)]
+  &gt;&gt;&gt; map(None, [1,2], [4,5,6])
+  [(1, 4), (2, 5), (None, 6)]
+</code></pre></div>    </div>
+
+    <p>python 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; list(map(None, [1,2,3], [4,5]))
+  TypeError: 'NoneType' object is not callable
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>map can take more than one iterators (похоже на zip)</p>
+
+    <p>python 2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; map(lambda x, y: (x, y), [1,2], [3,4])
+  [(1, 3), (2, 4)]
+  &gt;&gt;&gt; map(lambda x, y: (x, y), [1,2], [3,4,5])
+  [(1, 3), (2, 4), (None, 5)]
+</code></pre></div>    </div>
+
+    <p>python 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; list(map(lambda x, y: (x, y), [1,2], [3,4]))
+  [(1, 3), (2, 4)]
+  &gt;&gt;&gt; list(map(lambda x, y: (x, y), [1,2], [3,4,5]))
+  [(1, 3), (2, 4)]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>nested list comprehensions</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; [x+y for x in 'abc' for y in 'lmn']
+  ['al', 'am', 'an', 'bl', 'bm', 'bn', 'cl', 'cm', 'cn']
+
+  # flat list of lists
+  &gt;&gt;&gt; csv = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  &gt;&gt;&gt; [col for row in csv for col in row]
+  [1, 2, 3, 4, 5, 6, 7, 8, 9]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>sorted возвращает список (не генератор) в py2 и py3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; sorted(x for x in [2,1,3])
+  [1, 2, 3]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>*args понимает любой итератор, не обязательно list</p>
+  </li>
+  <li>
+    <p>unzip: zip(*zip(a,b))</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; zip(*zip([1,2],[3,4]))
+  [(1, 2), (3, 4)]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py3: map возвращает генератор, пройти по нему можно только раз</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; m = map(lambda x: x, [1,2,3])
+  &gt;&gt;&gt; [x for x in m]
+  [1, 2, 3]
+  &gt;&gt;&gt; [x for x in m]
+  []
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py3: хоть range и генератор (это хитрый генератор), он поддерживает len() и доступ по индексам</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; r = range(10)
+  &gt;&gt;&gt; r
+  range(0, 10)
+  &gt;&gt;&gt; len(r)
+  10
+  &gt;&gt;&gt; r[3]
+  3
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>generator allows only single scan</p>
+  </li>
+  <li>
+    <p>циклические импорты работают! Но только с import, без from</p>
+  </li>
+  <li>
+    <p>у try есть else, который вызовится, если exception не случилось</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">with</code> similar to <code class="language-plaintext highlighter-rouge">finally</code></p>
+  </li>
+  <li>
+    <p>except (name1, name2) - orders from top to bottom, from left to right</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">except Exception:</code> vs <code class="language-plaintext highlighter-rouge">except:</code> - первое не перехватывает системные исключения (KeyboardInterrupt, SystemExit, GeneratorExit например)</p>
+  </li>
+  <li>
+    <p>set().remove(x) - удаляет x или KeyError, set().discard(x) - удаляет x или ничего</p>
+  </li>
+  <li>
+    <p>py3.3+ accept u””, U”” для обратной совместимости с py2</p>
+  </li>
+  <li>
+    <p>default encoding is in sys module sys.getdefaultencoding()</p>
+
+    <p>python 2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; sys.getdefaultencoding()
+  'ascii'
+</code></pre></div>    </div>
+
+    <p>python 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; sys.getdefaultencoding()
+  'utf-8'
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>[c for c in sorted([1,2,3], key=lambda c: -c)] - тут переменная <code class="language-plaintext highlighter-rouge">c</code> конфликтовать не будет</p>
+  </li>
+  <li>
+    <p>в py2 переменная внутри comprehension может изменять внешние переменные а также доступна после, в py3 - нет.</p>
+
+    <p>python 2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; x = 1
+  &gt;&gt;&gt; [x for x in range(3)]
+  [0, 1, 2]
+  &gt;&gt;&gt; x
+  2
+  # creates new var
+  &gt;&gt;&gt; [y for y in range(3)]
+  [0, 1, 2]
+  &gt;&gt;&gt; y
+  2
+</code></pre></div>    </div>
+
+    <p>python 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; x = 1
+  &gt;&gt;&gt; [x for x in range(3)]
+  &gt;&gt;&gt; x
+  1
+  # no new var
+  &gt;&gt;&gt; [y for y in range(3)]
+  [0, 1, 2]
+  &gt;&gt;&gt; y
+  NameError: name 'y' is not defined
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py3 имеет инструкцию nonlocal. Используется для ссылки на имя во внешнем def блоке (в py2 к такой переменной нельзя обратиться)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  def f():
+      x = 2  # local for f
+      def g():
+          nonlocal x  # python3 only
+          x = 3  # local for g
+      g()
+      print(x)
+  &gt;&gt;&gt; f()  # python3 only
+  3
+  &gt;&gt;&gt; f()  # with commented nonlocal
+  2
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>LEGB rule (local, enclosing, global, builtin) или LNGB (N=nonlocal) - порядок поиска переменной в python</p>
+  </li>
+  <li>
+    <p>py3 переменная исключения <code class="language-plaintext highlighter-rouge">as name</code> удаляется после выполнения блока (даже если переменная была объявлена до try)</p>
+
+    <p>python 2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; x = 1
+  &gt;&gt;&gt; try:
+  ...     1/0
+  ... except Exception as x:
+  ...     pass
+  &gt;&gt;&gt; x
+  ZeroDivisionError('integer division or modulo by zero',)
+</code></pre></div>    </div>
+
+    <p>python 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; x = 1
+  &gt;&gt;&gt; try:
+  ...     1/0
+  ... except Exception as x:
+  ...     pass
+  &gt;&gt;&gt; x
+  NameError: name 'x' is not defined
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>переопределить builtin и отменить переопределение</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; open = 99
+  &gt;&gt;&gt; open
+  99
+  &gt;&gt;&gt; del open
+  &gt;&gt;&gt; open
+  &lt;built-in function open&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py2 fun: <code class="language-plaintext highlighter-rouge">__builtins__.True = False</code></p>
+  </li>
+  <li>
+    <p>lambda может принимать аргументы по умолчанию</p>
+  </li>
+  <li>
+    <p>nonlocal можно заменить mutable объектом или аттрибутом функции</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  def f():
+      x = [1]
+      def g():
+          print x[0]
+          x.append(2)
+      g()
+      print x
+  &gt;&gt;&gt; f()
+  1
+  [1, 2]
+
+  def f():
+      x = 1
+      def g():
+          print g.x
+          g.x = 2
+      g.x = x
+      g()
+      print g.x
+  &gt;&gt;&gt; f()
+  1
+  2
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py3 keyword only arguments</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  def f(*args, name):
+      print("args", args)
+      print("name", name)
+  &gt;&gt;&gt; f(1, 2)
+  TypeError: f() missing 1 required keyword-only argument: 'name'
+  &gt;&gt;&gt; f(1, 2, name=3)
+  args (1, 2)
+  name 3
+
+  def f(*args, name=3):
+      print("args", args)
+      print("name", name)
+  &gt;&gt;&gt; f(1, 2)
+  args (1, 2)
+  name 3
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py3 есть распаковка при присваивании, она возвращает list, а распаковка при вызове функции возвращает tuple</p>
+
+    <p>python 2 and 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  def f(a, *b):
+      print(b)
+  &gt;&gt;&gt; f(1, *[2, 3])
+  (2, 3)
+</code></pre></div>    </div>
+
+    <p>python 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; a, *b = [1, 2, 3]
+  &gt;&gt;&gt; print(b)
+  [2, 3]
+  &gt;&gt;&gt; a, *b = (1, 2, 3)
+  &gt;&gt;&gt; print(b)
+  [2, 3]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>добавить список в начало существующего: L[:0] = [1, 2, 3]</p>
+  </li>
+  <li>
+    <p>посмотреть и задать максимальный уровень рекурсии</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; sys.getrecursionlimit()  # 1000
+  &gt;&gt;&gt; sys.setrecursionlimit(10000)
+  &gt;&gt;&gt; help(sys.setrecursionlimit)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>аргументы функций</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; def f(a):
+  ...     b = 1
+  ... 
+  &gt;&gt;&gt; f.__name__
+  'f'
+  &gt;&gt;&gt; f.__code__.co_varnames
+  ('a', 'b')
+  &gt;&gt;&gt; f.__code__.co_argcount
+  1
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py3 к аргументам функции можно добавить аннотации. Эти данные доступны в <code class="language-plaintext highlighter-rouge">func.__annotations__</code>. Автоматически ничего с этими аннотациями не происходит, но с ними можно работать вручную по ситуации (например, для проверки типа или диапазона с помощью своего декоратора)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; def func(a: 'spam', b: (1, 10), c: float):
+  ...     return a + b + c
+  &gt;&gt;&gt; func.__annotations__
+  {'b': (1, 10), 'c': &lt;class 'float'&gt;, 'a': 'spam'}
+
+  # default values
+  &gt;&gt;&gt; def func(a: 'spam'=4, b: (1, 10)=5, c: float=0.1):
+  ...     return a + b + c
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>внутри lambda нельзя присвоить, но можно <code class="language-plaintext highlighter-rouge">setattr</code>, <code class="language-plaintext highlighter-rouge">__dict__</code></p>
+  </li>
+  <li>
+    <p>operator module in std lib</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  import operator as op
+  reduce(op.add, [2, 4, 6])
+  # same as
+  reduce(lambda x, y: x+y, [2, 4, 6])
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>KISS: Keep It Simple [Sir/Stupid]</p>
+  </li>
+  <li>
+    <p>comprehension vs map в общем случае (лучше проверить на вашей системе)</p>
+
+    <p><code class="language-plaintext highlighter-rouge">map(lambda x: x ..)</code> slower than <code class="language-plaintext highlighter-rouge">[x for x ..]</code></p>
+
+    <p><code class="language-plaintext highlighter-rouge">[ord(x) for x ..]</code> slower than <code class="language-plaintext highlighter-rouge">map(ord for x ..)</code></p>
+
+    <p><code class="language-plaintext highlighter-rouge">map(lambda x: L.append(x+10), range(10))</code> even slower than <code class="language-plaintext highlighter-rouge">for x in range(10): L.append(x+10)</code></p>
+  </li>
+  <li>
+    <p>распаковка в lambda отличатся для py2 и py3</p>
+
+    <p>python 2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; map(lambda (a, b, c): a, [(0,1,2), (3,4,5)])
+  [0, 3]
+</code></pre></div>    </div>
+
+    <p>python 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; list(map(lambda (a, b, c): a, [(0,1,2), (3,4,5)]))
+  SyntaxError: invalid syntax
+  &gt;&gt;&gt; list(map(lambda a, b, c: a, [(0,1,2), (3,4,5)]))
+  TypeError: &lt;lambda&gt;() missing 2 required positional arguments: 'b' and 'c'
+  &gt;&gt;&gt; list(map(lambda row: row[0], [(0,1,2), (3,4,5)]))
+  [0, 3]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>многие встроенные функции могут принимать генераторы, тогда не нужны дополнительные скобки</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; "".join(str(x) for x in [1, 2])
+  '12'
+  &gt;&gt;&gt; sorted(str(x) for x in [1, 2])
+  ['1', '2']
+</code></pre></div>    </div>
+
+    <p>but for args () is needed</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; sorted(str(x) for x in [1, 2], reverse=True)
+  SyntaxError: Generator expression must be parenthesized if not sole argument
+  &gt;&gt;&gt; sorted((str(x) for x in [1, 2]), reverse=True)
+  ['2', '1']
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py3: yield from iterator (приведенные ниже функции идентичны)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  def f():
+      for i in range(5):
+          yield i
+
+  def g():
+      yield from range(5)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>поместить первый элемент в конец списка</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  L = L[1:] + L[:1]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>zip одного списка</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; zip([1,2,3])
+  [(1,), (2,), (3,)]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>map и zip похожи</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  map(lambda x,y: (x,y), S1, S2) == zip(S1, S2)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">python -m script_name</code> - запускает модуль (модуль - это файл .py, т.е. считай скрипт), который ищется в текущих путях поиска. Модуль может лежать где-нибудь в site-packages, а запустится от main (<code class="language-plaintext highlighter-rouge">__name__ == '__main__'</code>). Если это package (директория с <code class="language-plaintext highlighter-rouge">__init__.py</code>), то запустится файл <code class="language-plaintext highlighter-rouge">__main__.py</code>. Если такого нет, то ошибка. Некоторые модули умные и берут аргументы из командной строки, например timeit: <code class="language-plaintext highlighter-rouge">python -m timeit '"-".join(str(n) for n in range(100))'</code></p>
+  </li>
+  <li>
+    <p>прямой возможности использовать одноименную переменную в одной функции: и глобальную и локальную нет. Можно только играть c <code class="language-plaintext highlighter-rouge">__main__.my_global_var</code></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  # OK
+  X = 99
+  def f():
+      print(X)
+  &gt;&gt;&gt; f()
+  99
+
+  # ERROR
+  def f():
+      print(X)  # &lt;- error
+      X = 99
+  &gt;&gt;&gt; f()
+  UnboundLocalError: local variable 'X' referenced before assignment
+
+  # global everywhere
+  def f():
+      global X
+      print(X)
+      X = 88
+
+  # hack with main
+  def f():
+      import __main__
+      print(__main__.X)
+      X = 88
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>скорость вычисления корня числа</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  math.sqrt(x)  # fastest
+  x ** .5  # fast
+  pow(x, .5)  # slow
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py3.2+ создает папку <code class="language-plaintext highlighter-rouge">__pycache__</code>, чтобы сохранять разные байткоды для разных версий python’а и не пересоздавать их впоследствии. В корне уже нет *.pyc.</p>
+  </li>
+  <li>
+    <p>.pyc для вызывающегося скрипта (<code class="language-plaintext highlighter-rouge">__name__ = '__main__'</code>) не создается, только для import</p>
+  </li>
+  <li>
+    <p>порядок поиска при импорте (можно посмотреть в sys.path):</p>
+
+    <ol>
+      <li>home of program (+ in some versions current dir, from where program is launched, i.e. current dir)</li>
+      <li>PYTHONPATH</li>
+      <li>std lib dir</li>
+      <li>content of any .pth file (if exists)</li>
+      <li>site-packages dir</li>
+    </ol>
+  </li>
+  <li>
+    <p>sys.path можно изменять в runtime, это затронет всю программу</p>
+  </li>
+  <li>
+    <p>python -O создает слегка опимизированный байткод .pyo вместо .pyc, он на ~5% быстрее. Также этот флаг убирает все assert’ы из кода. А так же влияет на переменную <code class="language-plaintext highlighter-rouge">__debug__</code></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  # main.py
+  print __debug__
+  assert True == False
+
+  # python main.py
+  True
+  AssertionError
+
+  # python -O main.py
+  False
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>в py2 в функции можно сделать <code class="language-plaintext highlighter-rouge">from some_module import *</code>, но будет warning. В py3 - error</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  # python 2
+  def f():
+      from urllib import *
+      print('after import')
+  &gt;&gt;&gt; f()
+  SyntaxWarning: import * only allowed at module level
+  after import
+
+  # python 3
+  &gt;&gt;&gt; f()
+  SyntaxError: import * only allowed at module level
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>reload не обновляет объекты, загруженные с помощью from: <code class="language-plaintext highlighter-rouge">from x import y</code>. <code class="language-plaintext highlighter-rouge">y</code> не обновится после <code class="language-plaintext highlighter-rouge">reload(x)</code></p>
+  </li>
+  <li>
+    <p>reload не обновляет c-шные модули</p>
+  </li>
+  <li>
+    <p>py3: в package текущей папки пакета нету в sys.path. Если модуль в пакете хочет импортировать другой модуль из этого же пакета, надо использовать относительный импорт: <code class="language-plaintext highlighter-rouge">from . import smth</code>. Однако, если модуль запускается как <code class="language-plaintext highlighter-rouge">__main__</code>, то есть.</p>
+  </li>
+  <li>
+    <p>py2: <code class="language-plaintext highlighter-rouge">from __future__ import absolute_import</code> делает поведение import в py2 таким же, как в py3. Это позволит импортировать модуль string из стандартной библиотеки в данном случае довольно просто:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  mypkg
+  ├── __init__.py
+  ├── main.py  # import string from std here?
+  └── string.py
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>относительный импорт запрещен вне пакета:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  # test.py
+  from . import a
+
+  # python 2
+  python test.py
+  ValueError: Attempted relative import in non-package
+
+  # python 3
+  python test.py
+  SystemError: Parent module '' not loaded, cannot perform relative import
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>минусы относительного импорта:</p>
+
+    <ul>
+      <li>модуль, в котором используются относительные импорты нельзя использовать как скрипт (<code class="language-plaintext highlighter-rouge">__main__</code>). Решение: использовать в модуле абсолютный импорт с именем пакета в начале.</li>
+      <li>как следствие предыдущего пункта, нельзя запустить тесты, которые запускаются при запуске модуля как скрипта</li>
+    </ul>
+  </li>
+  <li>
+    <p>в py3.3+ есть namespace packages. Это такие пакеты, в которых нет <code class="language-plaintext highlighter-rouge">__init__.py</code>. Два (или более) namespace package с одним и тем же именем могут лежать в разных директориях из sys.path. При этом модули пакетов собираются под этим именем. Если у модулей одинаковые имена - берется тот, который найден раньше в порядке sys.path. namespace пакет всегда имеет меньший приоритет над обычным пакетом (с <code class="language-plaintext highlighter-rouge">__init__.py</code>). Как только где-то найден обычный пакет - используется он, все найденные namespace packages отметаются. namespace пакеты медленнее импортятся, чем обычные.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  # collect modules in namespace package
+  current_dir
+  └── mypkg
+      └── mymod1.py
+
+  site-packages
+  └── mypkg
+      └── mymod2.py
+
+  &gt;&gt;&gt; import mypkg.mymod1
+  &gt;&gt;&gt; import mypkg.mymod2
+
+  # redefine module in namespace package
+  current_dir
+  └── mypkg
+      └── mymod1.py
+      └── mymod2.py
+
+  site-packages
+  └── mypkg
+      └── mymod2.py
+
+  &gt;&gt;&gt; import mypkg.mymod1
+  &gt;&gt;&gt; import mypkg.mymod2  # current_dir.mypkg.mymod2
+
+  # regular package is used
+  current_dir
+  └── mypkg
+      └── mymod1.py
+
+  site-packages
+  └── mypkg
+      └── mymod2.py
+
+  another-packages
+  └── mypkg
+      └── mymod1.py
+
+  &gt;&gt;&gt; import sys
+  &gt;&gt;&gt; sys.append('another-packages')
+  &gt;&gt;&gt; import mypkg.mymod1  # another-packages.mypkg.mymod1
+  &gt;&gt;&gt; import mypkg.mymod2
+  ImportError: No module named 'mypkg.mymod2'
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>В py3 и в py2 new style classes (отнаследованные от object) магические методы при выполнении оператора ищутся в классе, минуя инстанс (<code class="language-plaintext highlighter-rouge">__getattr__</code>, <code class="language-plaintext highlighter-rouge">__getattribute__</code> не вызываются). Но если явно вызвать магический метод - то вызывается от инстанса (<code class="language-plaintext highlighter-rouge">__getattr__</code>, <code class="language-plaintext highlighter-rouge">__getattribute__</code> вызываются).</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class A(object):
+      def __repr__(self):
+          return "class level repr"
+      def normal_method(self):
+          return "class level normal method"
+
+  def instance_repr():
+      return "instance level repr"
+  def instance_normal_method():
+      return "instance level normal method"
+
+  a = A()
+  print(a)  # class level repr
+  print(a.normal_method())  # class level normal method
+
+  a.__repr__ = instance_repr
+  a.normal_method = instance_normal_method
+
+  print(a)  # class level repr
+  print(a.normal_method())  # instance level normal method
+
+  print(a.__repr__())  # instance level repr
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>ZODB - объектно ориентированная база данных для python объектов, поддерживает ACID транзакции (включая savepoints)</p>
+  </li>
+  <li>
+    <p>slice object:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  L[2:4] == L[slice(2,4)]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>iteration context (for, while, …) will try</p>
+
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">__iter__</code></li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">__getitem__</code></p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> class Gen(object):
+     def __getitem__(self, index):
+         if index &gt; 5:
+             raise StopIteration()
+         return index
+
+ for x in Gen():
+     print x,
+
+ # output
+ 0 1 2 3 4 5
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>for вызывает <code class="language-plaintext highlighter-rouge">__iter__()</code>. Потом к полученному объекту вызывает <code class="language-plaintext highlighter-rouge">__next__()</code> (в py2 <code class="language-plaintext highlighter-rouge">.next()</code>), пока не получит <code class="language-plaintext highlighter-rouge">StopIteration</code>. В классе можно использовать <code class="language-plaintext highlighter-rouge">__iter__(): yield ...</code>, тогда не надо реализовать <code class="language-plaintext highlighter-rouge">__next__</code></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">__call__</code> вызывается, когда скобки <code class="language-plaintext highlighter-rouge">()</code> применяются к инстансу, а не к классу</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class A(object):
+      def __call__(self):
+          print("call")
+
+  a = A()  # nothing
+  a()  # print call
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">__eq__</code> = True не подразумевает, что <code class="language-plaintext highlighter-rouge">__ne__</code> = False</p>
+  </li>
+  <li>
+    <p>boolean context:</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">__bool__</code> (<code class="language-plaintext highlighter-rouge">__nonzero__</code> in py2)</li>
+      <li><code class="language-plaintext highlighter-rouge">__len__</code></li>
+      <li>True</li>
+    </ul>
+  </li>
+  <li>
+    <p>паттерны ООП</p>
+
+    <ul>
+      <li>inheritance - “is a”</li>
+      <li>composition - “has a” (контейнер хранит другие объекты)</li>
+      <li>delegation - вид composition, когда хранится только один объект. Wrapper сохраняет основной интерфейс, добавляя какие-то шаги.</li>
+    </ul>
+  </li>
+  <li>
+    <p>аттрибуты и методы класса, которые начинаются с двух подчеркиваний <code class="language-plaintext highlighter-rouge">__</code>, но не заканчиваются ими, имеют особое поведение. Они не пересекаются с одноименными аттрибутами и методами унаследованного класса. В <code class="language-plaintext highlighter-rouge">__dict__</code> они попадают под именем <code class="language-plaintext highlighter-rouge">_ClassName__attrname</code>.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class A(object):
+      __x = 1
+
+      def show_a(self):
+          print self.__x
+
+  class B(A):
+
+      def show_b(self):
+          print self.__x
+
+  &gt;&gt;&gt; a = A()
+  &gt;&gt;&gt; a.show_a()
+  1
+  &gt;&gt;&gt; b = B()
+  &gt;&gt;&gt; b.show_a()
+  1
+  &gt;&gt;&gt; b.show_b()
+  AttributeError: 'B' object has no attribute '_B__x'
+
+  class B(A):
+      __x = 2
+
+      def show_b(self):
+          print self.__x
+
+  &gt;&gt;&gt; b = B()
+  &gt;&gt;&gt; b.show_a()
+  1
+  &gt;&gt;&gt; b.show_b()
+  2
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>в py3 можно в методе класса не указывать аргумент self, и использовать его только от имени класса (не инстанса) - он будет работать как static method. В py2 так нельзя.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class A(object):
+      def f():
+          print("f")
+
+  # python 2
+  &gt;&gt;&gt; A.f()
+  TypeError: unbound method f() must be called with A instance as first argument (got nothing instead)
+
+  # python 3
+  &gt;&gt;&gt; A.f()
+  f
+  &gt;&gt;&gt; a = A()
+  &gt;&gt;&gt; a.f()
+  TypeError: f() takes 0 positional arguments but 1 was given
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>bound function:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class A(object):
+      def f(self):
+          pass
+
+  a = A()
+  print(a.f.__self__)  # вот где хранится self
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>поиск аттрибутов в classic (old-style) классах и new-style классах:</p>
+
+    <ul>
+      <li>classic. DFLR: Depth First, Left to Right</li>
+      <li>new-style. Diamond pattern, L-R, D-F; MRO (хитрее, чем просто LRDF)</li>
+    </ul>
+
+    <p>MRO исключает класс, от которого унаследованны &gt;= 2 других класса, от поиска аттрибуты дважды. Т.е. класс пападает в поиск только 1 раз.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  # python 2 old-style
+  class A: attr = 1
+
+  class B(A): pass
+
+  class C(A): attr = 2
+
+  class D(B,C): pass
+
+  &gt;&gt;&gt; x = D()
+  &gt;&gt;&gt; print(x.attr)  # x, D, B, A
+  1
+
+  # python 2 new-style
+  class A(object): attr = 1
+
+  class B(A): pass
+
+  class C(A): attr = 2
+
+  class D(B,C): pass
+
+  &gt;&gt;&gt; x = D()
+  &gt;&gt;&gt; print(x.attr)  # x, D, B, C
+  2
+
+  # scheme
+  A     A
+  |     |
+  B     C
+  \     /
+     |
+     D
+     |
+     X
+</code></pre></div>    </div>
+
+    <p>Посмотреть порядок поиска в new-style (по алгоритму mro):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; D.__mro__
+  (&lt;class '__main__.D'&gt;, &lt;class '__main__.B'&gt;, &lt;class '__main__.C'&gt;, &lt;class '__main__.A'&gt;, &lt;type 'object'&gt;)
+  &gt;&gt;&gt; D.mro()  # все равно что list(D.__mro__)
+  [&lt;class '__main__.D'&gt;, &lt;class '__main__.B'&gt;, &lt;class '__main__.C'&gt;, &lt;class '__main__.A'&gt;, &lt;type 'object'&gt;]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>format() конструкция вызывает метод <code class="language-plaintext highlighter-rouge">__format__</code>. Если его нет, то в py2 - TypeError.</p>
+
+    <p>python 2</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; print('{0}'.format(object))
+  &lt;type 'object'&gt;
+  &gt;&gt;&gt; print('{0}'.format(object.__reduce__))
+  TypeError: Type method_descriptor doesn't define __format__
+  # явно вызовим __str__
+  &gt;&gt;&gt; print('{0!s}'.format(object.__reduce__))
+  &lt;method '__reduce__' of 'object' objects&gt;
+</code></pre></div>    </div>
+
+    <p>python 3.4</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; print('{0}'.format(object.__reduce__))
+  &lt;method '__reduce__' of 'object' objects&gt;
+</code></pre></div>    </div>
+
+    <p>python 2 &amp; 3</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class A(object):
+      def __format__(self, *args):
+          return "A.__format__"
+
+      def __str__(self):
+          return "A.__str__"
+
+  &gt;&gt;&gt; a = A()
+  &gt;&gt;&gt; "{0}".format(a)
+  'A.__format__'
+  &gt;&gt;&gt; print(a)
+  A.__str__
+  &gt;&gt;&gt; '%s' % a
+  'A.__str__'
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>В <code class="language-plaintext highlighter-rouge">__dict__</code> не попадают “виртуальные” аттрибуты:</p>
+
+    <ul>
+      <li>new-style properties (<code class="language-plaintext highlighter-rouge">@property</code>)</li>
+      <li>slots</li>
+      <li>descriptors</li>
+      <li>dynamic attrs computed with tools like <code class="language-plaintext highlighter-rouge">__getattr__</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>MRO - method resolution order</p>
+  </li>
+  <li>
+    <p>diamond pattern - разновидность ‘multi inheritance’, когда 2 или более класса могут быть потомками одного и того же класса (object). Этот паттерн используется в python.</p>
+  </li>
+  <li>
+    <p>прокси объект, который возвращает <code class="language-plaintext highlighter-rouge">super()</code>, не работает с операторами:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  # python 3
+  class A(list):
+      def get_some(self):
+          return super()[0]
+
+  &gt;&gt;&gt; a = A([1, 2])
+  &gt;&gt;&gt; a.get_some()
+  TypeError: 'super' object is not subscriptable
+
+  class A(list):
+      def get_some(self):
+          return super().__getitem__(0)
+
+  &gt;&gt;&gt; a = A([1,2])
+  &gt;&gt;&gt; a.get_some()
+  1
+
+
+  # python 2
+  class A(list):
+      def get_some(self):
+          return super(A, self)[0]
+
+  &gt;&gt;&gt; a = A([1,2])
+  &gt;&gt;&gt; a.get_some()
+  TypeError: 'super' object has no attribute '__getitem__'
+
+  class A(list):
+      def get_some(self):
+          return super(A, self).__getitem__(0)
+
+  &gt;&gt;&gt; a = A([1,2])
+  &gt;&gt;&gt; a.get_some()
+  1
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>super()</p>
+
+    <ul>
+      <li>
+        <p>Плюсы super():</p>
+
+        <ul>
+          <li>если superclass нужно изменить в runtime, без super не получится: <code class="language-plaintext highlighter-rouge">C.__bases__ = (Y, )</code></li>
+          <li>
+            <p>когда нужно вызвать цепочки унаследованных методов в multi inheritance классе, в порядке MRO.</p>
+
+            <p>Если попытаться вызвать без super, то можем вызвать метод какого-то класса дважды.</p>
+
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class A(object):
+      def __init__(self):
+          print("A")
+
+  class B(A):
+      def __init__(self):
+          print("B")
+          super(B, self).__init__()
+
+  class C(A):
+      def __init__(self):
+          print("C")
+          super(C, self).__init__()
+
+  class D(B, C):
+      pass
+
+  &gt;&gt;&gt; d = D()
+  B
+  C
+  A
+  &gt;&gt;&gt; B.mro()
+  [&lt;class '__main__.B'&gt;, &lt;class '__main__.A'&gt;, &lt;type 'object'&gt;]
+  &gt;&gt;&gt; D.mro()
+  [&lt;class '__main__.D'&gt;, &lt;class '__main__.B'&gt;, &lt;class '__main__.C'&gt;, &lt;class '__main__.A'&gt;, &lt;type 'object'&gt;]
+</code></pre></div>            </div>
+
+            <p>Вызов цепочки методов</p>
+
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class B(object):
+      def __init__(self):
+          print("B")
+          # for B super is C here, by MRO order
+          super(B, self).__init__()
+
+  class C(object):
+      def __init__(self):
+          print("C")
+          # it is ok here to call super().__init__
+          # because object also has __init__
+          super(C, self).__init__()
+
+  class D(B, C):
+      pass
+
+  &gt;&gt;&gt; d = D()
+  B
+  C
+</code></pre></div>            </div>
+          </li>
+          <li>super будет искать метод в иерархии MRO. Он будет искать пока не найдет или пока не упрется. Т.е. допустим иерархия для super: A, С, и в A нет метода, а в C есть, то вызовится C.method без ошибки</li>
+        </ul>
+      </li>
+      <li>
+        <p>минусы (или особенности) super():</p>
+
+        <ul>
+          <li>при использовании super все методы в цепочке должны принимать одинаковые аргументы</li>
+          <li>super().m - все классы должны иметь метод m и вызывать super().m, кроме последнего, который вызывать super не должен</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>унаследовать метод от конкретного класса:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class A(B, C):
+      other = C.other  # not B other
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>finally вызовится даже если исключение случается в except блоке или else блоке</p>
+  </li>
+  <li>
+    <p>исключение - всегда instance, даже если raise ExceptionClass (без <code class="language-plaintext highlighter-rouge">()</code>), автоматически (без аргументов) создается instance:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  raise Exception  # == raise Exception()
+  raise  # возбуждается перехваченное исключение
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>py2, посмотреть исключения builtin:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  import exceptions
+  help(exceptions)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>минус чтения байтов из файла с последующим ручным decode в том, что если мы будем читать по кускам, то может быть сложный случай, когда один байт одного символа попадает в один кусок, а другой - в другой. Поэтому в py2 лучше использовать codecs.</p>
+  </li>
+  <li>
+    <p>Когда имя файла даем в unicode, python автоматически декодит и кодит в байты. Когда имя файла - байты, то не кодит нечего. encoding для имен файлов (дефолтный):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; sys.getfilesystemencoding()
+  'utf-8'
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>дескриптор - это класс, который реализует хотя бы один из методов</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">__get__</code></li>
+      <li><code class="language-plaintext highlighter-rouge">__set__</code></li>
+      <li><code class="language-plaintext highlighter-rouge">__delete__</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>Если в дескрипторе не реализовать <code class="language-plaintext highlighter-rouge">__set__</code>, то это еще не значит, что соответствующий аттрибут будет read-only. Аттрибут просто перезатрется. Надо делать <code class="language-plaintext highlighter-rouge">__set__</code> с исключением.</p>
+  </li>
+  <li>
+    <p>декоратры можно совмещать, тогда они будут применяться в порядке снизу вверх:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  @A
+  @B
+  @C
+  def f(): pass
+
+  # все равно что
+
+  f = A(B(C(f)))
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>декоратор может принимать аргументы. Реализовать можно через вложенные функции</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  @dec(a, b)
+  def f(): pass
+
+  # все равно что
+
+  f = dec(a, b)(f)
+
+  # реализация:
+
+  def dec(a, b):
+      def actual_dec(f):
+          return f
+      return actual_dec
+</code></pre></div>    </div>
+
+    <p>Т.е. декоратор может включать <strong>3 уровня callables</strong>:</p>
+
+    <ul>
+      <li>callable to accept decorator args</li>
+      <li>callable to serve as decorator</li>
+      <li>callable to handle calls to the original function</li>
+    </ul>
+  </li>
+  <li>
+    <p>при создании класса вызываются два метода класса type:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  type.__new__(type_class, class_name, super_classes, attr_dict)
+  type.__init__(class, class_name, super_classes, attr_dict)
+
+  # python 3
+  class Eggs: pass
+
+  class Spam(Eggs):
+      data = 1
+      def method(self, arg): pass
+
+  # все равно, что
+  Eggs = type('Eggs', (), ...)  # в () object добавится автоматически
+
+  Spam = type('Spam', (Eggs, ), {'data': 1, 'method': method, '__module__': '__main__'})
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Задать метакласс для класса</p>
+
+    <p><strong>python 2</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class Spam(object):
+      __metaclass__ = Meta
+</code></pre></div>    </div>
+
+    <p>Наследовать от object не обязательно, но если его нет, а <code class="language-plaintext highlighter-rouge">__metaclass__</code>
+  есть, то результат все равно будет new-style, и в <code class="language-plaintext highlighter-rouge">__bases__</code> будет object.
+  Но лучше явно указать object, т.к. могут быть проблемы, например с наследованием.</p>
+
+    <p><strong>python 3</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class Spam(Eggs, metaclass=Meta):
+      pass
+</code></pre></div>    </div>
+
+    <p>аттрибут <code class="language-plaintext highlighter-rouge">__metaclass__</code> просто игнорируется</p>
+  </li>
+  <li>
+    <p>Метакласс сам не обязательно должен быть классом. Просто его вызов должен возвращать класс. Это может быть и функция:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  def meta_func(class_name, bases, attr_dict):
+      return type(class_name, bases, attr_dict)
+
+  # python 2
+  class Spam(object):
+      __metaclass__ = meta_func
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>У обычных классов тоже есть метод <code class="language-plaintext highlighter-rouge">__new__</code>. Но он не создает класс, он вызывается при создании инстанса класса (получает готовый класс в качестве аргумента). Он же и вызывает <code class="language-plaintext highlighter-rouge">__init__</code>.</p>
+  </li>
+  <li>
+    <p>Магические методы метакласса и класса:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class Meta(type): pass
+</code></pre></div>    </div>
+
+    <p>при создании класса Class (<code class="language-plaintext highlighter-rouge">class Class(metaclass=Meta): ...</code>) вызываются методы</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Meta.__new__
+  Meta.__init__
+</code></pre></div>    </div>
+
+    <p>при создании инстанса класса Class (<code class="language-plaintext highlighter-rouge">instance = Class(...)</code>) вызываются методы (внешний вызывает вложенный)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Meta.__call__
+      calls Class.__new__
+          calls Class.__init__
+</code></pre></div>    </div>
+
+    <p>при вызове инстанса класса Class (<code class="language-plaintext highlighter-rouge">instance()</code>) вызывается метод</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Class.__call__
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Метакласс можно не наследовать от type, а определить метод <code class="language-plaintext highlighter-rouge">__new__</code>. Но тогда методы <code class="language-plaintext highlighter-rouge">__init__</code>, <code class="language-plaintext highlighter-rouge">__call__</code> нашего метакласса не будут вызываться:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class MySimpleMetaClass(object):
+      def __new__(cls, *args, **kwargs):
+          new_class = type.__new__(type, *args, **kwargs)
+          return new_class
+
+      def __init__(new_class, *args, **kwargs):
+          print("__init__ won't be called...")
+
+      def __call__(*args, **kwargs):
+          print("__call__ won't be called...")
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Метакласс класса вызывается и для всех потомков класса. Когда <code class="language-plaintext highlighter-rouge">__new__</code> метакласса вызывается для родительского класса, в bases будет <code class="language-plaintext highlighter-rouge">(&lt;type 'object'&gt;,)</code>, а для дочернего класса - класс родителя.</p>
+  </li>
+  <li>
+    <p>Аттрибуты метакласса наследуются классом, но не инстансами класса.</p>
+
+    <p>python 2 (в python 3 небольшие отличия в синтаксисе)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class MyMetaClass(type):
+      attr = 2
+
+      def __new__(*args, **kwargs):
+          return type.__new__(*args, **kwargs)
+
+      def toast(*args, **kwargs):
+          print(args, kwargs)
+
+  class A(object):
+      __metaclass__ = MyMetaClass
+</code></pre></div>    </div>
+
+    <p>Метакласс входит в цепочку поиска аттрибутов класса</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; A.toast()
+  ((&lt;class '__main__.A'&gt;,), {})
+</code></pre></div>    </div>
+
+    <p>Интересно, что метод от метакласса - bound, хотя вызывается от класса, не от инстанса. На самом деле класс - это инстанс метакласса:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; A.toast
+  &lt;bound method MyMetaClass.toast of &lt;class '__main__.A'&gt;&gt;
+</code></pre></div>    </div>
+
+    <p>Но метакласс не входит в цепочку поиска аттрибутов инстанса класса</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; a = A()
+  &gt;&gt;&gt; a.toast()
+  AttributeError: 'A' object has no attribute 'toast'
+</code></pre></div>    </div>
+
+    <p>Если в каком-нибудь super классе объявлен аттрибут с тем же именем, что и в метаклассе, то он имеет преимущество (не важно насколько глубоко super)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class B(object):
+      attr = 1
+
+  class C(B):
+      __metaclass__ = MyMetaClass
+
+  &gt;&gt;&gt; C.attr
+  1  # MyMetaClass.attr = 2 is ignored
+</code></pre></div>    </div>
+
+    <p>Аттрибуты инстанса ищутся в его <code class="language-plaintext highlighter-rouge">__dict__</code>, дальше в <code class="language-plaintext highlighter-rouge">__dict__</code>‘ах <code class="language-plaintext highlighter-rouge">__class__.__mro__</code>.
+  Аттрибуты класса ищутся еще и в <code class="language-plaintext highlighter-rouge">__class__.__mro__</code>, это другой класс, со стороны инстанса это будет <code class="language-plaintext highlighter-rouge">__class__.__class__.__mro__</code>.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; inst = C()
+  &gt;&gt;&gt; inst.__class__ -&gt; &lt;class '__main__.C'&gt;
+  &gt;&gt;&gt; C.__bases__    -&gt; (&lt;class '__main__.B'&gt;,)
+  &gt;&gt;&gt; C.__class__    -&gt; &lt;class '__main__.MyMetaClass'&gt;
+</code></pre></div>    </div>
+
+    <p>Инстансы наследуют аттрибуты от всех суперклассов. Классы - от суперклассов и метаклассов. Метаклассы - от супер-метаклассов (и вероятно от мета-метаклассов).</p>
+
+    <p>Data descriptor’ы (те, которые определяют <code class="language-plaintext highlighter-rouge">__set__</code>) вносят небольшие поправки в порядок поиска аттрибутов для инстанса.
+  Для инстанса, data descriptor будут иметь преимущество в поиске, даже если они объявлены в супер классах:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class DataDescriptor(object):
+      def __get__(self, instance, owner):
+          print("DataDescriptor.__get__")
+          return 5
+      def __set__(self, instance, value):
+          print("DataDescriptor.__set__", value)
+
+
+  class B(object):
+      attr = DataDescriptor()
+
+  class C(B):
+      pass
+
+  &gt;&gt;&gt; c = C()
+  &gt;&gt;&gt; c.__dict__['attr'] = 88
+  &gt;&gt;&gt; c.attr
+  DataDescriptor.__get__
+  5
+  &gt;&gt;&gt; c.attr = 8
+  ('DataDescriptor.__set__', 8)
+</code></pre></div>    </div>
+
+    <p>Вызвался дескриптор, несмотря на то, что мы задали аттрибут с тем же именем в <code class="language-plaintext highlighter-rouge">c.__dict__</code>.
+  Аттрибут не затер дескриптор суперкласса, сработал дескриптор.
+  Такого поведения не будет с обычным дескриптором (nondata):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class SimpleDescriptor(object):
+      def __get__(self, instance, owner):
+          print("SimpleDescriptor.__get__")
+          return 5
+
+  class B(object):
+      attr = SimpleDescriptor()
+
+  class C(B):
+      pass
+
+  &gt;&gt;&gt; c = C()
+  &gt;&gt;&gt; c.attr
+  SimpleDescriptor.__get__
+  5
+  &gt;&gt;&gt; c.__dict__['attr'] = 88
+  &gt;&gt;&gt; c.attr
+  88
+</code></pre></div>    </div>
+
+    <p>Так же, для builtin операторов, которые вызывают магические методы, поиск особый. Он минует <code class="language-plaintext highlighter-rouge">instance.__dict__</code>, сразу идет поиск в <code class="language-plaintext highlighter-rouge">__dict__</code> классов из <code class="language-plaintext highlighter-rouge">__mro__</code>.</p>
+  </li>
+  <li>
+    <p>магические методы, которые вызываются неявно путем использования builtin операторов для классов ищутся в метаклассе, минуя сами классы (сам класс и всего его суперклассы):</p>
+
+    <p>python 2 (в python 3 небольшие отличия в синтаксисе)</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  class MyMetaClass(type):
+      def __new__(*args, **kwargs):
+          return type.__new__(*args, **kwargs)
+      def __str__(cls):
+          return "__str__ from meta"
+
+  class A(object):
+      __metaclass__ = MyMetaClass
+      def __str__(self):
+          return "__str__ from class A"
+</code></pre></div>    </div>
+
+    <p>Вызывается метод <code class="language-plaintext highlighter-rouge">__str__</code> метакласса, а не класса:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; print A
+  __str__ from meta
+</code></pre></div>    </div>
+
+    <p>А тут вызывается метод <code class="language-plaintext highlighter-rouge">__str__</code> от object:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &gt;&gt;&gt; print MyMetaClass
+  &lt;class '__main__.MyMetaClass'&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Автор Марк Лутц немного беспокоится, что python становится слишком сложным и обрастает дублирующим функционалом, например:</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">str.format</code> и <code class="language-plaintext highlighter-rouge">%</code></li>
+      <li><code class="language-plaintext highlighter-rouge">with</code> и <code class="language-plaintext highlighter-rouge">try/finally</code></li>
+    </ul>
+
+    <p>Это противоречит <code class="language-plaintext highlighter-rouge">import this</code></p>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/python/2015/04/30/base-python-tips-tricks.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
