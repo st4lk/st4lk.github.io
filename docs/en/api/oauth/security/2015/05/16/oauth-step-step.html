@@ -9,15 +9,15 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="Gist OAuth protocol has two versions: 1.0 and 2.0. Most of services today use version 2.0, i suppose because it is easier to implement. Also, 2.0 can be realized in standalone applications (those, that don’t have a server). To understand the protocols very useful to have a look at their realisation. Here i’ll show several scripts that talk to OAuth providers of different versions. Scripts will implement client application functionality. Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else. It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight." />
 <meta property="og:description" content="Gist OAuth protocol has two versions: 1.0 and 2.0. Most of services today use version 2.0, i suppose because it is easier to implement. Also, 2.0 can be realized in standalone applications (those, that don’t have a server). To understand the protocols very useful to have a look at their realisation. Here i’ll show several scripts that talk to OAuth providers of different versions. Scripts will implement client application functionality. Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else. It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight." />
-<link rel="canonical" href="https://st4lk.github.io/en/api/oauth/security/2015/04/30/oauth-step-step.html" />
-<meta property="og:url" content="https://st4lk.github.io/en/api/oauth/security/2015/04/30/oauth-step-step.html" />
+<link rel="canonical" href="https://st4lk.github.io/en/api/oauth/security/2015/05/16/oauth-step-step.html" />
+<meta property="og:url" content="https://st4lk.github.io/en/api/oauth/security/2015/05/16/oauth-step-step.html" />
 <meta property="og:site_name" content="Developer articles" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2015-04-30T18:19:43+00:00" />
+<meta property="article:published_time" content="2015-05-16T18:19:43+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="OAuth step by step" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-04-30T18:19:43+00:00","datePublished":"2015-04-30T18:19:43+00:00","description":"Gist OAuth protocol has two versions: 1.0 and 2.0. Most of services today use version 2.0, i suppose because it is easier to implement. Also, 2.0 can be realized in standalone applications (those, that don’t have a server). To understand the protocols very useful to have a look at their realisation. Here i’ll show several scripts that talk to OAuth providers of different versions. Scripts will implement client application functionality. Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else. It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight.","headline":"OAuth step by step","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/api/oauth/security/2015/04/30/oauth-step-step.html"},"url":"https://st4lk.github.io/en/api/oauth/security/2015/04/30/oauth-step-step.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-05-16T18:19:43+00:00","datePublished":"2015-05-16T18:19:43+00:00","description":"Gist OAuth protocol has two versions: 1.0 and 2.0. Most of services today use version 2.0, i suppose because it is easier to implement. Also, 2.0 can be realized in standalone applications (those, that don’t have a server). To understand the protocols very useful to have a look at their realisation. Here i’ll show several scripts that talk to OAuth providers of different versions. Scripts will implement client application functionality. Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else. It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight.","headline":"OAuth step by step","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/api/oauth/security/2015/05/16/oauth-step-step.html"},"url":"https://st4lk.github.io/en/api/oauth/security/2015/05/16/oauth-step-step.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="shortcut icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/en/assets/main.css">
@@ -35,8 +35,8 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/en/about/">About</a><a class="page-link" style="margin-right: 0px" href="/api/oauth/security/2015/04/30/oauth-step-step.html" ><img src="/en/assets/images/ru.png" /></a>
-          <a class="page-link" href="/en/api/oauth/security/2015/04/30/oauth-step-step.html" ><img src="/en/assets/images/en.png" /></a>
+        <div class="trigger"><a class="page-link" href="/en/about/">About</a><a class="page-link" style="margin-right: 0px" href="/api/oauth/security/2015/05/16/oauth-step-step.html" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/api/oauth/security/2015/05/16/oauth-step-step.html" ><img src="/en/assets/images/en.png" /></a>
         </div>
       </nav></div>
 </header>
@@ -47,14 +47,14 @@
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">OAuth step by step</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2015-04-30T18:19:43+00:00" itemprop="datePublished">Apr 30, 2015
+      <time class="dt-published" datetime="2015-05-16T18:19:43+00:00" itemprop="datePublished">May 16, 2015
       </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
     <div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/4b71b72007a666435f81" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
 
-<p><a href="/en/api/oauth/security/2015/04/30/oauth-step-step.html"><img src="https://img-fotki.yandex.ru/get/9819/85893628.c68/0_185253_82b5fefa_M.png" alt="OAuth step by step" title="OAuth step by step" /></a></p>
+<p><a href="/en/api/oauth/security/2015/05/16/oauth-step-step.html"><img src="https://img-fotki.yandex.ru/get/9819/85893628.c68/0_185253_82b5fefa_M.png" alt="OAuth step by step" title="OAuth step by step" /></a></p>
 
 <p>OAuth protocol has two versions: 1.0 and 2.0.</p>
 
@@ -146,7 +146,7 @@ Server use secret key to get an access_token. Pay attention, no crypto library i
 <script src="https://gist.github.com/st4lk/af1db97e36897b918f22.js"></script>
 
 
-  </div><a class="u-url" href="/en/api/oauth/security/2015/04/30/oauth-step-step.html" hidden></a>
+  </div><a class="u-url" href="/en/api/oauth/security/2015/05/16/oauth-step-step.html" hidden></a>
 </article>
 
       </div>

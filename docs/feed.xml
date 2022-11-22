@@ -1,4 +1,156 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-22T08:52:32+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Python tips &amp;amp; tricks</title><link href="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html" rel="alternate" type="text/html" title="Python tips &amp;amp; tricks" /><published>2015-04-30T18:19:43+00:00</published><updated>2015-04-30T18:19:43+00:00</updated><id>https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks</id><content type="html" xml:base="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html">&lt;p&gt;&lt;a href=&quot;/python/2015/04/30/base-python-tips-tricks.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/9067/85893628.c68/0_181e3c_92d918ca_M.jpg&quot; alt=&quot;Python tips &amp;amp; tricks&quot; title=&quot;Python tips &amp;amp; tricks&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-22T11:08:02+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Tornado and pgettext</title><link href="https://st4lk.github.io/i18n/tornado/2015/06/05/tornado-and-pgettext.html" rel="alternate" type="text/html" title="Tornado and pgettext" /><published>2015-06-05T18:19:43+00:00</published><updated>2015-06-05T18:19:43+00:00</updated><id>https://st4lk.github.io/i18n/tornado/2015/06/05/tornado-and-pgettext</id><content type="html" xml:base="https://st4lk.github.io/i18n/tornado/2015/06/05/tornado-and-pgettext.html">&lt;p&gt;&lt;a href=&quot;/i18n/tornado/2015/06/05/tornado-and-pgettext.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/15560/85893628.c68/0_18816d_971d97b2_L.png&quot; alt=&quot;Tornado and pgettext&quot; title=&quot;Tornado and pgettext&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Недавно (26 мая 2015 года) вышел релиз &lt;a href=&quot;http://www.tornadoweb.org/en/latest/releases/v4.2.0.html&quot;&gt;tornado 4.2&lt;/a&gt;. В него вошли разные дополнения, пожалуй основные из них - модули tornado.locks и tornado.queues. Они перекочевали из пакета Toro, подробное описание процесса от Jesse Jiryu Davis в его &lt;a href=&quot;http://emptysqua.re/blog/tornado-locks-and-queues/&quot;&gt;блоге&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Здесь же хочу рассказать о другой маленькой функции, которая была добавлена с моей помощью - &lt;a href=&quot;http://www.tornadoweb.org/en/latest/locale.html#tornado.locale.GettextLocale.pgettext&quot;&gt;pgettext&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Она может быть полезна, когда вы создаете перевод для неоднозначных строк. Допустим есть слово “bat”, которое нужно вывести либо на английском, либо на русском, в зависимости от языка пользователя. Для этого можно воспользоваться соответствующими функциями перевода.&lt;/p&gt;
+
+&lt;p&gt;Например так (html шаблон):&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{_(&quot;Bat&quot;)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Далее мы с помощью утилиты xgettext создадим файл перевода, в котором будет что-то такое (подробно про процесс i18n можно почитать &lt;a href=&quot;/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html&quot;&gt;тут&lt;/a&gt;)&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msgid &quot;Bat&quot;
+msgstr &quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Теперь на месте пустой строки нам нужно вставить перевод. Но что означает слово “Bat”? В английском языке это слово может означать “летучая мышь”, а может “дубина”, в зависимости от контекста. Переводчику будет очень трудно понять, что же имелось в виду.&lt;/p&gt;
+
+&lt;p&gt;Вот где пригодится функция pgettext, ей в качестве первого аргумента передается контекст фразы:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{ pgettext(&quot;mammal&quot;, &quot;Bat&quot;) }}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;При генерации перевода нужно дополнительно указать такие опции для утилиты xgettext:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;pgettext:1c,2 &lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;pgettext:1c,2,3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;После этого файл перевода будет выглядеть так:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msgctxt &quot;mammal&quot;
+msgid &quot;Bat&quot;
+msgstr &quot;&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Переводчик поймет, что в данном случае имелась в виду именно летучая мышь, поэтому перевод однозначен:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msgctxt &quot;mammal&quot;
+msgid &quot;Bat&quot;
+msgstr &quot;Летучая мышь&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Множественные формы так же поддерживаются:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{ pgettext(&quot;mammal&quot;, &quot;Bat&quot;, &quot;Bats&quot;, 2) }}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;В python коде (не в шаблоне) это будет выглядеть так:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;home.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pgettext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mammal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Bat&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Bats&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Сам перевод множественных значений:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msgctxt &quot;mammal&quot;
+msgid &quot;Bat&quot;
+msgid_plural &quot;Bats&quot;
+msgstr[0] &quot;Летучая мышь&quot;
+msgstr[1] &quot;Летучие мыши&quot;
+msgstr[2] &quot;Летучих мышей&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="i18n" /><category term="tornado" /><summary type="html">Недавно (26 мая 2015 года) вышел релиз tornado 4.2. В него вошли разные дополнения, пожалуй основные из них - модули tornado.locks и tornado.queues. Они перекочевали из пакета Toro, подробное описание процесса от Jesse Jiryu Davis в его блоге. Здесь же хочу рассказать о другой маленькой функции, которая была добавлена с моей помощью - pgettext.</summary></entry><entry><title type="html">OAuth step by step</title><link href="https://st4lk.github.io/api/oauth/security/2015/05/16/oauth-step-step.html" rel="alternate" type="text/html" title="OAuth step by step" /><published>2015-05-16T18:19:43+00:00</published><updated>2015-05-16T18:19:43+00:00</updated><id>https://st4lk.github.io/api/oauth/security/2015/05/16/oauth-step-step</id><content type="html" xml:base="https://st4lk.github.io/api/oauth/security/2015/05/16/oauth-step-step.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/4b71b72007a666435f81&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;/api/oauth/security/2015/05/16/oauth-step-step.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/9819/85893628.c68/0_185253_82b5fefa_M.png&quot; alt=&quot;OAuth step by step&quot; title=&quot;OAuth step by step&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;OAuth протокол бывает двух версий: 1.0 и 2.0.&lt;/p&gt;
+
+&lt;p&gt;Большинство сервисов сегодня используют версию 2.0, вероятно потому что
+ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в
+standalone-приложениях (те, которые без сервера).&lt;/p&gt;
+
+&lt;p&gt;Для понимания протоколов очень полезно взглянуть на их реализацию.
+Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий.
+Т.е. все скрипты реализуют функционал клиента (не сервера).
+Используются только стандартные python библиотеки.
+Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое.
+Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты.
+Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Для начала немного теории.
+Наверняка вы знаете, что есть два понятия - &lt;em&gt;аутентификация&lt;/em&gt; (authentication) и &lt;em&gt;авторизация&lt;/em&gt; (authorization).
+Они вроде бы об одном и том же, но все-таки немного о разном.
+На всякий случай напомню:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;аутентификация - это процесс подтверждения подлинности.
+  Т.е. нам нужно просто узнать, что данный человек действительно владеет аккаунтом google с таким id и нам этого достаточно.
+  Просто залогинить пользователя, не получая никаких прав на какие-либо действия с аккаунтом google’а.
+  Этим занимается например протокол OpenID (хотя сейчас google предлагает &lt;a href=&quot;https://developers.google.com/identity/sign-in/auth-migration#sign-in&quot;&gt;другой способ&lt;/a&gt;, OpenID - &lt;a href=&quot;https://developers.google.com/identity/protocols/OpenID2&quot;&gt;deprecated&lt;/a&gt;).&lt;/li&gt;
+  &lt;li&gt;авторизация - процесс предоставления полномочий что-то делать с аккаунтом.
+  Авторизация уже включает в себя аутентификацию, но дает дополнительные возможности.
+  Например, не просто подтвердить, что пользователь действительно является владельцем аккаунта с определенным id, но еще и узнать его email. А возможно и написать что-то на его стене.
+  Вот это предоставляет протокол OAuth.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Чтобы легче запомнить я использую слово “автор”. Если есть “автор” - значит речь идет о правах (авторстве). Если нет - значит просто проверка подлинности.&lt;/p&gt;
+
+&lt;h3 id=&quot;oauth-10&quot;&gt;OAuth 1.0&lt;/h3&gt;
+
+&lt;p&gt;Спецификация: &lt;a href=&quot;http://tools.ietf.org/html/rfc5849&quot;&gt;http://tools.ietf.org/html/rfc5849&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Самое главное, что нужно запомнить - в OAuth 1.0 &lt;strong&gt;все&lt;/strong&gt; запросы подписываются секретным ключом.
+Секретный ключ нужно хранить только в безопасном месте, единственное такое место - это сервер.
+Благодаря этому протокол обеспечивает полную безопасность, даже если не используется https.
+Безопасность в том плане, что даже подслушав запрос злоумышленник не сможет сделать другой валидный запрос.
+Подслушать сами передаваемые данные он конечно сможет, чтобы их скрыть нужен https.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/314e181faaea7d671d0e.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;oauth-10-less-legged-2-legged-1-legged-0-legged&quot;&gt;OAuth 1.0 less-legged (2-legged, 1-legged, 0-legged)&lt;/h3&gt;
+
+&lt;p&gt;Это модификация протокола OAuth 1.0, в котором пользователь никак не зайдествован.
+Формально это уже не OAuth протокол, т.к. в спецификции такая последовательность не описана.
+Просто используются те же приемы, поэтому и называют так же.
+В этом случае клиентское приложение является пользователем, оно может запрашивать либо общедоступные ресурсы, либо ресурсы, доступные самому клиентскому приложению (даже приватные).&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/719729c03cf0314179b4.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;oauth-20-с-участием-сервера&quot;&gt;OAuth 2.0 с участием сервера&lt;/h3&gt;
+
+&lt;p&gt;Спецификация: &lt;a href=&quot;http://tools.ietf.org/html/rfc6749&quot;&gt;http://tools.ietf.org/html/rfc6749&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Интересно, что в заглавии спецификации OAuth 2.0 назван фреймворком.
+В то время как в заглавии &lt;a href=&quot;http://tools.ietf.org/html/rfc5849&quot;&gt;спецификации&lt;/a&gt; OAuth 1.0 назван протоколом.&lt;/p&gt;
+
+&lt;p&gt;Для обеспечения полной безопасности OAuth 2.0 необходимо отправлять запросы по https (https должен обеспечивать service provider, например facebook).
+Получив access_token уже не нужно подписывать запросы секретным ключом.
+Т.е. если кто-то подслушает запрос и увидит access_token, то он сможет сделать валидный запрос. Вот зачем нужен https.
+Кроме того при получении access_token, секрет передается по http в открытом виде.&lt;/p&gt;
+
+&lt;p&gt;У полученного access_token всегда есть ограниченное время жизни.&lt;/p&gt;
+
+&lt;p&gt;В связи с этими особенностями (и некоторыми другими), один из проектировщиков протокола OAuth 1.0 даже отказался от участия в разработке OAuth 2.0, ведь последний очень легко реализовать неправильно и в результате безопасность не будет гарантирована. Подробности можно почитать по &lt;a href=&quot;http://hueniverse.com/2012/07/26/oauth-2-0-and-the-road-to-hell/&quot;&gt;ссылке&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Последовательность шагов для получения access_token по OAuth 2.0, которая включает сервер.
+Сервер для получения access_token отправляет секретный код. Обратите внимание, не используется ни одна крипто-библиотека.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/4b71b72007a666435f81.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;oauth-20-без-участия-сервера&quot;&gt;OAuth 2.0 без участия сервера&lt;/h3&gt;
+
+&lt;p&gt;С OAuth 2.0 можно работать и без сервера по упрощенной схеме. В этом случае мы тоже получаем access_token, но для его получения не нужно знать секрет приложения! Обычно время жизни у access_token, полученного таким способом, маленькое (1-2 часа), в то время как время жизни, полученного с участием сервера больше (может быть несколько десятков дней).&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/st4lk/af1db97e36897b918f22.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="oauth" /><category term="security" /><summary type="html">Gist OAuth протокол бывает двух версий: 1.0 и 2.0. Большинство сервисов сегодня используют версию 2.0, вероятно потому что ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в standalone-приложениях (те, которые без сервера). Для понимания протоколов очень полезно взглянуть на их реализацию. Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий. Т.е. все скрипты реализуют функционал клиента (не сервера). Используются только стандартные python библиотеки. Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое. Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты. Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду.</summary></entry><entry><title type="html">Python tips &amp;amp; tricks</title><link href="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html" rel="alternate" type="text/html" title="Python tips &amp;amp; tricks" /><published>2015-04-30T18:19:43+00:00</published><updated>2015-04-30T18:19:43+00:00</updated><id>https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks</id><content type="html" xml:base="https://st4lk.github.io/python/2015/04/30/base-python-tips-tricks.html">&lt;p&gt;&lt;a href=&quot;/python/2015/04/30/base-python-tips-tricks.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/9067/85893628.c68/0_181e3c_92d918ca_M.jpg&quot; alt=&quot;Python tips &amp;amp; tricks&quot; title=&quot;Python tips &amp;amp; tricks&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Недавно прочитал книгу &lt;a href=&quot;http://shop.oreilly.com/product/0636920028154.do&quot;&gt;Марка Лутца “Learning Python”, 5-ое издание&lt;/a&gt;. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта.&lt;/p&gt;
 
@@ -1520,91 +1672,7 @@
 
     &lt;p&gt;Это противоречит &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import this&lt;/code&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="python" /><summary type="html">Недавно прочитал книгу Марка Лутца “Learning Python”, 5-ое издание. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта.</summary></entry><entry><title type="html">OAuth step by step</title><link href="https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step.html" rel="alternate" type="text/html" title="OAuth step by step" /><published>2015-04-30T18:19:43+00:00</published><updated>2015-04-30T18:19:43+00:00</updated><id>https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step</id><content type="html" xml:base="https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step.html">&lt;div class=&quot;gist-wrp&quot;&gt;&lt;div class=&quot;github-btn&quot; id=&quot;github-btn&quot; style=&quot;float:right;&quot;&gt; &lt;a class=&quot;gh-btn&quot; id=&quot;gh-btn&quot; href=&quot;https://gist.github.com/st4lk/4b71b72007a666435f81&quot; target=&quot;_blank&quot;&gt; &lt;span class=&quot;gh-ico&quot;&gt;&lt;/span&gt; &lt;span class=&quot;gh-text&quot; id=&quot;gh-text&quot;&gt;Gist&lt;/span&gt; &lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;/api/oauth/security/2015/04/30/oauth-step-step.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/9819/85893628.c68/0_185253_82b5fefa_M.png&quot; alt=&quot;OAuth step by step&quot; title=&quot;OAuth step by step&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;OAuth протокол бывает двух версий: 1.0 и 2.0.&lt;/p&gt;
-
-&lt;p&gt;Большинство сервисов сегодня используют версию 2.0, вероятно потому что
-ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в
-standalone-приложениях (те, которые без сервера).&lt;/p&gt;
-
-&lt;p&gt;Для понимания протоколов очень полезно взглянуть на их реализацию.
-Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий.
-Т.е. все скрипты реализуют функционал клиента (не сервера).
-Используются только стандартные python библиотеки.
-Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое.
-Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты.
-Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;Для начала немного теории.
-Наверняка вы знаете, что есть два понятия - &lt;em&gt;аутентификация&lt;/em&gt; (authentication) и &lt;em&gt;авторизация&lt;/em&gt; (authorization).
-Они вроде бы об одном и том же, но все-таки немного о разном.
-На всякий случай напомню:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;аутентификация - это процесс подтверждения подлинности.
-  Т.е. нам нужно просто узнать, что данный человек действительно владеет аккаунтом google с таким id и нам этого достаточно.
-  Просто залогинить пользователя, не получая никаких прав на какие-либо действия с аккаунтом google’а.
-  Этим занимается например протокол OpenID (хотя сейчас google предлагает &lt;a href=&quot;https://developers.google.com/identity/sign-in/auth-migration#sign-in&quot;&gt;другой способ&lt;/a&gt;, OpenID - &lt;a href=&quot;https://developers.google.com/identity/protocols/OpenID2&quot;&gt;deprecated&lt;/a&gt;).&lt;/li&gt;
-  &lt;li&gt;авторизация - процесс предоставления полномочий что-то делать с аккаунтом.
-  Авторизация уже включает в себя аутентификацию, но дает дополнительные возможности.
-  Например, не просто подтвердить, что пользователь действительно является владельцем аккаунта с определенным id, но еще и узнать его email. А возможно и написать что-то на его стене.
-  Вот это предоставляет протокол OAuth.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Чтобы легче запомнить я использую слово “автор”. Если есть “автор” - значит речь идет о правах (авторстве). Если нет - значит просто проверка подлинности.&lt;/p&gt;
-
-&lt;h3 id=&quot;oauth-10&quot;&gt;OAuth 1.0&lt;/h3&gt;
-
-&lt;p&gt;Спецификация: &lt;a href=&quot;http://tools.ietf.org/html/rfc5849&quot;&gt;http://tools.ietf.org/html/rfc5849&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Самое главное, что нужно запомнить - в OAuth 1.0 &lt;strong&gt;все&lt;/strong&gt; запросы подписываются секретным ключом.
-Секретный ключ нужно хранить только в безопасном месте, единственное такое место - это сервер.
-Благодаря этому протокол обеспечивает полную безопасность, даже если не используется https.
-Безопасность в том плане, что даже подслушав запрос злоумышленник не сможет сделать другой валидный запрос.
-Подслушать сами передаваемые данные он конечно сможет, чтобы их скрыть нужен https.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/st4lk/314e181faaea7d671d0e.js&quot;&gt;&lt;/script&gt;
-
-&lt;h3 id=&quot;oauth-10-less-legged-2-legged-1-legged-0-legged&quot;&gt;OAuth 1.0 less-legged (2-legged, 1-legged, 0-legged)&lt;/h3&gt;
-
-&lt;p&gt;Это модификация протокола OAuth 1.0, в котором пользователь никак не зайдествован.
-Формально это уже не OAuth протокол, т.к. в спецификции такая последовательность не описана.
-Просто используются те же приемы, поэтому и называют так же.
-В этом случае клиентское приложение является пользователем, оно может запрашивать либо общедоступные ресурсы, либо ресурсы, доступные самому клиентскому приложению (даже приватные).&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/st4lk/719729c03cf0314179b4.js&quot;&gt;&lt;/script&gt;
-
-&lt;h3 id=&quot;oauth-20-с-участием-сервера&quot;&gt;OAuth 2.0 с участием сервера&lt;/h3&gt;
-
-&lt;p&gt;Спецификация: &lt;a href=&quot;http://tools.ietf.org/html/rfc6749&quot;&gt;http://tools.ietf.org/html/rfc6749&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Интересно, что в заглавии спецификации OAuth 2.0 назван фреймворком.
-В то время как в заглавии &lt;a href=&quot;http://tools.ietf.org/html/rfc5849&quot;&gt;спецификации&lt;/a&gt; OAuth 1.0 назван протоколом.&lt;/p&gt;
-
-&lt;p&gt;Для обеспечения полной безопасности OAuth 2.0 необходимо отправлять запросы по https (https должен обеспечивать service provider, например facebook).
-Получив access_token уже не нужно подписывать запросы секретным ключом.
-Т.е. если кто-то подслушает запрос и увидит access_token, то он сможет сделать валидный запрос. Вот зачем нужен https.
-Кроме того при получении access_token, секрет передается по http в открытом виде.&lt;/p&gt;
-
-&lt;p&gt;У полученного access_token всегда есть ограниченное время жизни.&lt;/p&gt;
-
-&lt;p&gt;В связи с этими особенностями (и некоторыми другими), один из проектировщиков протокола OAuth 1.0 даже отказался от участия в разработке OAuth 2.0, ведь последний очень легко реализовать неправильно и в результате безопасность не будет гарантирована. Подробности можно почитать по &lt;a href=&quot;http://hueniverse.com/2012/07/26/oauth-2-0-and-the-road-to-hell/&quot;&gt;ссылке&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Последовательность шагов для получения access_token по OAuth 2.0, которая включает сервер.
-Сервер для получения access_token отправляет секретный код. Обратите внимание, не используется ни одна крипто-библиотека.&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/st4lk/4b71b72007a666435f81.js&quot;&gt;&lt;/script&gt;
-
-&lt;h3 id=&quot;oauth-20-без-участия-сервера&quot;&gt;OAuth 2.0 без участия сервера&lt;/h3&gt;
-
-&lt;p&gt;С OAuth 2.0 можно работать и без сервера по упрощенной схеме. В этом случае мы тоже получаем access_token, но для его получения не нужно знать секрет приложения! Обычно время жизни у access_token, полученного таким способом, маленькое (1-2 часа), в то время как время жизни, полученного с участием сервера больше (может быть несколько десятков дней).&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/st4lk/af1db97e36897b918f22.js&quot;&gt;&lt;/script&gt;</content><author><name></name></author><category term="api" /><category term="oauth" /><category term="security" /><summary type="html">Gist OAuth протокол бывает двух версий: 1.0 и 2.0. Большинство сервисов сегодня используют версию 2.0, вероятно потому что ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в standalone-приложениях (те, которые без сервера). Для понимания протоколов очень полезно взглянуть на их реализацию. Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий. Т.е. все скрипты реализуют функционал клиента (не сервера). Используются только стандартные python библиотеки. Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое. Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты. Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду.</summary></entry><entry><title type="html">Слушаем wifi с помощью wireshark</title><link href="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html" rel="alternate" type="text/html" title="Слушаем wifi с помощью wireshark" /><published>2015-04-17T18:19:43+00:00</published><updated>2015-04-17T18:19:43+00:00</updated><id>https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark</id><content type="html" xml:base="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html">&lt;p&gt;&lt;a href=&quot;/fun/security/2015/04/17/listen-wifi-with-wireshark.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg&quot; alt=&quot;Слушаем wifi с помощью wireshark&quot; title=&quot;Слушаем wifi с помощью wireshark&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="python" /><summary type="html">Недавно прочитал книгу Марка Лутца “Learning Python”, 5-ое издание. Привожу список самых интересных фишек (по моему мнению) оттуда, что-то вроде конспекта.</summary></entry><entry><title type="html">Слушаем wifi с помощью wireshark</title><link href="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html" rel="alternate" type="text/html" title="Слушаем wifi с помощью wireshark" /><published>2015-04-17T18:19:43+00:00</published><updated>2015-04-17T18:19:43+00:00</updated><id>https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark</id><content type="html" xml:base="https://st4lk.github.io/fun/security/2015/04/17/listen-wifi-with-wireshark.html">&lt;p&gt;&lt;a href=&quot;/fun/security/2015/04/17/listen-wifi-with-wireshark.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg&quot; alt=&quot;Слушаем wifi с помощью wireshark&quot; title=&quot;Слушаем wifi с помощью wireshark&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Всегда знал, что можно посмотреть сетевые пакеты, которые передаются по wifi сети. Но на практике этого не делал (на работе анализировал сетевые пакеты, но то был не HTTP протокол). Решил восполнить этот пробел, ведь это интересно и полезно. Более стройно выстраивается понимание протоколов TCP-IP и HTTP. Видно, как летят наши пароли и сессии, после такого опыта поневоле начинаешь относиться к безопасности сайта с большим трепетом.&lt;/p&gt;
 
@@ -3832,27 +3900,4 @@ stopwaitsecs &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 120
 
 &lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;users_nursery&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;id&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;users_nursery&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;users_nursery&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;title&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;LIKE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Moscow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;users_pet&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;users_pet&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;users_pet&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;nursery_id&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;users_pet&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;users_pet&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;nursery_id&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;IN&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="database" /><category term="django" /><category term="sql" /><summary type="html">Вы знали, что Django ORM умеет делать вложенные SQL запросы? К своему стыду я узнал это не так давно.</summary></entry><entry><title type="html">Бесплатная футболка от New Relic</title><link href="https://st4lk.github.io/fun/free/2014/05/29/new-relic-free-shirt.html" rel="alternate" type="text/html" title="Бесплатная футболка от New Relic" /><published>2014-05-29T18:19:43+00:00</published><updated>2014-05-29T18:19:43+00:00</updated><id>https://st4lk.github.io/fun/free/2014/05/29/new-relic-free-shirt</id><content type="html" xml:base="https://st4lk.github.io/fun/free/2014/05/29/new-relic-free-shirt.html">&lt;p&gt;&lt;a href=&quot;/fun/free/2014/05/29/new-relic-free-shirt.html&quot;&gt;&lt;img src=&quot;/assets/images/posts/2014-05-29-new-relic-free-shirt/tshift_orig.png&quot; alt=&quot;Бесплатная футболка от New Relic&quot; title=&quot;Бесплатная футболка от New Relic&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://newrelic.com/&quot;&gt;New Relic&lt;/a&gt; - сервис для мониторинга веб приложения. Позволяет в подробных деталях смотреть статистику работы, где программа тратит больше всего времени, как часто обращается к базе данных и много всего прочего. Для описания этого прекрасного сервиса следует уделить отдельный пост. Здесь же хочу рассказать о другом - как я получил бесплатную футболку от New Relic.&lt;/p&gt;
-
-&lt;p&gt;На самом деле, для этого нужно лишь зарегистрироваться и настроить New Relic на работающем сайте. Как и сказано в их &lt;a href=&quot;http://newrelic.com/lp/datanerd&quot;&gt;предложении&lt;/a&gt;.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;Конечно, когда я настраивал newrelic на одном из сайтов, у меня не было цели получить футболку. Об этом я узнал случайно. Ради интереса ввел свой адрес, ожидая, что в Россию из Америки не будут просто так ничего высылать. Как ни странно, никаких предупреждений не было. Более того, через несколько дней пришло письмо с подтверждением, что начата отгрузка посылки.
-Было приятно, но все же ожидал, что через какое-то время мне сообщат об отмене.&lt;/p&gt;
-
-&lt;p&gt;К моему удивлению где-то через 20 дней в почтовом ящике нашел такое извещение:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9667/85893628.92a/0_11c8f5_72ffdd69_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9667/85893628.92a/0_11c8f5_72ffdd69_L.jpg&quot; alt=&quot;Извещение&quot; title=&quot;Извещение&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;На почте получил пакет:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9651/85893628.92a/0_11c8f6_2297db59_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9651/85893628.92a/0_11c8f6_2297db59_L.jpg&quot; alt=&quot;Пакет с посылкой&quot; title=&quot;Пакет с посылкой&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Ну а в пакете прикольная футболка:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/9666/85893628.92a/0_11c8f8_1e1c89_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/9666/85893628.92a/0_11c8f8_1e1c89_L.jpg&quot; alt=&quot;Футболка&quot; title=&quot;Футболка&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://img-fotki.yandex.ru/get/5309/85893628.92a/0_11c8f9_3ce02d9f_orig.jpg&quot;&gt;&lt;img src=&quot;http://img-fotki.yandex.ru/get/5309/85893628.92a/0_11c8f9_3ce02d9f_L.jpg&quot; alt=&quot;Футболка на мне&quot; title=&quot;Футболка на мне&quot; /&gt;&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="fun" /><category term="free" /><summary type="html">New Relic - сервис для мониторинга веб приложения. Позволяет в подробных деталях смотреть статистику работы, где программа тратит больше всего времени, как часто обращается к базе данных и много всего прочего. Для описания этого прекрасного сервиса следует уделить отдельный пост. Здесь же хочу рассказать о другом - как я получил бесплатную футболку от New Relic. На самом деле, для этого нужно лишь зарегистрироваться и настроить New Relic на работающем сайте. Как и сказано в их предложении.</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="database" /><category term="django" /><category term="sql" /><summary type="html">Вы знали, что Django ORM умеет делать вложенные SQL запросы? К своему стыду я узнал это не так давно.</summary></entry></feed>

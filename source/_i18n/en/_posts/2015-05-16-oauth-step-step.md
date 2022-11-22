@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "OAuth step by step"
-date:   2015-04-30 18:19:43 +0000
+date:   2015-05-16 18:19:43 +0000
 categories: api oauth security
 redirect_from:
   - /2015/oauth-step-step/

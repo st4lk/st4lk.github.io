@@ -9,15 +9,15 @@
 <meta property="og:locale" content="ru" />
 <meta name="description" content="Gist OAuth протокол бывает двух версий: 1.0 и 2.0. Большинство сервисов сегодня используют версию 2.0, вероятно потому что ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в standalone-приложениях (те, которые без сервера). Для понимания протоколов очень полезно взглянуть на их реализацию. Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий. Т.е. все скрипты реализуют функционал клиента (не сервера). Используются только стандартные python библиотеки. Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое. Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты. Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду." />
 <meta property="og:description" content="Gist OAuth протокол бывает двух версий: 1.0 и 2.0. Большинство сервисов сегодня используют версию 2.0, вероятно потому что ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в standalone-приложениях (те, которые без сервера). Для понимания протоколов очень полезно взглянуть на их реализацию. Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий. Т.е. все скрипты реализуют функционал клиента (не сервера). Используются только стандартные python библиотеки. Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое. Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты. Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду." />
-<link rel="canonical" href="https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step.html" />
-<meta property="og:url" content="https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step.html" />
+<link rel="canonical" href="https://st4lk.github.io/api/oauth/security/2015/05/16/oauth-step-step.html" />
+<meta property="og:url" content="https://st4lk.github.io/api/oauth/security/2015/05/16/oauth-step-step.html" />
 <meta property="og:site_name" content="Developer articles" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2015-04-30T18:19:43+00:00" />
+<meta property="article:published_time" content="2015-05-16T18:19:43+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="OAuth step by step" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-04-30T18:19:43+00:00","datePublished":"2015-04-30T18:19:43+00:00","description":"Gist OAuth протокол бывает двух версий: 1.0 и 2.0. Большинство сервисов сегодня используют версию 2.0, вероятно потому что ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в standalone-приложениях (те, которые без сервера). Для понимания протоколов очень полезно взглянуть на их реализацию. Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий. Т.е. все скрипты реализуют функционал клиента (не сервера). Используются только стандартные python библиотеки. Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое. Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты. Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду.","headline":"OAuth step by step","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step.html"},"url":"https://st4lk.github.io/api/oauth/security/2015/04/30/oauth-step-step.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-05-16T18:19:43+00:00","datePublished":"2015-05-16T18:19:43+00:00","description":"Gist OAuth протокол бывает двух версий: 1.0 и 2.0. Большинство сервисов сегодня используют версию 2.0, вероятно потому что ее проще реализовать. Так же версию 2.0 можно относительно безопасно использовать в standalone-приложениях (те, которые без сервера). Для понимания протоколов очень полезно взглянуть на их реализацию. Тут я приведу несколько скриптов, которые общаются с OAuth-провайдерами разных версий. Т.е. все скрипты реализуют функционал клиента (не сервера). Используются только стандартные python библиотеки. Вот почему глядя на них лучше понимаешь сам протокол OAuth - все перед глазами и все более-менее знакомое. Конечно, для реальной работы нужно использовать только готовые и проверенные временем пакеты. Эти скрипты только для понимания процесса. Разбираться с готовыми библиотеками порой бывает сложно, они разбиты на много модулей, могут использоваться разные сторонние пакеты, и в итоге общая картина ускользает из виду.","headline":"OAuth step by step","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/api/oauth/security/2015/05/16/oauth-step-step.html"},"url":"https://st4lk.github.io/api/oauth/security/2015/05/16/oauth-step-step.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="shortcut icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/assets/main.css">
@@ -35,8 +35,8 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/api/oauth/security/2015/04/30/oauth-step-step.html" ><img src="/assets/images/ru.png" /></a>
-          <a class="page-link" href="/en/api/oauth/security/2015/04/30/oauth-step-step.html" ><img src="/assets/images/en.png" /></a>
+        <div class="trigger"><a class="page-link" href="/about/">Контакты</a><a class="page-link" style="margin-right: 0px" href="/api/oauth/security/2015/05/16/oauth-step-step.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/api/oauth/security/2015/05/16/oauth-step-step.html" ><img src="/assets/images/en.png" /></a>
         </div>
       </nav></div>
 </header>
@@ -47,14 +47,14 @@
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">OAuth step by step</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2015-04-30T18:19:43+00:00" itemprop="datePublished">Apr 30, 2015
+      <time class="dt-published" datetime="2015-05-16T18:19:43+00:00" itemprop="datePublished">May 16, 2015
       </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
     <div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/4b71b72007a666435f81" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
 
-<p><a href="/api/oauth/security/2015/04/30/oauth-step-step.html"><img src="https://img-fotki.yandex.ru/get/9819/85893628.c68/0_185253_82b5fefa_M.png" alt="OAuth step by step" title="OAuth step by step" /></a></p>
+<p><a href="/api/oauth/security/2015/05/16/oauth-step-step.html"><img src="https://img-fotki.yandex.ru/get/9819/85893628.c68/0_185253_82b5fefa_M.png" alt="OAuth step by step" title="OAuth step by step" /></a></p>
 
 <p>OAuth протокол бывает двух версий: 1.0 и 2.0.</p>
 
@@ -139,7 +139,7 @@ standalone-приложениях (те, которые без сервера).<
 <script src="https://gist.github.com/st4lk/af1db97e36897b918f22.js"></script>
 
 
-  </div><a class="u-url" href="/api/oauth/security/2015/04/30/oauth-step-step.html" hidden></a>
+  </div><a class="u-url" href="/api/oauth/security/2015/05/16/oauth-step-step.html" hidden></a>
 </article>
 
       </div>
