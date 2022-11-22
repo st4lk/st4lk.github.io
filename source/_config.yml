@@ -30,6 +30,7 @@ url: "https://st4lk.github.io" # the base hostname & protocol for your site, e.g
 github_username:  st4lk
 excerpt_separator: <!--more-->
 show_excerpts: true
+permalink: /blog/:categories/:year/:month/:day/:title:output_ext
 
 # Build settings
 theme: minima
@@ -43,7 +44,7 @@ languages: ["ru", "en"]
 exclude_from_localizations: ["javascript", "images", "css", "scripts", "favicon.ico"]
 
 paginate: 20
-paginate_path: "/page:num/"
+paginate_path: "/blog/page:num/"
 
 # Exclude from processing.
 # The following items will not be processed, by default.

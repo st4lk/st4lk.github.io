@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>OAuth step by step | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="OAuth step by step" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Gist OAuth protocol has two versions: 1.0 and 2.0. Most of services today use version 2.0, i suppose because it is easier to implement. Also, 2.0 can be realized in standalone applications (those, that don’t have a server). To understand the protocols very useful to have a look at their realisation. Here i’ll show several scripts that talk to OAuth providers of different versions. Scripts will implement client application functionality. Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else. It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight." />
+<meta property="og:description" content="Gist OAuth protocol has two versions: 1.0 and 2.0. Most of services today use version 2.0, i suppose because it is easier to implement. Also, 2.0 can be realized in standalone applications (those, that don’t have a server). To understand the protocols very useful to have a look at their realisation. Here i’ll show several scripts that talk to OAuth providers of different versions. Scripts will implement client application functionality. Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else. It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight." />
+<link rel="canonical" href="https://st4lk.github.io/en/blog/api/oauth/security/2015/05/16/oauth-step-step.html" />
+<meta property="og:url" content="https://st4lk.github.io/en/blog/api/oauth/security/2015/05/16/oauth-step-step.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-05-16T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="OAuth step by step" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2015-05-16T18:19:43+00:00","datePublished":"2015-05-16T18:19:43+00:00","description":"Gist OAuth protocol has two versions: 1.0 and 2.0. Most of services today use version 2.0, i suppose because it is easier to implement. Also, 2.0 can be realized in standalone applications (those, that don’t have a server). To understand the protocols very useful to have a look at their realisation. Here i’ll show several scripts that talk to OAuth providers of different versions. Scripts will implement client application functionality. Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else. It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight.","headline":"OAuth step by step","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/blog/api/oauth/security/2015/05/16/oauth-step-step.html"},"url":"https://st4lk.github.io/en/blog/api/oauth/security/2015/05/16/oauth-step-step.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/en/assets/main.css">
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/en/">Developer Articles</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="/en/blog/">Blog</a>
+          <a class="page-link" href="/en/about/">About</a>
+          <a class="page-link" style="margin-right: 0px" href="/blog/api/oauth/security/2015/05/16/oauth-step-step.html" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/blog/api/oauth/security/2015/05/16/oauth-step-step.html" ><img src="/en/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OAuth step by step</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-05-16T18:19:43+00:00" itemprop="datePublished">May 16, 2015
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/4b71b72007a666435f81" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>
+
+<p><a href="/en/blog/api/oauth/security/2015/05/16/oauth-step-step.html"><img src="https://img-fotki.yandex.ru/get/9819/85893628.c68/0_185253_82b5fefa_M.png" alt="OAuth step by step" title="OAuth step by step" /></a></p>
+
+<p>OAuth protocol has two versions: 1.0 and 2.0.</p>
+
+<p>Most of services today use version 2.0, i suppose because it is easier to implement.
+Also, 2.0 can be realized in standalone applications (those, that don’t have a server).</p>
+
+<p>To understand the protocols very useful to have a look at their realisation.
+Here i’ll show several scripts that talk to OAuth providers of different versions.
+Scripts will implement client application functionality.
+Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else.
+It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight.</p>
+
+<!--more-->
+
+<p>Let’s refresh in mind some theory first.</p>
+
+<p>For sure you know, that there are two objectives: <em>authentication</em> and <em>authoriztion</em>.
+They look very similar, but a little different in fact.
+So, just to remember:</p>
+
+<ul>
+  <li>
+    <p>authentication - process of identifying someone.</p>
+
+    <p>We need to know, does this person really an owner of google account with exact id?
+  This information is enough for us. Just login him and that’s it, we don’t need additional information or do something on behalf of the owner of account.</p>
+
+    <p>Such work is done for example by OpenID protocol (although google suggest to to use <a href="https://developers.google.com/identity/sign-in/auth-migration#sign-in">another means</a>, OpenID - <a href="https://developers.google.com/identity/protocols/OpenID2">deprecated</a>).</p>
+  </li>
+  <li>
+    <p>authorization - process of acquiring rights to do something.</p>
+
+    <p>Authorization already includes authentication, but gives more power.
+  For example, not just identify some person, but also get his email and maybe post a message on his wall.</p>
+
+    <p>That is what OAuth protocol for.</p>
+  </li>
+</ul>
+
+<p>To remember i use word “author”. If objective contains “author” - we are talking about permissions (authority). Otherwise just an identification.</p>
+
+<h3 id="oauth-10">OAuth 1.0</h3>
+
+<p>Specification: <a href="http://tools.ietf.org/html/rfc5849">http://tools.ietf.org/html/rfc5849</a></p>
+
+<p>The main part to remember about OAuth 1.0 - it signs <strong>all</strong> requests with secret key.
+Secret key must be kept in safe place, the only one is server.
+Protocol provides fully security, even if https is not used.
+By saying “security” i mean the following: once the request was eavesdropped, the hacker can’t create new valid request.
+Of course he can get the data being transmitted, to hide the data we still need the https.</p>
+
+<script src="https://gist.github.com/st4lk/314e181faaea7d671d0e.js"></script>
+
+<h3 id="oauth-10-less-legged-2-legged-1-legged-0-legged">OAuth 1.0 less-legged (2-legged, 1-legged, 0-legged)</h3>
+
+<p>It is a modification of OAuth 1.0, were user is not interacted in process.
+Formally speaking, it is not an OAuth anymore, as specification doesn’t describe such modification.
+Just same means are used.
+In this case client application is acting as a user. It can request either public resources, either his own resources (even private).</p>
+
+<script src="https://gist.github.com/st4lk/719729c03cf0314179b4.js"></script>
+
+<h3 id="oauth-20-with-server">OAuth 2.0 with server</h3>
+
+<p>Specification: <a href="http://tools.ietf.org/html/rfc6749">http://tools.ietf.org/html/rfc6749</a></p>
+
+<p>Interesting, that in title of OAuth 2.0 specification it is called “framework”.
+Whereas in title of OAuth 1.0 <a href="http://tools.ietf.org/html/rfc5849">specification</a> it is called protocol.</p>
+
+<p>To get full security with OAuth 2.0, https is mandatory (service provider <strong>must</strong> use https, for example facebook).
+Once the access_token is acquired, secret key is not needed.
+So if someone will steal the access_token, he can make a valid request. That is why https is needed, to hide access_token.
+Also, during acquiring the access_token, secret key is transmitted by HTTP as is.</p>
+
+<p>access_token always have limited time to live.</p>
+
+<p>Because of all said above (and something else), one of creators of OAuth 1.0 protocol has left the OAuth 2.0 team, as 2.0 is very easy to implement insecurely.
+For details follow this <a href="http://hueniverse.com/2012/07/26/oauth-2-0-and-the-road-to-hell/">link</a>.</p>
+
+<p>Here is a sequence of steps to get OAuth 2.0 access_token, if you have a server.
+Server use secret key to get an access_token. Pay attention, no crypto library is used.</p>
+
+<script src="https://gist.github.com/st4lk/4b71b72007a666435f81.js"></script>
+
+<h3 id="oauth-20-without-server">OAuth 2.0 without server</h3>
+
+<p>OAuth 2.0 client can be implemented without server. In that case we also get an access_token, but we don’t need to know the secret key at all! Usually such access_token have a small time to live (1-2 hours), whereas time to live of access_token, acquired by server, is longer (can be several tens of days).</p>
+
+<script src="https://gist.github.com/st4lk/af1db97e36897b918f22.js"></script>
+
+
+  </div><a class="u-url" href="/en/blog/api/oauth/security/2015/05/16/oauth-step-step.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/en/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/en/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

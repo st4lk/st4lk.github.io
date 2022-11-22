@@ -17,12 +17,8 @@
         </label>
 
         <div class="trigger">
-          {%- for path in page_paths -%}
-            {%- assign my_page = site.pages | where: "path", path | first -%}
-            {%- if my_page.title -%}
-            <a class="page-link" href="{{ my_page.url | relative_url }}">{% t my_page.title %}</a>
-            {%- endif -%}
-          {%- endfor -%}
+          <a class="page-link" href="{{ site.baseurl }}/blog/">{% t titles.blog %}</a>
+          <a class="page-link" href="{{ site.baseurl }}/about/">{% t titles.about %}</a>
           <a class="page-link" style="margin-right: 0px" href="{{ site.baseurl_root }}{{ page.url}}" ><img src="{{ "/assets/images/ru.png" | relative_url }}" /></a>
           <a class="page-link" href="{{ site.baseurl_root }}/en{{ page.url}}" ><img src="{{ "/assets/images/en.png" | relative_url }}" /></a>
         </div>
