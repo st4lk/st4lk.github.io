@@ -8,7 +8,7 @@ specified separately) -->
     {% if paginator.previous_page %}
       {% if paginator.previous_page == 1 %}
         <li>
-          <a href="{{ site.baseurl }}">&laquo;</a>
+          <a href="{{ site.baseurl }}/">&laquo;</a>
         </li>
       {% else %}
         <li>
@@ -26,7 +26,7 @@ specified separately) -->
       </li>
     {% else %}
       <li>
-        <a href="{{ site.baseurl }}">1</a>
+        <a href="{{ site.baseurl }}/">1</a>
       </li>
     {% endif %}
     {% for count in (2..paginator.total_pages) %}
