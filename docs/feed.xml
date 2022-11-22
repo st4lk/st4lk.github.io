@@ -1,4 +1,255 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-22T15:35:12+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Ловушка при подсчете связанных объектов в Django</title><link href="https://st4lk.github.io/database/django/sql/2017/01/14/count-filtered-related-objects-django.html" rel="alternate" type="text/html" title="Ловушка при подсчете связанных объектов в Django" /><published>2017-01-14T18:19:43+00:00</published><updated>2017-01-14T18:19:43+00:00</updated><id>https://st4lk.github.io/database/django/sql/2017/01/14/count-filtered-related-objects-django</id><content type="html" xml:base="https://st4lk.github.io/database/django/sql/2017/01/14/count-filtered-related-objects-django.html">&lt;p&gt;&lt;a href=&quot;/database/django/sql/2017/01/14/count-filtered-related-objects-django.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/172931/85893628.c6b/0_1f68eb_c4171bf7_L.png&quot; alt=&quot;Ловушка при подсчете связанных объектов в Django&quot; title=&quot;Ловушка при подсчете связанных объектов в Django&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ru"><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://st4lk.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://st4lk.github.io/" rel="alternate" type="text/html" hreflang="ru" /><updated>2022-11-22T15:40:12+00:00</updated><id>https://st4lk.github.io/feed.xml</id><title type="html">Developer articles</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Sublime Text и Language Server Protocol</title><link href="https://st4lk.github.io/python/sublime/lsp/2019/02/19/sublime-text-and-language-server-protocol-lsp.html" rel="alternate" type="text/html" title="Sublime Text и Language Server Protocol" /><published>2019-02-19T18:19:43+00:00</published><updated>2019-02-19T18:19:43+00:00</updated><id>https://st4lk.github.io/python/sublime/lsp/2019/02/19/sublime-text-and-language-server-protocol-lsp</id><content type="html" xml:base="https://st4lk.github.io/python/sublime/lsp/2019/02/19/sublime-text-and-language-server-protocol-lsp.html">&lt;p&gt;&lt;a href=&quot;/python/sublime/lsp/2019/02/19/sublime-text-and-language-server-protocol-lsp.html&quot;&gt;&lt;img src=&quot;https://i.ibb.co/4K4zp06/sublime-256-lsp-light.png&quot; alt=&quot;Sublime Text и Language Server Protocol (LSP)&quot; title=&quot;Sublime Text и Language Server Protocol (LSP)&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;language-server-protocol-lsp&quot;&gt;Language Server Protocol (LSP)&lt;/h2&gt;
+
+&lt;p&gt;Language Server Protocol (LSP) - протокол для общения между IDE и языковым сервером. Сервер предоставляет такие функции, как автокомплит, переход к функции (goto) и прочее. Т.е. когда IDE нужно показать автокомплит на языке, скажем, python - происходит запрос к специальному серверу. В ответе возвращаются необходимые данные, которые IDE уже может отобразить. Радует то, что это инициатива крупной компании - Microsoft.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Но в чем же смысл, ведь в большинстве IDE это итак уже работает?&lt;/p&gt;
+
+&lt;p&gt;Смысл в унификации таких возможностей, в простоте разработки самих IDE. Получается, что сервер - один, а сред разработки - много. И все они могут общаться с одним сервером, им не нужно реализоваывать стандартные функции, специфичные для каждого конкретного языка. Все, что нужно сделать - это реализовать общение с сервером согласно LSP.&lt;/p&gt;
+
+&lt;p&gt;С точки зрения пользователей самих IDE тоже есть плюс. К примеру, если на сервере добавят что-то новое, то такие обновления вы получите быстрее. Не важно, каким именно IDE или редактором кода вы пользуетесь, теперь это не зависит от этого. Главное, что ваш редактор должен поддерживать - это протокол общения с сервером. Можем считать, что он будет стабильным в ближайшее время. Тем более его поддерживает такой гигант, как Microsoft.&lt;/p&gt;
+
+&lt;p&gt;Некоторые ссылки:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Официальная страница LSP: &lt;a href=&quot;https://microsoft.github.io/language-server-protocol/&quot;&gt;https://microsoft.github.io/language-server-protocol/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Список реализаций серверов: &lt;a href=&quot;https://microsoft.github.io/language-server-protocol/implementors/servers/&quot;&gt;https://microsoft.github.io/language-server-protocol/implementors/servers/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Страница, поддерживаемая сообществом: &lt;a href=&quot;https://langserver.org/&quot;&gt;https://langserver.org/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;python-server&quot;&gt;Python Server&lt;/h2&gt;
+&lt;p&gt;Давайте попробуем подружить IDE (на примере Sublime Text) с python language server.&lt;/p&gt;
+
+&lt;p&gt;Первое, что нам понадобиться - это сам сервер, который будет отвечать на запросы LSP.
+На момент написания статьи, самый поддерживаемый сервер, написанный на python’e, этот: &lt;a href=&quot;https://github.com/palantir/python-language-server&quot;&gt;https://github.com/palantir/python-language-server&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Есть так же сервер от Microsoft: &lt;a href=&quot;https://github.com/Microsoft/python-language-server/&quot;&gt;https://github.com/Microsoft/python-language-server/&lt;/a&gt;.
+И даже есть &lt;a href=&quot;https://github.com/Microsoft/python-language-server/blob/master/Using_in_sublime_text.md&quot;&gt;краткая инструкция&lt;/a&gt; по настройке с Sublime Text. Для запуска этого сервера понадобится &lt;a href=&quot;https://dotnet.microsoft.com/download/dotnet-core/2.1&quot;&gt;dotnet&lt;/a&gt;.
+Пробовал ставить, однако в полной мере он не выдавал нужный мне функционал. Возможно, я что-то недонастроил. К тому же я редко сталкиваюсь с C# в работе, поэтому понять внутренности для меня трудно, а иногда это бывает полезно.&lt;/p&gt;
+
+&lt;p&gt;Но вернемся к серверу на питоне.
+Схема в голове была такая:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;У нас есть отдельный virtualenv, созданный исключительно для установки сервера LSP&lt;/li&gt;
+  &lt;li&gt;В virtualenv нашего проекта никаких LSP серверов нет&lt;/li&gt;
+  &lt;li&gt;Наш IDE будет общаться с сервером, передавая параметры virtualenv’а нашего проекта.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Таким образом, раз установив сервер, мы можем использовать его для разных проектов.
+Но на момент описания этой статьи сделать это было не просто. По крайней мере четкой документации, как это сделять, я не нашел. В документации к этому серверу как-то неявно предполагается, что он должен быть установлен в той же среде, что и ваш проект. В том же virtualenv. Но мне кажется это не совсем удобно.
+Поэтому пришлось создать &lt;a href=&quot;https://github.com/palantir/python-language-server/pull/401&quot;&gt;PR&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Так же, этот LSP не хотел брать настройки линтера из директории проекта. Например, в корне проекта у меня лежит setup.cfg с такими настройками:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ignore = D202,D205,D211
+max-line-length = 99
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Чтобы сервер мог подхватывать их, понадобился еще один &lt;a href=&quot;https://github.com/palantir/python-language-server/pull/413&quot;&gt;PR&lt;/a&gt;.
+Который в свою очередь преобразовался в &lt;a href=&quot;https://github.com/palantir/python-language-server/pull/418&quot;&gt;этот&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Были и другие проблемы, тоже приходилось погружаться в код и создавать PR’ы.
+Надеюсь, их скоро примут и включат в релиз. А пока, создал релиз в своем &lt;a href=&quot;https://github.com/st4lk/python-language-server/releases/tag/0.22.0a1&quot;&gt;форке&lt;/a&gt;, где найденные мной ошибки исправлены.&lt;/p&gt;
+
+&lt;p&gt;По порядку:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Создаем virtualenv специально для сервера LSP. Лучше python3.6+.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Устанавливаем туда наш сервер (этот релиз уже содержит упомянутые выше исправления):&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  pip install https://github.com/st4lk/python-language-server/archive/0.22.0a1.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Если хотите создать requirements.txt - то туда можно вставлять ссылку на zip файл без каких-либо префиксов/суффиксов.&lt;/p&gt;
+
+&lt;p&gt;Хотя возможно, что на момент чтения статьи это уже все исправлено в официальной версии &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;gt; 0.22&lt;/code&gt;. Не поленитесь проверить основной репозиторий.&lt;/p&gt;
+
+&lt;h2 id=&quot;sublime-text&quot;&gt;Sublime Text&lt;/h2&gt;
+&lt;p&gt;Теперь перейдем к настройке IDE. В этом посте речь пойдет о Sublime Text. Мне нравится этот редактор кода. Хоть это и не полноценный IDE, но я люблю его скорость, его vintage режим, мультикурсоры и много других маленьких фишек.&lt;/p&gt;
+
+&lt;p&gt;Итак, как же подружить Sublime с LSP?
+В первую очередь, нам понадобится плагин для общения с LSP сервером: &lt;a href=&quot;https://github.com/tomv564/LSP&quot;&gt;https://github.com/tomv564/LSP&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Теперь самое важное - правильно его настроить.
+Идем в настройки нашего плагина (на MacOS это &lt;em&gt;Sublime Text -&amp;gt; Preferences -&amp;gt; Package Settings -&amp;gt; LSP -&amp;gt; Settings&lt;/em&gt;).
+В пользовательских настройках вводим примерно следующее:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;clients&quot;: {
+    &quot;pyls&quot;:
+    {
+      &quot;enabled&quot;: true,
+      &quot;command&quot;: [
+        &quot;~/.virtualenvs/python-language-server/bin/pyls&quot;
+      ],
+      &quot;settings&quot;: {
+        &quot;pyls&quot;: {
+          &quot;configurationSources&quot;: [&quot;flake8&quot;],
+          &quot;plugins&quot;: {
+            &quot;jedi_definition&quot;: {
+              &quot;follow_imports&quot;: true
+            }
+          }
+        }
+      },
+      &quot;scopes&quot;: [&quot;source.python&quot;],
+      &quot;syntaxes&quot;: [
+        &quot;Packages/Python/Python.sublime-syntax&quot;,
+        &quot;Packages/Djaneiro/Syntaxes/Python Django.tmLanguage&quot;
+      ],
+      &quot;languageId&quot;: &quot;python&quot;
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Давайте пройдемся по основным настройкам.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;“command”&lt;/strong&gt; - путь к исполняемому файлу нашего pyls сервера. Как видно, у меня он установлен в virtualenv &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.virtualenvs/python-language-server/&lt;/code&gt; (я использую &lt;a href=&quot;https://virtualenvwrapper.readthedocs.io/en/latest/&quot;&gt;virtualenvwrapper&lt;/a&gt;). Это не виртуальное окружение вашего проекта! Здесь установлен только pyls.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;“settings” : “pyls” : “configurationSources”&lt;/strong&gt;. Тут можно указать, где брать настройки линтера для проекта. По умолчанию это “pycodestyle”, однако я чаще использую flake8. Т.о. pyls будет искать настройки в таких файлах:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&apos;.flake8&apos;, &apos;setup.cfg&apos; (секция [flake8]), &apos;tox.ini&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Настройка &lt;strong&gt;“follow_imports”: true&lt;/strong&gt;. Без нее, goto будет показывать лишь место импорта, а не саму реализацию. Мне кажется такое поведение не приносит особой пользы, обычно я хочу посмотреть именно на реализацию функции или класса, а не то, откуда он был импорирован. Кстати, чтобы это было воспринято сервером, потребовался небольшой патч: &lt;a href=&quot;https://github.com/palantir/python-language-server/pull/404/&quot;&gt;https://github.com/palantir/python-language-server/pull/404/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Еще важный момент: настройка &lt;strong&gt;“syntaxes”&lt;/strong&gt;. Если вы используйте плагин &lt;a href=&quot;https://github.com/squ1b3r/Djaneiro&quot;&gt;Djaneiro&lt;/a&gt; (добавляет ряд фишек для работы с Django проектом), то sublime будет считать синтаксис python файлов - Djaneiro, а не дефолтный Python. Поэтому нужно указать его для нашего LSP сервера, иначе Sublime просто не будет его запускать.&lt;/p&gt;
+
+&lt;p&gt;Тут мы объявили глобальные настройки, которые будут применяться ко всем файлам с синтаксисом python.
+А как объявить настройки, специфичные для каждого конкретного проекта?&lt;/p&gt;
+
+&lt;p&gt;Как ни странно, их можно объявить в настройках проекта :). Идем &lt;em&gt;Project -&amp;gt; Edit project&lt;/em&gt; и добавляем следующее:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;folders&quot;:
+  [
+      {
+          &quot;path&quot;: &quot;/Path/to/my/project&quot;
+      },
+  ],
+  &quot;settings&quot;:
+  {
+    &quot;LSP&quot;:
+    {
+      &quot;pyls&quot;:
+      {
+        &quot;env&quot;:
+        {
+          &quot;VIRTUAL_ENV&quot;: &quot;/path/to/my/project/virtualenv/&quot;
+        }
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;С помощью &lt;strong&gt;“VIRTUAL_ENV”&lt;/strong&gt; мы можем указать, где живет virtualenv проекта. Т.о. pyls будет знать, где искать установленные пакеты для автокомплита, goto и прочего.&lt;/p&gt;
+
+&lt;p&gt;Итак, запускаем. Предположим, у нас такой django проект:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;project
+├── ...
+├── my_app
+│   ├── ...
+│   ├── forms.py
+│   └── models.py
+├── manage.py
+└── setup.cfg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Простейший файл models.py:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from django.db import models
+
+
+class Book(models.Model):
+    &quot;&quot;&quot;
+    This is docstring of Book model.
+    Example for LSP demostration.
+    &quot;&quot;&quot;
+
+    title = models.CharField(max_length=50)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;и forms.py:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from django.forms import ModelForm
+from .models import Book
+
+
+class BookForm(ModelForm):
+
+    class Meta:
+        model = Book
+        fields = &apos;__all__&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;В файле setup.cfg есть секция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[flake8]&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[flake8]
+ignore = D202,D205,D211
+max-line-length = 99
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Что же нам теперь доступно?
+Из коробки, сервер предоставляет возможности &lt;a href=&quot;https://jedi.readthedocs.io/en/latest/&quot;&gt;jedi&lt;/a&gt;, например Definitions (goto), References, автокомплит и кое-что еще.&lt;/p&gt;
+
+&lt;p&gt;При наведении курсора отображается docstring объекта, а так же возможные действия над ним:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.ibb.co/0yW1sRd/sublime-lsp-popup-with-docstring-and-actions.png&quot; alt=&quot;Sublime Text и Language Server Protocol (LSP): окно при наведении курсора с документацией и действиям&quot; title=&quot;Sublime Text и Language Server Protocol (LSP): окно при наведении курсора с документацией и действиями&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;При нажатии на Definition мы перейдем в файл и место, где класс объявлен.
+При нажатии на References - увидим, где объект используется:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.ibb.co/26LW2ys/sublime-lsp-references.png&quot; alt=&quot;Sublime Text и Language Server Protocol (LSP): References&quot; title=&quot;Sublime Text и Language Server Protocol (LSP): References&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Так же работает автокомплит:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.ibb.co/cb2gKDJ/sublime-lsp-autocomplete-methods.png&quot; alt=&quot;Sublime Text и Language Server Protocol (LSP): автокомплит методов&quot; title=&quot;Sublime Text и Language Server Protocol (LSP): автокомплит методов&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.ibb.co/zQ6ZXHh/sublime-lsp-autocomplete-fields.png&quot; alt=&quot;Sublime Text и Language Server Protocol (LSP): автокомплит полей&quot; title=&quot;Sublime Text и Language Server Protocol (LSP): автокомплит полей&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Но ошибки синтаксиса и pep8 отображаться не будут. Чтобы они проверялись, нужно установить в virtualenv с нашим python language server’ом эти пакеты:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install mccabe
+pip install pyflakes
+pip install pycodestyle
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Вуаля, теперь редактор выдает подсказки:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.ibb.co/VYCWVtY/sublime-lsp-invalid-syntax.png&quot; alt=&quot;Sublime Text и Language Server Protocol (LSP): ошибка синтаксиса&quot; title=&quot;Sublime Text и Language Server Protocol (LSP): ошибка синтаксиса&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.ibb.co/rph2V6X/sublime-lsp-pep8-warning.png&quot; alt=&quot;Sublime Text и Language Server Protocol (LSP): сообщение об ошибке стиля кодирования&quot; title=&quot;Sublime Text и Language Server Protocol (LSP): сообщение об ошибке стиля кодирования&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Напомню, что настройки для линтера автоматически берутся из setup.cfg (согласно моим настройкам pyls).
+Т.е. правила &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;D202,D205,D211&lt;/code&gt; будут игнорироваться, а максимальная длина строки будет 99, вместо дефолтной 80.&lt;/p&gt;
+
+&lt;p&gt;Можно еще подключить к серверу &lt;a href=&quot;http://mypy-lang.org/&quot;&gt;mypy&lt;/a&gt;. Для этого нужен соответствующий &lt;a href=&quot;https://github.com/tomv564/pyls-mypy&quot;&gt;плагин&lt;/a&gt;. Но это постараюсь описать в будущей статье, если руки дойдут, там тоже есть вопросы.&lt;/p&gt;
+
+&lt;p&gt;В итоге у нас есть работающий Python Language Server в Sublime Text 3.
+Как видно, опыт не из простых, но я все еще держусь за этот редактор кода, привычка.
+Да, я иногда использую Pycharm, где фишек очень и очень много. И Visual Studio Code неплох, но к sublime’у сердце прикипело что ли.&lt;/p&gt;
+
+&lt;p&gt;Какие могу стделать выводы:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;немного сыровато все, приходится делать PR’ы, а принимаются они долго.&lt;/li&gt;
+  &lt;li&gt;Sublime LSP не работает в правом окне (&lt;em&gt;View -&amp;gt; Layout -&amp;gt; Columns: 2&lt;/em&gt;), нужно видимо опять дорабатывать&lt;/li&gt;
+  &lt;li&gt;стоит пристальнее посмотреть в сторону реализации &lt;a href=&quot;https://github.com/Microsoft/python-language-server/&quot;&gt;python language server от microsoft&lt;/a&gt;, т.к. скорее всего тренд будет за ним.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Ну а пока получился вполне рабочий вариант, пользуюсь им в повседневной работе.&lt;/p&gt;
+
+&lt;p&gt;И спасибо &lt;a href=&quot;https://twitter.com/grigoryvp&quot;&gt;Григорию Петрову&lt;/a&gt; за его &lt;a href=&quot;http://www.moscowpython.ru/meetup/58/pyre-type-checker/&quot;&gt;доклад на Moscow Python&lt;/a&gt;. Из него я и узнал о существовании language server protocol.&lt;/p&gt;</content><author><name></name></author><category term="python" /><category term="sublime" /><category term="lsp" /><summary type="html">Language Server Protocol (LSP) Language Server Protocol (LSP) - протокол для общения между IDE и языковым сервером. Сервер предоставляет такие функции, как автокомплит, переход к функции (goto) и прочее. Т.е. когда IDE нужно показать автокомплит на языке, скажем, python - происходит запрос к специальному серверу. В ответе возвращаются необходимые данные, которые IDE уже может отобразить. Радует то, что это инициатива крупной компании - Microsoft.</summary></entry><entry><title type="html">Ловушка при подсчете связанных объектов в Django</title><link href="https://st4lk.github.io/database/django/sql/2017/01/14/count-filtered-related-objects-django.html" rel="alternate" type="text/html" title="Ловушка при подсчете связанных объектов в Django" /><published>2017-01-14T18:19:43+00:00</published><updated>2017-01-14T18:19:43+00:00</updated><id>https://st4lk.github.io/database/django/sql/2017/01/14/count-filtered-related-objects-django</id><content type="html" xml:base="https://st4lk.github.io/database/django/sql/2017/01/14/count-filtered-related-objects-django.html">&lt;p&gt;&lt;a href=&quot;/database/django/sql/2017/01/14/count-filtered-related-objects-django.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/172931/85893628.c6b/0_1f68eb_c4171bf7_L.png&quot; alt=&quot;Ловушка при подсчете связанных объектов в Django&quot; title=&quot;Ловушка при подсчете связанных объектов в Django&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Задача: для каждого объекта подсчитать количество связанных объектов, удовлетворяющих определенному условию.&lt;/p&gt;
 
@@ -3388,969 +3639,4 @@ Destroying &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;database &lt;span 
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PYTHONPATH=`pwd`:$PYTHONPATH py.test -s --ds=sql.settings_test -p project.plugin_debug_sql&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Тут я явно добавляю текущую папку в PYTHONPATH, потому что иначе py.test не сможет найти наш плагин.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="django" /><category term="logging" /><category term="sql" /><summary type="html">В django тестах можно замерять количество сделанных SQL запросов: def test_home(self): with self.assertNumQueries(1): response = self.client.get(&apos;/&apos;) self.assertEqual(response.status_code, 200) Если код в контексте assertNumQueries сделает иное количество обращений к БД, чем ожидается (здесь 1), то тест выдает ошибку. Но когда такой тест не проходит, бывает трудно определить лишний отправленный запрос. Для отладки такого случая удобно вывести в консоль отправленные SQL запросы. Далее опишу, как этого добиться.</summary></entry><entry><title type="html">Tornado i18n и l10n</title><link href="https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html" rel="alternate" type="text/html" title="Tornado i18n и l10n" /><published>2015-01-31T18:19:43+00:00</published><updated>2015-01-31T18:19:43+00:00</updated><id>https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization</id><content type="html" xml:base="https://st4lk.github.io/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html">&lt;p&gt;&lt;a class=&quot;github-button&quot; href=&quot;https://github.com/st4lk/tornado_i18n_example&quot; data-color-scheme=&quot;no-preference: light; light: light; dark: dark;&quot; data-size=&quot;large&quot; data-show-count=&quot;true&quot; aria-label=&quot;Star st4lk/tornado_i18n_example on GitHub&quot;&gt;Star&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/i18n/async/tornado/2015/01/31/tornado-internationalization-and-localization.html&quot;&gt;&lt;img src=&quot;https://img-fotki.yandex.ru/get/4/85893628.c67/0_1715c7_738478c6_orig.png&quot; alt=&quot;Tornado i18n и l10n&quot; title=&quot;Tornado i18n и l10n&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Статья о том, что такое i18n и i10n и как это реализовать в приложении на &lt;a href=&quot;http://www.tornadoweb.org/en/stable/&quot;&gt;tornado&lt;/a&gt;. Получилось довольно много букв, но хотелось рассказать доступно обо всем процессе. Сама пошаговая инструкция - во второй половине статьи.&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h2 id=&quot;общие-определения&quot;&gt;Общие определения&lt;/h2&gt;
-
-&lt;h4 id=&quot;i18n&quot;&gt;i18n&lt;/h4&gt;
-
-&lt;p&gt;i18n - сокращение от internationalization. Так называют процесс поддержки разных языков в приложении. Это не сам перевод, а именно техническая составляющая проекта, которая позволяет отображать текст на разных языках, в зависимости от предпочтений пользователя. Обычно реализацией занимается разработчик.&lt;/p&gt;
-
-&lt;h4 id=&quot;l10n&quot;&gt;l10n&lt;/h4&gt;
-
-&lt;p&gt;l10n - сокращение от localization. Означает сам процесс перевода текста на нужные языки. Обычно реализацией занимается переводчик.&lt;/p&gt;
-
-&lt;h4 id=&quot;языковые-теги-language-tags&quot;&gt;Языковые теги (language tags)&lt;/h4&gt;
-
-&lt;p&gt;Языковые теги (&lt;a href=&quot;http://www.w3.org/International/articles/language-tags/&quot;&gt;language tags&lt;/a&gt;) указывают язык текста. Формат тегов содержит много нюансов, все они определены в &lt;a href=&quot;http://www.rfc-editor.org/rfc/rfc5646.txt&quot;&gt;rfc5646&lt;/a&gt;.
-Но наиболее часто встречающийся такой:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;en-US
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Первая часть означает язык, вторая - регион применения. В данном случае тег &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;en-US&lt;/code&gt; означает английский язык, которым пользуются в США. А скажем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; будет означать ангийский, которым пользуются в Англии (я полагаю, эти языки имеют небольшие различия). В языковом теге только одна часть обязательная - это язык. Т.е. это абсолютно нормальный тег:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;en
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Более того, когда нет особой надобности указывать регион - не указывайте его.&lt;/p&gt;
-
-&lt;h4 id=&quot;cldr&quot;&gt;CLDR&lt;/h4&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://cldr.unicode.org/&quot;&gt;CLDR&lt;/a&gt; - Common Locale Data Repository (общее хранилище языковых данных).  &lt;br /&gt;
-Содержит часто используемые данные на разных языках:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;формат даты, цены в разных валютах, временных зон&lt;/li&gt;
-  &lt;li&gt;название стран, дней недели, месяцев&lt;/li&gt;
-  &lt;li&gt;правила написания чисел, формат множественного числа, направление письма, первый день недели&lt;/li&gt;
-  &lt;li&gt;и много всего другого&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;gettext&quot;&gt;gettext&lt;a name=&quot;gettext&quot;&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.gnu.org/software/gettext/&quot;&gt;gettext&lt;/a&gt; - библиотека для реализации процесса i18n. В этой статье описывается работа именно с ней.&lt;/p&gt;
-
-&lt;p&gt;Tornado поддерживает так же работу и с &lt;a href=&quot;http://www.tornadoweb.org/en/stable/locale.html#tornado.locale.load_translations&quot;&gt;CSV файлам&lt;/a&gt;, но этот способ имеет гораздо меньше возможностей, поэтому его рассматривать не будем.&lt;/p&gt;
-
-&lt;h4 id=&quot;краткий-принцип-работы-с-gettext&quot;&gt;Краткий принцип работы с gettext&lt;/h4&gt;
-&lt;ol&gt;
-  &lt;li&gt;Все текстовые строки в коде пишем на английском.&lt;/li&gt;
-  &lt;li&gt;Все строки подставляем в виде аргумента одной из специальных функций, реализованных в gettext. Обычно в python’е для такого случая используют функцию с именем &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt;.  &lt;br /&gt;
- Было:
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hello world!&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;Стало:&lt;/p&gt;
-
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; _&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello world!&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Создаем шаблонный файл &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.pot&lt;/code&gt; для перевода текста.  &lt;br /&gt;
- Это делается с помощью команды &lt;a href=&quot;https://www.gnu.org/software/gettext/manual/html_node/xgettext-Invocation.html#xgettext-Invocation&quot;&gt;xgettext&lt;/a&gt;. Она парсит указанные файлы, находит в них вызов той самой функции &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt; и генерирует файл &lt;em&gt;messages.pot&lt;/em&gt;.  &lt;br /&gt;
- В этом файле, помимо некоторых служебных данных (заголовков), будут содержаться строки, требующие перевода:
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; msgid &lt;span class=&quot;s2&quot;&gt;&quot;Hello world!&quot;&lt;/span&gt;
- msgstr &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;Этот файл не нужно редактировать, пусть он всегда будет таким. В принципе, особой нужды в этом файле нет, непосредственно в переводе он не задействован. Например скрипты django для перевода его нигде не сохраняют. Но все же лучше оставить, ведь его всегда можно дать переводчику, чтобы он мог оценить объем работы.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Создаем файл перевода на конкретном языке.&lt;/p&gt;
-
-    &lt;p&gt;Для этого воспользуемся командой &lt;a href=&quot;https://www.gnu.org/software/gettext/manual/html_node/msginit-Invocation.html&quot;&gt;msginit&lt;/a&gt;, которая из шаблона &lt;em&gt;messages.pot&lt;/em&gt; создаст новый файл &lt;em&gt;messages.po&lt;/em&gt;. По сути, это будет копия нашего шаблона, за исключением некоторых частей, специфичных для выбранного языка.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Переводим строки в нашем новом &lt;em&gt;messages.po&lt;/em&gt;, а так же заполняем заголовки нашими данными. Перевод будет выглядеть так:&lt;/p&gt;
-
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; msgid &lt;span class=&quot;s2&quot;&gt;&quot;Hello world!&quot;&lt;/span&gt;
- msgstr &lt;span class=&quot;s2&quot;&gt;&quot;Привет, мир!&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Компилируем перевод командой &lt;a href=&quot;https://www.gnu.org/software/gettext/manual/html_node/msgfmt-Invocation.html&quot;&gt;msgfmt&lt;/a&gt;. На выходе получаем &lt;em&gt;messages.mo&lt;/em&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Если где-то в коде добавились строки, которые нужно переводить, то следует лишь обновить &lt;em&gt;messages.po&lt;/em&gt;, а не создавать его заново.&lt;/p&gt;
-
-    &lt;p&gt;Таким образом старые переводы сохранятся. Для этого:&lt;/p&gt;
-    &lt;ul&gt;
-      &lt;li&gt;опять создаем шаблон &lt;em&gt;.pot&lt;/em&gt; (пункт 3). Да, это перезатрет предыдущий &lt;em&gt;messages.pot&lt;/em&gt;, но это не страшно, ведь мы там ничего не меняем сами&lt;/li&gt;
-      &lt;li&gt;используем команду &lt;a href=&quot;https://www.gnu.org/software/gettext/manual/html_node/msgmerge-Invocation.html&quot;&gt;msgmerge&lt;/a&gt;, которая синхронизирует файлы &lt;em&gt;.po&lt;/em&gt; и &lt;em&gt;.pot&lt;/em&gt;&lt;/li&gt;
-      &lt;li&gt;повторяем пункты 5 и 6.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Все, если функция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt; в нашем проекте работает правильно, то англичанин увидит текст “Hello world!”, а русский - “Привет, мир!”.&lt;/p&gt;
-
-&lt;p&gt;Пока осталось неясным, что из себя представляет эта самая функция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt; и откуда ее взять. Так же, как мы определим предпочитаемый язык пользователя, кто он - англичанин или русский? И где взять эти команды &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xgettext&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;msginit&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;msgmerge&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;msgfmt&lt;/code&gt;?&lt;/p&gt;
-
-&lt;p&gt;По порядку.&lt;/p&gt;
-
-&lt;h4 id=&quot;функция-_&quot;&gt;Функция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt;&lt;/h4&gt;
-
-&lt;p&gt;Эту функцию можно написать самому, ведь в python уже встроена работа с &lt;a href=&quot;https://docs.python.org/2/library/gettext.html&quot;&gt;gettext&lt;/a&gt;. Однако, в tornado и в django она уже определена. Надо лишь задать ей это имя. В django это выглядит так:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.utils.translation&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ugettext&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;А в  tornado примерно так:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;как-функция-_-определяет-предпочитаемый-язык-пользователя&quot;&gt;Как функция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt; определяет предпочитаемый язык пользователя?&lt;/h4&gt;
-
-&lt;p&gt;В самом простом случае в веб приложении язык узнают из HTTP заголовка Accept-Language (предпочитаемый язык задается в настройках браузера). И в django и в tornado это уже реализовано.  &lt;br /&gt;
-Для более сложной логики, когда например пользователь сам может задать нужный ему язык в настройках своего профиля на сайте, в обоих фреймворках есть соответствующие средства. &lt;br /&gt;
-Да, в отличие от django, tornado из коробки не умеет определять язык из префикса в url. Т.е. при правильной настройке django, запрос вида &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/ru/.../&lt;/code&gt; отобразит русский язык, а &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/en/.../&lt;/code&gt; - английский. Но tornado так не умеет, его этому нужно обучать вручную.&lt;/p&gt;
-
-&lt;h4 id=&quot;где-взять-команды-xgettext-msginit-msgmerge-msgfmt&quot;&gt;Где взять команды &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xgettext&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;msginit&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;msgmerge&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;msgfmt&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;Их нужно установить.&lt;/p&gt;
-
-&lt;p&gt;В некоторых версиях Ubuntu они доступны из коробки. Установить можно так:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;gettext
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;На OSX:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;gettext
-brew &lt;span class=&quot;nb&quot;&gt;link &lt;/span&gt;gettext &lt;span class=&quot;nt&quot;&gt;--force&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Для windows бинарники можно скачать отсюда (не проверял):  &lt;a href=&quot;http://gnuwin32.sourceforge.net/packages/gettext.htm&quot;&gt;http://gnuwin32.sourceforge.net/packages/gettext.htm&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Если устанавливать не хочется или нет возможности, то можно воспользоваться встроенными в python командами: &lt;a href=&quot;https://docs.python.org/2/library/gettext.html#internationalizing-your-programs-and-modules&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pygettext.py&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;msgfmt.py&lt;/code&gt;&lt;/a&gt;. Но у них гораздо меньше возможностей, чем у xgettext. К тому же нет msgmerge, который крайне удобен.&lt;/p&gt;
-
-&lt;p&gt;Есть еще одно решение - библиотека &lt;a href=&quot;http://babel.pocoo.org/&quot;&gt;babel&lt;/a&gt;. Она поддерживает многие функции xgettext, включая msgmerge. При этом не требует установленной xgettext, чистый питон. Расскажу о ней чуть позже.&lt;/p&gt;
-
-&lt;h2 id=&quot;отличия-tornado-от-django&quot;&gt;Отличия tornado от django&lt;/h2&gt;
-
-&lt;p&gt;Прежде чем приступать к инструкции по реализации i18n в tornado, хочу отметить одну особенность.  &lt;br /&gt;
-Она крайне важна для понимания работы tornado в целом.&lt;/p&gt;
-
-&lt;p&gt;Основное отличие tornado от django состоит в том, что tornado выполняется в одном процессе, а django - нет. Как это влияет на перевод строк?  &lt;br /&gt;
-В django мы можем задать переводимые строки где угодно, хоть в моделях. Для этого в django есть понятие “ленивого” перевода, например &lt;a href=&quot;https://docs.djangoproject.com/en/dev/topics/i18n/translation/#working-with-lazy-translation-objects&quot;&gt;ugettext_lazy&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.db&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.utils.translation&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ugettext_lazy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SomeModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CharField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Title&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max_length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Функция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ugettext_lazy&lt;/code&gt; возвращает строку не сразу, а в момент непосредственного обращения к ней. Только в тот момент, когда предпочитаемый язык уже будет определен. Но откуда она все-таки узнает этот язык?  &lt;br /&gt;
-Очевидно, что первоначально клиент должен сделать какой-то запрос, из которого мы узнаем информацию о посетителе и определим его локализацию. В этот момент django сохранит найденный язык (с помощью функции &lt;a href=&quot;https://docs.djangoproject.com/en/dev/ref/utils/#django.utils.translation.activate&quot;&gt;activate()&lt;/a&gt;) в глобальную переменную для данного потока (thread). Напомню, что для обработки каждого запроса в django создается отдельный изолированный поток.  &lt;br /&gt;
-Вот почему функция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ugettext_lazy&lt;/code&gt; может быть использована где угодно, она отобразит текст на верном языке. Ей не нужно передавать никакие данные о запросе, их она узнает из глобальной переменной.&lt;/p&gt;
-
-&lt;p&gt;А в tornado так не получится, потому что тут нет изолированных потоков, поток всегда один. В этом и фишка асинхронности.  &lt;br /&gt;
-Что может получится, если мы попытаемся реализовать “ленивый” перевод в tornado?  &lt;br /&gt;
-Давайте рассмотрим простейший проект на tornado. Для реализации “ленивости” воспользуемся пакетом &lt;a href=&quot;https://pypi.python.org/pypi/speaklater&quot;&gt;speaklater&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os.path&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;threading&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;local&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tornado.web&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;speaklater&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make_lazy_gettext&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;_active&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;activate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current_locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;_active&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_locale&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;gettext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_active&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;make_lazy_gettext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gettext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HiModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;hello&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DoneModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;done&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Fuh, done&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepare&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prepare&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;activate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# set globally locale from request
-&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coroutine&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;hello_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HiModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;unicode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hello_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;br/&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;done_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DoneModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;unicode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;br/&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;finish&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-
-&lt;span class=&quot;n&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;home&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8888&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;project_folder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dirname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;abspath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__file__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_gettext_translations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;project_folder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;locale&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;messages&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Тут &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiModel&lt;/code&gt; и &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DoneModel&lt;/code&gt; подразумевают какие-то модели, неважно какие. Главное, что у них есть переводимые строки.  &lt;br /&gt;
-Файл перевода выглядит примерно так:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;msgid &lt;span class=&quot;s2&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;
-msgstr &lt;span class=&quot;s2&quot;&gt;&quot;Привет, мир!&quot;&lt;/span&gt;
-
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;Fuh, done&quot;&lt;/span&gt;
-msgstr &lt;span class=&quot;s2&quot;&gt;&quot;Фух, вроде готово&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Запустим наш маленький сервер.  &lt;br /&gt;
-Условимся, что в браузере “browser_en” в настройках стоит английский язык, а в браузере “browser_ru” - русский.&lt;/p&gt;
-
-&lt;p&gt;Откроем адрес &lt;a href=&quot;http://127.0.0.1:8888/&quot;&gt;http://127.0.0.1:8888/&lt;/a&gt; в browser_ru и увидим:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Привет, мир!
-Фух, вроде готово
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;То же самое в browser_en:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Hello, world!
-Fuh, done
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Вроде все работает правильно. Но попробуем добавить асинхронную задачу. Для простоты воспользуемся &lt;a href=&quot;http://tornado.readthedocs.org/en/latest/ioloop.html#tornado.ioloop.IOLoop.add_timeout&quot;&gt;асинхронным таймером&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coroutine&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;hello_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HiModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;unicode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hello_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;br/&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_timeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seconds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;done_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DoneModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;unicode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;br/&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;finish&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Т.е. мы просто добавили эти строки:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;io_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_timeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timedelta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seconds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;между работой с &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiModel&lt;/code&gt; и &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DoneModel&lt;/code&gt;.  &lt;br /&gt;
-А теперь попробуем зайти из browser_ru и сразу, не дожидаясь окончания таймера, из browser_en.&lt;/p&gt;
-
-&lt;p&gt;В browser_ru мы увидим это:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Привет, мир!
-Fuh, done
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;а в browser_en:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Hello, world!
-Fuh, done
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Думаю вы уже догадались, почему в browser_ru мы видим часть текста на русском, а часть - на английском. На всякий случай давайте разберемся.&lt;/p&gt;
-
-&lt;p&gt;В момент, когда было обращение из browser_ru, мы выставили глобально русский язык.  &lt;br /&gt;
-Потом пошла асинхронная задача.  &lt;br /&gt;
-Дальше пришел другой запрос (browser_en), который выставил глобально английский язык.  &lt;br /&gt;
-После чего асинхронная команда из первого запроса завершилась и обработчик продолжил работу. Но язык уже поменялся другим обработчиком, и строка “Fuh, done” не перевелась.&lt;/p&gt;
-
-&lt;p&gt;Из всего этого можно сделать вывод, что в tornado определить язык можно только в контексте запроса  (handler), и никак иначе.&lt;/p&gt;
-
-&lt;h2 id=&quot;реализация-i18n-в-tornado-с-помощью-xgettext-&quot;&gt;Реализация i18n в tornado с помощью xgettext &lt;a name=&quot;tornado-i18n-xgettext&quot;&gt;&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;В &lt;a href=&quot;http://www.tornadoweb.org/en/stable/locale.html#module-tornado.locale&quot;&gt;документации tornado&lt;/a&gt; процесс i18n описан довольно скудно, поэтому здесь хочу описать прям по шагам, что и как нужно делать.&lt;/p&gt;
-
-&lt;p&gt;По-моему, лучше всего объяснять на конкретном примере. Поэтому давайте создадим простейший проект на tornado.&lt;/p&gt;
-
-&lt;p&gt;Структура проекта элементарная:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;└── project
-    ├── app.py
-    ├── home.html
-    └── requirements.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;app.py:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tornado.ioloop&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tornado.web&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;home.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;home&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8888&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;home.html:&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;&lt;/span&gt;Home page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-     &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;Home page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-     &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{text}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
- &lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;requirements.txt:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;4.0.2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;цель&quot;&gt;Цель&lt;/h4&gt;
-
-&lt;p&gt;Добавить в проект поддержку двух языков: английского и русского. Если у пользователя в браузере предпочитаемый язык английский - показывать текст на английском, если русский - то соответственно русский.&lt;/p&gt;
-
-&lt;h4 id=&quot;1-весь-текст-в-коде-должен-быть-на-английском&quot;&gt;1. Весь текст в коде должен быть на английском&lt;/h4&gt;
-
-&lt;p&gt;У нас это уже выполнено, на данный момент в проекте есть такие строки:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# app.py&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Home page&quot;&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;# home.html&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;2-маркируем-текст&quot;&gt;2. Маркируем текст&lt;/h4&gt;
-
-&lt;p&gt;Первым делом нужно обозначить строки, требующие перевода (пункт 2. раздела &lt;a href=&quot;#gettext&quot;&gt;gettext&lt;/a&gt;).  &lt;br /&gt;
-Как мы помним, это делается функцией &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt;.   &lt;br /&gt;
-В коде обработчика ее можно получить так:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Код хендлера (файл app.py):&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;home.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;В шаблоне эта функция уже доступна, она определена в методе &lt;a href=&quot;https://github.com/tornadoweb/tornado/blob/branch4.0/tornado/web.py#L788&quot;&gt;get_template_namespace()&lt;/a&gt;.  &lt;br /&gt;
-Код шаблона (файл home.html):&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;&lt;/span&gt;{{_(&quot;Home page&quot;)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-     &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{_(&quot;Home page&quot;)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-     &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{text}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
- &lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Шаблонизатор tornado выполняет python код, который заключен внутри двойных фигурных скобок &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;{{ ... }}&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;3-создаем-файл-перевода&quot;&gt;3. Создаем файл перевода&lt;/h4&gt;
-
-&lt;p&gt;Сперва создадим папку locale в корне нашего проекта:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;locale
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Далее создаем файлик &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;makemessages.sh&lt;/code&gt; в корне проекта и кладем туда такой bash код:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# get arguments and init variables&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;$#&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-lt&lt;/span&gt; 1 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Usage: &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &amp;lt;locale&amp;gt; [optional: &amp;lt;domain_name&amp;gt;]&quot;&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;fi
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;messages&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;locale/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/LC_MESSAGES&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;pot_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;locale/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.pot&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;po_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.po&quot;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# create folders if not exists&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$locale_dir&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# create .pot file&lt;/span&gt;
-find &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-iname&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;*.html&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-iname&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;*.py&quot;&lt;/span&gt; | xargs &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    xgettext &lt;span class=&quot;nt&quot;&gt;--output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pot_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--language&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Python &lt;span class=&quot;nt&quot;&gt;--from-code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;--sort-by-file&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_ &lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_:1,2 &lt;span class=&quot;nt&quot;&gt;--no-wrap&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# init .po file, if it doesn&apos;t exist yet&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$po_file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;msginit &lt;span class=&quot;nt&quot;&gt;--input&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pot_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--output-file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;po_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--no-wrap&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;# update .po file&lt;/span&gt;
-    msgmerge &lt;span class=&quot;nt&quot;&gt;--no-wrap&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--sort-by-file&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--output-file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;po_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;po_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pot_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Даем права на запуск:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;chmod &lt;/span&gt;a+x makemessages.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;При запуске нужно указать языковой тег. Для этого языка мы будем делать перевод, в данном примере это русский:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./makemessages.sh ru
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;При первом запуске может потребоваться ввести ваш email. &lt;br /&gt;
-После выполнения появятся файлы &lt;em&gt;messages.pot&lt;/em&gt; и &lt;em&gt;messages.po&lt;/em&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;project
-├── locale
-│   ├── ru
-│   │   └── LC_MESSAGES
-│   │       └── messages.po
-│   └── messages.pot
-├── app.py
-├── home.html
-├── requirements.txt
-└── makemessages.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Содержимое messages.po:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Russian translations for tornado_i18n package.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Copyright (C) 2015 THE tornado_i18n&apos;S COPYRIGHT HOLDER&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# This file is distributed under the same license as the tornado_i18n package.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# stalk &amp;lt;alexevseev@gmail.com&amp;gt;, 2015.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-msgstr &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Project-Id-Version: tornado_i18n&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Report-Msgid-Bugs-To: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;POT-Creation-Date: 2015-01-30 12:27+0300&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;PO-Revision-Date: 2015-01-30 12:27+0300&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Last-Translator: stalk &amp;lt;alexevseev@gmail.com&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Language-Team: Russian&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Language: ru&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;MIME-Version: 1.0&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Content-Type: text/plain; charset=ASCII&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Content-Transfer-Encoding: 8bit&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;s2&quot;&gt;&quot;Plural-Forms: nplurals=3; plural=(n%10==1 &amp;amp;&amp;amp; n%100!=11 ? 0 : n%10&amp;gt;=2 &amp;amp;&amp;amp; n%10&amp;lt;=4 &amp;amp;&amp;amp; (n%100&amp;lt;10 || n%100&amp;gt;=20) ? 1 : 2);&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#: app.py:8&lt;/span&gt;
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;
-msgstr &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#: home.html:2 home.html:4&lt;/span&gt;
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;Home page&quot;&lt;/span&gt;
-msgstr &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Здесь нужно &lt;strong&gt;обязательно&lt;/strong&gt; поменять charset=ASCII на charset=UTF-8, остальные заголовки - опционально:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;4-переводим&quot;&gt;4. Переводим&lt;/h4&gt;
-
-&lt;p&gt;Заполняем пустые строки вида msgstr “” в &lt;em&gt;messages.po&lt;/em&gt; (не &lt;em&gt;.pot&lt;/em&gt;!):&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#: app.py:8&lt;/span&gt;
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;
-msgstr &lt;span class=&quot;s2&quot;&gt;&quot;Привет, мир!&quot;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#: home.html:2 home.html:4&lt;/span&gt;
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;Home page&quot;&lt;/span&gt;
-msgstr &lt;span class=&quot;s2&quot;&gt;&quot;Домашняя страница&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;5-компилируем-перевод&quot;&gt;5. Компилируем перевод&lt;/h4&gt;
-
-&lt;p&gt;Создаем файлик &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;compilemessages.sh&lt;/code&gt; с кодом:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# get arguments and init variables&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;$#&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-lt&lt;/span&gt; 1 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Usage: &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &amp;lt;locale&amp;gt; [optional: &amp;lt;domain_name&amp;gt;]&quot;&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;fi
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;messages&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;locale/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/LC_MESSAGES&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;po_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.po&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;mo_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.mo&quot;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# create .mo file from .po&lt;/span&gt;
-msgfmt &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;po_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--output-file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;mo_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Даем права на запуск:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;chmod &lt;/span&gt;a+x compilemessages.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;При запуске указываем тот же языковой тег, что и для &lt;em&gt;makemessages.sh&lt;/em&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./compilemessages.sh ru
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Получился файл &lt;em&gt;locale/ru/LC_MESSAGES/messages.mo&lt;/em&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;project
-├── locale
-│   ├── ru
-│   │   └── LC_MESSAGES
-│   │       ├── messages.po
-│   │       └── messages.mo
-│   └── messages.pot
-├── app.py
-├── home.html
-├── requirements.txt
-├── compilemessages.sh
-└── makemessages.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;6-связываем-перевод-с-нашим-проектом&quot;&gt;6. Связываем перевод с нашим проектом&lt;/h4&gt;
-
-&lt;p&gt;Для этого вызываем функцию &lt;a href=&quot;http://www.tornadoweb.org/en/stable/locale.html#tornado.locale.load_gettext_translations&quot;&gt;load_gettext_translations()&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;app.py:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_gettext_translations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;locale&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;messages&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8888&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ioloop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Попробуем запустить проект.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python app.py
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Откроем в browser_en адрес &lt;a href=&quot;http://127.0.0.1:8888/&quot;&gt;http://127.0.0.1:8888/&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Home page
-Hello, world!
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;и brower_ru:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Домашняя страница
-Привет, мир!
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Вот и все, перевод готов!&lt;/p&gt;
-
-&lt;h4 id=&quot;7-обновление-перевода&quot;&gt;7. Обновление перевода&lt;/h4&gt;
-
-&lt;p&gt;Допустим, в файле home.html у нас добавился текст, который нужно перевести:&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{_(&quot;Good buy!&quot;)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;В этом случае мы просто выполняем наш скрипт:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./makemessages.sh ru
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;заполняем перевод в обновленном &lt;em&gt;messages.po&lt;/em&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#: home.html:6&lt;/span&gt;
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;Good buy!&quot;&lt;/span&gt;
-msgstr &lt;span class=&quot;s2&quot;&gt;&quot;До свидания!&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;компилируем:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./compilemessages.sh ru
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;и перезапускаем сервер&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python app.py
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Все!&lt;/p&gt;
-
-&lt;h4 id=&quot;8-множественные-значения&quot;&gt;8. Множественные значения&lt;/h4&gt;
-
-&lt;p&gt;gettext поддерживает множественные значения (plural forms). Вот как это выглядит:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ngettext&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;{count} event is gonna happen&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;{count} events are gonna happen&quot;&lt;/span&gt;, count&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.format&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;count&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;ngettext - стандартное имя функции для множественных форм, которое используется в gettext.  &lt;br /&gt;
-Но в tornado функция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self.locale.translate&lt;/code&gt;, которую мы назвали как &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt;, так же поддерживает аргументы ngettext. Вообщем, мы можем вместо ngettext использовать привычный нам &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{count} event is gonna happen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;{count} events are gonna happen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Обратите внимание на аргументы функции xgettext в нашем скрипте выше:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_ &lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_:1,2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Так мы указываем для парсера, что функция &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt; может принимать как одну строку, так и две вместе с числом.&lt;/p&gt;
-
-&lt;p&gt;Смысл этого в том, что в зависимости от значения &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;count&lt;/code&gt; строка будет принимать либо множественное значение, либо единичное.  &lt;br /&gt;
-В случае английского языка это будет выглядеть так:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{count} event is gonna happen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;{count} events are gonna happen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# вывод
-&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1 event is gonna happen&quot;&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{count} event is gonna happen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;{count} events are gonna happen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# вывод
-&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2 events are gonna happen&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Как мы видим, у английского языка только 1 форма множественного числа. Т.е. всегда, когда &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;count &amp;gt; 1&lt;/code&gt;, вывод будет один и тот же.&lt;/p&gt;
-
-&lt;p&gt;Однако в русском языке может быть 3 формы (а в некоторых других языках и того больше). Давайте попробуем перевести вручную эту строку:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1,21,31 событие должно случиться
-2,3,4,22 события должно случиться
-5,6,7,8,9,20,25 событий должно случиться
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Если мы все сделаем правильно, gettext будет выводить верную форму.&lt;/p&gt;
-
-&lt;p&gt;Реализуем это в нашем примере.  &lt;br /&gt;
-Добавим в шаблон home.html такую строку:&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{_(&quot;{count} event is gonna happen&quot;, &quot;{count} events are gonna happen&quot;, count).format(count=count)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;а в обработчик из файла app.py:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_argument&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;count&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;home.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Обновим наш файл переводов:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./makemessages.sh ru
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Видим такие строки в &lt;em&gt;locale/ru/LC_MESSAGES/messages.po&lt;/em&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#: home.html:6&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#, python-brace-format&lt;/span&gt;
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;{count} event is gonna happen&quot;&lt;/span&gt;
-msgid_plural &lt;span class=&quot;s2&quot;&gt;&quot;{count} events are gonna happen&quot;&lt;/span&gt;
-msgstr[0] &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-msgstr[1] &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-msgstr[2] &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;gettext сам знает, что в русском языке для множественного значения может быть 3 формы.
-Обратите внимание на заголовок, который был создан командой msginit:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Plural-Forms: nplurals=3; plural=(n%10==1 &amp;amp;&amp;amp; n%100!=11 ? 0 : n%10&amp;gt;=2 &amp;amp;&amp;amp; n%10&amp;lt;=4 &amp;amp;&amp;amp; (n%100&amp;lt;10 || n%100&amp;gt;=20) ? 1 : 2);&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Условия из этого заголовка и определяют нужный вариант в зависимости от числа.  &lt;br /&gt;
-Итак, добавим перевод:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#: home.html:6&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#, python-brace-format&lt;/span&gt;
-msgid &lt;span class=&quot;s2&quot;&gt;&quot;{count} event is gonna happen&quot;&lt;/span&gt;
-msgid_plural &lt;span class=&quot;s2&quot;&gt;&quot;{count} events are gonna happen&quot;&lt;/span&gt;
-msgstr[0] &lt;span class=&quot;s2&quot;&gt;&quot;{count} событие должно случиться&quot;&lt;/span&gt;
-msgstr[1] &lt;span class=&quot;s2&quot;&gt;&quot;{count} события должно случиться&quot;&lt;/span&gt;
-msgstr[2] &lt;span class=&quot;s2&quot;&gt;&quot;{count} событий должно случиться&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Скомпилируем:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./compilemessages.sh ru
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Запустим сервер и попробуем обратиться из browser_ru&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://127.0.0.1:8888/&quot;&gt;http://127.0.0.1:8888/&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1 событие должно случиться
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://127.0.0.1:8888/?count=2&quot;&gt;http://127.0.0.1:8888/?count=2&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2 события должно случиться
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://127.0.0.1:8888/?count=5&quot;&gt;http://127.0.0.1:8888/?count=5&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;5 событий должно случиться
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Отлично!&lt;/p&gt;
-
-&lt;h4 id=&quot;9-особая-логика-для-выбора-языка&quot;&gt;9. Особая логика для выбора языка&lt;/h4&gt;
-
-&lt;p&gt;До сих пор язык пользователя определялся из настроек его браузера. Но допустим мы хотим, чтобы пользователь мог сам выбрать язык и сохранить его где-нибудь у себя в профиле на нашем сайте.  &lt;br /&gt;
-Логику выбора языка можно легко изменить. Если мы это сделаем, то настройки браузера уже не будут влиять.  &lt;br /&gt;
-Для этого просто нужно определить язык в методе &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get_user_locale()&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_user_locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ru&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;home.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Теперь независимо от браузера, текст всегда будет отображаться на русском языке.&lt;/p&gt;
-
-&lt;h2 id=&quot;библиотека-babel&quot;&gt;Библиотека babel&lt;/h2&gt;
-
-&lt;p&gt;Идем дальше. &lt;a href=&quot;http://babel.pocoo.org/&quot;&gt;babel&lt;/a&gt; предоставляет доступ к CLDR данным из python’а. Так же она реализует команды xgettext на python’e, т.о. xgettext можно не устанавливать. Но остановимся пока на CLDR.&lt;/p&gt;
-
-&lt;p&gt;Давайте попробуем вывести цену какого-нибудь продукта в долларах. В разных странах приняты разные способы отображения цен.  &lt;br /&gt;
-Например, в России обычно указывают цену так: 99,00 $  &lt;br /&gt;
-а в США так: $99.00  &lt;br /&gt;
-а в какой-то другой стране еще по другому.&lt;/p&gt;
-
-&lt;p&gt;И эта информация, помимо всего прочего, есть в CLDR (рубли там тоже есть :))! Мы можем легко использовать ее благодаря babel.  &lt;br /&gt;
-Установим babel:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;babel
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Изменим app.py:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tornado.ioloop&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tornado.web&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;babel.numbers&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;format_currency&lt;/span&gt;
-
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_argument&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;count&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;format_usd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;format_currency&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;currency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;USD&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;home.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;format_usd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format_usd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;а в шаблон home.html добавим цену:&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{format_usd(99)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;И все, ничего больше делать не надо.  &lt;br /&gt;
-browser_ru отобразит:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;99,00 $
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;browser_en:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$99.00
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Это лишь одна из множества функций, доступная в babel. Там есть дни недели, месяцев, форматы даты и многое другое. И этим можно и нужно пользоваться, не стоит переводить все вручную.&lt;/p&gt;
-
-&lt;h2 id=&quot;реализация-i18n-в-tornado-с-помощью-babel-&quot;&gt;Реализация i18n в tornado с помощью babel &lt;a name=&quot;tornado-i18n-babel&quot;&gt;&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;Как я уже говорил, в babel реализованы основные функции xgettext на python’e. Т.о. можно не устанавливать xgettext. Так же в babel есть возможность задавать свой синтаксис для парсинга. Это может быть удобно для шаблонов html, где синтаксис отличается от python.&lt;/p&gt;
-
-&lt;p&gt;Возьмем все тот же наш маленький проект. По идее, нам нужно будет лишь изменить скрипты &lt;em&gt;makemessages.sh&lt;/em&gt; и &lt;em&gt;compilemessages.sh&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Для чистоты эксперимента удалим все файлы внутри папки locale. Т.о. структура проекта будет такая:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;project
-├── locale
-├── app.py
-├── home.html
-├── requirements.txt
-├── makemessages.sh
-└── compilemessages.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Установим babel, если еще не установили:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;babel
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Так же для парсинга шаблонов tornado нам понадобится пакет &lt;a href=&quot;https://pypi.python.org/pypi/Tornado-Babel/&quot;&gt;tornado-babel&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;tornado-babel
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Первым делом нужно создать файл &lt;em&gt;locale/babel.cfg&lt;/em&gt; с содержимым:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;python: &lt;span class=&quot;k&quot;&gt;**&lt;/span&gt;.py]
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;tornado: &lt;span class=&quot;k&quot;&gt;**&lt;/span&gt;.html]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Так мы указываем, какие файлы парсить и какой синтаксис использовать при парсинге.&lt;/p&gt;
-
-&lt;p&gt;Перепишем наш &lt;em&gt;makemessages.sh&lt;/em&gt;, чтобы он вызывал команды babel вместо xgettext:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# get arguments and init variables&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;$#&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-lt&lt;/span&gt; 1 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Usage: &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &amp;lt;locale&amp;gt; [optional: &amp;lt;domain_name&amp;gt;]&quot;&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;fi
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;messages&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;base_dir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;locale&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;base_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/LC_MESSAGES&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;pot_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;base_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.pot&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;po_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.po&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;babel_config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;base_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/babel.cfg&quot;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# create pot template&lt;/span&gt;
-pybabel extract ./ &lt;span class=&quot;nt&quot;&gt;--output&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pot_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;--charset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;UTF-8 &lt;span class=&quot;nt&quot;&gt;--no-wrap&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--sort-by-file&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_ &lt;span class=&quot;nt&quot;&gt;--mapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;babel_config&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# init .po file, if it doesn&apos;t exist yet&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$po_file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;pybabel init &lt;span class=&quot;nt&quot;&gt;--input-file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pot_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--output-dir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;base_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;--domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--no-wrap&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;# update .po file&lt;/span&gt;
-    pybabel update &lt;span class=&quot;nt&quot;&gt;--domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--input-file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pot_file&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;--output-dir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;base_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--no-wrap&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;А так же compilemessages.sh:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# get arguments and init variables&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;$#&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-lt&lt;/span&gt; 1 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Usage: &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &amp;lt;locale&amp;gt; [optional: &amp;lt;domain_name&amp;gt;]&quot;&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;fi
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;messages&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$2&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;locale/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/LC_MESSAGES&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;po_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.po&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;mo_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale_dir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.mo&quot;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# create .mo file from .po&lt;/span&gt;
-pybabel compile &lt;span class=&quot;nt&quot;&gt;--locale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--domain&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;locale/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Если вы заметили, мы указываем только &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--keyword=_&lt;/code&gt;. Без &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--keyword=_:1,2&lt;/code&gt;. Почему?  &lt;br /&gt;
-Дело в том, что в версии babel==1.3, которая доступна из pypi на момент написания статьи, не поддерживаются разные аргументы для одной и той же функции.  &lt;br /&gt;
-На что это влияет в нашем случае?  &lt;br /&gt;
-Нам придется для множественных форм использовать функцию &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ngettext&lt;/code&gt;, а не &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt;.  &lt;br /&gt;
-Для этого поправим чуть-чуть app.py, определив &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ngettext&lt;/code&gt; и передав ее в шаблон:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ngettext&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;# ...
-&lt;/span&gt;        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;home.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;ngettext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ngettext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;и в шаблоне для перевода множественных форм используем ngettext:&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{ngettext(&quot;{count} event is gonna happen&quot;, &quot;{count} events are gonna happen&quot;, count).format(count=count)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Дальше все по старому.&lt;/p&gt;
-
-&lt;p&gt;Создаем файлы перевода:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./makemessages.sh ru
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Опять добавляем перевод в &lt;em&gt;locale/ru/LC_MESSAGES/messages.po&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Компилируем:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./compilemessages.sh ru
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;При выполнении этого скрипта можно увидеть что-то вроде&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;catalog &lt;span class=&quot;s1&quot;&gt;&apos;locale/ru/LC_MESSAGES/messages.po&apos;&lt;/span&gt; is marked as fuzzy, skipping
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Тогда нужно в файле &lt;em&gt;messages.po&lt;/em&gt; удалить такие строки, говорящие, что перевод не подтвержденный:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#, fuzzy&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;и опять скомпилировать перевод.&lt;/p&gt;
-
-&lt;p&gt;И теперь все работает аналогично. Но без xgettext!&lt;/p&gt;
-
-&lt;h4 id=&quot;исправляем-babel&quot;&gt;Исправляем babel&lt;/h4&gt;
-
-&lt;p&gt;Согласитесь, что неудобно иметь две функции &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_&lt;/code&gt; и &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ngettext&lt;/code&gt;. Давайте это исправим! :)  &lt;br /&gt;
-Я отправил pull-request’ы в &lt;a href=&quot;https://github.com/mitsuhiko/babel/pull/140&quot;&gt;babel репозиторий&lt;/a&gt; и в &lt;a href=&quot;https://github.com/openlabs/tornado-babel/pull/6&quot;&gt;tornado-babel&lt;/a&gt;. Возможно, они уже приняты.  &lt;br /&gt;
-Однако, чтобы не ждать, есть готовые версии с этими исправлениями. Но вначале удалим текущие babel и tornado-babel:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip uninstall babel
-pip uninstall tornado-babel
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Ставим исправленные версии:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;https://github.com/st4lk/babel/archive/2.1.2-draft.tar.gz
-pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;https://github.com/st4lk/tornado-babel/archive/0.3b.tar.gz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Добавим &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--keyword=_1,2&lt;/code&gt; в &lt;em&gt;makemessages.sh&lt;/em&gt;.  &lt;br /&gt;
-Было:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_ &lt;span class=&quot;nt&quot;&gt;--mapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;babel_config&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Стало:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_ &lt;span class=&quot;nt&quot;&gt;--keyword&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_:1,2 &lt;span class=&quot;nt&quot;&gt;--mapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;babel_config&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Уберем теперь уже не нужную функцию ngettext.&lt;/p&gt;
-
-&lt;p&gt;app.py:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tornado&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translate&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;# ...
-&lt;/span&gt;        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;home.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;home.html:&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;{{_(&quot;{count} event is gonna happen&quot;, &quot;{count} events are gonna happen&quot;, count).format(count=count)}}&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Ура, теперь мы работаем с babel точно так же, как и с xgettext!&lt;/p&gt;
-
-&lt;p&gt;Если что, код примера на github’e: &lt;a href=&quot;https://github.com/st4lk/tornado_i18n_example&quot;&gt;https://github.com/st4lk/tornado_i18n_example&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="i18n" /><category term="async" /><category term="tornado" /><summary type="html">Star Статья о том, что такое i18n и i10n и как это реализовать в приложении на tornado. Получилось довольно много букв, но хотелось рассказать доступно обо всем процессе. Сама пошаговая инструкция - во второй половине статьи.</summary></entry></feed>
+&lt;p&gt;Тут я явно добавляю текущую папку в PYTHONPATH, потому что иначе py.test не сможет найти наш плагин.&lt;/p&gt;</content><author><name></name></author><category term="database" /><category term="django" /><category term="logging" /><category term="sql" /><summary type="html">В django тестах можно замерять количество сделанных SQL запросов: def test_home(self): with self.assertNumQueries(1): response = self.client.get(&apos;/&apos;) self.assertEqual(response.status_code, 200) Если код в контексте assertNumQueries сделает иное количество обращений к БД, чем ожидается (здесь 1), то тест выдает ошибку. Но когда такой тест не проходит, бывает трудно определить лишний отправленный запрос. Для отладки такого случая удобно вывести в консоль отправленные SQL запросы. Далее опишу, как этого добиться.</summary></entry></feed>
