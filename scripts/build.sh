@@ -2,7 +2,7 @@
 cd /srv/jekyll/source
 
 bundle install
-bundle exec jekyll build
+JEKYLL_ENV=production bundle exec jekyll build
 
 echo "Clearing docs folder"
 cd ..
