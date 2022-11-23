@@ -11,12 +11,6 @@
     {%- if site.show_excerpts -%}
       {{ post.excerpt }}
     {%- endif -%}
-    <div>
-    {% for category in post.categories %}
-      <span><a href="{{site.baseurl}}/category/{{category | slugize }}/index.html">{{ category }}</a></span>
-    {% unless forloop.last %}&nbsp;{% endunless %}
-    {% endfor %}
-    </div>
     <div class="post-list-buttons">
       <a href="{{ post.url | relative_url }}#disqus_thread" data-disqus-identifier="{{ site.url }}{{ post.url }}">
         {% t Comments %}
