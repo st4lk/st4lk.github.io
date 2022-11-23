@@ -20,7 +20,7 @@
 <!-- End Jekyll SEO tag -->
 <link rel="shortcut icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/en/assets/main.css">
-  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Developer articles" /><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body><header class="site-header" role="banner">
 
@@ -69,7 +69,7 @@
 
 <p>Assume we have a “single page” web site, that is talking with backend via REST API. Client side can be written with ember, angularjs or some like this. Backend - django rest framework (DRF). We’ve got a task - add social login  (OAuth protocol).</p>
 
-<span>
+<div>
     
       <span><a href="/en/category/api/index.html">api</a></span>
     &nbsp;
@@ -80,7 +80,11 @@
       <span><a href="/en/category/oauth/index.html">oauth</a></span>
     
     
-  </span>
+    </div>
+    <div class="post-list-buttons">
+      <a href="/en/blog/2015/07/18/oauth-and-django-rest-framework.html#disqus_thread">Comments</a>
+      <a style="margin-left: 5px;" href="/en/blog/2015/07/18/oauth-and-django-rest-framework.html#disqus_thread">Read More</a>
+    </div>
   </li><li><span class="post-meta">May 16, 2015</span>
     <h3>
       <a class="post-link" href="/en/blog/2015/05/16/oauth-step-step.html">
@@ -101,7 +105,7 @@ Scripts will implement client application functionality.
 Only standard python libraries are used. This help to overview the OAuth protocol - everything is on single screen and familiar. Of course, for production application we must use third party oauth libs, they handle many special cases and so on. Purpose of these scripts is just understanding of the protocol and nothing else.
 It is often hard to keep the protocol flow in production-ready library, because it is splitted in many modules, some other packages are used. And the full vision is slipping out of sight.</p>
 
-<span>
+<div>
     
       <span><a href="/en/category/api/index.html">api</a></span>
     &nbsp;
@@ -112,7 +116,11 @@ It is often hard to keep the protocol flow in production-ready library, because 
       <span><a href="/en/category/security/index.html">security</a></span>
     
     
-  </span>
+    </div>
+    <div class="post-list-buttons">
+      <a href="/en/blog/2015/05/16/oauth-step-step.html#disqus_thread">Comments</a>
+      <a style="margin-left: 5px;" href="/en/blog/2015/05/16/oauth-step-step.html#disqus_thread">Read More</a>
+    </div>
   </li><li><span class="post-meta">Mar 14, 2014</span>
     <h3>
       <a class="post-link" href="/en/blog/2014/03/14/send-email-django-project-mandrill-service.html">
@@ -122,7 +130,7 @@ It is often hard to keep the protocol flow in production-ready library, because 
 
 <p>To send email messages from server we can just use SMTP protocol. But there is another way - special email services. I’ll describe one of them here, <a href="http://mandrill.com/">mandrill.com</a>.</p>
 
-<span>
+<div>
     
       <span><a href="/en/category/api/index.html">api</a></span>
     &nbsp;
@@ -136,7 +144,11 @@ It is often hard to keep the protocol flow in production-ready library, because 
       <span><a href="/en/category/free/index.html">free</a></span>
     
     
-  </span>
+    </div>
+    <div class="post-list-buttons">
+      <a href="/en/blog/2014/03/14/send-email-django-project-mandrill-service.html#disqus_thread">Comments</a>
+      <a style="margin-left: 5px;" href="/en/blog/2014/03/14/send-email-django-project-mandrill-service.html#disqus_thread">Read More</a>
+    </div>
   </li><li><span class="post-meta">Jan 30, 2014</span>
     <h3>
       <a class="post-link" href="/en/blog/2014/01/30/async-bitcoin-rpc-client.html">
@@ -148,7 +160,7 @@ It is often hard to keep the protocol flow in production-ready library, because 
 
 <p>But recently i need to call API from tornado application. Mentioned lib works in synchronous, i.e. blocking mode. For tornado it will be much better to use asynchronous version. Tried to search for existing solution, but can’t find it. So i create my async fork, that use tornado’s AsyncHTTPClient: <a href="https://github.com/st4lk/python-bitcoinrpc-tornado">https://github.com/st4lk/python-bitcoinrpc-tornado</a>.</p>
 
-<span>
+<div>
     
       <span><a href="/en/category/async/index.html">async</a></span>
     &nbsp;
@@ -162,7 +174,11 @@ It is often hard to keep the protocol flow in production-ready library, because 
       <span><a href="/en/category/tornado/index.html">tornado</a></span>
     
     
-  </span>
+    </div>
+    <div class="post-list-buttons">
+      <a href="/en/blog/2014/01/30/async-bitcoin-rpc-client.html#disqus_thread">Comments</a>
+      <a style="margin-left: 5px;" href="/en/blog/2014/01/30/async-bitcoin-rpc-client.html#disqus_thread">Read More</a>
+    </div>
   </li><li><span class="post-meta">Feb 4, 2013</span>
     <h3>
       <a class="post-link" href="/en/blog/2013/02/04/script-downloading-music-vkcom-vkontakteru.html">
@@ -181,7 +197,7 @@ It is often hard to keep the protocol flow in production-ready library, because 
 
 <p>Tested on python 2.6 and 2.7. No external libraries required.</p>
 
-<span>
+<div>
     
       <span><a href="/en/category/api/index.html">api</a></span>
     &nbsp;
@@ -192,7 +208,11 @@ It is often hard to keep the protocol flow in production-ready library, because 
       <span><a href="/en/category/python/index.html">python</a></span>
     
     
-  </span>
+    </div>
+    <div class="post-list-buttons">
+      <a href="/en/blog/2013/02/04/script-downloading-music-vkcom-vkontakteru.html#disqus_thread">Comments</a>
+      <a style="margin-left: 5px;" href="/en/blog/2013/02/04/script-downloading-music-vkcom-vkontakteru.html#disqus_thread">Read More</a>
+    </div>
   </li><li><span class="post-meta">Aug 31, 2012</span>
     <h3>
       <a class="post-link" href="/en/blog/2012/08/31/aphorism-messenger.html">
@@ -202,7 +222,7 @@ It is often hard to keep the protocol flow in production-ready library, because 
 
 <p>I have an interesting project I want to tell you about. The idea to create it was born when I was learning Java. I have read couple of books, made some small task programs but I would like to create something bigger.</p>
 
-<span>
+<div>
     
       <span><a href="/en/category/api/index.html">api</a></span>
     &nbsp;
@@ -210,7 +230,11 @@ It is often hard to keep the protocol flow in production-ready library, because 
       <span><a href="/en/category/java/index.html">java</a></span>
     
     
-  </span>
+    </div>
+    <div class="post-list-buttons">
+      <a href="/en/blog/2012/08/31/aphorism-messenger.html#disqus_thread">Comments</a>
+      <a style="margin-left: 5px;" href="/en/blog/2012/08/31/aphorism-messenger.html#disqus_thread">Read More</a>
+    </div>
   </li></ul>
 </div>
   <nav><p><!-- Pagination links -->
@@ -267,6 +291,6 @@ specified separately) -->
   </div>
 
 </footer>
-</body>
+<script id="dsq-count-scr" src="//lexev-dev.disqus.com/count.js" async></script></body>
 
 </html>
