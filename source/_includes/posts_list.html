@@ -18,7 +18,7 @@
     {% endfor %}
     </div>
     <div class="post-list-buttons">
-      <a href="{{ post.url | relative_url }}#disqus_thread" data-disqus-identifier="{{ site.url }}{{ page.url }}">
+      <a href="{{ post.url | relative_url }}#disqus_thread" data-disqus-identifier="{{ site.url }}{{ post.url }}">
         {% t Comments %}
       </a>
       <a style="margin-left: 5px;" href="{{ post.url | relative_url }}">{% t ReadMore %}</a>
