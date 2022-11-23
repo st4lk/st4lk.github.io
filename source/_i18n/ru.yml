@@ -3,6 +3,7 @@ global:
   github: GitHub
   english: Английский
   russian: Русский
+  search: Поиск (только на англ.)
 langs:
   ru: Русский
   en: Английский
@@ -13,3 +14,4 @@ titles:
   blog: Блог
 Blog: Блог
 About: Контакты
+Search: Поиск

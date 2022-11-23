@@ -62,3 +62,6 @@
 .disabled a, .disabled a:hover, .active a, .active a:hover { color: #999; cursor: default; }
 
 .disabled a:hover { background-color: transparent; }
+
+/* ------- search -------- */
+#lunrsearch { border: none; width: 100%; font-size: 1.5em; }
