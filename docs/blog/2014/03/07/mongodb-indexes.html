@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Что нужно знать об индексах в mongodb | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Что нужно знать об индексах в mongodb" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Недавно закончил курс “M101P: MongoDB for Developers” (он периодически повторяется, например следующий стартует в апреле). В процессе прохождения натолкнулся на некоторые интересные моменты." />
+<meta property="og:description" content="Недавно закончил курс “M101P: MongoDB for Developers” (он периодически повторяется, например следующий стартует в апреле). В процессе прохождения натолкнулся на некоторые интересные моменты." />
+<link rel="canonical" href="https://st4lk.github.io/blog/2014/03/07/mongodb-indexes.html" />
+<meta property="og:url" content="https://st4lk.github.io/blog/2014/03/07/mongodb-indexes.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-03-07T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Что нужно знать об индексах в mongodb" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2014-03-07T18:19:43+00:00","datePublished":"2014-03-07T18:19:43+00:00","description":"Недавно закончил курс “M101P: MongoDB for Developers” (он периодически повторяется, например следующий стартует в апреле). В процессе прохождения натолкнулся на некоторые интересные моменты.","headline":"Что нужно знать об индексах в mongodb","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/blog/2014/03/07/mongodb-indexes.html"},"url":"https://st4lk.github.io/blog/2014/03/07/mongodb-indexes.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Записи разработчика</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="/blog/">Блог</a>
+          <a class="page-link" href="/about/">Контакты</a>
+          <a class="page-link" style="margin-right: 0px" href="/blog/2014/03/07/mongodb-indexes.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/blog/2014/03/07/mongodb-indexes.html" ><img src="/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Что нужно знать об индексах в mongodb</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-03-07T18:19:43+00:00" itemprop="datePublished">Mar 7, 2014
+      </time><span style="float:right">
+
+  <span><a href="/category/database/index.html">database</a></span>
+&nbsp;
+
+  <span><a href="/category/mongodb/index.html">mongodb</a></span>
+
+
+</span>
+    </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/blog/2014/03/07/mongodb-indexes.html"><img src="/assets/images/posts/2014-03-07-mongodb-indexes/mongoDB-logo_small.png" alt="Что нужно знать об индексах в mongodb" title="Что нужно знать об индексах в mongodb" /></a></p>
+
+<p>Недавно закончил курс “M101P: MongoDB for Developers” (он периодически повторяется, например <a href="https://education.mongodb.com/courses/10gen/M101P/2014_April/about">следующий</a> стартует в апреле).
+В процессе прохождения натолкнулся на некоторые интересные моменты.</p>
+
+<!--more-->
+
+<h3 id="1-выбор-индекса-для-запроса">1. Выбор индекса для запроса.</h3>
+
+<p>Допустим у нас коллекция с такими данными:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span> <span class="dl">"</span><span class="s2">_id</span><span class="dl">"</span> <span class="p">:</span> <span class="p">...,</span> <span class="dl">"</span><span class="s2">a</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">81810</span><span class="p">,</span> <span class="dl">"</span><span class="s2">b</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">97482</span><span class="p">,</span> <span class="dl">"</span><span class="s2">c</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">44288</span> <span class="p">}</span>
+<span class="p">{</span> <span class="dl">"</span><span class="s2">_id</span><span class="dl">"</span> <span class="p">:</span> <span class="p">...,</span> <span class="dl">"</span><span class="s2">a</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">11734</span><span class="p">,</span> <span class="dl">"</span><span class="s2">b</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">27893</span><span class="p">,</span> <span class="dl">"</span><span class="s2">c</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">19485</span> <span class="p">}</span>
+<span class="c1">// и т.д.</span>
+</code></pre></div></div>
+
+<p>Всего 99999 объектов. У коллекции есть индексы:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">ensureIndex</span><span class="p">({</span><span class="na">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">c</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">ensureIndex</span><span class="p">({</span><span class="na">c</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+</code></pre></div></div>
+
+<p>Вопрос: какой индекс будет использован при запросе</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">:{</span><span class="dl">'</span><span class="s1">$lt</span><span class="dl">'</span><span class="p">:</span><span class="mi">10000</span><span class="p">},</span> <span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">:{</span><span class="dl">'</span><span class="s1">$gt</span><span class="dl">'</span><span class="p">:</span> <span class="mi">5000</span><span class="p">}}).</span><span class="nx">sort</span><span class="p">({</span><span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">})</span> 
+</code></pre></div></div>
+<p>?</p>
+
+<p>Интуитивно очень хотелось бы, чтобы был использован индекс {a: 1, b: 1, c: 1}, ведь вроде бы он покрывает все нужные нам поля. Но, к сожалению, это не так.</p>
+
+<p>Во-первых, индекс {a: 1, b: 1, c: 1} в этом случае <a href="http://docs.mongodb.org/manual/tutorial/sort-results-with-indexes/#use-indexes-to-sort-query-results">не может быть</a> использован одновременно для find и для sort, т.к. find содержит операторы сравнения ($lt, $gt). Т.е. в таком запросе</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">:</span> <span class="mi">2</span><span class="p">}).</span><span class="nx">sort</span><span class="p">({</span><span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+</code></pre></div></div>
+
+<p>индекс был бы использован полностью. Но, к сожалению, у нас не такой запрос.</p>
+
+<p>Ну ладно, бог с ней с сортировкой, наверно индекс {a: 1, b: 1, c: 1} будет использован только для find, а сортировка уже будет сделана без индексов.
+Эх, смотрим:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">:{</span><span class="dl">'</span><span class="s1">$lt</span><span class="dl">'</span><span class="p">:</span><span class="mi">10000</span><span class="p">},</span> <span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">:{</span><span class="dl">'</span><span class="s1">$gt</span><span class="dl">'</span><span class="p">:</span> <span class="mi">5000</span><span class="p">}}).</span><span class="nx">sort</span><span class="p">({</span><span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">}).</span><span class="nx">explain</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BtreeCursor c_-1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">n</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">9498</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">nscanned</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">99999</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">scanAndOrder</span><span class="dl">"</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="c1">// другие поля не так интересны</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>{a: 1, b: 1, c: 1} даже не был задействован, вместо него индекс {c: -1} был использован для сортировки, потому что так решил mongodb’шный query optimizer.</p>
+
+<p>Вот где пригодится принудительный выбор индексов оператором <a href="http://docs.mongodb.org/manual/reference/operator/meta/hint/">$hint</a>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">:{</span><span class="dl">'</span><span class="s1">$lt</span><span class="dl">'</span><span class="p">:</span><span class="mi">10000</span><span class="p">},</span> <span class="dl">'</span><span class="s1">b</span><span class="dl">'</span><span class="p">:{</span><span class="dl">'</span><span class="s1">$gt</span><span class="dl">'</span><span class="p">:</span> <span class="mi">5000</span><span class="p">}},</span> <span class="p">{</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">:</span><span class="mi">1</span><span class="p">}).</span><span class="nx">sort</span><span class="p">({</span><span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">}).</span><span class="nx">hint</span><span class="p">({</span><span class="na">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">c</span><span class="p">:</span> <span class="mi">1</span><span class="p">}).</span><span class="nx">explain</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BtreeCursor a_1_b_1_c_1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">n</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">9498</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">nscanned</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">9974</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">scanAndOrder</span><span class="dl">"</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="c1">// другие поля не так интересны</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Сейчас индекс использовался для find, а сортировка осуществилась без индексов. Думаю, использовать индекс для фильтрации 9498 элементов из 99999 и затем к ним применить сортировку намного эффективнее нежели применить полный перебор к 99999 элементам и затем сортировку найденных 9498 осуществить с помощью индексов.</p>
+
+<h3 id="2-направление-индекса">2. Направление индекса</h3>
+
+<p>Возвращаясь к предыдущему примеру, видно, что один из индексов имеет значение “-1”:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">ensureIndex</span><span class="p">({</span><span class="na">c</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+</code></pre></div></div>
+<p>Это значит, что создан “нисходящий” индекс по полю “c”. Какое это вообще имеет значение?</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">sort</span><span class="p">({</span><span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">}).</span><span class="nx">explain</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BtreeCursor c_-1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">sort</span><span class="p">({</span><span class="dl">'</span><span class="s1">c</span><span class="dl">'</span><span class="p">:</span><span class="mi">1</span><span class="p">}).</span><span class="nx">explain</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BtreeCursor c_-1 reverse</span><span class="dl">"</span><span class="p">,</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>В обоих случаях применился индекс, только во втором случае он использовался в обратном порядке.
+Зачем тогда нужно указывать “направление” индекса?</p>
+
+<p>Направление индекса пригодится при сортировке по двум и более полям:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">ensureIndex</span><span class="p">({</span><span class="na">a</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="na">c</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+
+<span class="c1">// тут индекс не может быть использован</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">sort</span><span class="p">({</span><span class="na">a</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span><span class="mi">1</span><span class="p">}).</span><span class="nx">explain</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BasicCursor</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">scanAndOrder</span><span class="dl">"</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// а тут - может</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">sort</span><span class="p">({</span><span class="na">a</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span><span class="mi">1</span><span class="p">}).</span><span class="nx">explain</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BtreeCursor a_1_b_1_c_1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">scanAndOrder</span><span class="dl">"</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">// но для сортировки по одному полю направление индекса не важно:</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">sort</span><span class="p">({</span><span class="na">a</span><span class="p">:</span><span class="mi">1</span><span class="p">}).</span><span class="nx">explain</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BtreeCursor a_1_b_1_c_1</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">scanAndOrder</span><span class="dl">"</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">sort</span><span class="p">({</span><span class="na">a</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">}).</span><span class="nx">explain</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BtreeCursor a_1_b_1_c_1 reverse</span><span class="dl">"</span><span class="p">,</span>
+    <span class="dl">"</span><span class="s2">scanAndOrder</span><span class="dl">"</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Т.е. правило такое: <strong>при сортировке по двум и более полям направление сортировки должно совпадать с направлением индекса для всех полей</strong>.</p>
+
+<h3 id="3-индексы-и-aggregation">3. Индексы и aggregation</h3>
+
+<p>Aggregation - очень, очень классная функция в mongodb. Было бы крайне полезно получать explain данные и об aggregation запросах. Такая возможность появится в версии 2.6 (на момент написания статьи эта версия официально еще не вышла).</p>
+
+<p>Вот как можно будет применить explain в <a href="http://docs.mongodb.org/master/release-notes/2.6/">версии 2.6</a>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">aggregate</span><span class="p">([</span>
+        <span class="p">{</span><span class="na">$match</span><span class="p">:</span> <span class="p">{</span><span class="na">a</span><span class="p">:</span> <span class="p">{</span><span class="dl">'</span><span class="s1">$lt</span><span class="dl">'</span><span class="p">:</span><span class="mi">10000</span><span class="p">},</span> <span class="na">b</span><span class="p">:</span> <span class="p">{</span><span class="dl">'</span><span class="s1">$gt</span><span class="dl">'</span><span class="p">:</span> <span class="mi">5000</span><span class="p">}}},</span>
+        <span class="p">{</span><span class="na">$sort</span><span class="p">:</span> <span class="p">{</span><span class="na">c</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}},</span>
+        <span class="p">{</span><span class="na">$group</span><span class="p">:</span> <span class="p">{</span><span class="na">_id</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span> <span class="na">a_total</span><span class="p">:</span> <span class="p">{</span><span class="na">$sum</span><span class="p">:</span> <span class="dl">"</span><span class="s2">$a</span><span class="dl">"</span><span class="p">}}}</span>
+    <span class="p">],</span>
+    <span class="p">{</span><span class="na">explain</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Но!
+Оказывается, explain можно использовать для aggregation и в <a href="http://stackoverflow.com/a/19601769/821594">текущей версии 2.4</a>, только эта функция не документирована!
+Это можно сделать не напрямую, а используя runCommand:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">runCommand</span><span class="p">(</span><span class="dl">'</span><span class="s1">aggregate</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span><span class="na">pipeline</span><span class="p">:[</span>
+    <span class="p">{</span><span class="na">$match</span><span class="p">:</span> <span class="p">{</span><span class="na">a</span><span class="p">:</span> <span class="p">{</span><span class="dl">'</span><span class="s1">$lt</span><span class="dl">'</span><span class="p">:</span><span class="mi">10000</span><span class="p">},</span> <span class="na">b</span><span class="p">:</span> <span class="p">{</span><span class="dl">'</span><span class="s1">$gt</span><span class="dl">'</span><span class="p">:</span> <span class="mi">5000</span><span class="p">}}},</span>
+    <span class="p">{</span><span class="na">$sort</span><span class="p">:</span> <span class="p">{</span><span class="na">c</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}},</span>
+    <span class="p">{</span><span class="na">$group</span><span class="p">:</span> <span class="p">{</span><span class="na">_id</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span> <span class="na">a_total</span><span class="p">:</span> <span class="p">{</span><span class="na">$sum</span><span class="p">:</span> <span class="dl">"</span><span class="s2">$a</span><span class="dl">"</span><span class="p">}}}</span>
+<span class="p">],</span> <span class="na">explain</span><span class="p">:</span> <span class="kc">true</span><span class="p">})</span>
+</code></pre></div></div>
+
+<p>Вывод будет таким (сокращенно):</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="dl">"</span><span class="s2">serverPipeline</span><span class="dl">"</span> <span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">query</span><span class="dl">"</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="dl">"</span><span class="s2">a</span><span class="dl">"</span> <span class="p">:</span> <span class="p">{</span>
+                    <span class="dl">"</span><span class="s2">$lt</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">10000</span>
+                <span class="p">},</span>
+                <span class="dl">"</span><span class="s2">b</span><span class="dl">"</span> <span class="p">:</span> <span class="p">{</span>
+                    <span class="dl">"</span><span class="s2">$gt</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">5000</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="dl">"</span><span class="s2">sort</span><span class="dl">"</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="dl">"</span><span class="s2">c</span><span class="dl">"</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="p">},</span>
+            <span class="c1">// ...</span>
+            <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="dl">"</span><span class="s2">cursor</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">BtreeCursor c_-1</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">n</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">9498</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">nscanned</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">99999</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">scanAndOrder</span><span class="dl">"</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+                <span class="c1">// ..</span>
+            <span class="p">},</span>
+            <span class="c1">// ...</span>
+    <span class="p">],</span>
+    <span class="dl">"</span><span class="s2">ok</span><span class="dl">"</span> <span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Вот правда hint к aggregation применить пока нельзя: <a href="https://jira.mongodb.org/browse/SERVER-7944">SERVER-7944</a>.</p>
+
+<h3 id="ps">P.S.</h3>
+<p>Кстати, всем завершившим курс “M101P: MongoDB for Developers” выдают вот такой сертификат: <a href="https://s3.amazonaws.com/edu-cert.10gen.com/downloads/01739dbdba0e46f7964b160203b4f749/Certificate.pdf">M101P</a>.</p>
+
+  </div>
+
+  <div class="post-categories">
+
+  <span><a href="/category/database/index.html">database</a></span>
+&nbsp;
+
+  <span><a href="/category/mongodb/index.html">mongodb</a></span>
+
+
+</div><a class="u-url" href="/blog/2014/03/07/mongodb-indexes.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

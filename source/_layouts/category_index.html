@@ -1,0 +1,35 @@
+---
+layout: default
+---
+{% if page.paginator %}
+
+  <!-- Pagination is active -->
+  {% assign paginator = page.paginator %}
+
+  {% if paginator.previous_page != nil or paginator.next_page != nil %}
+    <!-- Show page number if we have multiple pages -->
+    <h1>Category index page {{ paginator.page }} / {{ paginator.total_pages }} for &ldquo;{{ page.title }}&rdquo;</h1>
+  {% else %}
+    <!-- No page number if we only have a single page -->
+    <h1>Category index for &ldquo;{{ page.title }}&rdquo;</h1>
+  {% endif %}
+
+  <div class="home">
+    {% assign posts_list = paginator.posts %}
+    {%- include posts_list.html -%}
+  </div>
+  <nav><p>
+    {%- include pagination.html -%}
+  </p></nav>
+
+{% else %}
+
+  <!-- Pagination is not active -->
+  <h1>Category index for &ldquo;{{ page.title }}&rdquo;</h1>
+
+  <div class="home">
+    {% assign posts_list = page.posts %}
+    {%- include posts_list.html -%}
+  </div>
+
+{% endif %}

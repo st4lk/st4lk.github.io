@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Подключение celery к django | Developer articles</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Подключение celery к django" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Для подключения celery к новому проекту так или иначе приходится подглядывать в предыдущие, чтобы вспомнить необходимые шаги: какие настройки задавать, как запускать, как останавливать и т.д. Хочу собрать все в одном месте." />
+<meta property="og:description" content="Для подключения celery к новому проекту так или иначе приходится подглядывать в предыдущие, чтобы вспомнить необходимые шаги: какие настройки задавать, как запускать, как останавливать и т.д. Хочу собрать все в одном месте." />
+<link rel="canonical" href="https://st4lk.github.io/blog/2014/11/02/django-celery-setup.html" />
+<meta property="og:url" content="https://st4lk.github.io/blog/2014/11/02/django-celery-setup.html" />
+<meta property="og:site_name" content="Developer articles" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-11-02T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Подключение celery к django" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2014-11-02T18:19:43+00:00","datePublished":"2014-11-02T18:19:43+00:00","description":"Для подключения celery к новому проекту так или иначе приходится подглядывать в предыдущие, чтобы вспомнить необходимые шаги: какие настройки задавать, как запускать, как останавливать и т.д. Хочу собрать все в одном месте.","headline":"Подключение celery к django","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/blog/2014/11/02/django-celery-setup.html"},"url":"https://st4lk.github.io/blog/2014/11/02/django-celery-setup.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Developer articles" /><script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Записи разработчика</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="/blog/">Блог</a>
+          <a class="page-link" href="/about/">Контакты</a>
+          <a class="page-link" style="margin-right: 0px" href="/blog/2014/11/02/django-celery-setup.html" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/blog/2014/11/02/django-celery-setup.html" ><img src="/assets/images/en.png" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Подключение celery к django</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-11-02T18:19:43+00:00" itemprop="datePublished">Nov 2, 2014
+      </time><span style="float:right">
+
+  <span><a href="/category/django/index.html">django</a></span>
+&nbsp;
+
+  <span><a href="/category/celery/index.html">celery</a></span>
+
+
+</span>
+    </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/blog/2014/11/02/django-celery-setup.html"><img src="/assets/images/posts/2014-11-02-django-celery-setup/2and5_celery_420.jpeg" alt="Подключение celery к django" title="Подключение celery к django" /></a></p>
+
+<p>Для подключения <a href="http://www.celeryproject.org/">celery</a> к новому проекту так или иначе приходится подглядывать в предыдущие, чтобы вспомнить необходимые шаги: какие настройки задавать, как запускать, как останавливать и т.д.</p>
+
+<p>Хочу собрать все в одном месте.</p>
+
+<!--more-->
+
+<h3 id="что-нужно-получить-в-итоге">Что нужно получить в итоге</h3>
+
+<ol>
+  <li>Посредством celery добавить возможность django проекту выполнять задачи в фоне, чтобы не загружать текущий python процесс. Пример таких задач: отправка емейлов, работа со сторонним апи, долгие вычисления и т.д.</li>
+  <li>В качестве брокера используем <a href="http://redis.io/">redis</a>.</li>
+  <li>В админке нужно видеть все запущенные и выполненные задачи.</li>
+  <li>В админке нужно видеть статус текущих воркеров celery (online/offline).</li>
+</ol>
+
+<h3 id="подключаем-celery">Подключаем celery</h3>
+
+<h4 id="установим-redis">Установим redis</h4>
+
+<p>Для того, чтобы процессы django и celery могли общаться между собой, нужен посредник (broker), который будет передавать сообщения. В качестве этого брокера будем использовать redis. Это распространенное решение, redis быстр, легко устанавливается, требует мало памяти, надежен. Список всех возможных посредников можно посмотреть <a href="http://celery.readthedocs.org/en/latest/getting-started/brokers/#broker-overview">здесь</a>.</p>
+
+<p>На всякий случай проверим сервер (все примеры на ubuntu):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>build-essential
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>tcl8.5
+</code></pre></div></div>
+
+<p>Скачиваем последнюю версию <a href="http://redis.io/download/">отсюда</a>. На момент написания статьи это версия 2.8.17</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://download.redis.io/releases/redis-2.8.17.tar.gz
+<span class="nb">tar </span>xzf redis-2.8.17.tar.gz
+<span class="nb">cd </span>redis-2.8.17
+make
+make <span class="nb">test
+sudo </span>make <span class="nb">install
+cd </span>utils
+<span class="nb">sudo</span> ./install_server.sh
+</code></pre></div></div>
+
+<p>Запускаем redis сервер</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service redis_6379 start
+</code></pre></div></div>
+
+<p>Если что, остановить его можно так</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service redis_6379 stop
+</code></pre></div></div>
+
+<p>Чтобы redis запускался при загрузке системы, выполним команду</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>update-rc.d redis_6379 defaults
+</code></pre></div></div>
+
+<p>Так же нам понадобится python драйвер для redis, установим его:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>redis
+</code></pre></div></div>
+
+<h4 id="установка-и-настройка-django-celery">Установка и настройка django-celery</h4>
+
+<p>В принципе, сelery и django можно подружить не используя специальной библиотеки, следуя инструкциям из <a href="http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html">документации</a>. Однако, для удобной интеграции celery в админку django проще установить специальное приложение <a href="https://pypi.python.org/pypi/django-celery">django-celery</a> (см. <a href="http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html#using-the-django-orm-cache-as-a-result-backend">почему</a>).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>django-celery
+</code></pre></div></div>
+
+<p>Добавляем такие настройки в settings.py:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">INSTALLED_APPS</span> <span class="o">+=</span> <span class="p">(</span><span class="s">"djcelery"</span><span class="p">,</span> <span class="p">)</span>
+
+<span class="c1"># адрес redis сервера
+</span><span class="n">BROKER_URL</span> <span class="o">=</span> <span class="s">'redis://localhost:6379/0'</span>
+<span class="c1"># храним результаты выполнения задач так же в redis
+</span><span class="n">CELERY_RESULT_BACKEND</span> <span class="o">=</span> <span class="s">'redis://localhost:6379/0'</span>
+<span class="c1"># в течение какого срока храним результаты, после чего они удаляются
+</span><span class="n">CELERY_TASK_RESULT_EXPIRES</span> <span class="o">=</span> <span class="mi">7</span><span class="o">*</span><span class="mi">86400</span>  <span class="c1"># 7 days
+# это нужно для мониторинга наших воркеров
+</span><span class="n">CELERY_SEND_EVENTS</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="c1"># место хранения периодических задач (данные для планировщика)
+</span><span class="n">CELERYBEAT_SCHEDULER</span> <span class="o">=</span> <span class="s">"djcelery.schedulers.DatabaseScheduler"</span>
+
+<span class="c1"># в конец settings.py добавляем строчки
+</span><span class="kn">import</span> <span class="nn">djcelery</span>
+<span class="n">djcelery</span><span class="p">.</span><span class="n">setup_loader</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Создаем таблицы в базе. Eсли используем south, то</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python manage.py migrate djcelery
+</code></pre></div></div>
+
+<p>А если нет, то обычный syncdb</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python manage.py syncdb
+</code></pre></div></div>
+
+<h4 id="создание-задач">Создание задач</h4>
+
+<p>Задачи создаются в файле <code class="language-plaintext highlighter-rouge">tasks.py</code>, который нужно положить в папочку приложения:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- proj/
+  - proj/__init__.py
+  - proj/settings.py
+  - proj/urls.py
+- <span class="nb">users</span>/  <span class="c"># some app</span>
+  - <span class="nb">users</span>/__init__.py
+  - <span class="nb">users</span>/models.py
+  - <span class="nb">users</span>/views.py
+  - <span class="nb">users</span>/tasks.py  <span class="c"># задачи для приложения users кладем сюда</span>
+- products/
+  - products/__init__.py
+  - products/models.py
+  - products/views.py
+  - products/tasks.py  <span class="c"># задачи для приложения products кладем сюда</span>
+- manage.py
+</code></pre></div></div>
+
+<p>Создадим простейшую задачу.</p>
+
+<p>users/tasks.py:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># -*- coding: utf-8 -*-
+</span><span class="kn">from</span> <span class="nn">celery.task</span> <span class="kn">import</span> <span class="n">task</span>
+
+<span class="o">@</span><span class="n">task</span><span class="p">(</span><span class="n">ignore_result</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">default_retry_delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">just_print</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">"Print from celery task"</span>
+</code></pre></div></div>
+
+<h4 id="запуск-задач">Запуск задач</h4>
+
+<h5 id="отладка">Отладка</h5>
+<p>Для проверки работы задач запускаем</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">python manage.py runserver</code>  # проект django</li>
+  <li><code class="language-plaintext highlighter-rouge">python manage.py celery worker --concurrency=1</code>  # celery worker: процесс, который будет выполнять задачи</li>
+  <li><code class="language-plaintext highlighter-rouge">python manage.py celery beat</code>  # celery beat: процесс, который будет запускать периодические задачи</li>
+</ul>
+
+<p>Последние две команды можно объединить в одну (ключик <code class="language-plaintext highlighter-rouge">-B</code>):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py celery worker <span class="nt">-B</span> <span class="nt">--concurrency</span><span class="o">=</span>1
+</code></pre></div></div>
+
+<p>Попробуем запустить нашу задачу <code class="language-plaintext highlighter-rouge">just_print</code>.
+Условно можно выделить 2 способа вызова задачи:</p>
+
+<ol>
+  <li>Планировщиком задач, вызывать через определенный интервал времени (например, каждые 10 секунд) или в определенное время (аналогично crontab)</li>
+  <li>Из кода, в нужном месте и при нужных условиях</li>
+</ol>
+
+<h5 id="вызов-задачи-планировщиком">Вызов задачи планировщиком</h5>
+
+<p>Заходим в админку по адресу <a href="http://127.0.0.1:8000/admin/djcelery/periodictask/">http://{host}/admin/djcelery/periodictask/</a> и нажимаем “Add periodic task”.
+Заполняем поля как на фото ниже и сохраняем.</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/2714/85893628.c66/0_15fe67_b0ad7288_orig.png"><img src="https://img-fotki.yandex.ru/get/2714/85893628.c66/0_15fe67_b0ad7288_XL.png" alt="Создание периодичной задачи каждые 10 секунд" title="Создание периодичной задачи каждые 10 секунд" /></a></p>
+
+<p>Для указания времени запуска, вместо интервала, делаем все то же самое, что и в предыдущем случае, только вместо Interval указываем Crontab:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6700/85893628.c66/0_15fe66_8c4b6564_orig.png"><img src="https://img-fotki.yandex.ru/get/6700/85893628.c66/0_15fe66_8c4b6564_XL.png" alt="Создание периодичной задачи в начале каждой минуты" title="Создание периодичной задачи в начале каждой минуты" /></a></p>
+
+<h5 id="замечание">Замечание</h5>
+
+<p>Периодические задачи можно создать автоматически при запуске проекта (при запуске процесса celery), чтобы не делать этого через админку вручную (но в админке они так же будут видны). Для этого их нужно указать в settings.py.</p>
+
+<p>Каждые 10 секунд:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CELERYBEAT_SCHEDULE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'example-task'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'task'</span><span class="p">:</span> <span class="s">'apps.users.tasks.just_print'</span><span class="p">,</span>
+        <span class="s">'schedule'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>  <span class="c1"># в секундах, или timedelta(seconds=10)
+</span>    <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Раз в минуту (задача будет запускаться в 0 секунд каждой минуты):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">celery.schedules</span> <span class="kn">import</span> <span class="n">crontab</span>
+<span class="n">CELERYBEAT_SCHEDULE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'example-task'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'task'</span><span class="p">:</span> <span class="s">'apps.users.tasks.just_print'</span><span class="p">,</span>
+        <span class="s">'schedule'</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(),</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Или например каждую 7-ю минуту каждого часа:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">celery.schedules</span> <span class="kn">import</span> <span class="n">crontab</span>
+<span class="n">CELERYBEAT_SCHEDULE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'example-task'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'task'</span><span class="p">:</span> <span class="s">'apps.users.tasks.just_print'</span><span class="p">,</span>
+        <span class="s">'schedule'</span><span class="p">:</span> <span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="mi">7</span><span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Подробности про создание периодических задач в settings.py в <a href="http://celery.readthedocs.org/en/latest/userguide/periodic-tasks.html">документации celery</a>.</p>
+
+<p>Так же, можно пометить функцию декоратором <code class="language-plaintext highlighter-rouge">@periodic_task</code> вместо <code class="language-plaintext highlighter-rouge">@task</code>, и эта задача станет периодической. Период задается аргументом run_every, в качестве значения ему передается то же самое, что и для ключа ‘schedule’ в CELERYBEAT_SCHEDULE:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">celery.task</span> <span class="kn">import</span> <span class="n">periodic_task</span>
+
+<span class="o">@</span><span class="n">periodic_task</span><span class="p">(</span><span class="n">ignore_result</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">run_every</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10 секунд, или timedelta(seconds=10)
+</span><span class="k">def</span> <span class="nf">just_print</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">"Print from celery task"</span>
+</code></pre></div></div>
+
+<p>или crontab</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">celery.task</span> <span class="kn">import</span> <span class="n">periodic_task</span>
+<span class="kn">from</span> <span class="nn">celery.schedules</span> <span class="kn">import</span> <span class="n">crontab</span>
+
+<span class="o">@</span><span class="n">periodic_task</span><span class="p">(</span><span class="n">ignore_result</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">())</span>  <span class="c1"># раз в минуту
+</span><span class="k">def</span> <span class="nf">just_print</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">"Print from celery task"</span>
+</code></pre></div></div>
+
+<h5 id="вызов-задачи-из-кода">Вызов задачи из кода</h5>
+
+<p>Для вызова задачи из кода используется метод <a href="http://celery.readthedocs.org/en/latest/userguide/calling.html#basics"><code class="language-plaintext highlighter-rouge">.delay()</code></a>. Например, из view:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.tasks</span> <span class="kn">import</span> <span class="n">just_print</span>
+
+<span class="k">class</span> <span class="nc">UserListView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">just_print</span><span class="p">.</span><span class="n">delay</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">UserListView</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="мониторинг">Мониторинг</h4>
+
+<p>В админке в секции Djcelery видим строки <a href="http://127.0.0.1:8000/admin/djcelery/taskstate/">Tasks</a> и <a href="http://127.0.0.1:8000/admin/djcelery/workerstate/">Workers</a>.</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6819/85893628.c66/0_15fe68_a4352d4f_orig.png"><img src="https://img-fotki.yandex.ru/get/6819/85893628.c66/0_15fe68_a4352d4f_XL.png" alt="Djcelery в админке" title="Djcelery в админке" /></a></p>
+
+<p>Однако, сейчас они пустые. Чтобы там была информация о текущем состоянии воркеров и задач, нужно запустить celerycam:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py celerycam <span class="nt">--frequency</span><span class="o">=</span>10.0
+</code></pre></div></div>
+
+<p>Теперь видим, что у нас работает 1 воркер:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3301/85893628.c66/0_15fe6b_a74622e4_orig.png"><img src="https://img-fotki.yandex.ru/get/3301/85893628.c66/0_15fe6b_a74622e4_XL.png" alt="Статус воркера в админке" title="Статус воркера в админке" /></a></p>
+
+<p>И видим статус выполнения задач:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/2914/85893628.c66/0_15fe6a_49533167_orig.png"><img src="https://img-fotki.yandex.ru/get/2914/85893628.c66/0_15fe6a_49533167_XL.png" alt="Статус выполнения задач в админке" title="Статус выполнения задач в админке" /></a></p>
+
+<p>По умолчанию, celerycam удаляет старые задачи из Tasks по таким правилам:</p>
+
+<ul>
+  <li>сборщик запускается с интервалом 1 час (см. <a href="https://github.com/celery/celery/blob/3.1/celery/events/snapshot.py#L40">код celery 3.1</a>, способа поменять этот интервал из настроек не нашел)</li>
+  <li>в каждом вызове сборщик удаляет задачи, превышающие установленное время жизни.</li>
+</ul>
+
+<p>Время жизни отчетов по задачам можно задать настройками в settings.py (ниже приведены значения по умолчанию):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+
+<span class="n">CELERYCAM_EXPIRE_SUCCESS</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">CELERYCAM_EXPIRE_ERROR</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">CELERYCAM_EXPIRE_PENDING</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="запуск-в-продакшн">Запуск в продакшн</h4>
+
+<p>В продакшне процессы celery должны быть daemon’ами.</p>
+
+<p>Для запуска/остановки всех процессов celery можно написать отдельный bash скрипт, а можно запускать с помощью supervisor. Итак, по порядку.</p>
+
+<h5 id="bash-скрипты">Bash скрипты</h5>
+
+<p>Запуск, celery_start.sh:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">PYTHON</span><span class="o">=</span>/path/to/bin/python
+<span class="nv">PROJECT_FOLDER</span><span class="o">=</span>/project_dir/project/
+<span class="nv">PID_FOLDER</span><span class="o">=</span>/path/to/pid/
+<span class="nv">LOGS_FOLDER</span><span class="o">=</span>/path/to/logs/
+<span class="nv">BEAT_SHEDULE_FILE</span><span class="o">=</span>/path/to/shedule/celerybeat-schedule  <span class="c"># celery beat need to store the last run times of the tasks in a local database file</span>
+
+<span class="nv">$PYTHON</span> <span class="k">${</span><span class="nv">PROJECT_FOLDER</span><span class="k">}</span>manage.py celery worker <span class="nt">--concurrency</span><span class="o">=</span>1 <span class="nt">--detach</span> <span class="nt">--pidfile</span><span class="o">=</span><span class="k">${</span><span class="nv">PID_FOLDER</span><span class="k">}</span>celery_worker.pid <span class="nt">--logfile</span><span class="o">=</span><span class="k">${</span><span class="nv">LOGS_FOLDER</span><span class="k">}</span>celery_worker.log
+<span class="nv">$PYTHON</span> <span class="k">${</span><span class="nv">PROJECT_FOLDER</span><span class="k">}</span>manage.py celery beat <span class="nt">--detach</span> <span class="nt">--pidfile</span><span class="o">=</span><span class="k">${</span><span class="nv">PID_FOLDER</span><span class="k">}</span>celery_beat.pid <span class="nt">--logfile</span><span class="o">=</span><span class="k">${</span><span class="nv">LOGS_FOLDER</span><span class="k">}</span>celery_beat.log <span class="nt">-s</span> <span class="k">${</span><span class="nv">BEAT_SHEDULE_FILE</span><span class="k">}</span>
+<span class="nv">$PYTHON</span> <span class="k">${</span><span class="nv">PROJECT_FOLDER</span><span class="k">}</span>manage.py celerycam <span class="nt">--frequency</span><span class="o">=</span>10.0 <span class="nt">--detach</span> <span class="nt">--pidfile</span><span class="o">=</span><span class="k">${</span><span class="nv">PID_FOLDER</span><span class="k">}</span>celerycam.pid <span class="nt">--logfile</span><span class="o">=</span><span class="k">${</span><span class="nv">LOGS_FOLDER</span><span class="k">}</span>celerycam.log
+</code></pre></div></div>
+
+<p>Остановка, celery_stop.sh:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">PYTHON</span><span class="o">=</span>/path/to/bin/python
+<span class="nv">PID_FOLDER</span><span class="o">=</span>/path/to/pid/
+
+<span class="nv">$PYTHON</span> <span class="nt">-m</span> celery multi stopwait worker1 <span class="nt">--pidfile</span><span class="o">=</span><span class="k">${</span><span class="nv">PID_FOLDER</span><span class="k">}</span>celerycam.pid
+<span class="nv">$PYTHON</span> <span class="nt">-m</span> celery multi stopwait worker1 <span class="nt">--pidfile</span><span class="o">=</span><span class="k">${</span><span class="nv">PID_FOLDER</span><span class="k">}</span>celery_beat.pid
+<span class="nv">$PYTHON</span> <span class="nt">-m</span> celery multi stopwait worker1 <span class="nt">--pidfile</span><span class="o">=</span><span class="k">${</span><span class="nv">PID_FOLDER</span><span class="k">}</span>celery_worker.pid
+</code></pre></div></div>
+
+<h4 id="supervisord">supervisord</h4>
+
+<p>Лучше всего запустить celery процессы под контролем <a href="http://supervisord.org/">supervisord</a>.</p>
+
+<p>Для этого создаем где-нибудь у себя в проекте такие файлы (например, в папке deploy):</p>
+
+<p>supervisor.celeryd.conf</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>program:djangoproject.celeryd]
+<span class="nb">command</span><span class="o">=</span>/path/to/bin/python /path/to/django_project/manage.py celeryd <span class="nt">--concurrency</span><span class="o">=</span>1
+<span class="nv">user</span><span class="o">=</span>www-data
+<span class="nv">numprocs</span><span class="o">=</span>1
+<span class="nv">directory</span><span class="o">=</span>/path/to/django_project
+<span class="nv">stdout_logfile</span><span class="o">=</span>/path/to/log/celery_worker.log
+<span class="nv">stderr_logfile</span><span class="o">=</span>/path/to/log/celery_worker.log
+<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">startsecs</span><span class="o">=</span>10
+stopwaitsecs <span class="o">=</span> 120
+<span class="nv">priority</span><span class="o">=</span>998
+</code></pre></div></div>
+
+<p>supervisor.celerybeat.conf</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>program:djangoproject.celerybeat]
+<span class="nb">command</span><span class="o">=</span>/path/to/bin/python /path/to/django_project/manage.py celery beat <span class="nt">-s</span> /path/to/celerybeat-schedule
+<span class="nv">user</span><span class="o">=</span>www-data
+<span class="nv">numprocs</span><span class="o">=</span>1
+<span class="nv">directory</span><span class="o">=</span>/path/to/django_project
+<span class="nv">stdout_logfile</span><span class="o">=</span>/path/to/log/celery_beat.log
+<span class="nv">stderr_logfile</span><span class="o">=</span>/path/to/log/celery_beat.log
+<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">startsecs</span><span class="o">=</span>10
+stopwaitsecs <span class="o">=</span> 120
+<span class="nv">priority</span><span class="o">=</span>998
+</code></pre></div></div>
+
+<p>supervisor.celerycam.conf</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>program:djangoproject.celerycam]
+<span class="nb">command</span><span class="o">=</span>/path/to/bin/python /path/to/django_project/manage.py celerycam <span class="nt">--frequency</span><span class="o">=</span>10.0
+<span class="nv">user</span><span class="o">=</span>www-data
+<span class="nv">numprocs</span><span class="o">=</span>1
+<span class="nv">directory</span><span class="o">=</span>/path/to/django_project
+<span class="nv">stdout_logfile</span><span class="o">=</span>/path/to/log/celerycam.log
+<span class="nv">stderr_logfile</span><span class="o">=</span>/path/to/log/celerycam.log
+<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">startsecs</span><span class="o">=</span>10
+stopwaitsecs <span class="o">=</span> 120
+<span class="nv">priority</span><span class="o">=</span>998
+</code></pre></div></div>
+
+<p>Заменяем все <code class="language-plaintext highlighter-rouge">/path/to/</code> на нужные для конкретного проекта, а так же указываем нужного юзера, под которым будут запускаться процессы celery.</p>
+
+<p>Теперь создадим symlink на наши файлы конфигурации в папке /etc/supervisor/conf.d/, чтобы supervisor знал о них:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /etc/supervisor/conf.d
+<span class="nb">sudo ln</span> <span class="nt">-s</span> /path/to/django_project/deploy/supervisor.celeryd.conf
+<span class="nb">sudo ln</span> <span class="nt">-s</span> /path/to/django_project/deploy/supervisor.celerybeat.conf
+<span class="nb">sudo ln</span> <span class="nt">-s</span> /path/to/django_project/deploy/supervisor.celerycam.conf
+</code></pre></div></div>
+
+<p>И перезапустим supervisor</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>supervisorctl reload
+</code></pre></div></div>
+
+<p>Проверим, что все нужные процессы запущены:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ps aux | <span class="nb">grep </span>python
+</code></pre></div></div>
+
+<h4 id="прочее">Прочее</h4>
+
+<p>Если в админке зайти в периодические задачи (<a href="http://127.0.0.1:8000/admin/djcelery/periodictask/">http://{host}/admin/djcelery/periodictask/</a>), то увидим там celery.backend_cleanup:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/10/85893628.c66/0_15fe69_fe0539e0_orig.png"><img src="https://img-fotki.yandex.ru/get/10/85893628.c66/0_15fe69_fe0539e0_XL.png" alt="celery.backend_cleanup" title="celery.backend_cleanup" /></a></p>
+
+<p>Эта задача подчищает все устаревшие результаты задач, которые хранятся в базе данных. Устаревшие - это те, которые старше указанного нами интервала времени в <code class="language-plaintext highlighter-rouge">settings.CELERY_TASK_RESULT_EXPIRES</code>. Но, т.к. результаты задач мы храним в redis, а не в базе данных, то данная периодическая задача нам не важна. Т.о. ее можно удалить. Redis сама удаляет те значения, время жизни которых истекло.</p>
+
+  </div>
+
+  <div class="post-categories">
+
+  <span><a href="/category/django/index.html">django</a></span>
+&nbsp;
+
+  <span><a href="/category/celery/index.html">celery</a></span>
+
+
+</div><a class="u-url" href="/blog/2014/11/02/django-celery-setup.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Developer articles</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Developer articles</li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/st4lk"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">st4lk</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

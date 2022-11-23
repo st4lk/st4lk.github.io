@@ -30,7 +30,7 @@ url: "https://st4lk.github.io" # the base hostname & protocol for your site, e.g
 github_username:  st4lk
 excerpt_separator: <!--more-->
 show_excerpts: true
-permalink: /blog/:categories/:year/:month/:day/:title:output_ext
+permalink: /blog/:year/:month/:day/:title:output_ext
 
 # Build settings
 theme: minima
@@ -38,6 +38,7 @@ plugins:
   - jekyll-feed
   - jekyll-multiple-languages-plugin
   - jekyll-redirect-from
+  - jekyll-category-pages
 
 # jekyll-multiple-languages-plugin settings:
 languages: ["ru", "en"]

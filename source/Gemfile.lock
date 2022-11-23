@@ -104,6 +104,9 @@ GEM
       safe_yaml (~> 1.0)
     jekyll-avatar (0.7.0)
       jekyll (>= 3.0, < 5.0)
+    jekyll-category-pages (1.0.1)
+      jekyll (~> 3.5)
+      jekyll-paginate (~> 1.1, >= 1.0.0)
     jekyll-coffeescript (1.1.1)
       coffee-script (~> 2.2)
       coffee-script-source (~> 1.11.1)
@@ -261,6 +264,7 @@ DEPENDENCIES
   github-pages (~> 227)
   http_parser.rb (~> 0.6.0)
   jekyll (= 3.9.2)
+  jekyll-category-pages
   jekyll-feed (~> 0.12)
   jekyll-multiple-languages-plugin
   jekyll-paginate

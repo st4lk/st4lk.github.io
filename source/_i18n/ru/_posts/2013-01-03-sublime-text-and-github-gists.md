@@ -2,7 +2,7 @@
 layout: post
 title:  "Sublime text и github gists"
 date:   2013-01-03 18:19:43 +0000
-categories: django python
+categories: sublime
 redirect_from:
   - /2013/sublime-text-and-github-gists/
 ---
