@@ -1,3 +1,6 @@
-### Hey, I'm Alexey Evseev
+Hey, I'm building web services using Python, Javascript, Golang.
 
-You may want to check my [blog]({{ site.baseurl }}/blog/)
+- [describing]({{ site.baseurl }}/blog/)
+- [developing](https://github.com/st4lk)
+- [advising](https://stackoverflow.com/users/821594/stalk)
+- [stydying]({{ site.baseurl }}/certificates/)

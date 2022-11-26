@@ -9,11 +9,12 @@ langs:
   en: English
 titles:
   pagination: Pagination
-  about: About
-  site: Developer Articles
+  site: Alexey Evseev
   blog: Blog
 Blog: Blog
-About: About
+Contact: Contact
 Search: Search
 ReadMore: Read More
 Comments: Comments
+Certificates: Certificates
+done_courses: Accomplished courses

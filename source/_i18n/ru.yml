@@ -9,11 +9,12 @@ langs:
   en: Английский
 titles:
   pagination: Pagination
-  about: Контакты
-  site: Записи разработчика
+  site: Алексей Евсеев
   blog: Блог
 Blog: Блог
-About: Контакты
+Contact: Контакты
 Search: Поиск
 ReadMore: Читать далее
 Comments: Коментарии
+Certificates: Сертификаты
+done_courses: Пройденные курсы
