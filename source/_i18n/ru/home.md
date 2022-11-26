@@ -1,6 +1,6 @@
 Привет, я разрабатываю веб сервисы на Python, Javascript, Golang.
 
-- [рассказываю]({{ site.baseurl }}/blog/)
+- [веду блог]({{ site.baseurl }}/blog/)
 - [разрабатываю](https://github.com/st4lk)
 - [подсказываю](https://stackoverflow.com/users/821594/stalk)
 - [смотрю фильмы](https://www.kinopoisk.ru/user/13879508/comments/)

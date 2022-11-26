@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Developer articles
+title: Alexey Evseev
 email: alexevseev@gmail.com
 description: ""
 domain: st4lk.github.io
@@ -28,6 +28,7 @@ github_username:  st4lk
 excerpt_separator: <!--more-->
 show_excerpts: true
 permalink: /blog/:year/:month/:day/:title:output_ext
+author: Alexey Evseev
 
 # Build settings
 theme: minima
@@ -49,6 +50,10 @@ disqus:
   # Leave shortname blank to disable comments site-wide.
   # Disable comments for any post by adding `comments: false` to that post's YAML Front Matter.
   shortname: lexev-dev
+
+feed:
+  excerpt_only: true
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.

@@ -5,11 +5,18 @@ title: Blog
 
 <div class="home">
   {%- if site.posts.size > 0 -%}
-  	{% assign posts_list = paginator.posts %}
-  	{%- include posts_list.html -%}
+    {% assign posts_list = paginator.posts %}
+    {%- include posts_list.html -%}
 
     {%- include pagination.html -%}
 
-    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+    <p class="rss-subscribe">
+        <img src="{{ "/assets/images/rss-feed.png" | relative_url }}" />
+        {% if site.lang == "en" %}
+            <a href="https://feeds.feedburner.com/en_lexevorg">Atom feed</a>
+        {% else %}
+            <a href="https://feeds.feedburner.com/ru_lexevorg">Atom feed</a>
+        {% endif %}
+    </p>
   {%- endif -%}
 </div>

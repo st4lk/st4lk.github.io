@@ -5,6 +5,7 @@ date:   2019-02-19 18:19:43 +0000
 categories: python sublime lsp
 redirect_from:
   - /2019/sublime-text-and-language-server-protocol-lsp/
+image: https://i.ibb.co/4K4zp06/sublime-256-lsp-light.png
 ---
 
 [![Sublime Text and Language Server Protocol (LSP)](https://i.ibb.co/4K4zp06/sublime-256-lsp-light.png
