@@ -29,6 +29,7 @@ excerpt_separator: <!--more-->
 show_excerpts: true
 permalink: /blog/:year/:month/:day/:title:output_ext
 author: Alexey Evseev
+google_analytics: G-8ZHLL9G1CF
 
 # Build settings
 theme: minima
