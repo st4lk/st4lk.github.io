@@ -7,10 +7,13 @@
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   <link rel="stylesheet" href="{{ "/assets/css/styles.css" | relative_url }}">
   {%- feed_meta -%}
-  {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
     {%- include google-analytics.html -%}
   {%- endif -%}
+
+  <link rel="alternate" hreflang="ru" href="{{ site.url }}{{ page.url }}" />
+
+  <link rel="alternate" hreflang="en" href="{{ site.url }}/en{{ page.url }}" />
 
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>

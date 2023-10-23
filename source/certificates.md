@@ -2,6 +2,8 @@
 layout: page
 title: Certificates
 permalink: /certificates/
+sitemap:
+  exclude: 'yes'
 ---
 
 ### {% t done_courses %}

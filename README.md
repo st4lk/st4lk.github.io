@@ -15,14 +15,15 @@ Commands
 # build docker image
 make build
 
-# do everything manually
-make bash
+# build the site (for pushing new pages to github)
+SCRIPT=build.sh make run-script
 
 # serve the site on http://localhost:4000
 SCRIPT=serve.sh make run-script
 
-# build the site
-SCRIPT=build.sh make run-script
+# do everything manually, if you want
+make bash
+
 ```
 
 ### Inside docker (optional)
