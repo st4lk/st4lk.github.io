@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Multilanguage site on django without redirects"
-date:   2013-02-26 18:19:43 +0000
+date:   "2013-02-26 18:19:43 +0000"
 categories: django i18n
 redirect_from:
   - /2013/multilanguage-site-django-without-redirects/

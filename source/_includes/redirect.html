@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting&hellip;</title>
+    <link rel="canonical" href="{{ site.url }}{% if site.lang == "en" %}/en{% endif %}{{ include.redirect_to }}">
+    <script>location="{{ site.url }}{% if site.lang == "en" %}/en{% endif %}{{ include.redirect_to }}"</script>
+    <meta http-equiv="refresh" content="0; url={{ site.url }}{% if site.lang == "en" %}/en{% endif %}{{ include.redirect_to }}">
+  </head>
+  <body>
+    <h1>Redirecting&hellip;</h1>
+    <a href="{{ site.url }}{% if site.lang == "en" %}/en{% endif %}{{ include.redirect_to }}">Click here if you are not redirected.</a>
+  </body>
+</html>

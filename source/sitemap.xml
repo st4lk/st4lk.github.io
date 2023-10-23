@@ -9,6 +9,9 @@ sitemap:
 
     {% for page in site.pages %}
         {% unless page.sitemap.exclude == "yes" or page.url == "/feed.xml" or page.url contains "/assets/" %}
+            {% assign starts_category = page.url | slice: 0, 9 %}
+            {% assign starts_blog = page.url | slice: 0, 6 %}
+            {% if starts_category == "/category" or starts_blog == "/blog/" %}
             <url>
                 <loc>
                     {{ site.url }}{{ page.url | remove: "index.html" }}
@@ -39,6 +42,7 @@ sitemap:
                            hreflang="ru"
                            href="{{ site.url }}{{ page.url }}"/>
             </url>
+            {% endif %}
         {% endunless %}
     {% endfor %}
 
@@ -49,10 +53,8 @@ sitemap:
                     <loc>{{ site.url }}{{ post.url }}</loc>
                     {% if post.sitemap.lastmod %}
                         <lastmod>{{ post.sitemap.lastmod | date: "%Y-%m-%d" }}</lastmod>
-                    {% elsif post.date %}
-                        <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
                     {% else %}
-                        <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+                        <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
                     {% endif %}
                     {% if post.sitemap.changefreq %}
                         <changefreq>{{ post.sitemap.changefreq }}</changefreq>

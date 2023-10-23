@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Remote url for localhost server"
-date:   2014-05-09 18:19:43 +0000
+date:   "2014-05-09 18:19:43 +0000"
 categories: deploy free
 redirect_from:
   - /2014/remote-url-localhost-server/

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Мессенджер афоризмов"
-date:   2012-08-31 18:19:43 +0000
+date:   "2012-08-31 18:19:43 +0000"
 categories: api java
 redirect_from:
   - /2012/aphorism-messager/
