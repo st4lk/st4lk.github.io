@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Sublime text and github gists | Alexey Evseev</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Sublime text and github gists" />
+<meta name="author" content="Alexey Evseev" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="In Sublime text there are big variety of useful tools, that help to write code. I’ve learned only a small part of them, currently i’m trying to write in Vintage mode (vim style cursor management). But now i want to tell about integration github gists with sublime text. If you don’t now, github gists let you save snippets as a separate file without creation full repository. But it have many repository features - versions, possibility to fork." />
+<meta property="og:description" content="In Sublime text there are big variety of useful tools, that help to write code. I’ve learned only a small part of them, currently i’m trying to write in Vintage mode (vim style cursor management). But now i want to tell about integration github gists with sublime text. If you don’t now, github gists let you save snippets as a separate file without creation full repository. But it have many repository features - versions, possibility to fork." />
+<link rel="canonical" href="https://st4lk.github.io/en/blog/2013/01/03/sublime-text-and-github-gists/" />
+<meta property="og:url" content="https://st4lk.github.io/en/blog/2013/01/03/sublime-text-and-github-gists/" />
+<meta property="og:site_name" content="Alexey Evseev" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-01-03T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Sublime text and github gists" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexey Evseev"},"dateModified":"2013-01-03T18:19:43+00:00","datePublished":"2013-01-03T18:19:43+00:00","description":"In Sublime text there are big variety of useful tools, that help to write code. I’ve learned only a small part of them, currently i’m trying to write in Vintage mode (vim style cursor management). But now i want to tell about integration github gists with sublime text. If you don’t now, github gists let you save snippets as a separate file without creation full repository. But it have many repository features - versions, possibility to fork.","headline":"Sublime text and github gists","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/blog/2013/01/03/sublime-text-and-github-gists/"},"url":"https://st4lk.github.io/en/blog/2013/01/03/sublime-text-and-github-gists/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/en/assets/main.css">
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Alexey Evseev" /><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZHLL9G1CF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZHLL9G1CF');
+</script>
+<link rel="alternate" hreflang="ru" href="https://st4lk.github.io/blog/2013/01/03/sublime-text-and-github-gists/" />
+
+  <link rel="alternate" hreflang="en" href="https://st4lk.github.io/en/blog/2013/01/03/sublime-text-and-github-gists/" />
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/en/">Alexey Evseev</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="/en/blog/">Blog</a>
+          <a class="page-link" href="/en/contact/">Contact</a>
+          <a class="page-link" style="margin-right: 0px" href="/blog/2013/01/03/sublime-text-and-github-gists/" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/blog/2013/01/03/sublime-text-and-github-gists/" ><img src="/en/assets/images/en.png" /></a>
+          <a class="page-link" href="/en/search/" ><img src="/en/assets/images/search.svg" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Sublime text and github gists</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2013-01-03T18:19:43+00:00" itemprop="datePublished">Jan 3, 2013
+      </time><span style="float:right">
+
+  <span><a href="/en/category/sublime/">sublime</a></span>
+
+
+</span>
+    </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/en/blog/2013/01/03/sublime-text-and-github-gists/"><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg" alt="Sublime and github gist" title="Sublime and github gist" /></a></p>
+
+<p>In <a href="http://www.sublimetext.com/">Sublime text</a> there are big variety of useful tools, that help to write code. I’ve learned only a small part of them, currently i’m trying to write in Vintage mode (vim style cursor management). But now i want to tell about integration <a href="https://gist.github.com/">github gists</a> with sublime text. If you don’t now, github gists let you save snippets as a separate file without creation full repository. But it have many repository features - versions, possibility to fork.</p>
+
+<!--more-->
+
+<h3 id="what-well-have-at-the-end">What we’ll have at the end</h3>
+
+<p>Save snippet from sublime, give to it description with key words. Then again from sublime we can find snippet by key words and see it in editor. All snippets are saved in github, so they are avaliable from other computers.</p>
+
+<p>Remember, that sublime text has its own snippet functionality. But it is more preferable for small auto insertion. For example, when you write <code class="language-plaintext highlighter-rouge">def</code> in python, insert function template:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+    <span class="k">pass</span>
+</code></pre></div></div>
+
+<p>Github gist are more suitable for something bigger - some function for exact purpose.</p>
+
+<h3 id="lets-setup-this-functionality">Lets setup this functionality</h3>
+
+<h4 id="gist-plugin-setup">Gist plugin setup</h4>
+
+<p>The easiest way to do it is with sublime package manager. <a href="http://wbond.net/sublime_packages/package_control/installation">Here</a> is instruction for setup. In sublime press <code class="language-plaintext highlighter-rouge">ctrl + shift + p</code>, enter <code class="language-plaintext highlighter-rouge">install</code> and then <code class="language-plaintext highlighter-rouge">gist</code>:</p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/1_package_control_install.jpeg" alt="Sublime install package" title="Sublime install package" /></p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/2_package_control_gist.jpeg" alt="Sublime install gist package" title="Sublime install gist package" /></p>
+
+<h4 id="give-access-to-your-github-account">Give access to your github account</h4>
+
+<p>Press Preferences-&gt;Package settigns-&gt;Gist-&gt;Settings User.</p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/3_gist_settings_menu.jpeg" alt="Gist sublime Preferences" title="Gist sublime Preferences" /></p>
+
+<p>You can either set login + password, either token. If needed settings are not in Settings User, then they can be copied from Settings Default. But don’t change default settings. To receive token, run in system command line (<a href="http://curl.haxx.se/">curl</a> must be installed):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-v</span> <span class="nt">-u</span> USERNAME <span class="nt">-X</span> POST https://api.github.com/authorizations <span class="nt">--data</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">scopes</span><span class="se">\"</span><span class="s2">:[</span><span class="se">\"</span><span class="s2">gist</span><span class="se">\"</span><span class="s2">]}"</span>
+</code></pre></div></div>
+
+<p>where USERNAME - your github login</p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/4_gist_auth.jpeg" alt="Gist sublime settings" title="Gist sublime settings" /></p>
+
+<h4 id="gist-creation">Gist creation</h4>
+
+<p>Write code of your snippet in new sublime tab. I wrote code for taking content of csv file as list of lists. Press <code class="language-plaintext highlighter-rouge">ctrl + shift + p</code>, then <code class="language-plaintext highlighter-rouge">gist create public</code> and enter. Here is avaliable fuzzy searching, so i just enter <code class="language-plaintext highlighter-rouge">public</code>.</p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/5_gist_create_public.jpeg" alt="Gist sublime create" title="Gist sublime create" /></p>
+
+<p>Give description to our snippet. It is important to include meaningful words, because search will use them. I write “Python: Get csv lines”.</p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/6_gist_set_description.jpeg" alt="Gist sublime description" title="Gist sublime description" /></p>
+
+<p>There will be also request for file name, it can be skipped by pressing enter.</p>
+
+<h4 id="search-for-a-gist">Search for a gist</h4>
+
+<p>Open sublime command line by pressing <code class="language-plaintext highlighter-rouge">ctrl + shift + p</code> and enter <code class="language-plaintext highlighter-rouge">gist open</code>.</p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/7_gist_open.jpeg" alt="Gist sublime open" title="Gist sublime open" /></p>
+
+<p>Then enter key words “python csv”</p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/8_gist_find_by_descr.jpeg" alt="Gist sublime find" title="Gist sublime find" /></p>
+
+<p>And see our snippet.</p>
+
+<p><img src="/assets/images/posts/2013-01-03-sublime-text-and-github-gists/9_gist_opened.jpeg" alt="Gist sublime opened" title="Gist sublime opened" /></p>
+
+<p>This snippet is also created at github: <a href="https://gist.github.com/3931305">https://gist.github.com/3931305</a>.</p>
+
+<h4 id="links">Links</h4>
+
+<ul>
+  <li>Code editor <a href="http://www.sublimetext.com/">sublime text</a></li>
+  <li><a href="https://github.com/condemil/Gist">Repo</a> of Gist plugin</li>
+  <li><a href="https://tutsplus.com/lesson/sexy-code-snippet-management-with-gists/">Video lesson</a> about sublime and gist at <a href="http://tutsplus.com/">tutsplus.com</a></li>
+  <li><a href="https://tutsplus.com/course/improve-workflow-in-sublime-text-2/">Video course</a> about sublime at <a href="http://tutsplus.com/">tutsplus.com</a></li>
+</ul>
+
+  </div>
+
+  <div class="post-categories">
+
+  <span><a href="/en/category/sublime/">sublime</a></span>
+
+
+</div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://st4lk.github.io/en/blog/2013/01/03/sublime-text-and-github-gists/';
+      this.page.identifier = 'https://st4lk.github.io/blog/2013/01/03/sublime-text-and-github-gists/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://lexev-dev.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/en/blog/2013/01/03/sublime-text-and-github-gists/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/en/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"></div>
+
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//lexev-dev.disqus.com/count.js" async></script></body>
+
+</html>

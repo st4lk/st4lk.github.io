@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Sublime Text and Language Server Protocol | Alexey Evseev</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Sublime Text and Language Server Protocol" />
+<meta name="author" content="Alexey Evseev" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Language Server Protocol (LSP) LSP - protocol for interactions between IDE and language server. The latter provides such means like autocompletion, goto implementation and etc. When IDE needs to show autocomplete choices on, for example, python language - it sends a request to the special server. And it responds with the necessary data. The cool part here is that it is an initiative of a big company - Microsoft." />
+<meta property="og:description" content="Language Server Protocol (LSP) LSP - protocol for interactions between IDE and language server. The latter provides such means like autocompletion, goto implementation and etc. When IDE needs to show autocomplete choices on, for example, python language - it sends a request to the special server. And it responds with the necessary data. The cool part here is that it is an initiative of a big company - Microsoft." />
+<link rel="canonical" href="https://st4lk.github.io/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/" />
+<meta property="og:url" content="https://st4lk.github.io/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/" />
+<meta property="og:site_name" content="Alexey Evseev" />
+<meta property="og:image" content="https://i.ibb.co/4K4zp06/sublime-256-lsp-light.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-02-19T18:19:43+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://i.ibb.co/4K4zp06/sublime-256-lsp-light.png" />
+<meta property="twitter:title" content="Sublime Text and Language Server Protocol" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexey Evseev"},"dateModified":"2019-02-19T18:19:43+00:00","datePublished":"2019-02-19T18:19:43+00:00","description":"Language Server Protocol (LSP) LSP - protocol for interactions between IDE and language server. The latter provides such means like autocompletion, goto implementation and etc. When IDE needs to show autocomplete choices on, for example, python language - it sends a request to the special server. And it responds with the necessary data. The cool part here is that it is an initiative of a big company - Microsoft.","headline":"Sublime Text and Language Server Protocol","image":"https://i.ibb.co/4K4zp06/sublime-256-lsp-light.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/"},"url":"https://st4lk.github.io/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/en/assets/main.css">
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Alexey Evseev" /><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZHLL9G1CF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZHLL9G1CF');
+</script>
+<link rel="alternate" hreflang="ru" href="https://st4lk.github.io/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/" />
+
+  <link rel="alternate" hreflang="en" href="https://st4lk.github.io/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/" />
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/en/">Alexey Evseev</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="/en/blog/">Blog</a>
+          <a class="page-link" href="/en/contact/">Contact</a>
+          <a class="page-link" style="margin-right: 0px" href="/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/" ><img src="/en/assets/images/en.png" /></a>
+          <a class="page-link" href="/en/search/" ><img src="/en/assets/images/search.svg" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Sublime Text and Language Server Protocol</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-02-19T18:19:43+00:00" itemprop="datePublished">Feb 19, 2019
+      </time><span style="float:right">
+
+  <span><a href="/en/category/python/">python</a></span>
+&nbsp;
+
+  <span><a href="/en/category/sublime/">sublime</a></span>
+&nbsp;
+
+  <span><a href="/en/category/lsp/">lsp</a></span>
+
+
+</span>
+    </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/"><img src="https://i.ibb.co/4K4zp06/sublime-256-lsp-light.png" alt="Sublime Text and Language Server Protocol (LSP)" title="Sublime Text and Language Server Protocol (LSP)" /></a></p>
+
+<h2 id="language-server-protocol-lsp">Language Server Protocol (LSP)</h2>
+<p>LSP - protocol for interactions between IDE and language server. The latter provides such means like autocompletion, goto implementation and etc. When IDE needs to show autocomplete choices on, for example, python language - it sends a request to the special server. And it responds with the necessary data. The cool part here is that it is an initiative of a big company - Microsoft.</p>
+
+<!--more-->
+
+<p>But what is the point, in almost all popular IDEs such features are already available out of the box?</p>
+
+<p>I think the main point is unification of implementation. We can have a single server with many IDEs. No need to develop standard means in each IDE separately. The only thing that must be done - is to implement protocol for communication with the language server.</p>
+
+<p>There is also an advantage from the perspective of IDE user. When some feature will be added to the language server, you’ll receive it for free and immediately. It doesn’t matter what exact IDE you are using, it is independent now. The main part that must be supported by your code editor - is language server protocol. We can assume that it will be stable in near future since it is supported by such giant as Microsoft.</p>
+
+<p>Some useful links:</p>
+
+<ul>
+  <li>Official website of LSP: <a href="https://microsoft.github.io/language-server-protocol/">https://microsoft.github.io/language-server-protocol/</a></li>
+  <li>The list of server implementations: <a href="https://microsoft.github.io/language-server-protocol/implementors/servers/">https://microsoft.github.io/language-server-protocol/implementors/servers/</a></li>
+  <li>Community-driven website: <a href="https://langserver.org/">https://langserver.org/</a></li>
+</ul>
+
+<h2 id="python-server">Python Server</h2>
+<p>Let’s try to connect IDE (Sublime Text will be used in this article) with python language server.</p>
+
+<p>The first thing that we’ll need - is the server itself, it will respond to LSP requests. At the time this post was written, the most active project implemented in python was: <a href="https://github.com/palantir/python-language-server">https://github.com/palantir/python-language-server</a>.</p>
+
+<p>There is a server from Microsoft as well: <a href="https://github.com/Microsoft/python-language-server/">https://github.com/Microsoft/python-language-server/</a>.
+And it even has <a href="https://github.com/Microsoft/python-language-server/blob/master/Using_in_sublime_text.md">the short instruction</a> how to setup Sublime Text for it. This server requires <a href="https://dotnet.microsoft.com/download/dotnet-core/2.1">dotnet</a> to be installed in your system.
+I tried to launch it, but it didn’t provide all the features that I needed. Maybe I didn’t set it up correctly. And I rarely (well, never :)) use C# in my work, so it is hard to understand the details of implementation. This is not required to be able to use, but sometimes I like to do small tweaks and it will be hard to do in C# for me.</p>
+
+<p>So let’s return to the server written in python. I had such a plan in my mind:</p>
+
+<ol>
+  <li>We have a separate virtualenv, that was created exclusively for LSP server</li>
+  <li>We keep clean the virtualenv of our working project, i.e. there is no LSP server installed in it</li>
+  <li>During communication with the server, our IDE will tell which virtualenv to use (to indicate environment of current project)</li>
+</ol>
+
+<p>In total, we can install LSP server only once and use it for different projects.
+It wasn’t obvious how to do it at the time this post was written. At least I didn’t find a definite guide on how to do it. In the documentation for the python server it was implicitly assumed that server will be installed in the same virtualenv as the project. To my mind this is not useful, so I created a <a href="https://github.com/palantir/python-language-server/pull/401">PR</a>.</p>
+
+<p>Also, this LSP didn’t use my linter settings. For example, in the root folder of the project I have <code class="language-plaintext highlighter-rouge">setup.cfg</code> file with such params:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ignore = D202,D205,D211
+max-line-length = 99
+</code></pre></div></div>
+
+<p>To make LSP use it I have to create another <a href="https://github.com/palantir/python-language-server/pull/413">PR</a>, which in turn migrated to <a href="https://github.com/palantir/python-language-server/pull/418">this one</a>.</p>
+
+<p>There were other problems and sometimes they required PRs as well. I hope, that all of them will be included in release soon. Meanwhile, there is release in my <a href="https://github.com/st4lk/python-language-server/releases/tag/0.22.0a1">fork</a>, it contains mentioned fixes.</p>
+
+<p>To be precise:</p>
+
+<ul>
+  <li>Create a separate virtualenv for LSP server. Better to use python3.6+.</li>
+  <li>
+    <p>Install server there (the release that I mentioned above ^):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  pip install https://github.com/st4lk/python-language-server/archive/0.22.0a1.zip
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>If you want to use requirements.txt - then just add a link to zip file there as is, no need to use any prefix/suffix.</p>
+
+<p>It is possible, that at the moment when you read this post, all the fixes are already included in official version <code class="language-plaintext highlighter-rouge">&gt; 0.22</code> (or they were fixed by other commits). It worth checking the changelog of the current version.</p>
+
+<h2 id="sublime-text">Sublime Text</h2>
+
+<p>Let’s move to IDE setup. I’ll describe Sublime Text in this article. I like this code editor, although it is not an IDE strictly speaking. I like its speed, vintage mode, multi-cursors and many other features.</p>
+
+<p>So, how to connect Sublime Text with LSP server?
+First of all we’ll need to install a plugin for LSP: <a href="https://github.com/tomv564/LSP">https://github.com/tomv564/LSP</a>.</p>
+
+<p>The most important thing - to setup it properly.
+Go to plugin settings (on MacOS it is <em>Sublime Text -&gt; Preferences -&gt; Package Settings -&gt; LSP -&gt; Settings</em>).
+In user’s settings type something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "clients": {
+    "pyls":
+    {
+      "enabled": true,
+      "command": [
+        "~/.virtualenvs/python-language-server/bin/pyls"
+      ],
+      "settings": {
+        "pyls": {
+          "configurationSources": ["flake8"],
+          "plugins": {
+            "jedi_definition": {
+              "follow_imports": true
+            }
+          }
+        }
+      },
+      "scopes": ["source.python"],
+      "syntaxes": [
+        "Packages/Python/Python.sublime-syntax",
+        "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+      ],
+      "languageId": "python"
+    }
+  }
+}
+</code></pre></div></div>
+
+<p>Let’s speak about the most important parameters.</p>
+
+<p><strong>“command”</strong> - path to executable file of pyls server. As you can see, on my computer it is installed in virtualenv  <code class="language-plaintext highlighter-rouge">~/.virtualenvs/python-language-server/</code> (I use <a href="https://virtualenvwrapper.readthedocs.io/en/latest/">virtualenvwrapper</a>). This is not a virtualenv of your project! Here we have only pyls and nothing else.</p>
+
+<p><strong>“settings” : “pyls” : “configurationSources”</strong>. Here we can specify the source of linter settings. By default it is “pycodestyle”, but I usually use flake8. So pyls will search following files:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'.flake8', 'setup.cfg' (section [flake8]), 'tox.ini'
+</code></pre></div></div>
+
+<p><strong>“follow_imports”: true</strong>. An important setting, without it goto will show only the <em>import</em> place, but not the source code. To my mind, such behavior is not very useful, it is more interesting to look at actual implementation, instead of just import path. To make it work I have to tweak the server a little bit: <a href="https://github.com/palantir/python-language-server/pull/404/">https://github.com/palantir/python-language-server/pull/404/</a>.</p>
+
+<p>Another valuable thing: <strong>“syntaxes”</strong> setting. If you are using plugin like <a href="https://github.com/squ1b3r/Djaneiro">Djaneiro</a> (it adds some cool autocompletion, snippets for Django project), then Sublime Text will treat syntax of python files as Djaneiro, not as the default Python. So need to specify it for our LSP server. Otherwise, editor will not launch it.</p>
+
+<p>We have defined global settings that will be used for all python fileds. But how to define settings specific for concrete project?</p>
+
+<p>Surprisingly, you can specify them in project settings :). Go to <em>Project -&gt; Edit project</em> and add the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "folders":
+  [
+      {
+          "path": "/Path/to/my/project"
+      },
+  ],
+  "settings":
+  {
+    "LSP":
+    {
+      "pyls":
+      {
+        "env":
+        {
+          "VIRTUAL_ENV": "/path/to/my/project/virtualenv/"
+        }
+      }
+    }
+  }
+}
+</code></pre></div></div>
+
+<p>By using <strong>“VIRTUAL_ENV”</strong> we can point to project’s virtualenv, so pyls will know where to search installed packages for autocompletion, goto end etc.</p>
+
+<p>Ok, let’s launch all of it. Imagine that we have such django project:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>project
+├── ...
+├── my_app
+│   ├── ...
+│   ├── forms.py
+│   └── models.py
+├── manage.py
+└── setup.cfg
+</code></pre></div></div>
+
+<p>The simplest models.py file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from django.db import models
+
+
+class Book(models.Model):
+    """
+    This is docstring of Book model.
+    Example for LSP demostration.
+    """
+
+    title = models.CharField(max_length=50)
+</code></pre></div></div>
+
+<p>and forms.py:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from django.forms import ModelForm
+from .models import Book
+
+
+class BookForm(ModelForm):
+
+    class Meta:
+        model = Book
+        fields = '__all__'
+</code></pre></div></div>
+
+<p>In setup.cfg we have <code class="language-plaintext highlighter-rouge">[flake8]</code> section:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[flake8]
+ignore = D202,D205,D211
+max-line-length = 99
+</code></pre></div></div>
+
+<p>What do we get now?
+Server will provide features of <a href="https://jedi.readthedocs.io/en/latest/">jedi</a> out of the box, for example, Definitions (goto), References, autocomplete.</p>
+
+<p>On hover you’ll see the doscstring of the object, as well as available actions:</p>
+
+<p><img src="https://i.ibb.co/0yW1sRd/sublime-lsp-popup-with-docstring-and-actions.png" alt="Sublime Text and Language Server Protocol (LSP): cursor hover window with documentation and actions" title="Sublime Text and Language Server Protocol (LSP): cursor hover window with documentation and actions" /></p>
+
+<p>If you’ll click on Definition you will jump to class implementation.
+On click on References - all usages will be shown:</p>
+
+<p><img src="https://i.ibb.co/26LW2ys/sublime-lsp-references.png" alt="Sublime Text and Language Server Protocol (LSP): References" title="Sublime Text a d Language Server Protocol (LSP): References" /></p>
+
+<p>Autocomplete is also working:</p>
+
+<p><img src="https://i.ibb.co/cb2gKDJ/sublime-lsp-autocomplete-methods.png" alt="Sublime Text and Language Server Protocol (LSP): methods autocomplete" title="Sublime Text and Language Server Protocol (LSP): methods autocomplete" /></p>
+
+<p><img src="https://i.ibb.co/zQ6ZXHh/sublime-lsp-autocomplete-fields.png" alt="Sublime Text and Language Server Protocol (LSP): fields autcomplete" title="Sublime Text and Language Server Protocol (LSP): fields autcomplete" /></p>
+
+<p>But syntax errors and pep8 rules violation will not be shown. To make it work, need to install following packages into virtualenv where your LSP server is running:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install mccabe
+pip install pyflakes
+pip install pycodestyle
+</code></pre></div></div>
+
+<p>Voila, now editor will show warnings:</p>
+
+<p><img src="https://i.ibb.co/VYCWVtY/sublime-lsp-invalid-syntax.png" alt="Sublime Text and Language Server Protocol (LSP): syntax error" title="Sublime Text and Language Server Protocol (LSP): syntax error" /></p>
+
+<p><img src="https://i.ibb.co/rph2V6X/sublime-lsp-pep8-warning.png" alt="Sublime Text and Language Server Protocol (LSP): pep8 rules violation" title="Sublime Text and Language Server Protocol (LSP): pep8 rules violation" /></p>
+
+<p>Remember, that linter settings will be taken from setup.cfg automatically (according to our pyls settings). So rules <code class="language-plaintext highlighter-rouge">D202,D205,D211</code> will be ignored and max line length will be 99 instead of default 80.</p>
+
+<p>We can setup <a href="http://mypy-lang.org/">mypy</a> check as well. A corresponding <a href="https://github.com/tomv564/pyls-mypy">plugin</a> will be needed for that. But it will be better to describe it in a separate article if I can make it. Some non-obvious things exist there as well.</p>
+
+<p>In total, we have a working Python Language Server in Sublime Text 3.
+As you can see, the experience wasn’t very smooth, but I keep using this code editor, it is my habit.
+Yes, I use Pycharm sometimes, it has tons of nice features out of the box. Visual Studio Code editor is good as well, but Sublime looks so native for me.</p>
+
+<p>What conclusion can I make?</p>
+
+<ul>
+  <li>the server doesn’t look fully ready (at least implementation in python), have to create PRs and they accepted slowly</li>
+  <li>Sublime LSP doesn’t work in the right window (<em>View -&gt; Layout -&gt; Columns: 2</em>), probably need to fix by submitting further PRs</li>
+  <li>it is worth checking the <a href="https://github.com/Microsoft/python-language-server/">server implemented by Microsoft</a>, I think it may be the mainstream.</li>
+</ul>
+
+<p>Meanwhile, my setup is working and it helps me a lot in my daily work.</p>
+
+<p>Thanks to <a href="https://twitter.com/grigoryvp">Grigory Petrov</a> for his <a href="http://www.moscowpython.ru/meetup/58/pyre-type-checker/">talk at Moscow Python</a>. That was the starting point for me to investigate the LSP world.</p>
+
+  </div>
+
+  <div class="post-categories">
+
+  <span><a href="/en/category/python/">python</a></span>
+&nbsp;
+
+  <span><a href="/en/category/sublime/">sublime</a></span>
+&nbsp;
+
+  <span><a href="/en/category/lsp/">lsp</a></span>
+
+
+</div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://st4lk.github.io/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/';
+      this.page.identifier = 'https://st4lk.github.io/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://lexev-dev.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/en/blog/2019/02/19/sublime-text-and-language-server-protocol-lsp/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/en/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"></div>
+
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//lexev-dev.disqus.com/count.js" async></script></body>
+
+</html>

@@ -27,7 +27,7 @@ url: "https://st4lk.github.io" # the base hostname & protocol for your site, e.g
 github_username:  st4lk
 excerpt_separator: <!--more-->
 show_excerpts: true
-permalink: /blog/:year/:month/:day/:title:output_ext
+permalink: /blog/:year/:month/:day/:title/
 author: Alexey Evseev
 google_analytics: G-8ZHLL9G1CF
 

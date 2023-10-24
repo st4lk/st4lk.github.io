@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Listen wifi with wireshark | Alexey Evseev</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Listen wifi with wireshark" />
+<meta name="author" content="Alexey Evseev" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="I always knew, that it is possible to catch wifi network packets. But haven’t done it in practise (i was analysing network packets, but not in HTTP protocol). So i decided to do it, as this is interesting and useful. Such experience help to understand TCP-IP and HTTP protocols and also to pay more attention for web security." />
+<meta property="og:description" content="I always knew, that it is possible to catch wifi network packets. But haven’t done it in practise (i was analysing network packets, but not in HTTP protocol). So i decided to do it, as this is interesting and useful. Such experience help to understand TCP-IP and HTTP protocols and also to pay more attention for web security." />
+<link rel="canonical" href="https://st4lk.github.io/en/blog/2015/04/17/listen-wifi-with-wireshark/" />
+<meta property="og:url" content="https://st4lk.github.io/en/blog/2015/04/17/listen-wifi-with-wireshark/" />
+<meta property="og:site_name" content="Alexey Evseev" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2015-04-17T18:19:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Listen wifi with wireshark" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexey Evseev"},"dateModified":"2015-04-17T18:19:43+00:00","datePublished":"2015-04-17T18:19:43+00:00","description":"I always knew, that it is possible to catch wifi network packets. But haven’t done it in practise (i was analysing network packets, but not in HTTP protocol). So i decided to do it, as this is interesting and useful. Such experience help to understand TCP-IP and HTTP protocols and also to pay more attention for web security.","headline":"Listen wifi with wireshark","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/en/blog/2015/04/17/listen-wifi-with-wireshark/"},"url":"https://st4lk.github.io/en/blog/2015/04/17/listen-wifi-with-wireshark/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/en/assets/main.css">
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Alexey Evseev" /><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZHLL9G1CF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZHLL9G1CF');
+</script>
+<link rel="alternate" hreflang="ru" href="https://st4lk.github.io/blog/2015/04/17/listen-wifi-with-wireshark/" />
+
+  <link rel="alternate" hreflang="en" href="https://st4lk.github.io/en/blog/2015/04/17/listen-wifi-with-wireshark/" />
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/en/">Alexey Evseev</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="/en/blog/">Blog</a>
+          <a class="page-link" href="/en/contact/">Contact</a>
+          <a class="page-link" style="margin-right: 0px" href="/blog/2015/04/17/listen-wifi-with-wireshark/" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/blog/2015/04/17/listen-wifi-with-wireshark/" ><img src="/en/assets/images/en.png" /></a>
+          <a class="page-link" href="/en/search/" ><img src="/en/assets/images/search.svg" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Listen wifi with wireshark</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2015-04-17T18:19:43+00:00" itemprop="datePublished">Apr 17, 2015
+      </time><span style="float:right">
+
+  <span><a href="/en/category/fun/">fun</a></span>
+&nbsp;
+
+  <span><a href="/en/category/security/">security</a></span>
+
+
+</span>
+    </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/en/blog/2015/04/17/listen-wifi-with-wireshark/"><img src="https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg" alt="Listen wifi with wireshark" title="Listen wifi with wireshark" /></a></p>
+
+<p>I always knew, that it is possible to catch wifi network packets. But haven’t done it in practise (i was analysing network packets, but not in HTTP protocol). So i decided to do it, as this is interesting and useful. Such experience help to understand TCP-IP and HTTP protocols and also to pay more attention for web security.</p>
+
+<!--more-->
+
+<p>We’ll spy the network traffic with Wireshark program. There are a lot of tools for such purpose (ngrep, tcpdump, mitmproxy), but Wireshark looks the most popular and have a reach functionality.</p>
+
+<p>Lets try to solve following tasks:</p>
+
+<ul>
+  <li><a href="#localhost">listen network packets, that are sent/recieved <strong>inside local</strong> machine</a></li>
+  <li><a href="#local_out">listen network packets, that are sent/recieved by <strong>local</strong> machine to/from outer world (internet)</a></li>
+  <li><a href="#wifi_open_other">listen network packets, that are sent/recieved by <strong>other members of public wifi</strong> network</a></li>
+  <li><a href="#wifi_closed_other">listen network packets, that are sent/recieved by <strong>other members of private wifi</strong> network</a></li>
+</ul>
+
+<p>All actions i performed on laptop MacBook Pro with OS X Yosemite, so on other devices there can be some differences.</p>
+
+<p>Disclaimer: all actions are on your own responsibility. Do not apply described technics to make bad things.</p>
+
+<h3 id="localhost-network-packets">Localhost network packets<a name="localhost"></a></h3>
+
+<p>Install wireshark. Launch it, go to Capture -&gt; Intefaces.</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/4509/85893628.c67/0_17f346_a2cf0b57_orig.png"><img src="https://img-fotki.yandex.ru/get/4509/85893628.c67/0_17f346_a2cf0b57_XL.png" alt="ws interface" title="ws interface" /></a></p>
+
+<p>My laptop is connected to wifi only (en0 interface).
+As i understand, awdl0 is a cable network. No cable is connected, so we don’t see any packets.
+And lo0 is a localhost interface, lets work with it now.</p>
+
+<p>Put checkbox at lo0 and press Start.
+To concentrate on HTTP protocol, set <em>Display filter: http</em> (this filter will be applied to already fetched and decoded packets, unlike Capture filter, which i’ll describe later):</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/15599/85893628.c67/0_17f347_e85f8329_orig.png"><img src="https://img-fotki.yandex.ru/get/15599/85893628.c67/0_17f347_e85f8329_XL.png" alt="ws http filter" title="ws http filter" /></a></p>
+
+<p>We are gonna catch packets, that will be sent from browser to django development server and back. There are some things about django server, that worth mentioning.</p>
+
+<ul>
+  <li>First, it respond HTTP 1.0, not HTTP 1.1</li>
+  <li>Second, the most important, response can <strong>not</strong> include  <br />
+neither <code class="language-plaintext highlighter-rouge">Content-Length: &lt;response length&gt;</code>, neither <code class="language-plaintext highlighter-rouge">Transfer-Encoding: chunked</code>. In that case, to determine the end of HTTP response we need to wait for server to close the connection. But it will not happen. HTTP data can be transmitted in several TCP segments and wireshark smart enough to group those segments and to show final HTTP response. But, as wireshark can’t understand exactly when response is completed, it will not group them in HTTP frame.</li>
+</ul>
+
+<p>Well, this is not very bad, as we can always look for response to particular request by clicking on it and apply Analyse -&gt; Follow TCP Stream. But, it will be great to see the HTTP response in frame list.</p>
+
+<p>To do it, prepend <code class="language-plaintext highlighter-rouge">ConditionalGetMiddleware</code> to the list of <code class="language-plaintext highlighter-rouge">MIDDLEWARE_CLASSES</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if DEBUG:
+    MIDDLEWARE_CLASSES = (
+        'django.middleware.http.ConditionalGetMiddleware',
+    ) + MIDDLEWARE_CLASSES
+</code></pre></div></div>
+
+<p>Middleware will set Content-Length header.</p>
+
+<p>It is not necessary, but useful in case of working with wireshark and django dev server. In other cases all work correctly: production servers usually set <code class="language-plaintext highlighter-rouge">Transfer-Encoding: chunked</code> and respond HTTP by chunks (probably it is done by proxy server (nginx, apache, etc)).</p>
+
+<p>Now start django project. The main page just shows the name of current user and login form. If current user is anonymous, then his name will be “AnonymousUser”.</p>
+
+<p>For the purity of the experiment clean cookies in browser for 127.0.0.1.
+Open page <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>.</p>
+
+<p>If we have <strong>not</strong> add ‘ConditionalGetMiddleware’, then we’ll probably see only request:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/4609/85893628.c68/0_17f349_2b69b414_orig.png"><img src="https://img-fotki.yandex.ru/get/4609/85893628.c68/0_17f349_2b69b414_XL.png" alt="localhost request only" title="localhost request only" /></a></p>
+
+<p>The response still can be found, if we choose <em>Analyse-&gt;Follow TCP Stream</em>:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6210/85893628.c68/0_17f34a_b9583d43_orig.png"><img src="https://img-fotki.yandex.ru/get/6210/85893628.c68/0_17f34a_b9583d43_XL.png" alt="localhost request only follow tcp" title="localhost request only follow tcp" /></a></p>
+
+<p>And with ‘ConditionalGetMiddleware’ the response will be visible in list of frames:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6307/85893628.c68/0_17f34b_617a4295_orig.png"><img src="https://img-fotki.yandex.ru/get/6307/85893628.c68/0_17f34b_617a4295_XL.png" alt="localhost request response" title="localhost request response" /></a></p>
+
+<p>Content-Length is set:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/5820/85893628.c68/0_17f34c_f706aca8_orig.png"><img src="https://img-fotki.yandex.ru/get/5820/85893628.c68/0_17f34c_f706aca8_XL.png" alt="localhost request response follow tcp" title="localhost request response follow tcp" /></a></p>
+
+<p>Well, it wasn’t very interesting. But lets try to login!</p>
+
+<p>Enter username and password and press Login. In wireshark we’ll see 4 new frames: POST request, redirect to main page (302 code), GET / request, response for GET:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/16121/85893628.c68/0_17f34d_fc2e6c1b_orig.png"><img src="https://img-fotki.yandex.ru/get/16121/85893628.c68/0_17f34d_fc2e6c1b_XL.png" alt="localhost four new frames" title="localhost four new frames" /></a></p>
+
+<p>Look at fetched data more carefully.</p>
+
+<p>Frame with POST request, along with HTTP headers contain form data. Here how they look like:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/5703/85893628.c68/0_17f34e_e290f091_orig.png"><img src="https://img-fotki.yandex.ru/get/5703/85893628.c68/0_17f34e_e290f091_XL.png" alt="localhost login password" title="localhost login password" /></a></p>
+
+<p>Login and password as plain text.</p>
+
+<p>Response to POST request was 302 redirect. In that response server ask client to store session id in cookies:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_orig.png"><img src="https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_XL.png" alt="localhost 302 session" title="localhost 302 session" /></a></p>
+
+<p>Next goes GET request for main page, cookies now contain session id:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3110/85893628.c68/0_17f34f_664da61c_orig.png"><img src="https://img-fotki.yandex.ru/get/5302/85893628.c68/0_17f350_c48d0b1d_XL.png" alt="localhost session in request" title="localhost session in request" /></a></p>
+
+<p>So this is how we can spy the network data, that is sent from client to server and back.
+All these information will be transmitted in wifi network by the same way (if non secure HTTP protocol is used).
+If we login - login and password are sent in plain text.
+If we just make a requst - our session id is visible.</p>
+
+<p>With session id it is easy to access the site as the owner of that session.
+For simplicity, we can check that with console tool (curl, httpie).
+Example with httpie:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http 127.0.0.1:8000 "Cookie: sessionid=tmpocxkz6zsir6xe6i03kspucvlqq385"
+HTTP/1.0 200 OK
+Content-Length: 567
+Content-Type: text/html; charset=utf-8
+Date: Thu, 16 Apr 2015 13:06:58 GMT
+Server: WSGIServer/0.1 Python/2.7.6
+Set-Cookie:  csrftoken=3bUoLB28WyzcH7qG5GXreWPm0Pj11861; expires=Thu, 14-Apr-2016 13:06:58 GMT; Max-Age=31449600; Path=/
+Vary: Cookie
+X-Frame-Options: SAMEORIGIN
+
+    <span class="nt">&lt;html&gt;</span>
+        <span class="nt">&lt;body&gt;</span>
+            Hello, alex
+            <span class="nt">&lt;div&gt;</span>
+                <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/login/"</span> <span class="na">method=</span><span class="s">"POST"</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"username"</span> <span class="nt">/&gt;</span>
+                    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span> <span class="nt">/&gt;</span>
+                    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">hidden</span> <span class="na">name=</span><span class="s">"next"</span> <span class="na">value=</span><span class="s">"/"</span> <span class="nt">/&gt;</span>
+                    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">'hidden'</span> <span class="na">name=</span><span class="s">'csrfmiddlewaretoken'</span> <span class="na">value=</span><span class="s">'3bUoLB28WyzcH7qG5GXreWPm0Pj11861'</span> <span class="nt">/&gt;</span>
+                    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">name=</span><span class="s">"Login"</span> <span class="na">value=</span><span class="s">"Login"</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;/form&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Hello, alex</code> is shown, so the server treat us as alex.</p>
+
+<h3 id="network-packets-of-local-maching-sent-to-outer-world">Network packets of local maching sent to outer world<a name="local_out"></a></h3>
+
+<p>Listen for network packets of our computer.</p>
+
+<p>In wireshark choose Capture -&gt; Intefaces, apply en0 interface and press Start:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3000/85893628.c68/0_17f35a_55441968_orig.png"><img src="https://img-fotki.yandex.ru/get/3000/85893628.c68/0_17f35a_55441968_XL.png" alt="my wifi interface" title="my wifi interface" /></a></p>
+
+<p>I access the admin page of this site (lexev.org). In wireshark set Display filter</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http.request.full_uri contains lexev.org
+</code></pre></div></div>
+
+<p>to see data flow only with host lexev.org. Here what we get:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6841/85893628.c68/0_17f35b_e70a8cfa_orig.png"><img src="https://img-fotki.yandex.ru/get/6841/85893628.c68/0_17f35b_e70a8cfa_XL.png" alt="my wifi lexev" title="my wifi lexev" /></a></p>
+
+<p>We have now a session id of admin user.</p>
+
+<h3 id="network-packets-of-other-members-of-public-wifi-network">Network packets of other members of public wifi network<a name="wifi_open_other"></a></h3>
+
+<p>So far we were listening just our request and responses. But lets try to listen for other people.</p>
+
+<p>Go to cafe with public wifi, launch wireshark.
+Choose corresponding interface in Capture -&gt; Intefaces and press Options (not Start).</p>
+
+<p>We’ll see something like this:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/6830/85893628.c68/0_17f355_9d02aa03_orig.png"><img src="https://img-fotki.yandex.ru/get/6830/85893628.c68/0_17f355_9d02aa03_XL.png" alt="public wifi options" title="public wifi options" /></a></p>
+
+<p>Double click on interface and put <em>Capture packets in monitor mode</em> checkbox:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3107/85893628.c68/0_17f356_946d17dd_orig.png"><img src="https://img-fotki.yandex.ru/get/3107/85893628.c68/0_17f356_946d17dd_XL.png" alt="public wifi monitor model" title="public wifi monitor model" /></a></p>
+
+<p>Ok, Start. Now we are listening entire wifi network (excluding yourself).</p>
+
+<p>In public network fly a lot of packets, we can easily fetch more than Gb information in hour. Hard to work with such amount of data, that is where Capture filters can help. Packets that are discarded by capture filters will not be saved. Unlike display filters, they are applied to not yet processed and decrypted packets, therefore it is harder to construct the filter.</p>
+
+<p>Here is a capture filter for HTTP GET and POST requests only on 80 port:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>port 80 and tcp[<span class="o">((</span>tcp[12:1] &amp; 0xf0<span class="o">)</span> <span class="o">&gt;&gt;</span> 2<span class="o">)</span>:4] <span class="o">=</span> 0x47455420<span class="o">)</span> or <span class="o">(</span>tcp dst port 80 and <span class="o">(</span>tcp[<span class="o">((</span>tcp[12:1] &amp; 0xf0<span class="o">)</span> <span class="o">&gt;&gt;</span> 2<span class="o">)</span>:4] <span class="o">=</span> 0x504f5354<span class="o">))</span>
+</code></pre></div></div>
+
+<p>Apply it at interface Options:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/15496/85893628.c68/0_17f357_7d774c65_orig.png"><img src="https://img-fotki.yandex.ru/get/15496/85893628.c68/0_17f357_7d774c65_XL.png" alt="public wifi capture filter" title="public wifi capture filter" /></a></p>
+
+<p>Lets try to connect to wifi from another device (phone for example) and send GET request to lexev.org from it.
+For convenience add same display filter to show only requests to lexev.org (we can combine capture and display filters).
+Session id is visible again:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/3613/85893628.c68/0_17f358_8b8382aa_orig.png"><img src="https://img-fotki.yandex.ru/get/3613/85893628.c68/0_17f358_8b8382aa_XL.png" alt="public wifi admin session" title="public wifi admin session" /></a></p>
+
+<p>Just for fun, lets try to login. Look for my password everyone :):</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/15586/85893628.c68/0_17f359_d776258e_orig.png"><img src="https://img-fotki.yandex.ru/get/15586/85893628.c68/0_17f359_d776258e_XL.png" alt="public wifi admin login and password" title="public wifi admin login and password" /></a></p>
+
+<h3 id="network-packets-of-other-members-of-private-wifi-network">Network packets of other members of private wifi network<a name="wifi_closed_other"></a></h3>
+
+<p>For example we have a wifi with WPA protection.
+Choose corresponding interface, enable monitor mode for it (the same way as for public network, just without capture filter) and listen.
+We’ll see something like this:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/5113/85893628.c68/0_17f351_caf24487_orig.png"><img src="https://img-fotki.yandex.ru/get/5113/85893628.c68/0_17f351_caf24487_XL.png" alt="private undercrypted" title="private undercrypted" /></a></p>
+
+<p>The data is encrypted. But, if we have a wifi password, we can decrypt it!</p>
+
+<p>Go to Edit -&gt; Preferences. Choose Protocol -&gt; IEEE 802.11.</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/5801/85893628.c68/0_17f352_eb1faebf_orig.png"><img src="https://img-fotki.yandex.ru/get/5801/85893628.c68/0_17f352_eb1faebf_XL.png" alt="private IEEE" title="private IEEE" /></a></p>
+
+<p>Press Edit for Decryption Keys. Press new. In popup enter:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Key <span class="nb">type</span>: wpa-pwd
+Key: password:wifiname
+</code></pre></div></div>
+
+<p><a href="https://img-fotki.yandex.ru/get/4913/85893628.c68/0_17f353_f8d36ba3_orig.png"><img src="https://img-fotki.yandex.ru/get/4913/85893628.c68/0_17f353_f8d36ba3_XL.png" alt="private wifi password" title="private add password" /></a></p>
+
+<p>Apply, ok.</p>
+
+<p>Now wireshark will decrypt the packets and we can see HTTP data as before:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/52/85893628.c68/0_17f354_19d29c5e_orig.png"><img src="https://img-fotki.yandex.ru/get/52/85893628.c68/0_17f354_19d29c5e_orig.png" alt="private wifi decrypted" title="private add decrypted" /></a></p>
+
+<h3 id="spy-public-wifi">Spy public wifi</h3>
+
+<p>I went to macdonalds with public wifi and for about an hour run wireshark (save only GET and POST HTTP requests).
+Saved fetched data into pcap file (File -&gt; Save as).
+The question is, how to analyse such big amount of frames? Sometimes it is useful to export interesting data into CSV.
+Use <a href="https://www.wireshark.org/docs/man-pages/tshark.html">tshark</a> tool for that.</p>
+
+<p>Save fields “frame number”, “HTTP method”, “full url” into results.csv:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tshark <span class="nt">-r</span> macdak_pushkin_get_post_only.pcap <span class="nt">-T</span> fields <span class="nt">-e</span> frame.number <span class="nt">-e</span> http.request.method <span class="nt">-e</span> http.request.full_uri <span class="o">&gt;</span> results.csv
+</code></pre></div></div>
+
+<p>Also i wrote small python script, that will count number of requests for each second-level domain.
+The first 20 results:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Domain</th>
+      <th>Number of requests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>vk.com</td>
+      <td>6280</td>
+    </tr>
+    <tr>
+      <td>beeline.ru</td>
+      <td>5407</td>
+    </tr>
+    <tr>
+      <td>vk.me</td>
+      <td>2817</td>
+    </tr>
+    <tr>
+      <td>instagram.com</td>
+      <td>867</td>
+    </tr>
+    <tr>
+      <td>google.com</td>
+      <td>544</td>
+    </tr>
+    <tr>
+      <td>apple.com</td>
+      <td>536</td>
+    </tr>
+    <tr>
+      <td>yandex.ru</td>
+      <td>473</td>
+    </tr>
+    <tr>
+      <td>symcb.com</td>
+      <td>471</td>
+    </tr>
+    <tr>
+      <td>msftncsi.com</td>
+      <td>441</td>
+    </tr>
+    <tr>
+      <td>msn.com</td>
+      <td>304</td>
+    </tr>
+    <tr>
+      <td>yandex.net</td>
+      <td>302</td>
+    </tr>
+    <tr>
+      <td>trendmicro.com</td>
+      <td>292</td>
+    </tr>
+    <tr>
+      <td>co.uk</td>
+      <td>270</td>
+    </tr>
+    <tr>
+      <td>badoocdn.com</td>
+      <td>258</td>
+    </tr>
+    <tr>
+      <td>yadro.ru</td>
+      <td>188</td>
+    </tr>
+    <tr>
+      <td>marketgid.com</td>
+      <td>184</td>
+    </tr>
+    <tr>
+      <td>adfox.ru</td>
+      <td>183</td>
+    </tr>
+    <tr>
+      <td>mycdn.me</td>
+      <td>165</td>
+    </tr>
+    <tr>
+      <td>interfax.ru</td>
+      <td>154</td>
+    </tr>
+    <tr>
+      <td>scorecardresearch.com</td>
+      <td>137</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>And yes, i’ve got couple of interesting sessions. For example, for site mamba.ru, session is transmitted by insecure HTTP protocol. So i copy the session, paste it in chrome using <a href="https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg">EditThisCookie</a> plugin and voila, i am Sergey. I can read messages, look preferences and so on. Well, i just didn’t want to harm Sergey, so i didn’t make any POST requests.</p>
+
+<h3 id="how-to-protect">How to protect</h3>
+
+<p>The only way to protect your site is to use TLS (HTTPS). To apply it well many things must be checked, but such discussion worth to make another post.</p>
+
+<p>HTTPS traffic in wireshark:</p>
+
+<p><a href="https://img-fotki.yandex.ru/get/15564/85893628.c68/0_17f348_d9eec045_orig.png"><img src="https://img-fotki.yandex.ru/get/15564/85893628.c68/0_17f348_d9eec045_orig.png" alt="private wifi decrypted" title="private add decrypted" /></a></p>
+
+<p>All data is encrypted, we can’t read it.</p>
+
+<h3 id="summary">Summary</h3>
+
+<ul>
+  <li>Use HTTPS were possible, especially if you deal with important user data (if it includes bank/card data, you must use https)</li>
+  <li>Being in public wifi network and accessing site by http, keep in mind, that it is very easy to spy for you. It applies to private network also, attacker just need to know the wifi password.</li>
+</ul>
+
+<h3 id="useful-links">Useful links</h3>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=T-5p5ewqhVw">Dan Callahan: Quick Wins for Better Website Security - PyCon 2014</a></li>
+  <li><a href="https://www.youtube.com/watch?v=SBQB_yS2K4M">Hynek Schlawack: The Sorry State of SSL - PyCon 2014</a></li>
+  <li><a href="http://www.youtube.com/watch?v=4o-xqqidvKA">Benjamin Peterson - A Dive into TLS - PyCon 2015</a></li>
+  <li><a href="http://www.youtube.com/watch?v=HqnUKTjxI1E">Ashwini Oruganti, Christopher Armstrong - Introduction to HTTPS: A Comedy of Errors - PyCon 2015</a></li>
+  <li><a href="http://www.youtube.com/watch?v=f9XVNIeRxUo">Getting comfortable with web security: A hands-on session - PyCon 2015</a></li>
+</ul>
+
+  </div>
+
+  <div class="post-categories">
+
+  <span><a href="/en/category/fun/">fun</a></span>
+&nbsp;
+
+  <span><a href="/en/category/security/">security</a></span>
+
+
+</div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://st4lk.github.io/en/blog/2015/04/17/listen-wifi-with-wireshark/';
+      this.page.identifier = 'https://st4lk.github.io/blog/2015/04/17/listen-wifi-with-wireshark/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://lexev-dev.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/en/blog/2015/04/17/listen-wifi-with-wireshark/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/en/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"></div>
+
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//lexev-dev.disqus.com/count.js" async></script></body>
+
+</html>
