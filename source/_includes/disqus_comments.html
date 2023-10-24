@@ -3,10 +3,8 @@
   <div id="disqus_thread"></div>
   <script>
     var disqus_config = function () {
-      {% assign solid_url = site.url | append: page.url %}
-      {% assign pos = solid_url | size | minus: 1 %}
       this.page.url = '{{ page.url | absolute_url }}';
-      this.page.identifier = '{{ solid_url | slice: 0, pos }}.html';
+      this.page.identifier = '{%- include disqus_identifier.html page_url=page.url -%}';
     };
 
     (function() {

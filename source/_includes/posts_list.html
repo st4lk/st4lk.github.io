@@ -12,7 +12,7 @@
       {{ post.excerpt }}
     {%- endif -%}
     <div class="post-list-buttons">
-      <a href="{{ post.url | relative_url }}#disqus_thread" data-disqus-identifier="{{ site.url }}{{ post.url }}">
+      <a href="{{ post.url | relative_url }}#disqus_thread" data-disqus-identifier="{%- include disqus_identifier.html page_url=post.url -%}">
         {% t Comments %}
       </a>
       <a style="margin-left: 5px;" href="{{ post.url | relative_url }}">{% t ReadMore %}</a>
