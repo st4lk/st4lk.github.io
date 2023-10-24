@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+sitemap: https://st4lk.github.io/sitemap.xml
