@@ -5,6 +5,7 @@ date:   2015-04-30 18:19:43 +0000
 categories: python
 redirect_from:
   - /2015/base-python-tips-tricks/
+  - /blog/2015/04/30/base-python-tips-tricks.html
 ---
 
 [![Python tips & tricks](https://img-fotki.yandex.ru/get/9067/85893628.c68/0_181e3c_92d918ca_M.jpg "Python tips & tricks")]({{ site.baseurl }}{{ page.url }})

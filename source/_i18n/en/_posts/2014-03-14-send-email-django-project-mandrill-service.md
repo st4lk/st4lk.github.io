@@ -5,6 +5,7 @@ date:   2014-03-14 18:19:43 +0000
 categories: api django email free
 redirect_from:
   - /2014/send-email-django-project-mandrill-service/
+  - /blog/2014/03/14/send-email-django-project-mandrill-service.html
 ---
 
 [![Send email in django project with mandrill service](/assets/images/posts/2014-03-14-send-email-django-project-mandrill-service/mandrill-email.png "Send email in django project with mandrill service")]({{ site.baseurl }}{{ page.url }})

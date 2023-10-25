@@ -5,6 +5,7 @@ date:   2012-10-08 18:19:43 +0000
 categories: free openshift python
 redirect_from:
   - /2012/cloud-service-openshift/
+  - /blog/2012/10/08/cloud-service-openshift.html
 ---
 
 [![Cloud service Openshift](/assets/images/posts/2012-10-08-cloud-service-openshift/openshift-icon.png "Cloud service Openshift")]({{ site.baseurl }}{{ page.url }})

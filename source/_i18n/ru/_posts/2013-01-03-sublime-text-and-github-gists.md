@@ -5,6 +5,7 @@ date:   2013-01-03 18:19:43 +0000
 categories: sublime
 redirect_from:
   - /2013/sublime-text-and-github-gists/
+  - /blog/2013/01/03/sublime-text-and-github-gists.html
 ---
 
 [![Sublime text и github gists](/assets/images/posts/2013-01-03-sublime-text-and-github-gists/logo_full.jpeg "Sublime text и github gists")]({{ site.baseurl }}{{ page.url }})

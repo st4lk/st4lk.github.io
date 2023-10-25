@@ -5,6 +5,7 @@ date:   2017-01-14 18:19:43 +0000
 categories: database django sql
 redirect_from:
   - /2017/count-filtered-related-objects-django/
+  - /blog/2017/01/14/count-filtered-related-objects-django.html
 ---
 
 [![Trap in counting related objects in Django](https://img-fotki.yandex.ru/get/172931/85893628.c6b/0_1f68eb_c4171bf7_L.png

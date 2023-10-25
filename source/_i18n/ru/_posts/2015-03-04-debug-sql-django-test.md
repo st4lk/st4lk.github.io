@@ -5,6 +5,7 @@ date:   2015-03-04 18:19:43 +0000
 categories: database django logging sql
 redirect_from:
   - /2015/debug-sql-django-test/
+  - /blog/2015/03/04/debug-sql-django-test.html
 ---
 
 [![Отладка SQL в django тестах](https://img-fotki.yandex.ru/get/4517/85893628.c67/0_1795f5_a958c090_orig.png "Отладка SQL в django тестах")]({{ site.baseurl }}{{ page.url }})

@@ -11,7 +11,9 @@ sitemap:
         {% unless page.sitemap.exclude == "yes" or page.url == "/feed.xml" or page.url contains "/assets/" %}
             {% assign starts_category = page.url | slice: 0, 9 %}
             {% assign starts_blog = page.url | slice: 0, 6 %}
-            {% if starts_category == "/category" or starts_blog == "/blog/" %}
+            {% assign ends_with = page.url | slice: -5, 5 %}
+            {% if starts_category == "/category" or starts_blog == "/blog/" and ends_with != ".html" %}
+
             <url>
                 <loc>
                     {{ site.url }}{{ page.url | remove: "index.html" }}

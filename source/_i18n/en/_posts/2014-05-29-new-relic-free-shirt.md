@@ -5,6 +5,7 @@ date:   2014-05-29 18:19:43 +0000
 categories: fun free
 redirect_from:
   - /2014/new-relic-free-shirt/
+  - /blog/2014/05/29/new-relic-free-shirt.html
 ---
 
 [![Free t-shirt from New Relic](/assets/images/posts/2014-05-29-new-relic-free-shirt/tshift_orig.png "Free t-shirt from New Relic")]({{ site.baseurl }}{{ page.url }})

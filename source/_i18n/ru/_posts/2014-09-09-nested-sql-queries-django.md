@@ -5,6 +5,7 @@ date:   2014-09-09 18:19:43 +0000
 categories: database django sql
 redirect_from:
   - /2014/nested-sql-queries-django/
+  - /blog/2014/09/09/nested-sql-queries-django.html
 ---
 
 [![Вложенные SQL запросы в Django](/assets/images/posts/2014-09-09-nested-sql-queries-django/Kenguru-origami-za-shemoj-Stephen-Weiss.jpeg "Вложенные SQL запросы в Django")]({{ site.baseurl }}{{ page.url }})

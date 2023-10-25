@@ -5,6 +5,7 @@ date:   "2014-05-09 18:19:43 +0000"
 categories: deploy free
 redirect_from:
   - /2014/remote-url-localhost-server/
+  - /blog/2014/05/09/remote-url-localhost-server.html
 ---
 
 [![Remote url for localhost server](/assets/images/posts/2014-05-09-remote-url-localhost-server/ngrok_logo.jpeg "Remote url for localhost server")]({{ site.baseurl }}{{ page.url }})

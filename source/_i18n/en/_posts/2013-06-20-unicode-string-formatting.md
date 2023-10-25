@@ -5,6 +5,7 @@ date:   2013-06-20 18:19:43 +0000
 categories: python unicode
 redirect_from:
   - /2013/unicode-string-formatting/
+  - /blog/2013/06/20/unicode-string-formatting.html
 ---
 
 Did you know, if one of values in string formatting expression with `%` operator is unicode, then result string will also be unicode?

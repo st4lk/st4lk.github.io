@@ -5,6 +5,7 @@ date:   2016-08-01 18:19:43 +0000
 categories: django signal
 redirect_from:
   - /2016/django-signal-or-model-method/
+  - /blog/2016/08/01/django-signal-or-model-method.html
 ---
 
 [![Django: сигнал или метод модели?](https://img-fotki.yandex.ru/get/95108/85893628.c69/0_1d577c_baad2650_orig.png

@@ -5,6 +5,7 @@ date:   2013-02-04 18:19:43 +0000
 categories: api free python
 redirect_from:
   - /2013/script-downloading-music-vkcom-vkontakteru/
+  - /blog/2013/02/04/script-downloading-music-vkcom-vkontakteru.html
 ---
 
 <div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/4708673" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>

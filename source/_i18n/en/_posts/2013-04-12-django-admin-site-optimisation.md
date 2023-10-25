@@ -5,6 +5,7 @@ date:   2013-04-12 18:19:43 +0000
 categories: django database sql
 redirect_from:
   - /2013/django-admin-site-optimisation/
+  - /blog/2013/04/12/django-admin-site-optimisation.html
 ---
 
 [![Django admin site optimisation](/assets/images/posts/2013-04-12-django-admin-site-optimisation/django-admin-performance.png "Django admin site optimisation")]({{ site.baseurl }}{{ page.url }})

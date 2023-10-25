@@ -5,6 +5,7 @@ date:   2014-03-07 18:19:43 +0000
 categories: database mongodb
 redirect_from:
   - /2014/mongodb-indexes/
+  - /blog/2014/03/07/mongodb-indexes.html
 ---
 
 [![Что нужно знать об индексах в mongodb](/assets/images/posts/2014-03-07-mongodb-indexes/mongoDB-logo_small.png "Что нужно знать об индексах в mongodb")]({{ site.baseurl }}{{ page.url }})

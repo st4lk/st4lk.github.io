@@ -5,6 +5,7 @@ date:   2013-05-22 18:19:43 +0000
 categories: django python unicode
 redirect_from:
   - /2013/parse-url-which-chontains-unicode-query-using-urlp/
+  - /blog/2013/05/22/parse-url-which-chontains-unicode-query-using-urlp.html
 ---
 
 Задача: получить словарь параметров URL'a. Например, имеем адрес:

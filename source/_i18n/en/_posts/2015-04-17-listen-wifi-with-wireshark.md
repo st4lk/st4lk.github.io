@@ -5,6 +5,7 @@ date:   2015-04-17 18:19:43 +0000
 categories: fun security
 redirect_from:
   - /2015/listen-wifi-with-wireshark/
+  - /blog/2015/04/17/listen-wifi-with-wireshark.html
 ---
 
 [![Listen wifi with wireshark](https://img-fotki.yandex.ru/get/16098/85893628.c68/0_17f35c_4bf9a7fe_M.jpg "Listen wifi with wireshark")]({{ site.baseurl }}{{ page.url }})

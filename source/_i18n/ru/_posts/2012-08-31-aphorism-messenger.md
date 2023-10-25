@@ -5,6 +5,7 @@ date:   "2012-08-31 18:19:43 +0000"
 categories: api java
 redirect_from:
   - /2012/aphorism-messager/
+  - /blog/2012/08/31/aphorism-messenger.html
 ---
 
 [![Мессенджер афоризмов](/assets/images/posts/2012-08-31-aphorism-messenger/owl_48x48.png "Мессенджер афоризмов")]({{ site.baseurl }}{{ page.url }})

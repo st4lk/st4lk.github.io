@@ -5,6 +5,7 @@ date:   2013-02-26 18:19:43 +0000
 categories: django i18n
 redirect_from:
   - /2013/multilanguage-site-django-without-redirects/
+  - /blog/2013/02/26/multilanguage-site-django-without-redirects.html
 ---
 
 <a class="github-button" href="https://github.com/st4lk/django-solid-i18n-urls" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/django-solid-i18n-urls on GitHub">Star</a>

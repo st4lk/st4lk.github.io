@@ -5,6 +5,7 @@ date:   2013-03-05 18:19:43 +0000
 categories: python
 redirect_from:
   - /2013/python-mutable-default-arguments/
+  - /blog/2013/03/05/python-mutable-default-arguments.html
 ---
 
 [![Python mutable default arguments](/assets/images/posts/2013-03-05-python-mutable-default-arguments/jellyfish-1.jpeg "Python mutable default arguments")]({{ site.baseurl }}{{ page.url }})

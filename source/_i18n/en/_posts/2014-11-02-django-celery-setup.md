@@ -5,6 +5,7 @@ date:   2014-11-02 18:19:43 +0000
 categories: django celery
 redirect_from:
   - /2014/django-celery-setup/
+  - /blog/2014/11/02/django-celery-setup.html
 ---
 
 [![Django celery setup](/assets/images/posts/2014-11-02-django-celery-setup/2and5_celery_420.jpeg "Django celery setup")]({{ site.baseurl }}{{ page.url }})

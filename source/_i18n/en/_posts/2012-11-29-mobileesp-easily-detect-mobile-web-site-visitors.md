@@ -5,6 +5,7 @@ date:   2012-11-29 18:19:43 +0000
 categories: django python
 redirect_from:
   - /2012/mobileesp-easily-detect-mobile-web-site-visitors/
+  - /blog/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html
 ---
 
 Script will be useful, if you want to show different version of site for desktop computers and mobile devices. Big variety of methods to detect mobile type. Avaliable in different languages, including python. The port to python was made by me with help from my freelance customer.

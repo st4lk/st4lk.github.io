@@ -5,6 +5,7 @@ date:   2012-11-29 18:19:43 +0000
 categories: django python
 redirect_from:
   - /2012/mobileesp-easily-detect-mobile-web-site-visitors/
+  - /blog/2012/11/29/mobileesp-easily-detect-mobile-web-site-visitors.html
 ---
 
 Скрипт полезен, если вы хотите показывать разные версии сайта для обычных компьютеров и мобильных устройств. Большое количество методов для определения вида девайса. Доступен на разных языках программирования, включая python. Собственно порт на python был написан мной по просьбе freelance заказчика.

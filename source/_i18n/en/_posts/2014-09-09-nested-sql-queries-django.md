@@ -5,6 +5,7 @@ date:   2014-09-09 18:19:43 +0000
 categories: database django sql
 redirect_from:
   - /2014/nested-sql-queries-django/
+  - /blog/2014/09/09/nested-sql-queries-django.html
 ---
 
 [![Nested SQL queries in Django](/assets/images/posts/2014-09-09-nested-sql-queries-django/Kenguru-origami-za-shemoj-Stephen-Weiss.jpeg "Nested SQL queries in Django")]({{ site.baseurl }}{{ page.url }})

@@ -5,6 +5,7 @@ date:   2012-11-18 18:19:43 +0000
 categories: django python sublime
 redirect_from:
   - /2012/debug-django-project-embedded-python-debugger-pdb/
+  - /blog/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html
 ---
 
 Я использую [sublime-text](http://www.sublimetext.com/) в качестве редактора python кода. В нем нет встроенного отладчика, поэтому для отладки django проектов я в основном делал так:

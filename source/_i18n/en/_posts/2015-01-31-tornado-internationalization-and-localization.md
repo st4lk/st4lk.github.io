@@ -5,6 +5,7 @@ date:   2015-01-31 18:19:43 +0000
 categories: i18n async tornado
 redirect_from:
   - /2015/tornado-internationalization-and-localization/
+  - /blog/2015/01/31/tornado-internationalization-and-localization.html
 ---
 
 <a class="github-button" href="https://github.com/st4lk/tornado_i18n_example" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/tornado_i18n_example on GitHub">Star</a>

@@ -5,6 +5,7 @@ date:   2015-07-18 18:19:43 +0000
 categories: api django oauth
 redirect_from:
   - /2015/oauth-and-django-rest-framework/
+  - /blog/2015/07/18/oauth-and-django-rest-framework.html
 ---
 
 <a class="github-button" href="https://github.com/st4lk/django-rest-social-auth" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/django-rest-social-auth on GitHub">Star</a>

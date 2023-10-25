@@ -5,6 +5,7 @@ date:   2013-08-20 18:19:43 +0000
 categories: python logging
 redirect_from:
   - /2013/python-logging-every-day/
+  - /blog/2013/08/20/python-logging-every-day.html
 ---
 
 <div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/6287746" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>

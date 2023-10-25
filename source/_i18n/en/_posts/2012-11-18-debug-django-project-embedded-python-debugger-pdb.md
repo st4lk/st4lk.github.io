@@ -5,6 +5,7 @@ date:   2012-11-18 18:19:43 +0000
 categories: django python sublime
 redirect_from:
   - /2012/debug-django-project-embedded-python-debugger-pdb/
+  - /blog/2012/11/18/debug-django-project-embedded-python-debugger-pdb.html
 ---
 
 I use [sublime-text](http://www.sublimetext.com/) as code editor. It doesn't have a debugger, so to debug django projects i often used

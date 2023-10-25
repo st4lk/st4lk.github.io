@@ -5,6 +5,7 @@ date:   2013-12-29 18:19:43 +0000
 categories: async tornado mongodb
 redirect_from:
   - /2013/tornado-web-application-example/
+  - /blog/2013/12/29/tornado-web-application-example.html
 ---
 
 <a class="github-button" href="https://github.com/st4lk/acl_webapp" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Star st4lk/acl_webapp on GitHub">Star</a>

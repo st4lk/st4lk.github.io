@@ -5,6 +5,7 @@ date:   2015-05-16 18:19:43 +0000
 categories: api oauth security
 redirect_from:
   - /2015/oauth-step-step/
+  - /blog/2015/05/16/oauth-step-step.html
 ---
 
 <div class="gist-wrp"><div class="github-btn" id="github-btn" style="float:right;"> <a class="gh-btn" id="gh-btn" href="https://gist.github.com/st4lk/4b71b72007a666435f81" target="_blank"> <span class="gh-ico"></span> <span class="gh-text" id="gh-text">Gist</span> </a></div></div>

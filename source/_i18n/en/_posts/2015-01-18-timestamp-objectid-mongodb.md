@@ -5,6 +5,7 @@ date:   2015-01-18 18:19:43 +0000
 categories: database mongodb
 redirect_from:
   - /2015/timestamp-objectid-mongodb/
+  - /blog/2015/01/18/timestamp-objectid-mongodb.html
 ---
 
 [![Timestamp and ObjectId in mongoDB](https://img-fotki.yandex.ru/get/17859/85893628.c67/0_16f717_c4a5da7b_orig.png "Timestamp and ObjectId in mongoDB")]({{ site.baseurl }}{{ page.url }})

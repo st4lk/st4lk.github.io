@@ -5,6 +5,7 @@ date:   2015-09-30 18:19:43 +0000
 categories: database django mongodb postgresql sql
 redirect_from:
   - /2015/trying-json-combo-django-and-postgresql/
+  - /blog/2015/09/30/trying-json-combo-django-and-postgresql.html
 ---
 
 [![Trying JSON in Django and PostgreSQL](https://img-fotki.yandex.ru/get/3706/85893628.c69/0_19430e_cafd0257_XL.png

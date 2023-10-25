@@ -5,6 +5,7 @@ date:   2013-11-13 18:19:43 +0000
 categories: django deploy
 redirect_from:
   - /2013/django-project-beginning-working-server/
+  - /blog/2013/11/13/django-project-beginning-working-server.html
 ---
 
 In this post i'll describe my experience of deploying django project to VPS-hosting.

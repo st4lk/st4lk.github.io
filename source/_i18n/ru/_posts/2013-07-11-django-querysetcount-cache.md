@@ -5,6 +5,7 @@ date:   2013-07-11 18:19:43 +0000
 categories: database django sql
 redirect_from:
   - /2013/django-querysetcount-cache/
+  - /blog/2013/07/11/django-querysetcount-cache.html
 ---
 
 [![Кеширование queryset.count в django](/assets/images/posts/2013-07-11-django-querysetcount-cache/to-count-22117_small.jpeg "Кеширование queryset.count в django")]({{ site.baseurl }}{{ page.url }})

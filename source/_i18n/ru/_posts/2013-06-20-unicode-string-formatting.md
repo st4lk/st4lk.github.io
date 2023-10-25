@@ -5,6 +5,7 @@ date:   2013-06-20 18:19:43 +0000
 categories: python unicode
 redirect_from:
   - /2013/unicode-string-formatting/
+  - /blog/2013/06/20/unicode-string-formatting.html
 ---
 
 Вы знали, что если одно из значений строкового выражения с оператором `%` - unicode, то вся результирующая строка будет тоже unicode?

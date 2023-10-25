@@ -5,6 +5,7 @@ date:   2015-06-05 18:19:43 +0000
 categories: i18n tornado
 redirect_from:
   - /2015/tornado-and-pgettext/
+  - /blog/2015/06/05/tornado-and-pgettext.html
 ---
 
 [![Tornado and pgettext](https://img-fotki.yandex.ru/get/15560/85893628.c68/0_18816d_971d97b2_L.png "Tornado and pgettext")]({{ site.baseurl }}{{ page.url }})
