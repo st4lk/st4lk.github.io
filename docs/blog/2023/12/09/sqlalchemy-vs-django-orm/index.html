@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SQLALchemy vs Django ORM | Alexey Evseev</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="SQLALchemy vs Django ORM" />
+<meta name="author" content="Alexey Evseev" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Если большую часть времени вы работаете с Django ORM и вам надо перейти на SQLALchemy - то вы встретите ряд концептуальных отличий. В этом посте опишу часть из них, на мой взгляд заметных больше всего. Все примеры для SQLAlchemy буду приводить в асинхронном коде, в контексте PostgreSQL. Версия Django - 4.2, SQLALchemy - 2.0. Полные примеры можно найти тут https://github.com/st4lk/sqlalchemy-vs-django-orm, в тексте для краткости код приведен не полностью." />
+<meta property="og:description" content="Если большую часть времени вы работаете с Django ORM и вам надо перейти на SQLALchemy - то вы встретите ряд концептуальных отличий. В этом посте опишу часть из них, на мой взгляд заметных больше всего. Все примеры для SQLAlchemy буду приводить в асинхронном коде, в контексте PostgreSQL. Версия Django - 4.2, SQLALchemy - 2.0. Полные примеры можно найти тут https://github.com/st4lk/sqlalchemy-vs-django-orm, в тексте для краткости код приведен не полностью." />
+<link rel="canonical" href="https://st4lk.github.io/blog/2023/12/09/sqlalchemy-vs-django-orm/" />
+<meta property="og:url" content="https://st4lk.github.io/blog/2023/12/09/sqlalchemy-vs-django-orm/" />
+<meta property="og:site_name" content="Alexey Evseev" />
+<meta property="og:image" content="https://st4lk.github.io/assets/images/posts/2023-12-09-sqlalchemy-vs-django-orm/sqla_vs_django_upd.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-12-09T18:19:43+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://st4lk.github.io/assets/images/posts/2023-12-09-sqlalchemy-vs-django-orm/sqla_vs_django_upd.png" />
+<meta property="twitter:title" content="SQLALchemy vs Django ORM" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Alexey Evseev"},"dateModified":"2023-12-09T18:19:43+00:00","datePublished":"2023-12-09T18:19:43+00:00","description":"Если большую часть времени вы работаете с Django ORM и вам надо перейти на SQLALchemy - то вы встретите ряд концептуальных отличий. В этом посте опишу часть из них, на мой взгляд заметных больше всего. Все примеры для SQLAlchemy буду приводить в асинхронном коде, в контексте PostgreSQL. Версия Django - 4.2, SQLALchemy - 2.0. Полные примеры можно найти тут https://github.com/st4lk/sqlalchemy-vs-django-orm, в тексте для краткости код приведен не полностью.","headline":"SQLALchemy vs Django ORM","image":"https://st4lk.github.io/assets/images/posts/2023-12-09-sqlalchemy-vs-django-orm/sqla_vs_django_upd.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://st4lk.github.io/blog/2023/12/09/sqlalchemy-vs-django-orm/"},"url":"https://st4lk.github.io/blog/2023/12/09/sqlalchemy-vs-django-orm/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/feed.xml" title="Alexey Evseev" /><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZHLL9G1CF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZHLL9G1CF');
+</script>
+<meta name="yandex-verification" content="bf95387d2622cb3a" /><link rel="alternate" hreflang="ru" href="https://st4lk.github.io/blog/2023/12/09/sqlalchemy-vs-django-orm/" />
+  <link rel="alternate" hreflang="en" href="https://st4lk.github.io/en/blog/2023/12/09/sqlalchemy-vs-django-orm/" />
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Алексей Евсеев</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="/blog/">Блог</a>
+          <a class="page-link" href="/contact/">Контакты</a>
+          <a class="page-link" style="margin-right: 0px" href="/blog/2023/12/09/sqlalchemy-vs-django-orm/" ><img src="/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/blog/2023/12/09/sqlalchemy-vs-django-orm/" ><img src="/assets/images/en.png" /></a>
+          <a class="page-link" href="/search/" ><img src="/assets/images/search.svg" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">SQLALchemy vs Django ORM</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-12-09T18:19:43+00:00" itemprop="datePublished">Dec 9, 2023
+      </time><span style="float:right">
+
+  <span><a href="/category/python/">python</a></span>
+&nbsp;
+
+  <span><a href="/category/sqlalchemy/">sqlalchemy</a></span>
+&nbsp;
+
+  <span><a href="/category/orm/">orm</a></span>
+&nbsp;
+
+  <span><a href="/category/django/">django</a></span>
+
+
+</span>
+    </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a href="/blog/2023/12/09/sqlalchemy-vs-django-orm/"><img src="/assets/images/posts/2023-12-09-sqlalchemy-vs-django-orm/sqla_vs_django_upd.png" alt="SQLALchemy vs Django ORM" title="SQLALchemy vs Django ORM" /></a></p>
+
+<p>Если большую часть времени вы работаете с Django ORM и вам надо перейти на SQLALchemy - то вы встретите ряд концептуальных отличий. В этом посте опишу часть из них, на мой взгляд заметных больше всего.</p>
+
+<p>Все примеры для SQLAlchemy буду приводить в асинхронном коде, в контексте PostgreSQL. Версия Django - 4.2, SQLALchemy - 2.0.</p>
+
+<p>Полные примеры можно найти тут https://github.com/st4lk/sqlalchemy-vs-django-orm, в тексте для краткости код приведен не полностью.</p>
+
+<!--more-->
+
+<h3 id="паттерны-unit-of-work--data-mapper-и-active-record">Паттерны “Unit of work” / “Data mapper” и “Active Record”</h3>
+
+<p>В Django мы привыкли к определенному паттерну работы с ORM (называется Active Record). Вот несколько примеров.</p>
+
+<h4 id="разные-объекты-для-одной-строки-в-бд">Разные объекты для одной строки в БД</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">M1</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">M1</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s">'old-value'</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">M1</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">another_m1</span> <span class="o">=</span> <span class="n">M1</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">another_m1</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">'new-value'</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">m1</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+<span class="s">'old-value'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">another_m1</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+<span class="s">'new-value'</span>
+</code></pre></div></div>
+
+<p>В этом случае присваивание <code class="language-plaintext highlighter-rouge">another_m1.value = 'new-value'</code> никак не повлияло на <code class="language-plaintext highlighter-rouge">m1.value</code>, ведь <code class="language-plaintext highlighter-rouge">m1</code> и <code class="language-plaintext highlighter-rouge">another_m1</code> - разные объекты в памяти, хоть и представляют одну и ту же строку в БД с primary_key = 1.</p>
+
+<p>В SQLAlchemy же это не так, т.к. там мы обычно работаем в рамках “сессии”:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="k">as</span> <span class="n">sa</span>
+
+<span class="k">class</span> <span class="nc">M1</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'m1'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+
+<span class="c1"># acquire session somehow
+</span>
+<span class="c1"># create M1 with value = 'old-value'
+</span><span class="n">statement</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">M1</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">M1</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
+
+<span class="n">same_statement</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">M1</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">M1</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">same_statement</span><span class="p">)</span>
+<span class="n">another_m1</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
+
+<span class="n">another_m1</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">'new-value'</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">m1</span> <span class="ow">is</span> <span class="n">another_m1</span><span class="p">)</span>
+<span class="bp">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">m1</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+<span class="s">'new-value'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">another_m1</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+<span class="s">'new-value'</span>
+</code></pre></div></div>
+
+<p>Здесь <code class="language-plaintext highlighter-rouge">m1</code> и <code class="language-plaintext highlighter-rouge">another_m1</code> - один и тот же объект в памяти, хоть мы и сделали два запроса с помощью ORM. SQLAlchemy запомнила, что запись с M1.id == 1 уже есть в памяти, и во втором запросе даже не обратилась к БД, а взяла закешированный объект. Соответственно, <code class="language-plaintext highlighter-rouge">another_m1.value = 'new-value'</code> изменяет и <code class="language-plaintext highlighter-rouge">m1.value</code>.</p>
+
+<h4 id="создание-родительской-и-дочерней-записи">Создание родительской и дочерней записи.</h4>
+
+<p>В Django при создании двух связанных объектов нужно сохранять очередность:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">)</span>
+
+
+<span class="n">parent</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">()</span>
+<span class="n">child</span> <span class="o">=</span> <span class="n">Child</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">child</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+<span class="nb">ValueError</span><span class="p">:</span> <span class="n">save</span><span class="p">()</span> <span class="n">prohibited</span> <span class="n">to</span> <span class="n">prevent</span> <span class="n">data</span> <span class="n">loss</span> <span class="n">due</span> <span class="n">to</span> <span class="n">unsaved</span> <span class="n">related</span> <span class="nb">object</span> <span class="s">'parent'</span><span class="p">.</span>
+</code></pre></div></div>
+
+<p>В данном примере надо вначале явно сохранить родительскую модель:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">parent</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div></div>
+<p>и только после этого можно сохранять <code class="language-plaintext highlighter-rouge">child</code>.</p>
+
+<p>SQLAlchemy действует немного по-другому, она накапливает операции в памяти и отправляет их в БД только когда это действительно нужно. И порядок их отправления тоже определяет сама.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="k">as</span> <span class="n">sa</span>
+
+<span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'parent'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">children</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">orm</span><span class="p">.</span><span class="n">relationship</span><span class="p">(</span><span class="s">'Child'</span><span class="p">,</span> <span class="n">back_populates</span><span class="o">=</span><span class="s">'parent'</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'child'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">.</span><span class="nb">id</span><span class="p">))</span>
+
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">orm</span><span class="p">.</span><span class="n">relationship</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">back_populates</span><span class="o">=</span><span class="s">'children'</span><span class="p">)</span>
+
+
+<span class="n">parent</span> <span class="o">=</span> <span class="n">Parent</span><span class="p">()</span>
+<span class="n">child</span> <span class="o">=</span> <span class="n">Child</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+<span class="n">session</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+<span class="n">session</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Тут мы создали два инстанса в памяти, в сессию вначале добавили child, потом parent. Но SQLAlchemy смогла понять, что вначале нужно сохранить родителя, потом потомка, чтобы присвоить верное значение в parent_id. И все успешно сохранилось.</p>
+
+<p>Такой подход “накапливания” запросов и выполнения их позднее называется “Unit of Work”. Это не просто “ленивое” выполнение, которое используется в django для SELECT запросов, это нечто большее, используемое и для INSERT/UPDATE запросов.</p>
+
+<h3 id="сессия">Сессия</h3>
+
+<p>Действия с БД накапливаются в рамках “сессии” в SQLAlchemy.
+При первом обращении к БД сессия запрашивает коннекшн из пула и возвращает его обратно в пул после коммита транзакции (или закрытии сессии).</p>
+
+<p>Мы так же привыкли, что по умолчанию Django работает в авто-коммит режиме, когда каждое изменение в БД автоматически коммититься. Только если мы оборачиваем в <code class="language-plaintext highlighter-rouge">transaction.atomic()</code> - тогда коммит произойдет в конце блока atomic. Или если выставим <code class="language-plaintext highlighter-rouge">ATOMIC_REQUESTS = True</code> (по умолчанию False).</p>
+
+<p>А в SQLAlchemy нам нужно явно вызывать <code class="language-plaintext highlighter-rouge">session.commit()</code> чтобы наши изменения закоммитились. Если этого не сделать и закрыть сессию - все изменения, сделанные в сессии, откатятся.</p>
+
+<p>Когда работаем с асинхронным драйвером в SQLAlchemy и хотим выполнить два запроса конкурентно - они должны выполняться в разных сессиях. Т.к. сессии разные - будут разные коннекты к БД и соответственно разные транзакции. Если же это будет одна и та же сессия (а значит один коннект и одна и та же транзакция) - то SQLAlchemy выкинет ошибку:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query_one</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">M1</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">M1</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">query_two</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">M1</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">M1</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">for</span> <span class="n">session</span> <span class="ow">in</span> <span class="n">get_session</span><span class="p">():</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_one</span><span class="p">)),</span>
+        <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_two</span><span class="p">)),</span>
+    <span class="p">]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
+
+<span class="p">...</span>
+
+<span class="n">sqlalchemy</span><span class="p">.</span><span class="n">exc</span><span class="p">.</span><span class="n">InvalidRequestError</span><span class="p">:</span> <span class="n">This</span> <span class="n">session</span> <span class="ow">is</span> <span class="n">provisioning</span> <span class="n">a</span> <span class="n">new</span> <span class="n">connection</span><span class="p">;</span> <span class="n">concurrent</span> <span class="n">operations</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">permitted</span> <span class="p">(</span><span class="n">Background</span> <span class="n">on</span> <span class="n">this</span> <span class="n">error</span> <span class="n">at</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">sqlalche</span><span class="p">.</span><span class="n">me</span><span class="o">/</span><span class="n">e</span><span class="o">/</span><span class="mi">20</span><span class="o">/</span><span class="n">isce</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Чтобы выполнить эти запросы конкурентно, сессии должны быть разные, например:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="k">for</span> <span class="n">session</span> <span class="ow">in</span> <span class="n">get_session</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">for</span> <span class="n">another_db_session</span> <span class="ow">in</span> <span class="n">get_session</span><span class="p">():</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_one</span><span class="p">)),</span>
+            <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">another_db_session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_two</span><span class="p">)),</span>
+        <span class="p">]</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="flush">flush</h4>
+
+<p>В некоторых случаях может быть полезно принудительно отправить накопленные на текущий момент команды в БД.
+Это не коммит транзакции, а просто отправка команд в БД. Это пригодится, например, если вы удаляете инстанс, а потом создаете новый с тем же значением уникального поля, что было у удаленной строки. При определенных обстоятельствах сессия в алхимии может решить, что вначале следует отправить команду на создание, а только потом - на удаление, несмотря на то что в коде команда на удаление объявлена раньше. Тогда мы получим ошибку данных от БД, т.к. мы попытаемся сохранить не уникальное значение. Тут может помочь flush - после запроса на удаление вызываем <code class="language-plaintext highlighter-rouge">session.flush()</code>, тогда удаление будет точно перед созданием.</p>
+
+<h3 id="обновление-инстанса-модели-в-sqlalchemy-orm">Обновление инстанса модели в SQLAlchemy ORM</h3>
+
+<p>Из-за того, что алхимия держит записи с одним и тем же primary key в одном и том же объекте (в одном адресе в памяти), иногда может быть неожиданное поведение.</p>
+
+<p>Например, если используется Postgres, то для insert можно использовать логику upsert из БД, т.е. обновить или создать за один запрос:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sqlalchemy.dialects.postgresql</span> <span class="kn">import</span> <span class="n">insert</span> <span class="k">as</span> <span class="n">upsert</span>
+
+<span class="k">class</span> <span class="nc">Storage</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'populate_existing_storage'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">))</span>
+<span class="c1"># already fetched instance
+</span><span class="n">instance</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">instance</span><span class="p">.</span><span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">instance</span> <span class="k">else</span> <span class="bp">None</span>
+<span class="s">'old-value'</span>
+
+<span class="n">upsert_statement</span> <span class="o">=</span> <span class="n">upsert</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">values</span><span class="p">(</span>
+    <span class="n">key</span><span class="o">=</span><span class="s">'one'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s">'new-value'</span><span class="p">,</span>
+<span class="p">).</span><span class="n">on_conflict_do_update</span><span class="p">(</span>
+    <span class="n">index_elements</span><span class="o">=</span><span class="p">[</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span><span class="p">],</span>
+    <span class="n">set_</span><span class="o">=</span><span class="p">{</span><span class="s">'value'</span><span class="p">:</span> <span class="n">value</span><span class="p">},</span>
+<span class="p">).</span><span class="n">returning</span><span class="p">(</span><span class="n">Storage</span><span class="p">)</span>
+
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">upsert_statement</span><span class="p">)</span>
+<span class="n">upserted_instance</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="n">new_cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">))</span>
+<span class="n">fresh_instance</span> <span class="o">=</span> <span class="n">new_cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">fresh_instance</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+<span class="s">'old-value'</span>
+</code></pre></div></div>
+
+<p>В этом примере мы хотим применить логику для модели Storage: создай объект с key=’one’ и value=’new-value’ ИЛИ обнови на value=’new-value’, если объект с key=’one’ уже существует. Причем до upsert мы уже запросили его из БД по каким-то причинам.</p>
+
+<p>Если мы попали в случай, когда объект создан - все будет как мы и ожидаем, после коммита транзакции значение будет value == ‘new-value’.</p>
+
+<p>А вот если получилось, чтоб объект уже был и мы его обновили в БД с помощью upsert - алхимия будет считать, что объект все тот же, что есть у нее в памяти. И поэтому забирать его из БД не нужно.
+И казалось бы, ведь мы честно запрашиваем его из БД с помощью Select. Но алхимия неумолимо берет его из своего кеша и показывает то значение, которое было до обновления.</p>
+
+<p>В этом случае поможет опция populate_existing:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">upsert_statement</span> <span class="o">=</span> <span class="n">upsert</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">values</span><span class="p">(</span>
+    <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+<span class="p">).</span><span class="n">on_conflict_do_update</span><span class="p">(</span>
+    <span class="n">index_elements</span><span class="o">=</span><span class="p">[</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span><span class="p">],</span>
+    <span class="n">set_</span><span class="o">=</span><span class="p">{</span><span class="s">'value'</span><span class="p">:</span> <span class="n">value</span><span class="p">},</span>
+<span class="p">).</span><span class="n">returning</span><span class="p">(</span><span class="n">Storage</span><span class="p">)</span>
+
+<span class="n">statement</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span>
+    <span class="n">Storage</span><span class="p">,</span>
+<span class="p">).</span><span class="n">from_statement</span><span class="p">(</span>
+    <span class="n">upsert_statement</span><span class="p">,</span>
+<span class="p">).</span><span class="n">execution_options</span><span class="p">(</span><span class="n">populate_existing</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+<span class="n">upserted_instance</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="n">new_cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">))</span>
+<span class="n">fresh_instance</span> <span class="o">=</span> <span class="n">new_cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">fresh_instance</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+<span class="s">'new-value'</span>
+</code></pre></div></div>
+
+<p>Другой вариант - принудительно обновить объект из БД:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">upserted_instance</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Есть еще функции сессии которые также могут быть полезны: <code class="language-plaintext highlighter-rouge">expire</code>, <code class="language-plaintext highlighter-rouge">expunge</code>. Лучше почитать про них в документации.</p>
+
+<h3 id="аналоги-select_related-prefetch_related-в-sqlalchemy">Аналоги select_related, prefetch_related в SQLAlchemy</h3>
+
+<p>В Django есть полезные методы, которые подгружают связанные сущности (либо JOIN, либо IN запрос): <code class="language-plaintext highlighter-rouge">select_related</code>, <code class="language-plaintext highlighter-rouge">prefetch_related</code>. В SQLAlchemy мы можем явно JOIN’ить то, что на нужно, но часто бывает удобнее привязывать связанные объекты к родительскому и обращаться к ним через “точку” из родительского объекта.</p>
+
+<p>Пример:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="k">as</span> <span class="n">sa</span>
+
+
+<span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'parent'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+
+    <span class="n">children</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">orm</span><span class="p">.</span><span class="n">relationship</span><span class="p">(</span><span class="s">'Child'</span><span class="p">,</span> <span class="n">back_populates</span><span class="o">=</span><span class="s">'parent'</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'child'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">.</span><span class="nb">id</span><span class="p">))</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">orm</span><span class="p">.</span><span class="n">relationship</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">back_populates</span><span class="o">=</span><span class="s">'children'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Как видим, связи для ORM нужно указывать явно, с помощью relationship, в отличие от Django, где это происходит автоматически. Это необязательный шаг в SQLAlchemy, чтобы можно было использовать более удобный синтаксис.</p>
+
+<h4 id="аналог-select_related-joinedload">Аналог select_related: joinedload</h4>
+
+<p>Получить все Child’ы с их Parent’ами за один запрос (будет JOIN) можно так:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span>
+    <span class="n">Child</span><span class="p">,</span>
+<span class="p">).</span><span class="n">options</span><span class="p">(</span>
+    <span class="n">sa</span><span class="p">.</span><span class="n">orm</span><span class="p">.</span><span class="n">joinedload</span><span class="p">(</span><span class="n">Child</span><span class="p">.</span><span class="n">parent</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">children</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalars</span><span class="p">().</span><span class="nb">all</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'child.value:'</span><span class="p">,</span> <span class="n">child</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'child.parent.value:'</span><span class="p">,</span> <span class="n">child</span><span class="p">.</span><span class="n">parent</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="аналог-prefetch_related-selectinload">Аналог prefetch_related: selectinload</h4>
+
+<p>Получить все Parent’ы со всеми их Child’ами за два запроса (IN) можно так:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span>
+    <span class="n">Parent</span><span class="p">,</span>
+<span class="p">).</span><span class="n">options</span><span class="p">(</span>
+    <span class="n">sa</span><span class="p">.</span><span class="n">orm</span><span class="p">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">Parent</span><span class="p">.</span><span class="n">children</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">parents</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalars</span><span class="p">().</span><span class="nb">all</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'parent.value:'</span><span class="p">,</span> <span class="n">parent</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">parent</span><span class="p">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"parent's child.value:"</span><span class="p">,</span> <span class="n">child</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="цепочка-методов">Цепочка методов</h4>
+
+<p><code class="language-plaintext highlighter-rouge">selectinload</code>, <code class="language-plaintext highlighter-rouge">joinedload</code> можно объединять в цепочки.</p>
+
+<p>Например:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span>
+    <span class="n">Parent</span><span class="p">,</span>
+<span class="p">).</span><span class="n">options</span><span class="p">(</span>
+    <span class="n">sa</span><span class="p">.</span><span class="n">orm</span><span class="p">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">Parent</span><span class="p">.</span><span class="n">children</span><span class="p">).</span><span class="n">joinedload</span><span class="p">(</span><span class="n">Child</span><span class="p">.</span><span class="n">parent</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">parents</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalars</span><span class="p">().</span><span class="nb">all</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'parent.value:'</span><span class="p">,</span> <span class="n">parent</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">parent</span><span class="p">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"parent's child.value:"</span><span class="p">,</span> <span class="n">child</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"child.parent.value:"</span><span class="p">,</span> <span class="n">child</span><span class="p">.</span><span class="n">parent</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>В данном случае особого смысла опять JOIN’ить parent’а к child’у нет, ведь у нас уже есть parent.
+Но думаю смысл ясен.</p>
+
+<h3 id="primary-key">Primary Key</h3>
+
+<p>Django создает primary key автоматически (если мы явно его не указали при создании модели).
+В Алхимии его надо объявлять вручную. Аналог primary key в алхимии, который создает Django:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'pk_identity'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Не надо добавлять <code class="language-plaintext highlighter-rouge">index=True</code> или <code class="language-plaintext highlighter-rouge">unique=True</code>, это создаст дополнительный индекс, который будет занимать память.
+Со свойством <code class="language-plaintext highlighter-rouge">primary_key=True</code> поле уже будет уникальным, проиндексированным, и не нулевым.</p>
+
+<h3 id="foreign-key">Foreign Key</h3>
+
+<p>Django по умолчанию ко всем полям ForeignKey добавляет индекс. В SQLALchemy - нет, это нужно делать явно.</p>
+
+<p>Пример.</p>
+
+<p>Django:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>SQLAlchemy:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Parent</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'parent'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'child'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">.</span><span class="nb">id</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Если посмотрим на таблички, созданные ORM’ами, то увидим, что в случае Django индексы есть:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Indexes:
+    "fk_child_pkey" PRIMARY KEY, btree (id)
+    "fk_child_parent_id_d610db4a" btree (parent_id)
+</code></pre></div></div>
+<p>а в SQLAlchemy индекса <code class="language-plaintext highlighter-rouge">btree (parent_id)</code> не будет (если явно не указать <code class="language-plaintext highlighter-rouge">index=True</code>).</p>
+
+<p>Индексы на FK влияют на такие запросы:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">query</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span>
+        <span class="n">Child</span><span class="p">,</span>
+    <span class="p">).</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">Parent</span><span class="p">,</span>
+        <span class="n">Parent</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="n">Child</span><span class="p">.</span><span class="n">right_id</span><span class="p">,</span>
+    <span class="p">).</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">Parent</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="mi">95435</span><span class="p">,</span>  <span class="c1"># or other filters by Parent's
+</span>    <span class="p">)</span>
+</code></pre></div></div>
+
+<p>Чтобы сджонить Parent к Child’у базе данные нужно делать поиск по колонке Child.parent_id.
+Если индекса на ней нет - то будет Seq Scan.
+Соответственно для FK с индексом будет выглядеть так:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'child'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">parent_id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">.</span><span class="nb">id</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="nullable">Nullable</h3>
+
+<p>В Django по умолчанию поле - обязательное, т.е. NOT NULL:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">NullableFieldsModel</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Здесь для поля value будет <code class="language-plaintext highlighter-rouge">null=False</code>.</p>
+
+<p>В Алхимии наоборот, если явно не указать nullable - то поле будет не обязательным, т.е. <code class="language-plaintext highlighter-rouge">nullable=True</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">NullableFieldsModel</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">'nullable_model'</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="p">.</span><span class="n">Identity</span><span class="p">(),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+</code></pre></div></div>
+<p>если используется синтаксис без аннотации типов.</p>
+
+<h3 id="preloading-models">Preloading models</h3>
+
+<p>Иногда, когда объявляем <code class="language-plaintext highlighter-rouge">relationship(...)</code> в моделях SQLAlchemy, может появиться такая ошибка:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlalchemy</span><span class="p">.</span><span class="n">exc</span><span class="p">.</span><span class="n">InvalidRequestError</span><span class="p">:</span> <span class="n">When</span> <span class="n">initializing</span> <span class="n">mapper</span> <span class="n">Mapper</span><span class="p">[</span><span class="n">LoadedParent</span><span class="p">(</span><span class="n">relations_loaded_parent</span><span class="p">)],</span> <span class="n">expression</span> <span class="s">'UnloadedChild'</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">locate</span> <span class="n">a</span> <span class="n">name</span> <span class="p">(</span><span class="s">'UnloadedChild'</span><span class="p">).</span> <span class="n">If</span> <span class="n">this</span> <span class="ow">is</span> <span class="n">a</span> <span class="k">class</span> <span class="nc">name</span><span class="p">,</span> <span class="n">consider</span> <span class="n">adding</span> <span class="n">this</span> <span class="n">relationship</span><span class="p">()</span> <span class="n">to</span> <span class="n">the</span> <span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">relations_not_loaded</span><span class="p">.</span><span class="n">models</span><span class="p">.</span><span class="n">LoadedParent</span><span class="s">'&gt; class after both dependent classes have been defined.
+</span></code></pre></div></div>
+
+<p>Обычно это значит, что в relationship указана модель, которая не была еще импортирована и соответственно Алхимия про нее пока ничего не знает.
+Для надежности, можно при старте проекта пройтись по всем модулям, где объявлены модели, и просто их импортнуть.
+Тогда такой ошибки быть не должно.</p>
+
+<h3 id="taskgroup-vs-gather">TaskGroup vs gather</h3>
+
+<p>Когда мы используем <code class="language-plaintext highlighter-rouge">gather</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_one</span><span class="p">)),</span>
+        <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">smth_that_raise_exception</span><span class="p">()),</span>
+    <span class="p">]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
+</code></pre></div></div>
+<p>и одна из задача выкидывает исключение, то это исключение сразу пробрасывается к нам, остальные таски не отменяются.</p>
+
+<p>Из-за этого могут быть неочевидные ошибки с сессией Алхимии.</p>
+
+<p>Решение проблемы:</p>
+<ul>
+  <li>
+    <p>либо использовать <code class="language-plaintext highlighter-rouge">asyncio.gather(*tasks, return_exceptions=True)</code></p>
+
+    <p>тогда эксепшены будут возвращаться как обычные результат, надо будет самим их проверить</p>
+  </li>
+  <li>
+    <p>либо использовать <code class="language-plaintext highlighter-rouge">asyncio.TaskGroup()</code> (доступно в python 3.11+)</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">async</span> <span class="k">with</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">TaskGroup</span><span class="p">()</span> <span class="k">as</span> <span class="n">tg</span><span class="p">:</span>
+      <span class="n">task1</span> <span class="o">=</span> <span class="n">tg</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_one</span><span class="p">))</span>
+      <span class="n">task2</span> <span class="o">=</span> <span class="n">tg</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">smth_that_raise_exception</span><span class="p">())</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Больше деталей об этой проблеме можно найти тут:
+https://github.com/sqlalchemy/sqlalchemy/discussions/9312#discussioncomment-6419638</p>
+
+  </div>
+
+  <div class="post-categories">
+
+  <span><a href="/category/python/">python</a></span>
+&nbsp;
+
+  <span><a href="/category/sqlalchemy/">sqlalchemy</a></span>
+&nbsp;
+
+  <span><a href="/category/orm/">orm</a></span>
+&nbsp;
+
+  <span><a href="/category/django/">django</a></span>
+
+
+</div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://st4lk.github.io/blog/2023/12/09/sqlalchemy-vs-django-orm/';
+      this.page.identifier = 'https://st4lk.github.io/blog/2023/12/09/sqlalchemy-vs-django-orm/';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://lexev-dev.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/blog/2023/12/09/sqlalchemy-vs-django-orm/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"></div>
+
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//lexev-dev.disqus.com/count.js" async></script></body>
+
+</html>
