@@ -138,7 +138,7 @@ Such an approach to "accumulate" the commands and execute them later is called "
 Commands are accumulated inside the "session" in SQLAlchemy.
 When a session needs to reach the database for the first time - it acquires a connection from the pool and returns it back to the pool after the commit (or when the session is closed).
 
-We also get used to work with Django in auto-commit mode, when every change is committing in DB automatically. Only when we are wrapping the code with `transaction.atomic()` - the commit will happen at the end of this blog. Or if we'll set `ATOMIC_REQUESTS = True` (`False` by default).
+We also get used to work with Django in auto-commit mode, when every change is committing in DB automatically. Only when we are wrapping the code with `transaction.atomic()` - the commit will happen at the end of this block. Or if we'll set `ATOMIC_REQUESTS = True` (`False` by default).
 
 In SQLAlchemy we must call `session.commit()` explicitly to actually commit our changes. If a commit wasn't called, all the changes will be rolled back when the session will be closed.
 
@@ -191,7 +191,7 @@ class Storage(Base):
     key = sa.Column(sa.String(50), nullable=False, unique=True)
     value = sa.Column(sa.String(50), nullable=False)
 
-cursor = await session.execute(sa.Select(Storage).where(Storage.key == key))
+cursor = await session.execute(sa.Select(Storage).where(Storage.key == 'one'))
 # already fetched instance
 instance = cursor.scalar_one_or_none()
 
@@ -209,7 +209,7 @@ cursor = await session.execute(upsert_statement)
 upserted_instance = cursor.scalar_one()
 await session.commit()
 
-new_cursor = await session.execute(sa.Select(Storage).where(Storage.key == key))
+new_cursor = await session.execute(sa.Select(Storage).where(Storage.key == 'one'))
 fresh_instance = new_cursor.scalar_one()
 
 >>> print(fresh_instance.value)
@@ -242,7 +242,7 @@ cursor = await session.execute(statement)
 upserted_instance = cursor.scalar_one()
 await session.commit()
 
-new_cursor = await session.execute(sa.Select(Storage).where(Storage.key == key))
+new_cursor = await session.execute(sa.Select(Storage).where(Storage.key == 'one'))
 fresh_instance = new_cursor.scalar_one()
 
 >>> print(fresh_instance.value)
@@ -400,14 +400,14 @@ and SQLAlchemy didn't add `btree (parent_id)` index (if we didn't specify `index
 
 FK indexes may impact such queries:
 ```python
-    query = sa.Select(
-        Child,
-    ).join(
-        Parent,
-        Parent.id == Child.right_id,
-    ).where(
-        Parent.id == 95435,  # or other filters by Parent's
-    )
+query = sa.Select(
+    Child,
+).join(
+    Parent,
+    Parent.id == Child.right_id,
+).where(
+    Parent.id == 95435,  # or other filters by Parent's
+)
 ```
 
 To JOIN the Parent with Child database has to search the Child by the parent_id column. If it is not indexes - Seq Scan will be used, which may be slow for big tables.
@@ -458,11 +458,11 @@ For reliability we can iterate over all our modules with models and just import 
 When we are using `gather`:
 
 ```python
-    tasks = [
-        asyncio.create_task(session.execute(query_one)),
-        asyncio.create_task(smth_that_raise_exception()),
-    ]
-    results = await asyncio.gather(*tasks)
+tasks = [
+    asyncio.create_task(session.execute(query_one)),
+    asyncio.create_task(smth_that_raise_exception()),
+]
+results = await asyncio.gather(*tasks)
 ```
 and one of the task throws an exception - it propagates to our code immediately. Other tasks are not cancelled.
 

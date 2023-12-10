@@ -213,7 +213,7 @@
 <p>Commands are accumulated inside the “session” in SQLAlchemy.
 When a session needs to reach the database for the first time - it acquires a connection from the pool and returns it back to the pool after the commit (or when the session is closed).</p>
 
-<p>We also get used to work with Django in auto-commit mode, when every change is committing in DB automatically. Only when we are wrapping the code with <code class="language-plaintext highlighter-rouge">transaction.atomic()</code> - the commit will happen at the end of this blog. Or if we’ll set <code class="language-plaintext highlighter-rouge">ATOMIC_REQUESTS = True</code> (<code class="language-plaintext highlighter-rouge">False</code> by default).</p>
+<p>We also get used to work with Django in auto-commit mode, when every change is committing in DB automatically. Only when we are wrapping the code with <code class="language-plaintext highlighter-rouge">transaction.atomic()</code> - the commit will happen at the end of this block. Or if we’ll set <code class="language-plaintext highlighter-rouge">ATOMIC_REQUESTS = True</code> (<code class="language-plaintext highlighter-rouge">False</code> by default).</p>
 
 <p>In SQLAlchemy we must call <code class="language-plaintext highlighter-rouge">session.commit()</code> explicitly to actually commit our changes. If a commit wasn’t called, all the changes will be rolled back when the session will be closed.</p>
 
@@ -263,7 +263,7 @@ When a session needs to reach the database for the first time - it acquires a co
     <span class="n">key</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">value</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">))</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="s">'one'</span><span class="p">))</span>
 <span class="c1"># already fetched instance
 </span><span class="n">instance</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
 
@@ -281,7 +281,7 @@ When a session needs to reach the database for the first time - it acquires a co
 <span class="n">upserted_instance</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
 <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
 
-<span class="n">new_cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">))</span>
+<span class="n">new_cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="s">'one'</span><span class="p">))</span>
 <span class="n">fresh_instance</span> <span class="o">=</span> <span class="n">new_cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">fresh_instance</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
@@ -313,7 +313,7 @@ When a session needs to reach the database for the first time - it acquires a co
 <span class="n">upserted_instance</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
 <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
 
-<span class="n">new_cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">))</span>
+<span class="n">new_cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">Storage</span><span class="p">).</span><span class="n">where</span><span class="p">(</span><span class="n">Storage</span><span class="p">.</span><span class="n">key</span> <span class="o">==</span> <span class="s">'one'</span><span class="p">))</span>
 <span class="n">fresh_instance</span> <span class="o">=</span> <span class="n">new_cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">fresh_instance</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
@@ -461,14 +461,14 @@ When a session needs to reach the database for the first time - it acquires a co
 <p>and SQLAlchemy didn’t add <code class="language-plaintext highlighter-rouge">btree (parent_id)</code> index (if we didn’t specify <code class="language-plaintext highlighter-rouge">index=True</code>).</p>
 
 <p>FK indexes may impact such queries:</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">query</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span>
-        <span class="n">Child</span><span class="p">,</span>
-    <span class="p">).</span><span class="n">join</span><span class="p">(</span>
-        <span class="n">Parent</span><span class="p">,</span>
-        <span class="n">Parent</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="n">Child</span><span class="p">.</span><span class="n">right_id</span><span class="p">,</span>
-    <span class="p">).</span><span class="n">where</span><span class="p">(</span>
-        <span class="n">Parent</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="mi">95435</span><span class="p">,</span>  <span class="c1"># or other filters by Parent's
-</span>    <span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span>
+    <span class="n">Child</span><span class="p">,</span>
+<span class="p">).</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">Parent</span><span class="p">,</span>
+    <span class="n">Parent</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="n">Child</span><span class="p">.</span><span class="n">right_id</span><span class="p">,</span>
+<span class="p">).</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">Parent</span><span class="p">.</span><span class="nb">id</span> <span class="o">==</span> <span class="mi">95435</span><span class="p">,</span>  <span class="c1"># or other filters by Parent's
+</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>To JOIN the Parent with Child database has to search the Child by the parent_id column. If it is not indexes - Seq Scan will be used, which may be slow for big tables.</p>
@@ -514,11 +514,11 @@ For reliability we can iterate over all our modules with models and just import 
 
 <p>When we are using <code class="language-plaintext highlighter-rouge">gather</code>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_one</span><span class="p">)),</span>
-        <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">smth_that_raise_exception</span><span class="p">()),</span>
-    <span class="p">]</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_one</span><span class="p">)),</span>
+    <span class="n">asyncio</span><span class="p">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">smth_that_raise_exception</span><span class="p">()),</span>
+<span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
 </code></pre></div></div>
 <p>and one of the task throws an exception - it propagates to our code immediately. Other tasks are not cancelled.</p>
 

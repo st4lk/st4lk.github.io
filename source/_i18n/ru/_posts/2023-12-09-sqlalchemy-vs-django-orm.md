@@ -193,7 +193,7 @@ class Storage(Base):
     key = sa.Column(sa.String(50), nullable=False, unique=True)
     value = sa.Column(sa.String(50), nullable=False)
 
-cursor = await session.execute(sa.Select(Storage).where(Storage.key == key))
+cursor = await session.execute(sa.Select(Storage).where(Storage.key == 'one'))
 # already fetched instance
 instance = cursor.scalar_one_or_none()
 
@@ -211,7 +211,7 @@ cursor = await session.execute(upsert_statement)
 upserted_instance = cursor.scalar_one()
 await session.commit()
 
-new_cursor = await session.execute(sa.Select(Storage).where(Storage.key == key))
+new_cursor = await session.execute(sa.Select(Storage).where(Storage.key == 'one'))
 fresh_instance = new_cursor.scalar_one()
 
 >>> print(fresh_instance.value)
@@ -245,7 +245,7 @@ cursor = await session.execute(statement)
 upserted_instance = cursor.scalar_one()
 await session.commit()
 
-new_cursor = await session.execute(sa.Select(Storage).where(Storage.key == key))
+new_cursor = await session.execute(sa.Select(Storage).where(Storage.key == 'one'))
 fresh_instance = new_cursor.scalar_one()
 
 >>> print(fresh_instance.value)
@@ -407,14 +407,14 @@ Indexes:
 
 Индексы на FK влияют на такие запросы:
 ```python
-    query = sa.Select(
-        Child,
-    ).join(
-        Parent,
-        Parent.id == Child.right_id,
-    ).where(
-        Parent.id == 95435,  # or other filters by Parent's
-    )
+query = sa.Select(
+    Child,
+).join(
+    Parent,
+    Parent.id == Child.right_id,
+).where(
+    Parent.id == 95435,  # or other filters by Parent's
+)
 ```
 
 Чтобы сджонить Parent к Child'у базе данные нужно делать поиск по колонке Child.parent_id.
@@ -467,11 +467,11 @@ sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[LoadedParent
 Когда мы используем `gather`:
 
 ```python
-    tasks = [
-        asyncio.create_task(session.execute(query_one)),
-        asyncio.create_task(smth_that_raise_exception()),
-    ]
-    results = await asyncio.gather(*tasks)
+tasks = [
+    asyncio.create_task(session.execute(query_one)),
+    asyncio.create_task(smth_that_raise_exception()),
+]
+results = await asyncio.gather(*tasks)
 ```
 и одна из задача выкидывает исключение, то это исключение сразу пробрасывается к нам, остальные таски не отменяются.
 
