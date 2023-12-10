@@ -403,7 +403,7 @@ Indexes:
     "fk_child_pkey" PRIMARY KEY, btree (id)
     "fk_child_parent_id_d610db4a" btree (parent_id)
 ```
-а в SQLAlchemy индекса `btree (parent_id)` не будет (если явно не указать `index=True`).
+а в SQLAlchemy (alembic если быть точным) индекса `btree (parent_id)` не будет (если явно не указать `index=True`).
 
 Индексы на FK влияют на такие запросы:
 ```python

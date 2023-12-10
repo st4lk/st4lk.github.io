@@ -462,7 +462,7 @@
     "fk_child_pkey" PRIMARY KEY, btree (id)
     "fk_child_parent_id_d610db4a" btree (parent_id)
 </code></pre></div></div>
-<p>а в SQLAlchemy индекса <code class="language-plaintext highlighter-rouge">btree (parent_id)</code> не будет (если явно не указать <code class="language-plaintext highlighter-rouge">index=True</code>).</p>
+<p>а в SQLAlchemy (alembic если быть точным) индекса <code class="language-plaintext highlighter-rouge">btree (parent_id)</code> не будет (если явно не указать <code class="language-plaintext highlighter-rouge">index=True</code>).</p>
 
 <p>Индексы на FK влияют на такие запросы:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span>

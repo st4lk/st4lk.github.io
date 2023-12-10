@@ -396,7 +396,7 @@ Indexes:
     "fk_child_pkey" PRIMARY KEY, btree (id)
     "fk_child_parent_id_d610db4a" btree (parent_id)
 ```
-and SQLAlchemy didn't add `btree (parent_id)` index (if we didn't specify `index=True`).
+and SQLAlchemy (alembic to be specific) didn't add `btree (parent_id)` index (if we didn't specify `index=True`).
 
 FK indexes may impact such queries:
 ```python
