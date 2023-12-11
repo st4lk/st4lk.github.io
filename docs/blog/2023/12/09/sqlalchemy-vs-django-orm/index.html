@@ -213,7 +213,7 @@
 <p>Действия с БД накапливаются в рамках “сессии” в SQLAlchemy.
 При первом обращении к БД сессия запрашивает коннекшн из пула и возвращает его обратно в пул после коммита транзакции (или закрытии сессии).</p>
 
-<p>Мы так же привыкли, что по умолчанию Django работает в авто-коммит режиме, когда каждое изменение в БД автоматически коммититься. Только если мы оборачиваем в <code class="language-plaintext highlighter-rouge">transaction.atomic()</code> - тогда коммит произойдет в конце блока atomic. Или если выставим <code class="language-plaintext highlighter-rouge">ATOMIC_REQUESTS = True</code> (по умолчанию False).</p>
+<p>Мы так же привыкли, что по умолчанию Django работает в авто-коммит режиме, когда каждое изменение в БД автоматически коммитится. Только если мы оборачиваем в <code class="language-plaintext highlighter-rouge">transaction.atomic()</code> - тогда коммит произойдет в конце блока atomic. Или если выставим <code class="language-plaintext highlighter-rouge">ATOMIC_REQUESTS = True</code> (по умолчанию False).</p>
 
 <p>А в SQLAlchemy нам нужно явно вызывать <code class="language-plaintext highlighter-rouge">session.commit()</code> чтобы наши изменения закоммитились. Если этого не сделать и закрыть сессию - все изменения, сделанные в сессии, откатятся.</p>
 
@@ -356,7 +356,7 @@
 
 <h3 id="аналоги-select_related-prefetch_related-в-sqlalchemy">Аналоги select_related, prefetch_related в SQLAlchemy</h3>
 
-<p>В Django есть полезные методы, которые подгружают связанные сущности (либо JOIN, либо IN запрос): <code class="language-plaintext highlighter-rouge">select_related</code>, <code class="language-plaintext highlighter-rouge">prefetch_related</code>. В SQLAlchemy мы можем явно JOIN’ить то, что на нужно, но часто бывает удобнее привязывать связанные объекты к родительскому и обращаться к ним через “точку” из родительского объекта.</p>
+<p>В Django есть полезные методы, которые подгружают связанные сущности и экономят запросы к БД: <code class="language-plaintext highlighter-rouge">select_related</code>, <code class="language-plaintext highlighter-rouge">prefetch_related</code>. В SQLAlchemy мы можем явно JOIN’ить то, что нам нужно, но часто бывает удобнее привязывать связанные объекты к родительскому и обращаться к ним через “точку” из родительского объекта.</p>
 
 <p>Пример:</p>
 
@@ -437,8 +437,7 @@
         <span class="k">print</span><span class="p">(</span><span class="s">"child.parent.value:"</span><span class="p">,</span> <span class="n">child</span><span class="p">.</span><span class="n">parent</span><span class="p">.</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>В данном случае особого смысла опять JOIN’ить parent’а к child’у нет, ведь у нас уже есть parent.
-Но думаю смысл ясен.</p>
+<p>В данном случае особого смысла опять JOIN’ить parent’а к child’у нет, ведь у нас уже есть parent. Но думаю смысл ясен, это просто для примера.</p>
 
 <h3 id="primary-key">Primary Key</h3>
 
@@ -552,7 +551,7 @@
 <span class="p">]</span>
 <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
 </code></pre></div></div>
-<p>и одна из задача выкидывает исключение, то это исключение сразу пробрасывается к нам, остальные таски не отменяются.</p>
+<p>и одна из задач выкидывает исключение, то это исключение сразу пробрасывается к нам, остальные таски не отменяются.</p>
 
 <p>Из-за этого могут быть неочевидные ошибки с сессией Алхимии.</p>
 
