@@ -259,6 +259,34 @@ await session.refresh(upserted_instance)
 
 Есть еще функции сессии которые также могут быть полезны: `expire`, `expunge`. Лучше почитать про них в документации.
 
+#### Обычное обновление
+
+Для того, чтобы просто сохранить данные в Django, нужно явно сказать об этом:
+
+```python
+my_model = MyModel.objects.get(...)
+my_model.value = 'new-value'
+my_model.save()
+```
+
+Т.е. мы должны вызвать `.save()` чтобы данные попали в БД.
+
+В SQLAlchemy это делать необязательно в большинстве случаев:
+
+```python
+cursor = await session.execute(sa.Select(MyModel).where(...))
+my_model = cursor.scalar_one()
+my_model.value = 'new-value'
+
+await session.commit()
+```
+
+Т.к. инстанс модели - это прямое отображение строки в БД, код:
+
+```python
+my_model.value = 'new-value'
+```
+уже говорит ORM'у, что это поле должно обновиться. И когда придет время, ORM сама отправить `UPDATE ...` запрос в БД, явного `save()` или `update()` не требуется.
 
 ### Аналоги select_related, prefetch_related в SQLAlchemy
 

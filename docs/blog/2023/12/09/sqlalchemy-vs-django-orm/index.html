@@ -328,6 +328,32 @@
 
 <p>Есть еще функции сессии которые также могут быть полезны: <code class="language-plaintext highlighter-rouge">expire</code>, <code class="language-plaintext highlighter-rouge">expunge</code>. Лучше почитать про них в документации.</p>
 
+<h4 id="обычное-обновление">Обычное обновление</h4>
+
+<p>Для того, чтобы просто сохранить данные в Django, нужно явно сказать об этом:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_model</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(...)</span>
+<span class="n">my_model</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">'new-value'</span>
+<span class="n">my_model</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Т.е. мы должны вызвать <code class="language-plaintext highlighter-rouge">.save()</code> чтобы данные попали в БД.</p>
+
+<p>В SQLAlchemy это делать необязательно в большинстве случаев:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">MyModel</span><span class="p">).</span><span class="n">where</span><span class="p">(...))</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
+<span class="n">my_model</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">'new-value'</span>
+
+<span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Т.к. инстанс модели - это прямое отображение строки в БД, код:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_model</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">'new-value'</span>
+</code></pre></div></div>
+<p>уже говорит ORM’у, что это поле должно обновиться. И когда придет время, ORM сама отправить <code class="language-plaintext highlighter-rouge">UPDATE ...</code> запрос в БД, явного <code class="language-plaintext highlighter-rouge">save()</code> или <code class="language-plaintext highlighter-rouge">update()</code> не требуется.</p>
+
 <h3 id="аналоги-select_related-prefetch_related-в-sqlalchemy">Аналоги select_related, prefetch_related в SQLAlchemy</h3>
 
 <p>В Django есть полезные методы, которые подгружают связанные сущности (либо JOIN, либо IN запрос): <code class="language-plaintext highlighter-rouge">select_related</code>, <code class="language-plaintext highlighter-rouge">prefetch_related</code>. В SQLAlchemy мы можем явно JOIN’ить то, что на нужно, но часто бывает удобнее привязывать связанные объекты к родительскому и обращаться к ним через “точку” из родительского объекта.</p>

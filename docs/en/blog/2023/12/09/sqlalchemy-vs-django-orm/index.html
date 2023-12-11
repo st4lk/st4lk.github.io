@@ -326,6 +326,30 @@ When a session needs to reach the database for the first time - it acquires a co
 
 <p>There are other functions that can be useful: <code class="language-plaintext highlighter-rouge">expire</code>, <code class="language-plaintext highlighter-rouge">expunge</code>. Better to check documentation to understand what they are doing.</p>
 
+<h4 id="regular-update">Regular update</h4>
+
+<p>In Django to actually save the changed field value we need to demand it:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_model</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(...)</span>
+<span class="n">my_model</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">'new-value'</span>
+<span class="n">my_model</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>I.e. we need to call <code class="language-plaintext highlighter-rouge">.save()</code> explicitly to actually save it in database.</p>
+
+<p>In SQLAlchemy the ‘.save()’ action is not needed in most of the cases when we are working with session:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cursor</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">MyModel</span><span class="p">).</span><span class="n">where</span><span class="p">(...))</span>
+<span class="n">my_model</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">scalar_one</span><span class="p">()</span>
+<span class="n">my_model</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">'new-value'</span>
+
+<span class="k">await</span> <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Since in SQLAlchemy model instance is a one-to-one mapping with DB row, the code:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_model</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">'new-value'</span>
+</code></pre></div></div>
+<p>is already a signal for the ORM to update the field in DB. And when it will be time, SQLAlchemy will generate an <code class="language-plaintext highlighter-rouge">UPDATE ...</code> request by itself, no need to call for it explicitly.</p>
+
 <h3 id="analog-of-select_related-prefetch_related-in-sqlalchemy">Analog of select_related, prefetch_related in SQLAlchemy</h3>
 
 <p>Django has useful queryset methods that can save database queries (using JOIN or IN query): <code class="language-plaintext highlighter-rouge">select_related</code>, <code class="language-plaintext highlighter-rouge">prefetch_related</code>. In SQLAlchemy we can JOIN explicitly, but usually it is more convenient to use “dot” notation to follow the relations instead of getting two separate joined instances.</p>

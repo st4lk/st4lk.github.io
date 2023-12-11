@@ -256,6 +256,33 @@ await session.refresh(upserted_instance)
 
 There are other functions that can be useful: `expire`, `expunge`. Better to check documentation to understand what they are doing.
 
+#### Regular update
+
+In Django to actually save the changed field value we need to demand it:
+
+```python
+my_model = MyModel.objects.get(...)
+my_model.value = 'new-value'
+my_model.save()
+```
+
+I.e. we need to call `.save()` explicitly to actually save it in database.
+
+In SQLAlchemy the '.save()' action is not needed in most of the cases when we are working with session:
+
+```python
+cursor = await session.execute(sa.Select(MyModel).where(...))
+my_model = cursor.scalar_one()
+my_model.value = 'new-value'
+
+await session.commit()
+```
+Since in SQLAlchemy model instance is a one-to-one mapping with DB row, the code:
+```python
+my_model.value = 'new-value'
+```
+is already a signal for the ORM to update the field in DB. And when it will be time, SQLAlchemy will generate an `UPDATE ...` request by itself, no need to call for it explicitly.
+
 ### Analog of select_related, prefetch_related in SQLAlchemy
 
 Django has useful queryset methods that can save database queries (using JOIN or IN query): `select_related`, `prefetch_related`. In SQLAlchemy we can JOIN explicitly, but usually it is more convenient to use "dot" notation to follow the relations instead of getting two separate joined instances.
