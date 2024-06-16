@@ -1,0 +1,6 @@
+[submodule "labs_source/wahoo-points"]
+	path = labs_source/wahoo-points
+	url = https://github.com/st4lk/wahoo-points
+[submodule "labs_source/image-geo-tags"]
+	path = labs_source/image-geo-tags
+	url = https://github.com/st4lk/image-geo-tags

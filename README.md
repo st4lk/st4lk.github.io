@@ -7,6 +7,8 @@ Served thanks to [github pages](https://pages.github.com/).
 
 For multi language support [jekyll-multiple-languages-plugin](https://github.com/kurtsson/jekyll-multiple-languages-plugin#4-configuration) is used.
 
+The final pages are generated to "docs/" folder.
+
 
 Commands
 --------
@@ -14,6 +16,10 @@ Commands
 ```bash
 # build docker image
 make build
+
+# build labs
+make refresh-labs
+make build-labs
 
 # build the site (for pushing new pages to github)
 SCRIPT=build.sh make run-script
