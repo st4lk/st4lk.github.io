@@ -108,7 +108,7 @@
 #tv h1 { font-size: 15px; margin: 0 0 2px; }
 #tv .sub { color: var(--tv-muted); font-size: 12px; }
 #tv .controls { padding: 8px 12px; border-bottom: 1px solid var(--tv-line); }
-#tv .row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+#tv .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 6px; }
 #tv input[type=text], #tv input[type=number], #tv select {
   font: inherit; padding: 5px 7px; border: 1px solid var(--tv-line);
   border-radius: 6px; background: #fff; color: inherit; min-width: 0;
@@ -120,6 +120,8 @@
   display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;
   max-height: 116px; overflow-y: auto; padding-bottom: 2px;
 }
+#tv .chips.tv-hidden { display: none; }
+#tv button.on { background: var(--tv-accent); border-color: var(--tv-accent); color: #fff; }
 #tv .chip {
   font-size: 11px; padding: 3px 7px; border-radius: 11px; cursor: pointer;
   border: 1px solid var(--tv-line); background: #f7f8fa; user-select: none;
@@ -220,11 +222,12 @@
         <option value="year">by year</option>
         <option value="none">single color</option>
       </select>
+      <button id="tv-sidesToggle" title="Filter by side">sides</button>
       <button id="tv-clear">reset</button>
       <button id="tv-viewport">in view</button>
       <label class="lbl" title="Pieces of tracks from the same nakarte links that could not be matched to a row"><input type="checkbox" id="tv-extra" /> extra</label>
     </div>
-    <div class="chips" id="tv-sideChips"></div>
+    <div class="chips tv-hidden" id="tv-sideChips"></div>
   </div>
   <div class="tabs">
     <div class="tab on" data-tab="routes">Tracks</div>
@@ -303,7 +306,11 @@ function routeColor(route) {
   return '#e8522b';
 }
 /* ---------- map ---------- */
-const map = L.map('tv-map', { preferCanvas: true, center: [55.75, 37.62], zoom: 8 });
+const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+const trackRenderer = L.canvas({ tolerance: coarsePointer ? 16 : 5 });
+const map = L.map('tv-map', {
+  preferCanvas: true, renderer: trackRenderer, center: [55.75, 37.62], zoom: 8,
+});
 const base = {
   'OSM': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     { maxZoom: 19, attribution: '© OpenStreetMap' }),
@@ -536,14 +543,28 @@ chipWrap.querySelectorAll('.chip').forEach(el => {
     const s = el.dataset.side;
     if (activeSides.has(s)) { activeSides.delete(s); el.classList.remove('on'); }
     else { activeSides.add(s); el.classList.add('on'); }
+    updateSidesButton();
     applyFilters();
   };
 });
+/* the panel eats a lot of room, so it starts collapsed; the button keeps
+   showing how many sides are picked while it is out of sight */
+const sidesToggle = document.getElementById('tv-sidesToggle');
+function updateSidesButton() {
+  sidesToggle.textContent = activeSides.size ? `sides (${activeSides.size})` : 'sides';
+  sidesToggle.classList.toggle('on', activeSides.size > 0);
+}
+sidesToggle.onclick = () => {
+  const hidden = chipWrap.classList.toggle('tv-hidden');
+  sidesToggle.setAttribute('aria-expanded', String(!hidden));
+};
+updateSidesButton();
 [q, dmin, dmax, ymin, ymax].forEach(el => el.addEventListener('input', () => { listLimit = 200; applyFilters(); }));
 colorBySel.addEventListener('change', () => { redraw(true); renderList(); });
 document.getElementById('tv-clear').onclick = () => {
   q.value = dmin.value = dmax.value = ymin.value = ymax.value = '';
   activeSides.clear(); chipWrap.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  updateSidesButton();
   onlyViewport = false; document.getElementById('tv-viewport').classList.remove('on');
   listLimit = 200; applyFilters();
 };
