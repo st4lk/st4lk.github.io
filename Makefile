@@ -5,6 +5,7 @@ SCRIPTS_PATH ?= $(BASE_PATH)/scripts
 LABS_TARGET_PATH ?= source/travel/labs
 WAHOO_POINTS_PATH ?= labs_source/wahoo-points
 IMAGE_GEO_TAGS_PATH ?= labs_source/image-geo-tags
+TRACK_VAULT_PATH ?= labs_source/track-vault
 SCRIPT ?=
 
 build:
@@ -22,7 +23,7 @@ run-script:
 refresh-labs:
 	git submodule foreach git pull origin main
 
-build-labs: refresh-labs wahoo-build-and-copy image-geo-tags-build-and-copy
+build-labs: refresh-labs wahoo-build-and-copy image-geo-tags-build-and-copy track-vault-build-and-copy
 
 wahoo-points-build:
 	cd $(WAHOO_POINTS_PATH) && make install && make build-prod
@@ -45,3 +46,14 @@ image-geo-tags-copy:
 	sed -i '' -e 's/\/assets\//app\/assets\//g' $(LABS_TARGET_PATH)/image-geo-tags/app/index.html
 
 image-geo-tags-build-and-copy: image-geo-tags-build image-geo-tags-copy
+
+track-vault-build:
+	cd $(TRACK_VAULT_PATH) && make install && make build-prod
+
+# в dist только index.html, ассетов нет - править пути не нужно
+track-vault-copy:
+	rm -rf $(LABS_TARGET_PATH)/track-vault/app/
+	cp -r $(TRACK_VAULT_PATH)/dist $(LABS_TARGET_PATH)/track-vault/
+	mv $(LABS_TARGET_PATH)/track-vault/dist $(LABS_TARGET_PATH)/track-vault/app
+
+track-vault-build-and-copy: track-vault-build track-vault-copy

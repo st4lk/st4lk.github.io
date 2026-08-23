@@ -4,3 +4,6 @@
 [submodule "labs_source/image-geo-tags"]
 	path = labs_source/image-geo-tags
 	url = https://github.com/st4lk/image-geo-tags
+[submodule "labs_source/track-vault"]
+	path = labs_source/track-vault
+	url = git@github.com:st4lk/track-vault.git

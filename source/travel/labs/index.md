@@ -6,3 +6,4 @@ title: Travel labs
 
 - [image-geo-tags]({{ site.baseurl }}/travel/labs/image-geo-tags/)
 - [wahoo-points]({{ site.baseurl }}/travel/labs/wahoo-points/)
+- [track-vault]({{ site.baseurl }}/travel/labs/track-vault/)
