@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Track Vault | Alexey Evseev</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Track Vault" />
+<meta name="author" content="Alexey Evseev" />
+<meta property="og:locale" content="en" />
+<link rel="canonical" href="https://st4lk.github.io/en/travel/labs/track-vault/" />
+<meta property="og:url" content="https://st4lk.github.io/en/travel/labs/track-vault/" />
+<meta property="og:site_name" content="Alexey Evseev" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Track Vault" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Alexey Evseev"},"headline":"Track Vault","url":"https://st4lk.github.io/en/travel/labs/track-vault/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/en/assets/main.css">
+  <link rel="stylesheet" href="/en/assets/css/styles.css"><link type="application/atom+xml" rel="alternate" href="https://st4lk.github.io/en/feed.xml" title="Alexey Evseev" /><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZHLL9G1CF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ZHLL9G1CF');
+</script>
+<meta name="yandex-verification" content="bf95387d2622cb3a" /><link rel="alternate" hreflang="ru" href="https://st4lk.github.io/travel/labs/track-vault/" />
+  <link rel="alternate" hreflang="en" href="https://st4lk.github.io/en/travel/labs/track-vault/" />
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/en/">Alexey Evseev</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="/en/blog/">Blog</a>
+          <a class="page-link" href="/en/contact/">Contact</a>
+          <a class="page-link" style="margin-right: 0px" href="/travel/labs/track-vault/" ><img src="/en/assets/images/ru.png" /></a>
+          <a class="page-link" href="/en/travel/labs/track-vault/" ><img src="/en/assets/images/en.png" /></a>
+          <a class="page-link" href="/en/search/" ><img src="/en/assets/images/search.svg" /></a>
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <div class="post-content">
+    <div id="breadcrumbs">
+<a href="/en/">Home</a>
+    / 
+<a href="/en/travel/">Travel</a>
+      / 
+<a href="/en/travel/labs/">Labs</a>
+      / Track Vault  </div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+/* Everything is scoped to #tv: the page may be embedded into someone else layout. */
+#tv {
+  --tv-bg: #ffffff; --tv-fg: #1b1d21; --tv-muted: #6b7280; --tv-line: #e3e6ea;
+  --tv-accent: #e8522b; --tv-side: 380px;
+  position: relative; display: flex; overflow: hidden;
+  height: 82vh; min-height: 460px;
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--tv-fg); background: var(--tv-bg);
+  border: 1px solid var(--tv-line); border-radius: 10px;
+}
+/* Embedded map breaks out of a narrow column and spans the window.
+   40px are left over so a scrollbar cannot cause horizontal scrolling. */
+#tv:not(.tv-full) {
+  --tv-wide: min(1400px, calc(100vw - 40px));
+  width: var(--tv-wide);
+  max-width: none;
+  margin-left: calc(50% - var(--tv-wide) / 2);
+}
+#tv.tv-full { height: 100vh; min-height: 0; border: none; border-radius: 0; }
+/* expanded map: covers the whole window on top of the page */
+#tv.tv-cover {
+  position: fixed; inset: 0; z-index: 99999;
+  width: auto; height: auto; margin: 0; min-height: 0;
+  border: none; border-radius: 0;
+}
+#tv:fullscreen, #tv:-webkit-full-screen {
+  width: 100vw; height: 100vh; margin-left: 0; min-height: 0;
+  border: none; border-radius: 0; background: var(--tv-bg);
+}
+#tv *, #tv *::before, #tv *::after { box-sizing: border-box; }
+#tv-sidebar {
+  width: var(--tv-side); min-width: var(--tv-side); height: 100%;
+  display: flex; flex-direction: column; border-right: 1px solid var(--tv-line);
+}
+#tv-map { flex: 1; height: 100%; }
+#tv header { padding: 10px 12px 8px; border-bottom: 1px solid var(--tv-line); }
+#tv h1 { font-size: 15px; margin: 0 0 2px; }
+#tv .sub { color: var(--tv-muted); font-size: 12px; }
+#tv .controls { padding: 8px 12px; border-bottom: 1px solid var(--tv-line); }
+#tv .row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+#tv input[type=text], #tv input[type=number], #tv select {
+  font: inherit; padding: 5px 7px; border: 1px solid var(--tv-line);
+  border-radius: 6px; background: #fff; color: inherit; min-width: 0;
+}
+#tv input[type=text] { flex: 1; }
+#tv input[type=number] { width: 68px; }
+#tv label.lbl { color: var(--tv-muted); font-size: 12px; white-space: nowrap; }
+#tv .chips {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;
+  max-height: 116px; overflow-y: auto; padding-bottom: 2px;
+}
+#tv .chip {
+  font-size: 11px; padding: 3px 7px; border-radius: 11px; cursor: pointer;
+  border: 1px solid var(--tv-line); background: #f7f8fa; user-select: none;
+}
+#tv .chip.on { background: var(--tv-accent); border-color: var(--tv-accent); color: #fff; }
+#tv .chip .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; }
+#tv button {
+  font: inherit; font-size: 12px; padding: 5px 9px; border: 1px solid var(--tv-line);
+  background: #f7f8fa; border-radius: 6px; cursor: pointer; color: inherit;
+}
+#tv button:hover { background: #eef0f3; }
+#tv .tabs { display: flex; gap: 4px; padding: 8px 12px 0; }
+#tv .tab { font-size: 12px; padding: 5px 9px; border-radius: 6px 6px 0 0; cursor: pointer; color: var(--tv-muted); }
+#tv .tab.on {
+  color: var(--tv-fg); font-weight: 600; border: 1px solid var(--tv-line);
+  border-bottom-color: #fff; margin-bottom: -1px; background: #fff;
+}
+#tv-list { flex: 1; overflow-y: auto; border-top: 1px solid var(--tv-line); }
+#tv .item { padding: 7px 12px; border-bottom: 1px solid #f0f2f4; cursor: pointer; }
+#tv .item:hover { background: #f7f8fa; }
+#tv .item.sel { background: #fdece7; }
+#tv .item .t { font-weight: 500; }
+#tv .item .m { color: var(--tv-muted); font-size: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+#tv .swatch { width: 3px; border-radius: 2px; background: #999; align-self: stretch; }
+#tv .item-inner { display: flex; gap: 8px; }
+#tv-more { padding: 10px; text-align: center; }
+#tv-detail {
+  position: absolute; right: 12px; top: 12px; width: 340px; max-height: calc(100% - 24px);
+  overflow-y: auto; background: #fff; border: 1px solid var(--tv-line); border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.14); padding: 12px 14px; z-index: 1000; display: none;
+}
+#tv-detail h2 { font-size: 15px; margin: 0 8px 4px 0; }
+#tv-detail .close {
+  position: absolute; right: 8px; top: 6px; cursor: pointer;
+  color: var(--tv-muted); font-size: 18px; line-height: 1;
+}
+#tv-detail .desc { white-space: pre-wrap; margin: 8px 0; max-height: 220px; overflow-y: auto; font-size: 13px; }
+#tv-detail a { color: var(--tv-accent); }
+#tv .kv { color: var(--tv-muted); font-size: 12px; }
+#tv .links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+#tv .links a { text-decoration: none; border: 1px solid var(--tv-line); padding: 4px 8px; border-radius: 6px; }
+#tv .hint { color: var(--tv-muted); font-size: 12px; padding: 10px 12px; }
+/* password form */
+#tv-gate {
+  position: absolute; inset: 0; z-index: 5000; display: flex;
+  align-items: center; justify-content: center; background: #f4f5f7;
+}
+#tv-gate .box {
+  background: #fff; border: 1px solid var(--tv-line); border-radius: 12px;
+  padding: 22px 24px; width: 320px; max-width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,.12);
+}
+#tv-gate h2 { font-size: 16px; margin: 0 0 4px; }
+#tv-gate p { color: var(--tv-muted); font-size: 12px; margin: 0 0 14px; }
+#tv-gate input[type=password] {
+  width: 100%; font: inherit; font-size: 15px; padding: 8px 10px;
+  border: 1px solid var(--tv-line); border-radius: 6px;
+}
+#tv-gate .row2 { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12px; color: var(--tv-muted); }
+#tv-gate button { width: 100%; margin-top: 12px; padding: 8px; font-size: 14px; }
+#tv-gate .status { margin-top: 10px; font-size: 12px; color: var(--tv-muted); min-height: 16px; }
+#tv-gate .status.err { color: #c0392b; }
+@media (max-width: 720px) {
+  #tv { flex-direction: column; }
+  #tv-sidebar {
+    width: 100%; min-width: 0; height: 50%;
+    border-right: none; border-bottom: 1px solid var(--tv-line);
+  }
+  #tv-map { height: 50%; }
+  #tv-detail { width: auto; left: 12px; }
+}
+</style>
+
+<div id="tv">
+<div id="tv-sidebar">
+  <header>
+    <h1>Tracks</h1>
+    <div class="sub" id="tv-counts"></div>
+  </header>
+  <div class="controls">
+    <div class="row">
+      <input type="text" id="tv-q" placeholder="Search: place, author, description…" />
+      <button id="tv-fit" title="Fit everything that passed the filters">⤢</button>
+      <button id="tv-fullscreen" title="Full window (Esc to exit)">⛶</button>
+    </div>
+    <div class="row">
+      <label class="lbl">km</label>
+      <input type="number" id="tv-dmin" placeholder="from" />
+      <input type="number" id="tv-dmax" placeholder="to" />
+      <label class="lbl">year</label>
+      <input type="number" id="tv-ymin" placeholder="from" />
+      <input type="number" id="tv-ymax" placeholder="to" />
+    </div>
+    <div class="row">
+      <label class="lbl">color</label>
+      <select id="tv-colorBy">
+        <option value="side">by side</option>
+        <option value="dist">by distance</option>
+        <option value="year">by year</option>
+        <option value="none">single color</option>
+      </select>
+      <button id="tv-clear">reset</button>
+      <button id="tv-viewport">in view</button>
+      <label class="lbl" title="Pieces of tracks from the same nakarte links that could not be matched to a row"><input type="checkbox" id="tv-extra" /> extra</label>
+    </div>
+    <div class="chips" id="tv-sideChips"></div>
+  </div>
+  <div class="tabs">
+    <div class="tab on" data-tab="routes">Tracks</div>
+    <div class="tab" data-tab="orphans">No map</div>
+  </div>
+  <div id="tv-list"></div>
+</div>
+<div id="tv-map"></div>
+<div id="tv-detail"><span class="close" id="tv-detailClose">×</span><div id="tv-detailBody"></div></div>
+<div id="tv-gate"><div class="box">
+  <h2>Track Vault</h2>
+  <p>The data is encrypted and decrypted here, in the browser.</p>
+  <form id="tv-gateForm">
+    <input type="password" id="tv-pw" autocomplete="current-password" />
+    <label class="row2"><input type="checkbox" id="tv-remember" /> remember on this device</label>
+    <button type="submit">Open</button>
+  </form>
+  <div class="status" id="tv-gateStatus"></div>
+</div></div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+window.__bootMap = function () {
+const D = window.VELO_DATA;
+const TRACKS = D.tracks, ROUTES = D.routes, ORPHANS = D.orphans;
+const trackById = new Map(TRACKS.map(t => [t.id, t]));
+/* ---------- polyline codec ---------- */
+function decodePolyline(str) {
+  let index = 0, lat = 0, lng = 0;
+  const out = [];
+  while (index < str.length) {
+    let shift = 0, result = 0, b;
+    do { b = str.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+    lat += (result & 1) ? ~(result >> 1) : (result >> 1);
+    shift = 0; result = 0;
+    do { b = str.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+    lng += (result & 1) ? ~(result >> 1) : (result >> 1);
+    out.push([lat / 1e5, lng / 1e5]);
+  }
+  return out;
+}
+function latlngs(track, lod) {
+  const key = lod === 'lo' ? '_lo' : '_hi';
+  if (!track[key]) track[key] = decodePolyline(lod === 'lo' ? (track.polylo || track.poly) : track.poly);
+  return track[key];
+}
+/* ---------- colors ---------- */
+const PALETTE = ['#e8522b','#2b7fe8','#1fa363','#b455d6','#e0a800','#0fb4c4','#d6336c','#7a5cf0',
+                 '#5c8a2b','#c2571d','#3d6bb3','#8c8c00','#00897b','#6d4c41','#546e7a'];
+// side names come from the sheet as they are written there
+const ORDER = ['Центр','Север','Северо-Восток','Восток','Юго-Восток','Юг','Юго-Запад','Запад','Северо-Запад'];
+const CANON = ORDER.concat(ORDER.map(s => 'Дальний ' + s));
+const routeSides = r => (r.sides && r.sides.length) ? r.sides : (r.sides_auto || []);
+const present = new Set(ROUTES.flatMap(routeSides));
+const sideList = CANON.filter(s => present.has(s));
+if (ROUTES.some(r => !routeSides(r).length)) sideList.push('— unspecified');
+const SIDE_HUE = new Map(ORDER.map((s, i) => [s, PALETTE[i % PALETTE.length]]));
+const sideColor = new Map(sideList.map(s => [s, SIDE_HUE.get(s.replace('Дальний ', '')) || '#9aa1a9']));
+function distColor(km) {
+  if (km < 60) return '#1fa363';
+  if (km < 120) return '#2b7fe8';
+  if (km < 200) return '#e0a800';
+  if (km < 350) return '#e8522b';
+  return '#b455d6';
+}
+function routeColor(route) {
+  const mode = colorBySel.value;
+  if (mode === 'none') return '#e8522b';
+  if (mode === 'side') return sideColor.get(routeSides(route)[0]) || '#9aa1a9';
+  if (mode === 'dist') return distColor(route.geo_km || parseFloat(route.dist) || 0);
+  if (mode === 'year') {
+    const y = parseInt((route.date || '').slice(0, 4), 10);
+    return isNaN(y) ? '#9aa1a9' : PALETTE[(y - 2010 + PALETTE.length * 2) % PALETTE.length];
+  }
+  return '#e8522b';
+}
+/* ---------- map ---------- */
+const map = L.map('tv-map', { preferCanvas: true, center: [55.75, 37.62], zoom: 8 });
+const base = {
+  'OSM': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    { maxZoom: 19, attribution: '© OpenStreetMap' }),
+  'OpenTopoMap': L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    { maxZoom: 17, attribution: '© OpenTopoMap, © OpenStreetMap' }),
+  'Satellite (Esri)': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    { maxZoom: 18, attribution: 'Esri' }),
+};
+base['OSM'].addTo(map);
+L.control.layers(base).addTo(map);
+L.control.scale({ imperial: false }).addTo(map);
+map.createPane('highlightPane');
+map.getPane('highlightPane').style.zIndex = 640;
+map.getPane('highlightPane').style.pointerEvents = 'none';
+const highlightRenderer = L.canvas({ pane: 'highlightPane' });
+const trackLayer = L.layerGroup().addTo(map);
+const extraLayer = L.layerGroup();
+const highlightLayer = L.layerGroup().addTo(map);
+const drawn = new Map();      // trackId -> {layer, lod}
+/* ---------- state ---------- */
+const q = document.getElementById('tv-q');
+const dmin = document.getElementById('tv-dmin'), dmax = document.getElementById('tv-dmax');
+const ymin = document.getElementById('tv-ymin'), ymax = document.getElementById('tv-ymax');
+const colorBySel = document.getElementById('tv-colorBy');
+const listEl = document.getElementById('tv-list');
+const countsEl = document.getElementById('tv-counts');
+const detailEl = document.getElementById('tv-detail'), detailBody = document.getElementById('tv-detailBody');
+let activeSides = new Set();
+let onlyViewport = false;
+let filtered = [];
+let selected = null;
+let tab = 'routes';
+function routeText(r) {
+  return ((r.place || '') + ' ' + (r.owner || '') + ' ' + (r.desc || '') + ' ' + (r.side || '')).toLowerCase();
+}
+ROUTES.forEach(r => { r._text = routeText(r) + ' ' + (r.sides_auto || []).join(' ').toLowerCase(); r._km = r.geo_km || parseFloat((r.dist || '').replace(',', '.')) || 0;
+                      r._year = parseInt((r.date || '').slice(0, 4), 10) || 0; });
+ORPHANS.forEach(o => { o._text = routeText(o); o._km = parseFloat((o.dist || '').replace(',', '.')) || 0;
+                       o._year = parseInt((o.date || '').slice(0, 4), 10) || 0; });
+function passes(r, useViewport) {
+  const text = q.value.trim().toLowerCase();
+  if (text && !text.split(/\s+/).every(w => r._text.includes(w))) return false;
+  if (activeSides.size) {
+    const rs = routeSides(r).length ? routeSides(r) : ['— unspecified'];
+    if (!rs.some(s => activeSides.has(s))) return false;
+  }
+  const lo = parseFloat(dmin.value), hi = parseFloat(dmax.value);
+  if (!isNaN(lo) && r._km < lo) return false;
+  if (!isNaN(hi) && r._km > hi) return false;
+  const y1 = parseInt(ymin.value, 10), y2 = parseInt(ymax.value, 10);
+  if (!isNaN(y1) && (!r._year || r._year < y1)) return false;
+  if (!isNaN(y2) && (!r._year || r._year > y2)) return false;
+  if (useViewport && r.bbox) {
+    const b = map.getBounds();
+    if (r.bbox[0] > b.getNorth() || r.bbox[2] < b.getSouth() ||
+        r.bbox[1] > b.getEast() || r.bbox[3] < b.getWest()) return false;
+  }
+  return true;
+}
+function applyFilters() {
+  filtered = ROUTES.filter(r => passes(r, onlyViewport));
+  const km = filtered.reduce((s, r) => s + r._km, 0);
+  countsEl.textContent = `${filtered.length} of ${ROUTES.length} tracks · ${Math.round(km).toLocaleString('en-US')} km · ${ORPHANS.length} without a map`;
+  countsEl.title = `${TRACKS.length} geometries, ${EXTRA.length} unmatched`;
+  renderList();
+  redraw(true);
+}
+/* ---------- drawing ---------- */
+function redraw(force) {
+  const b = map.getBounds(), lod = map.getZoom() >= 11 ? 'hi' : 'lo';
+  const want = new Map();   // trackId -> route (for color)
+  for (const r of filtered) {
+    for (const tid of r.tracks) {
+      const t = trackById.get(tid);
+      if (!t) continue;
+      if (t.bbox[0] > b.getNorth() || t.bbox[2] < b.getSouth() ||
+          t.bbox[1] > b.getEast() || t.bbox[3] < b.getWest()) continue;
+      if (!want.has(tid)) want.set(tid, r);
+    }
+  }
+  for (const [tid, entry] of drawn) {
+    if (!want.has(tid) || entry.lod !== lod || force) {
+      trackLayer.removeLayer(entry.layer);
+      drawn.delete(tid);
+    }
+  }
+  for (const [tid, route] of want) {
+    if (drawn.has(tid)) continue;
+    const t = trackById.get(tid);
+    const line = L.polyline(latlngs(t, lod), {
+      color: routeColor(route), weight: 2.5, opacity: 0.75, interactive: true,
+    });
+    line.on('click', () => { lastTrackClick = Date.now(); selectRoute(route.i); });
+    line.on('mouseover', () => line.setStyle({ weight: 5, opacity: 1 }));
+    line.on('mouseout', () => line.setStyle({ weight: 2.5, opacity: 0.75 }));
+    line.bindTooltip(`${route.place || t.name} · ${Math.round(route._km)} km`, { sticky: true });
+    trackLayer.addLayer(line);
+    drawn.set(tid, { layer: line, lod });
+  }
+}
+const EXTRA = TRACKS.filter(t => !t.routes.length);
+const extraDrawn = new Map();
+function redrawExtra() {
+  if (!map.hasLayer(extraLayer)) return;
+  const b = map.getBounds(), lod = map.getZoom() >= 11 ? 'hi' : 'lo';
+  for (const t of EXTRA) {
+    const visible = !(t.bbox[0] > b.getNorth() || t.bbox[2] < b.getSouth() ||
+                      t.bbox[1] > b.getEast() || t.bbox[3] < b.getWest());
+    const cur = extraDrawn.get(t.id);
+    if (!visible || (cur && cur.lod !== lod)) {
+      if (cur) { extraLayer.removeLayer(cur.layer); extraDrawn.delete(t.id); }
+      if (!visible) continue;
+    }
+    if (extraDrawn.has(t.id)) continue;
+    const line = L.polyline(latlngs(t, lod), { color: '#8a8f96', weight: 1.5, opacity: 0.6, dashArray: '4,4' });
+    line.bindTooltip(`${t.name || 'untitled'} · ${t.km} km (unmatched)`, { sticky: true });
+    line.on('click', () => { lastTrackClick = Date.now(); showExtraDetail(t); });
+    extraLayer.addLayer(line);
+    extraDrawn.set(t.id, { layer: line, lod });
+  }
+}
+function showExtraDetail(t) {
+  highlightLayer.clearLayers();
+  L.polyline(latlngs(t, 'hi'), { color: '#fff23a', weight: 3, opacity: 1,
+                                 pane: 'highlightPane', renderer: highlightRenderer }).addTo(highlightLayer);
+  detailBody.innerHTML = `<h2>${esc(t.name) || 'Untitled'}</h2>
+    <div class="kv">${t.km} km · a piece of a saved link, not matched to any row</div>
+    ${t.src ? `<div class="kv">from row: ${esc(t.src.place)}</div><div class="links">
+      ${t.src.link ? `<a href="${esc(t.src.link)}" target="_blank" rel="noopener">Source ↗</a>` : ''}
+      ${t.src.nakarte ? `<a href="${esc(t.src.nakarte)}" target="_blank" rel="noopener">nakarte ↗</a>` : ''}</div>` : ''}`;
+  detailEl.style.display = 'block';
+}
+document.getElementById('tv-extra').onchange = e => {
+  if (e.target.checked) { map.addLayer(extraLayer); redrawExtra(); }
+  else { map.removeLayer(extraLayer); extraLayer.clearLayers(); extraDrawn.clear(); }
+};
+map.on('moveend zoomend', () => { if (onlyViewport) applyFilters(); else redraw(false); redrawExtra(); });
+/* ---------- selection ---------- */
+function selectRoute(i) {
+  selected = i;
+  const r = ROUTES[i];
+  highlightLayer.clearLayers();
+  for (const tid of r.tracks) {
+    const t = trackById.get(tid);
+    if (!t) continue;
+    L.polyline(latlngs(t, 'hi'), { color: '#111', weight: 7, opacity: 0.55,
+                                   pane: 'highlightPane', renderer: highlightRenderer }).addTo(highlightLayer);
+    L.polyline(latlngs(t, 'hi'), { color: '#fff23a', weight: 3, opacity: 1,
+                                   pane: 'highlightPane', renderer: highlightRenderer }).addTo(highlightLayer);
+  }
+  showDetail(r);
+  renderList();
+}
+function zoomToRoute(i) {
+  const r = ROUTES[i];
+  if (r.bbox) map.fitBounds([[r.bbox[0], r.bbox[1]], [r.bbox[2], r.bbox[3]]], { padding: [30, 30] });
+  selectRoute(i);
+}
+function esc(s) { return (s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function showDetail(r) {
+  const same = ROUTES.filter(o => o !== r && o.tracks.some(t => r.tracks.includes(t)));
+  detailBody.innerHTML = `
+    <h2>${esc(r.place) || esc(r.owner) || 'Track'}</h2>
+    <div class="kv">${esc(r.owner)} · ${esc(r.date)} · ${r.sides && r.sides.length ? esc(r.sides.join(', ')) : (r.sides_auto ? esc(r.sides_auto.join(', ')) + ' (guessed)' : 'side not set')}</div>
+    <div class="kv">${r.dist ? esc(r.dist) + ' km per the sheet' : ''}${r.geo_km ? ' · ' + r.geo_km + ' km measured' : ''}${r.tracks.length > 1 ? ' · ' + r.tracks.length + ' parts' : ''}</div>
+    ${r.from_strava ? '<div class="kv">track downloaded from Strava</div>' : ''}
+    ${r.desc ? `<div class="desc">${esc(r.desc)}</div>` : ''}
+    <div class="links">
+      ${r.link ? `<a href="${esc(r.link)}" target="_blank" rel="noopener">Source ↗</a>` : ''}
+      ${r.nakarte ? `<a href="${esc(r.nakarte)}" target="_blank" rel="noopener">nakarte ↗</a>` : ''}
+      <a href="#" id="tv-zoomHere">zoom to it</a>
+    </div>
+    ${same.length ? `<div class="kv" style="margin-top:8px">The same geometry is saved ${same.length} more time(s): ${same.map(o => esc(o.place || o.date)).join('; ')}</div>` : ''}
+  `;
+  detailEl.style.display = 'block';
+  const z = document.getElementById('tv-zoomHere');
+  if (z) z.onclick = e => { e.preventDefault(); const b = r.bbox; map.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: [30, 30] }); };
+}
+function closeDetail() {
+  detailEl.style.display = 'none';
+  highlightLayer.clearLayers();
+  selected = null;
+  renderList();
+}
+document.getElementById('tv-detailClose').onclick = closeDetail;
+let lastTrackClick = 0;
+map.on('click', () => {
+  if (Date.now() - lastTrackClick < 100) return;   // the click came from a track, not from the background
+  if (detailEl.style.display === 'block' || selected !== null) closeDetail();
+});
+/* ---------- list ---------- */
+let listLimit = 200;
+function renderList() {
+  if (tab === 'orphans') return renderOrphans();
+  const items = filtered.slice(0, listLimit);
+  listEl.innerHTML = items.map(r => `
+    <div class="item ${r.i === selected ? 'sel' : ''}" data-i="${r.i}">
+      <div class="item-inner">
+        <div class="swatch" style="background:${routeColor(r)}"></div>
+        <div style="flex:1;min-width:0">
+          <div class="t">${esc(r.place) || esc(r.name) || '(untitled)'}</div>
+          <div class="m"><span>${Math.round(r._km)} km</span><span>${esc(r.date)}</span><span>${esc(r.side)}</span><span>${esc(r.owner)}</span></div>
+        </div>
+      </div>
+    </div>`).join('') +
+    (filtered.length > listLimit ? `<div id="tv-more"><button id="tv-moreBtn">${filtered.length - listLimit} more</button></div>` : '');
+  listEl.querySelectorAll('.item').forEach(el => {
+    el.onclick = () => zoomToRoute(parseInt(el.dataset.i, 10));
+  });
+  const moreBtn = document.getElementById('tv-moreBtn');
+  if (moreBtn) moreBtn.onclick = () => { listLimit += 300; renderList(); };
+}
+function renderOrphans() {
+  const shown = ORPHANS.filter(o => passes(o, false)).slice(0, 400);
+  listEl.innerHTML = `<div class="hint">Rows with no geometry: there is a link, but no track behind it.
+    Mostly links to other sites. They can be put on the map later.</div>` +
+    shown.map(o => `
+    <div class="item">
+      <div class="t">${esc(o.place) || '(untitled)'}</div>
+      <div class="m"><span>${o.dist ? esc(o.dist) + ' km' : ''}</span><span>${esc(o.date)}</span><span>${esc(o.side)}</span><span>${esc(o.owner)}</span></div>
+      ${o.link ? `<a href="${esc(o.link)}" target="_blank" rel="noopener" style="font-size:12px">${esc(o.link.slice(0, 60))}</a>` : ''}
+    </div>`).join('');
+}
+/* ---------- chips & controls ---------- */
+const chipWrap = document.getElementById('tv-sideChips');
+chipWrap.innerHTML = sideList.map(s =>
+  `<span class="chip" data-side="${esc(s)}"><span class="dot" style="background:${sideColor.get(s)}"></span>${esc(s)}</span>`).join('');
+chipWrap.querySelectorAll('.chip').forEach(el => {
+  el.onclick = () => {
+    const s = el.dataset.side;
+    if (activeSides.has(s)) { activeSides.delete(s); el.classList.remove('on'); }
+    else { activeSides.add(s); el.classList.add('on'); }
+    applyFilters();
+  };
+});
+[q, dmin, dmax, ymin, ymax].forEach(el => el.addEventListener('input', () => { listLimit = 200; applyFilters(); }));
+colorBySel.addEventListener('change', () => { redraw(true); renderList(); });
+document.getElementById('tv-clear').onclick = () => {
+  q.value = dmin.value = dmax.value = ymin.value = ymax.value = '';
+  activeSides.clear(); chipWrap.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  onlyViewport = false; document.getElementById('tv-viewport').classList.remove('on');
+  listLimit = 200; applyFilters();
+};
+document.getElementById('tv-viewport').onclick = e => {
+  onlyViewport = !onlyViewport;
+  e.target.style.background = onlyViewport ? '#fdece7' : '';
+  applyFilters();
+};
+document.getElementById('tv-fit').onclick = () => {
+  const bs = filtered.filter(r => r.bbox);
+  if (!bs.length) return;
+  map.fitBounds([[Math.min(...bs.map(r => r.bbox[0])), Math.min(...bs.map(r => r.bbox[1]))],
+                 [Math.max(...bs.map(r => r.bbox[2])), Math.max(...bs.map(r => r.bbox[3]))]], { padding: [20, 20] });
+};
+document.querySelectorAll('.tab').forEach(el => {
+  el.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    el.classList.add('on'); tab = el.dataset.tab; renderList();
+  };
+});
+/* ---------- expand to the whole window ----------
+   The map is pinned over the page (position: fixed), which also works inside
+   someone else layout. Native fullscreen is requested on top of that to hide
+   the browser chrome as well; a refusal changes nothing. */
+const shell = document.getElementById('tv');
+const fullBtn = document.getElementById('tv-fullscreen');
+function nativeFullscreenElement() {
+  return document.fullscreenElement || document.webkitFullscreenElement || null;
+}
+function setCover(on) {
+  shell.classList.toggle('tv-cover', on);
+  document.documentElement.style.overflow = on ? 'hidden' : '';
+  fullBtn.textContent = on ? '⤡' : '⛶';
+  fullBtn.title = on ? 'Collapse (Esc)' : 'Full window';
+  setTimeout(() => { map.invalidateSize(); redraw(true); }, 120);
+}
+fullBtn.onclick = () => {
+  const on = !shell.classList.contains('tv-cover');
+  setCover(on);
+  try {
+    if (on) {
+      const request = shell.requestFullscreen || shell.webkitRequestFullscreen;
+      if (request) Promise.resolve(request.call(shell)).catch(() => {});
+    } else if (nativeFullscreenElement()) {
+      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    }
+  } catch (err) { /* native fullscreen may be unavailable - the overlay still stands */ }
+};
+function onFullscreenChange() {
+  // left native fullscreen from the browser UI - collapse the overlay too
+  if (!nativeFullscreenElement() && shell.classList.contains('tv-cover')) setCover(false);
+}
+document.addEventListener('fullscreenchange', onFullscreenChange);
+document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (detailEl.style.display === 'block') closeDetail();
+  else if (shell.classList.contains('tv-cover')) fullBtn.onclick();
+});
+applyFilters();
+};
+</script>
+
+<script>
+/* Downloads the encrypted file, asks for a password, decrypts in the browser.
+   Layout: 'VELO1' | iterations (uint32 BE) | salt (16) | iv (12) | AES-256-GCM. */
+(function () {
+  var DATA_URL = "https://dl.dropboxusercontent.com/scl/fi/pe820odg4jkjgfxyk3x72/velo.enc?rlkey=fqy6oj6yl6ggddcumhmhdab4z";
+  var STORE_KEY = "track-vault-key";
+  var gate = document.getElementById('tv-gate');
+  var status = document.getElementById('tv-gateStatus');
+  var cache = null;
+  function say(text, isError) {
+    status.textContent = text;
+    status.className = isError ? 'status err' : 'status';
+  }
+  async function download() {
+    if (cache) return cache;
+    say('downloading…');
+    var resp = await fetch(DATA_URL);
+    if (!resp.ok) throw new Error('download failed: HTTP ' + resp.status);
+    var total = +resp.headers.get('content-length') || 0;
+    var reader = resp.body.getReader();
+    var chunks = [], got = 0, chunk;
+    while (!(chunk = await reader.read()).done) {
+      chunks.push(chunk.value);
+      got += chunk.value.length;
+      say(total ? 'downloading… ' + Math.round(got / total * 100) + '%'
+                : 'downloading… ' + Math.round(got / 1e6) + ' MB');
+    }
+    var blob = new Uint8Array(got), at = 0;
+    chunks.forEach(function (c) { blob.set(c, at); at += c.length; });
+    cache = blob;
+    return blob;
+  }
+  async function unpack(blob, keyBytes, password) {
+    if (new TextDecoder().decode(blob.slice(0, 5)) !== 'VELO1') throw new Error('unexpected file');
+    var iters = new DataView(blob.buffer, blob.byteOffset + 5, 4).getUint32(0);
+    var salt = blob.slice(9, 25), iv = blob.slice(25, 37), cipher = blob.slice(37);
+    if (!keyBytes) {
+      say('checking the password…');
+      var base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password),
+                                               'PBKDF2', false, ['deriveBits']);
+      keyBytes = new Uint8Array(await crypto.subtle.deriveBits(
+        {name: 'PBKDF2', salt: salt, iterations: iters, hash: 'SHA-256'}, base, 256));
+    }
+    var key = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['decrypt']);
+    say('decrypting…');
+    var packed = await crypto.subtle.decrypt({name: 'AES-GCM', iv: iv}, key, cipher);
+    var stream = new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'));
+    return {text: await new Response(stream).text(), keyBytes: keyBytes};
+  }
+  async function open(password, keyBytes, remember) {
+    var res = await unpack(await download(), keyBytes, password);
+    if (remember) {
+      localStorage.setItem(STORE_KEY, btoa(String.fromCharCode.apply(null, res.keyBytes)));
+    }
+    window.VELO_DATA = JSON.parse(res.text);
+    gate.remove();
+    window.__bootMap();
+  }
+  document.getElementById('tv-gateForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var pw = document.getElementById('tv-pw').value;
+    if (!pw) return;
+    open(pw, null, document.getElementById('tv-remember').checked).catch(function (err) {
+      var wrongPassword = err.name === 'OperationError' || /decrypt/i.test(String(err.message || err));
+      say(wrongPassword ? 'wrong password' : 'error: ' + (err.message || err), true);
+    });
+  });
+  var saved = localStorage.getItem(STORE_KEY);
+  if (saved) {
+    var bytes = Uint8Array.from(atob(saved), function (c) { return c.charCodeAt(0); });
+    open(null, bytes, false).catch(function () {
+      localStorage.removeItem(STORE_KEY);
+      say('the saved key no longer works, enter the password', true);
+    });
+  } else {
+    document.getElementById('tv-pw').focus();
+  }
+})();
+</script>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/en/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li><li><a class="u-email" href="mailto:alexevseev@gmail.com">alexevseev@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"></div>
+
+    </div>
+
+  </div>
+
+</footer>
+<script id="dsq-count-scr" src="//lexev-dev.disqus.com/count.js" async></script></body>
+
+</html>
