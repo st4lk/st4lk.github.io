@@ -162,10 +162,14 @@
   box-shadow: 0 6px 24px rgba(0,0,0,.14); padding: 12px 14px; z-index: 1000; display: none;
 }
 #tv-detail h2 { font-size: 15px; margin: 0 8px 4px 0; }
-#tv-detail .close {
-  position: absolute; right: 8px; top: 6px; cursor: pointer;
+#tv-detail .close, #tv-detail .min {
+  position: absolute; top: 6px; cursor: pointer;
   color: var(--tv-muted); font-size: 18px; line-height: 1;
 }
+#tv-detail .close { right: 8px; }
+#tv-detail .min { right: 30px; font-size: 14px; top: 8px; }
+#tv-detail.tv-min { max-height: 40px; overflow: hidden; }
+#tv-detail.tv-min h2 { margin-right: 54px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #tv-detail .desc { white-space: pre-wrap; margin: 8px 0; max-height: 220px; overflow-y: auto; font-size: 13px; }
 #tv-detail a { color: var(--tv-accent); }
 #tv .kv { color: var(--tv-muted); font-size: 12px; }
@@ -219,6 +223,14 @@
 #tv-gate .status { margin-top: 10px; font-size: 12px; color: var(--tv-muted); min-height: 16px; }
 #tv-gate .status.err { color: #c0392b; }
 @media (max-width: 720px) {
+  /* both panels turn into a sheet at the bottom, leaving the map visible */
+  #tv-detail {
+    left: 8px; right: 8px; bottom: 8px; top: auto; width: auto; max-height: 45vh;
+  }
+  #tv .tv-weather {
+    position: fixed; left: 8px; right: 8px; bottom: 8px; top: auto;
+    width: auto; max-height: 45vh; overflow-y: auto;
+  }
   #tv { flex-direction: column; }
   #tv-sidebar {
     width: 100%; min-width: 0; height: 50%;
@@ -271,7 +283,7 @@
   <div id="tv-list"></div>
 </div>
 <div id="tv-map"></div>
-<div id="tv-detail"><span class="close" id="tv-detailClose">×</span><div id="tv-detailBody"></div></div>
+<div id="tv-detail"><span class="close" id="tv-detailClose">×</span><span class="min" id="tv-detailMin" title="Fold">▾</span><div id="tv-detailBody"></div></div>
 <div id="tv-gate"><div class="box">
   <h2>Track Vault</h2>
   <p>The data is encrypted and decrypted here, in the browser.</p>
@@ -590,7 +602,18 @@ function zoomToRoute(i) {
   selectRoute(i);
 }
 function esc(s) { return (s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+const NARROW = () => window.matchMedia('(max-width: 720px)').matches;
+/* On a phone both sheets sit on the bottom edge, so the folded card is lifted
+   above the weather panel instead of hiding under it. */
+function positionSheets() {
+  const panel = document.querySelector('.tv-weather');
+  const stacked = NARROW() && panel && panel.classList.contains('on')
+                  && detailEl.style.display === 'block';
+  detailEl.style.bottom = stacked ? (panel.offsetHeight + 20) + 'px' : '';
+}
 function showDetail(r) {
+  // on a phone both sheets live at the bottom edge: let the newcomer have it
+  if (NARROW() && typeof hideWeatherPanel === 'function') hideWeatherPanel();
   const same = ROUTES.filter(o => o !== r && o.tracks.some(t => r.tracks.includes(t)));
   detailBody.innerHTML = `
     <h2>${esc(r.place) || esc(r.owner) || 'Track'}</h2>
@@ -607,6 +630,9 @@ function showDetail(r) {
     ${same.length ? `<div class="kv" style="margin-top:8px">The same geometry is saved ${same.length} more time(s): ${same.map(o => esc(o.place || o.date)).join('; ')}</div>` : ''}
   `;
   detailEl.style.display = 'block';
+  detailEl.classList.remove('tv-min');
+  detailMin.textContent = '▾';
+  positionSheets();
   const z = document.getElementById('tv-zoomHere');
   if (z) z.onclick = e => { e.preventDefault(); const b = r.bbox; map.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: [30, 30] }); };
   const rev = document.getElementById('tv-reverse');
@@ -619,11 +645,18 @@ function showDetail(r) {
 }
 function closeDetail() {
   detailEl.style.display = 'none';
+  detailEl.style.bottom = '';
   highlightLayer.clearLayers();
   selected = null;
   renderList();
 }
 document.getElementById('tv-detailClose').onclick = closeDetail;
+/* folding keeps the track selected: on a phone the card covers half the map */
+const detailMin = document.getElementById('tv-detailMin');
+detailMin.onclick = () => {
+  const folded = detailEl.classList.toggle('tv-min');
+  detailMin.textContent = folded ? '▴' : '▾';
+};
 let lastTrackClick = 0;
 map.on('click', () => {
   if (Date.now() - lastTrackClick < 100) return;   // the click came from a track, not from the background
@@ -957,6 +990,7 @@ function syncHour() {
   weatherHour = index < 0 ? 0 : index;
   document.getElementById('tv-wtime').textContent = `${String(hour).padStart(2, '0')}:00`;
   drawWeather();
+  positionSheets();
   if (selected !== null && windShown) paintWind(ROUTES[selected]);
 }
 function updateLegend() {
@@ -976,15 +1010,25 @@ function updateLegend() {
     .map(f => `<span class="tv-weather-note">${ICONS[f]} ${scales[f]}</span>`).join('');
   el.innerHTML = note + wind;
 }
+/* Hiding the panel must not switch the weather off: on a phone the panel covers
+   the map, so it gets folded away constantly while the layers should stay. */
+function hideWeatherPanel() {
+  weatherPanel.classList.remove('on');
+  positionSheets();
+}
 async function toggleWeather(on) {
   weatherPanel.classList.toggle('on', on);
-  if (!on) {
-    map.removeLayer(weatherLayer);
-    map.removeLayer(windLayer);
-    return;
+  if (!on) return;
+  if (NARROW()) {
+    detailEl.classList.add('tv-min');   // fold the track card out of the way
+    const min = document.getElementById('tv-detailMin');
+    if (min) min.textContent = '▴';
+    positionSheets();
   }
-  map.addLayer(weatherLayer);
-  map.addLayer(windLayer);
+  if (!map.hasLayer(weatherLayer)) {
+    map.addLayer(weatherLayer);
+    map.addLayer(windLayer);
+  }
   try {
     await loadWeather();
   } catch (err) {
@@ -1280,6 +1324,7 @@ function syncHour() {
   weatherHour = index < 0 ? 0 : index;
   document.getElementById('tv-wtime').textContent = `${String(hour).padStart(2, '0')}:00`;
   drawWeather();
+  positionSheets();
   if (selected !== null && windShown) paintWind(ROUTES[selected]);
 }
 function updateLegend() {
@@ -1299,15 +1344,25 @@ function updateLegend() {
     .map(f => `<span class="tv-weather-note">${ICONS[f]} ${scales[f]}</span>`).join('');
   el.innerHTML = note + wind;
 }
+/* Hiding the panel must not switch the weather off: on a phone the panel covers
+   the map, so it gets folded away constantly while the layers should stay. */
+function hideWeatherPanel() {
+  weatherPanel.classList.remove('on');
+  positionSheets();
+}
 async function toggleWeather(on) {
   weatherPanel.classList.toggle('on', on);
-  if (!on) {
-    map.removeLayer(weatherLayer);
-    map.removeLayer(windLayer);
-    return;
+  if (!on) return;
+  if (NARROW()) {
+    detailEl.classList.add('tv-min');   // fold the track card out of the way
+    const min = document.getElementById('tv-detailMin');
+    if (min) min.textContent = '▴';
+    positionSheets();
   }
-  map.addLayer(weatherLayer);
-  map.addLayer(windLayer);
+  if (!map.hasLayer(weatherLayer)) {
+    map.addLayer(weatherLayer);
+    map.addLayer(windLayer);
+  }
   try {
     await loadWeather();
   } catch (err) {
@@ -1650,6 +1705,7 @@ function syncHour() {
   weatherHour = index < 0 ? 0 : index;
   document.getElementById('tv-wtime').textContent = `${String(hour).padStart(2, '0')}:00`;
   drawWeather();
+  positionSheets();
   if (selected !== null && windShown) paintWind(ROUTES[selected]);
 }
 function updateLegend() {
@@ -1669,15 +1725,25 @@ function updateLegend() {
     .map(f => `<span class="tv-weather-note">${ICONS[f]} ${scales[f]}</span>`).join('');
   el.innerHTML = note + wind;
 }
+/* Hiding the panel must not switch the weather off: on a phone the panel covers
+   the map, so it gets folded away constantly while the layers should stay. */
+function hideWeatherPanel() {
+  weatherPanel.classList.remove('on');
+  positionSheets();
+}
 async function toggleWeather(on) {
   weatherPanel.classList.toggle('on', on);
-  if (!on) {
-    map.removeLayer(weatherLayer);
-    map.removeLayer(windLayer);
-    return;
+  if (!on) return;
+  if (NARROW()) {
+    detailEl.classList.add('tv-min');   // fold the track card out of the way
+    const min = document.getElementById('tv-detailMin');
+    if (min) min.textContent = '▴';
+    positionSheets();
   }
-  map.addLayer(weatherLayer);
-  map.addLayer(windLayer);
+  if (!map.hasLayer(weatherLayer)) {
+    map.addLayer(weatherLayer);
+    map.addLayer(windLayer);
+  }
   try {
     await loadWeather();
   } catch (err) {
